@@ -19,8 +19,15 @@ app.TodoView =  Backbone.View.extend({
     return this;
   },
 	edit: function() {
-      this.$el.addClass('editing');
-      this.$input.focus();
+    this.$el.addClass('editing');
+    this.$input.focus();
   },
-
+  // Close editing mode and save changes to the item
+	close: function() {
+    var value = this.$input.val().trim();
+    if ( value ) {
+      this.model.save({ title: value });
+    }
+    this.$el.removeClass('editing');
+  },
 });
