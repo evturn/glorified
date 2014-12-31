@@ -30,4 +30,9 @@ app.TodoView =  Backbone.View.extend({
     }
     this.$el.removeClass('editing');
   },
+  updateOnEnter: function( e ) {
+	  if ( e.which === ENTER_KEY ) {
+	    this.close();
+	  }
+	}
 });
