@@ -75,6 +75,17 @@ app.AppView = Backbone.View.extend({
       completed: false
     };
   },
+
+  // Allows hitting enter in the input to create a new todo
+  // Also persists the item to localStorage
+  createOnEnter: function( event ) {
+    if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
+      return;
+    }
+
+    app.Todos.create( this.newAttributes() );
+    this.$input.val('');
+  },
 });
 
 
