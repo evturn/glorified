@@ -82,10 +82,24 @@ app.AppView = Backbone.View.extend({
     if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
       return;
     }
-
     app.Todos.create( this.newAttributes() );
     this.$input.val('');
   },
+
+  // Clears all completed and destroys their models
+  clearCompleted: function() {
+    _.invoke(app.Todos.completed(), 'destroy');
+    return false;
+  },
+	toggleAllComplete: function() {
+    var completed = this.allCheckbox.checked;
+    app.Todos.each(function( todo ) {
+      todo.save({
+        'completed': completed
+      });
+    });
+  }
+
 });
 
 
