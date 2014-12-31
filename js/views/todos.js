@@ -8,6 +8,8 @@ app.TodoView =  Backbone.View.extend({
     'keypress .edit': 'updateOnEnter',
     'blur .edit': 'close'
   },
+
+  // If an indivdual item gets updated it will rerender the view
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
   },
