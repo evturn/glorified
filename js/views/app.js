@@ -4,6 +4,7 @@ app.AppView = Backbone.View.extend({
 	el: '#todoapp',
 	statsTemplate: _.template($('#stats-template').html()),
 	initialize: function() {
+    // this.$() finds elements relative to this.$el
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
@@ -16,6 +17,8 @@ app.AppView = Backbone.View.extend({
     $('#todo-list').append( view.render().el );
   },
   addAll: function() {
+		// 'this' is used inside 'addAll()' to refer to the view 
+		// 'listenTo()' set the callback’s context to the view when it created the binding
     this.$('#todo-list').html('');
     app.Todos.each(this.addOne, this);
   }
