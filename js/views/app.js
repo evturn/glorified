@@ -3,6 +3,11 @@ var app = app || {};
 app.AppView = Backbone.View.extend({
 	el: '#todoapp',
 	statsTemplate: _.template($('#stats-template').html()),
+	events: {
+    'keypress #new-todo': 'createOnEnter',
+    'click #clear-completed': 'clearCompleted',
+    'click #toggle-all': 'toggleAllComplete'
+  },
 	initialize: function() {
     // this.$() finds elements relative to this.$el
     this.allCheckbox = this.$('#toggle-all')[0];
