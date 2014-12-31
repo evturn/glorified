@@ -25,6 +25,15 @@
     <p>Part of <a href="http://alculator.co">Alculator</a></p>
   </div>
 
+  <script type="text/template" id="item-template">
+    <div class="view">
+      <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+      <label><%= title %></label>
+      <button class="destroy"></button>
+    </div>
+    <input class="edit" value="<%= title %>">
+  </script>
+
 
 
 
