@@ -9,7 +9,7 @@ var TodoList = Backbone.Collection.extend({
 		});
 	},
 	remaining: function() {
-		return this.without.applu(this, this.completed() );
+		return this.without.apply(this, this.completed() );
 	},
 	nextOrder: function() {
 		if (!this.length) {
