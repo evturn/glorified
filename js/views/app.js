@@ -8,8 +8,9 @@ app.AppView = Backbone.View.extend({
     'click #clear-completed': 'clearCompleted',
     'click #toggle-all': 'toggleAllComplete'
   },
+
+  // this.$() finds elements relative to this.$el
 	initialize: function() {
-    // this.$() finds elements relative to this.$el
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
@@ -45,15 +46,39 @@ app.AppView = Backbone.View.extend({
 
     this.allCheckbox.checked = !remaining;
   },
+
+  // Adds a single item to the list and creates a view
+  // Then appends its element to the <ul>
   addOne: function( todo ) {
     var view = new app.TodoView({ model: todo });
     $('#todo-list').append( view.render().el );
   },
+
+	// 'this' is used inside 'addAll()' to refer to the view 
+	// 'listenTo()' set the callback’s context to the view when it created the binding
   addAll: function() {
-		// 'this' is used inside 'addAll()' to refer to the view 
-		// 'listenTo()' set the callback’s context to the view when it created the binding
     this.$('#todo-list').html('');
     app.Todos.each(this.addOne, this);
-  }
+  }.
+  filterOne : function (todo) {
+    todo.trigger('visible');
+  },
+  filterAll : function () {
+    app.Todos.each(this.filterOne, this);
+  },
 
+  // Generates the attributes for a new Todo item
+	newAttributes: function() {
+    return {
+      title: this.$input.val().trim(),
+      order: app.Todos.nextOrder(),
+      completed: false
+    };
+  },
 });
+
+
+
+
+
+
