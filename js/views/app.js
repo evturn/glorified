@@ -51,7 +51,7 @@ app.AppView = Backbone.View.extend({
   // Then appends its element to the <ul>
   addOne: function( todo ) {
     var view = new app.TodoView({ model: todo });
-    $('#todo-list').append( view.render().el );
+    $('#todo-list').prepend( view.render().el );
   },
 
 	// 'this' is used inside 'addAll()' to refer to the view 

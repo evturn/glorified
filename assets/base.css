@@ -4,6 +4,13 @@ body {
 	padding: 0;
 }
 
+#tooltip {
+	float: right;
+	width: 100px;
+	height: 100px;
+	background-color: red;
+}
+
 button {
 	margin: 0;
 	padding: 0;
@@ -22,7 +29,7 @@ button {
 body {
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height: 1.4em;
-	background: #eaeaea url('egg.png');
+	background: #eaeaea url('ev.png');
 	background-repeat: no-repeat;
 	background-position: right top;
 	color: #4d4d4d;
