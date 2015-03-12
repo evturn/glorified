@@ -11,7 +11,7 @@ app.AppView = Backbone.View.extend({
 	initialize: function() {
     this.readFirebaseTodos();
     this.allCheckbox = this.$('#toggle-all')[0];
-    this.listenTo(app.Todos, 'sync', this.addAll);
+    // this.listenTo(this.collection, 'sync', this.addAll)
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
     this.$main = this.$('#main');
@@ -60,7 +60,6 @@ app.AppView = Backbone.View.extend({
   addAll: function() {
     this.$('#todo-list').html('');
     app.Todos.each(this.addOne, this);
-    console.log(app.Todos.length);
   },
   filterOne : function (todo) {
     todo.trigger('visible');
