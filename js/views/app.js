@@ -9,6 +9,7 @@ app.AppView = Backbone.View.extend({
     'click #toggle-all': 'toggleAllComplete'
   },
 	initialize: function() {
+    this.firebaseInit();
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
@@ -43,6 +44,18 @@ app.AppView = Backbone.View.extend({
     }
 
     this.allCheckbox.checked = !remaining;
+  },
+  readFirebaseTodos: function() {
+    firebaseTodos.on("value", function(snapshot) {
+        console.log('Firebase Collection', snapshot.val());
+      }, function (errorObject) {
+          console.log("The read failed: " + errorObject.code);
+        });
+  },
+  firebaseInit: function() {
+    FIREBASE_URL  = new Firebase('https://ramenbuffet.firebaseio.com/');
+    firebaseTodos = new Firebase(FIREBASE_URL + 'todos');
+    this.readFirebaseTodos();
   },
   addOne: function( todo ) {
     var view = new app.TodoView({ model: todo });
