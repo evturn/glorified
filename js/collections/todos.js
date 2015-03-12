@@ -1,8 +1,9 @@
 var app = app || {};
 
-var TodoList = Backbone.Collection.extend({
+var TodoList = Backbone..Firebase.Collection.extend({
 	model: app.Todo,
-	localStorage: new Backbone.LocalStorage('todos-backbone'),
+	localStorage: 'https://ramenbuffet.firebaseio.com/todos',
+  autoSync: true,
 	completed: function() {
     return this.filter(function( todo ) {
       return todo.get('completed');
