@@ -9,4 +9,3 @@ $(function() {
 FIREBASE_URL  = new Firebase('https://ramenbuffet.firebaseio.com/');
 firebaseTodos = new Firebase(FIREBASE_URL + 'todos');
 
-

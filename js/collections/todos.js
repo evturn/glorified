@@ -25,5 +25,3 @@ var TodoList = Backbone.Firebase.Collection.extend({
 });
 
 app.Todos = new TodoList();
-app.Todos.fetch();
-

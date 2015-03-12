@@ -4,7 +4,8 @@ app.Todo = Backbone.Model.extend({
   defaults: {
     title: '',
     completed: false,
-    priority: ''
+    important: false,
+    urgent: false
   },
 	toggle: function() {
     this.save({

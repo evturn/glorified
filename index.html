@@ -48,7 +48,7 @@
   <script type="text/template" id="item-template">
     <div class="view">
       <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
-      <label><%= title %><a href="#" class="priority">3</a></label>
+      <label><%= title %><a href="#" class="priority"><%= important %></a></label>
       <button class="destroy"></button>
     </div>
     <input class="edit" value="<%= title %>">
