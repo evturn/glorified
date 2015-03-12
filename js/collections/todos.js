@@ -1,8 +1,8 @@
 var app = app || {};
 
-var TodoList = Backbone..Firebase.Collection.extend({
+var TodoList = Backbone.Firebase.Collection.extend({
 	model: app.Todo,
-	localStorage: 'https://ramenbuffet.firebaseio.com/todos',
+	url: 'https://ramenbuffet.firebaseio.com/todos',
   autoSync: true,
 	completed: function() {
     return this.filter(function( todo ) {
@@ -25,3 +25,4 @@ var TodoList = Backbone..Firebase.Collection.extend({
 });
 
 app.Todos = new TodoList();
+app.Todos.fetch();

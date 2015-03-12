@@ -8,8 +8,6 @@ app.AppView = Backbone.View.extend({
     'click #clear-completed': 'clearCompleted',
     'click #toggle-all': 'toggleAllComplete'
   },
-
-  // this.$() finds elements relative to this.$el
 	initialize: function() {
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input = this.$('#new-todo');
@@ -46,16 +44,10 @@ app.AppView = Backbone.View.extend({
 
     this.allCheckbox.checked = !remaining;
   },
-
-  // Adds a single item to the list and creates a view
-  // Then appends its element to the <ul>
   addOne: function( todo ) {
     var view = new app.TodoView({ model: todo });
     $('#todo-list').prepend( view.render().el );
   },
-
-	// 'this' is used inside 'addAll()' to refer to the view 
-	// 'listenTo()' set the callback’s context to the view when it created the binding
   addAll: function() {
     this.$('#todo-list').html('');
     app.Todos.each(this.addOne, this);
@@ -66,8 +58,6 @@ app.AppView = Backbone.View.extend({
   filterAll : function () {
     app.Todos.each(this.filterOne, this);
   },
-
-  // Generates the attributes for a new Todo item
 	newAttributes: function() {
     return {
       title: this.$input.val().trim(),
@@ -75,9 +65,6 @@ app.AppView = Backbone.View.extend({
       completed: false
     };
   },
-
-  // Allows hitting enter in the input to create a new todo
-  // Also persists the item to localStorage
   createOnEnter: function( event ) {
     if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
       return;
@@ -85,8 +72,6 @@ app.AppView = Backbone.View.extend({
     app.Todos.create( this.newAttributes() );
     this.$input.val('');
   },
-
-  // Clears all completed and destroys their models
   clearCompleted: function() {
     _.invoke(app.Todos.completed(), 'destroy');
     return false;
