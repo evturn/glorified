@@ -47,6 +47,10 @@ input[type="checkbox"] {
   outline: none;
 }
 
+#todo-list li .priority {
+	float: right;
+}
+
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);

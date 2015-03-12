@@ -1,4 +1,4 @@
-var Workspace = Backbone.Router.extend({
+var Router = Backbone.Router.extend({
   routes:{
     '*filter': 'setFilter'
   },
@@ -11,5 +11,5 @@ var Workspace = Backbone.Router.extend({
   }
  });
 
-app.TodoRouter = new Workspace();
+app.TodoRouter = new Router();
 Backbone.history.start();
