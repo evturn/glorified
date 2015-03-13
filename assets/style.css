@@ -52,7 +52,7 @@ input[type="checkbox"] {
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
-	margin: 0px 0 40px 0;
+	margin: 35px 0 40px 0;
 	border: 1px solid #ccc;
 	position: relative;
 	border-top-left-radius: 2px;
@@ -83,7 +83,7 @@ input[type="checkbox"] {
 
 #todoapp h1 {
 	position: absolute;
-	top: -105px;
+	top: -150px;
 	width: 100%;
 	font-size: 55px;
 	font-weight: bold;
@@ -315,7 +315,7 @@ label[for='toggle-all'] {
 	padding: 0 15px;
 	position: absolute;
 	right: 0;
-	bottom: -31px;
+	top: -25px;
 	left: 0;
 	height: 20px;
 	z-index: 1;
@@ -330,7 +330,7 @@ label[for='toggle-all'] {
 	left: 0;
 	height: 50px;
 	z-index: -1;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
+	box-shadow:
 				0 6px 0 -3px rgba(255, 255, 255, 0.8),
 				0 7px 1px -3px rgba(0, 0, 0, 0.3),
 				0 43px 0 -6px rgba(255, 255, 255, 0.8),
@@ -388,7 +388,7 @@ a.timestamp {
 #clear-completed {
 	float: right;
 	position: relative;
-	line-height: 20px;
+	line-height: 17px;
 	text-decoration: none;
 	background: rgba(0, 0, 0, 0.1);
 	font-size: 11px;
