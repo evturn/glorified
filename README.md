@@ -1,24 +1,20 @@
 # Ramen Buffet
 
-Ramen Buffet
-
-### Task management 
-### See everything on your agenda just by glancing
-### See where something is in a process
-### All updates in real-time
-### No setup
+* Task management 
+* See everything on your agenda just by glancing
+* See where something is in a process
+* All updates in real-time
+* No setup
 
 ![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/ramen-buffet.png)
 
-Bottomless task management
+### Future Implementations
 
-## Future Implementations
-
-### Task management 
-### See everything on your agenda just by glancing
-### See where something is in a process
-### All updates in real-time
-### No setup
-### And this mobile version below:
+* Task management 
+* See everything on your agenda just by glancing
+* See where something is in a process
+* All updates in real-time
+* No setup
+* And this mobile version below:
 
 ![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/ramen-buffet-mobile.png)
