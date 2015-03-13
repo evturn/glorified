@@ -1,4 +1,4 @@
-var TodoList = Backbone.Firebase.Collection.extend({
+var Workload = Backbone.Firebase.Collection.extend({
 	model: Todo,
 	url: 'https://ramenbuffet.firebaseio.com/todos',
   autoSync: true,
@@ -15,12 +15,10 @@ var TodoList = Backbone.Firebase.Collection.extend({
       return 1;
     }
     return this.last().get('order') + 1;
-    
   },
 	comparator: function( todo ) {
     return todo.get('order');
   }
-
 });
 
-todosCollection = new TodoList();
+workload = new Workload();

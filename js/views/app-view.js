@@ -12,18 +12,18 @@ AppView = Backbone.View.extend({
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
     this.$main = this.$('#main');
-    this.listenTo(todosCollection, 'add', this.addOne);
-    this.listenTo(todosCollection, 'reset', this.addAll);
-    this.listenTo(todosCollection, 'change:completed', this.filterOne);
-    this.listenTo(todosCollection,'filter', this.filterAll);
-    this.listenTo(todosCollection, 'all', this.render);
-    todosCollection.fetch();
+    this.listenTo(workload, 'add', this.addOne);
+    this.listenTo(workload, 'reset', this.addAll);
+    this.listenTo(workload, 'change:completed', this.filterOne);
+    this.listenTo(workload,'filter', this.filterAll);
+    this.listenTo(workload, 'all', this.render);
+    workload.fetch();
   },
   render: function() {
-    var completed = todosCollection.completed().length;
-    var remaining = todosCollection.remaining().length;
+    var completed = workload.completed().length;
+    var remaining = workload.remaining().length;
 
-    if (todosCollection.length) {
+    if (workload.length) {
       this.$main.show();
       this.$footer.show();
 
@@ -56,18 +56,18 @@ AppView = Backbone.View.extend({
   },
   addAll: function() {
     this.$('#todo-list').html('');
-    todosCollection.each(this.addOne, this);
+    workload.each(this.addOne, this);
   },
   filterOne : function (todo) {
     todo.trigger('visible');
   },
   filterAll : function () {
-    todosCollection.each(this.filterOne, this);
+    workload.each(this.filterOne, this);
   },
 	newAttributes: function() {
     return {
       title: this.$input.val().trim(),
-      order: todosCollection.nextOrder(),
+      order: workload.nextOrder(),
       completed: false
     };
   },
@@ -75,16 +75,16 @@ AppView = Backbone.View.extend({
     if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
       return;
     }
-    todosCollection.create( this.newAttributes() );
+    workload.create( this.newAttributes() );
     this.$input.val('');
   },
   clearCompleted: function() {
-    _.invoke(todosCollection.completed(), 'destroy');
+    _.invoke(workload.completed(), 'destroy');
     return false;
   },
 	toggleAllComplete: function() {
     var completed = this.allCheckbox.checked;
-    todosCollection.each(function( todo ) {
+    workload.each(function( todo ) {
       todo.save({
         'completed': completed
       });

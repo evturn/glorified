@@ -7,7 +7,7 @@ var Router = Backbone.Router.extend({
       param = param.trim();
     }
     TodoFilter = param || '';
-    todosCollection.trigger('filter');
+    workload.trigger('filter');
   }
  });
 
