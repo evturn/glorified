@@ -23,7 +23,7 @@ AppView = Backbone.View.extend({
     var completed = Todos.completed().length;
     var remaining = Todos.remaining().length;
 
-    if ( Todos.length ) {
+    if (Todos.length) {
       this.$main.show();
       this.$footer.show();
 
