@@ -192,9 +192,9 @@ label[for='toggle-all'] {
 	list-style: none;
 }
 
-li:first-letter {
+/*li:first-letter {
   text-transform: uppercase;
-}
+}*/
 
 #todo-list li {
 	position: relative;
