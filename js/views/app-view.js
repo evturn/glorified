@@ -33,7 +33,7 @@ AppView = Backbone.View.extend({
         pending: pending
       }));
 
-      this.$header.html(this.headerTemplate({
+      this.$header.append(this.headerTemplate({
         remaining: remaining
       }));
 
