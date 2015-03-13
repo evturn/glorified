@@ -77,16 +77,19 @@
   <script type="text/template" id="item-template">
     <div class="view">
       <input class="toggle" type="checkbox" <%= pending ? 'checked' : '' %>>
-      <label><p><%= title %></p><a class="timestamp" href="#" disabled><%= timestamp %></a></label>
+      <label><p><%= title %></p>
+      <a class="timestamp" href="#" disabled>
+      <%= moment(timestamp).fromNow() %>
+      </a></label>
       <button class="destroy"></button>
     </div>
     <input class="edit" value="<%= title %>">
   </script>
 
-
   <script src="js/lib/jquery.js"></script>
   <script src="js/lib/underscore.js"></script>
   <script src="js/lib/backbone.js"></script>
+  <script src="js/lib/moment.js"></script>
   <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/backbonefire/0.5.1/backbonefire.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>

@@ -65,11 +65,12 @@ AppView = Backbone.View.extend({
     workload.each(this.filterOne, this);
   },
 	newAttributes: function() {
+    var time = Firebase.ServerValue.TIMESTAMP
     return {
       title: this.$input.val().trim(),
       order: workload.nextOrder(),
       pending: false,
-      timestamp: Firebase.ServerValue.TIMESTAMP
+      timestamp: time
     };
   },
   createOnEnter: function(e) {

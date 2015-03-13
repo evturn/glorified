@@ -6,12 +6,11 @@ var query = firebaseCollection.orderByChild("timestamp").limitToLast(100);
 query.on("child_added", function(messageSnapshot) {
   // This will only be called for the last 100 messages
   var messageData = messageSnapshot.val();
-  console.log(messageData);
+  // console.log('Task' + messageData);
 });
 
 $(function() {
+	moment().format();
+
 	new AppView();
 });
-
-
-
