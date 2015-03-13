@@ -1,5 +1,5 @@
 var Workload = Backbone.Firebase.Collection.extend({
-	model: Todo,
+	model: Task,
 	url: 'https://ramenbuffet.firebaseio.com/todos',
   autoSync: true,
 	completed: function() {

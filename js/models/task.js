@@ -1,4 +1,4 @@
-Todo = Backbone.Model.extend({
+Task = Backbone.Model.extend({
   defaults: {
     title: '',
     completed: false
