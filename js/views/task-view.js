@@ -17,7 +17,7 @@ TaskView =  Backbone.View.extend({
   // Rerenders the titles of the item
   render: function() {
     this.$el.html( this.template( this.model.attributes));
-    this.$el.toggleClass('pending', this.model.get('pending'));
+    this.$el.toggleClass('completed', this.model.get('pending'));
     this.toggleVisible();
     this.$input = this.$('.edit');
     return this;
