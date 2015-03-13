@@ -77,11 +77,10 @@ button {
 
 body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight: 500;
 	/*line-height: 1.4em;*/
 	background: #eaeaea;
-/*	background-repeat: no-repeat;
-	background-position: right top;*/
+	background-repeat: no-repeat;
+	background-position: right top;
 	color: #4d4d4d;
 	width: 100%;
 	margin: 0 auto;
@@ -354,36 +353,13 @@ label[for='toggle-all'] {
 	margin-bottom: -1px;
 }
 
-/*#filters {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	position: absolute;
-	right: 0;
-	left: 0;
-}*/
-
-/*#filters li {
-	display: inline;
-}*/
-
-/*#filters li a {
-	color: #a3a3a3;
-	margin: 2px;
-	margin: 5px 5px;
-	text-decoration: none;
-}
-
-#filters li a.selected {
-	font-weight: bold;
-}*/
-
 p {
 	margin-right: -95px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 0px;
 	max-width: 85%;
+	font-weight: 400;
 }
 
 a.timestamp {
