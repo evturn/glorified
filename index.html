@@ -14,9 +14,8 @@
 
 <div id="ramen-buffet">
 
-<nav class="navbar navbar-default">
-  
-  <div class="container-fluid">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
       <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">Toggle navigation</span>
@@ -24,23 +23,21 @@
           </button>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-            
-
-          <ul class="nav navbar-nav navbar-right">
-              <li><a id="footer" href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
-
-          </ul>
-
+        <ul id="filters" class="nav navbar-nav navbar-right">
+          <li><a href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
+          <li><a class="selected" href="#/">All</a></li>
+          <li><a href="#/active">Active</a></li>
+          <li><a href="#/pending"></i> Pending</a></li>   
+        </ul>    
       </div>
-  </div><!--end container -->
- 
-</nav>
+    </div><!--end container -->
+  </nav>
 
   <div class="container">
     <section id="todoapp">
       <header id="header">
-        <h1>RAMENBUFFET</h1>
-        <input id="new-todo" placeholder="Write whatever, I don't care." autofocus>
+        
+        
       </header>
       <section id="main">
         <input id="toggle-all" type="checkbox">
@@ -53,7 +50,11 @@
       
 
       </section>
-      <footer id="pending-footer">Sup</footer>
+      <footer id="pending-footer">
+        
+        <!-- CLEAR PENDING -->
+
+      </footer>
     </section>
   </div>
     <div id="info">
@@ -65,29 +66,22 @@
   </div><!-- end ramen-buffet -->
 
   <!-- UNDERSCORE TEMPLATES -->
+  <script type="text/template" id="header-template">
+  <div class="col-xs-12 col-sm-12 text-center">
+    <h1>RAMENBUFFET<span id="todo-count" class="label label-default"><%= remaining %></span></a></h1>
+    </div>
+    <input id="new-todo" placeholder="Write whatever, I don't care." autofocus>
+  </script>
+
   <script type="text/template" id="pending-template">
      <% if (pending) { %>
         <button id="clear-completed"><span class="label label-default"<%= pending %></span> <i class="fa fa-trash-o fa-2x"></i></button>
       <% } %>
   </script>
-  
 
+  
    <script type="text/template" id="stats-template">
-    <ul id="filters">
-      <li>
-      <a href="#" id="todo-count"><span class="label label-default"<%= remaining %></span> <i class="fa fa-briefcase fa-2x"></i></a>
-      </li>
-      <li>
-        <a class="selected" href="#/">All</a>
-      </li>
-      <li>
-        <a href="#/active">Active</a>
-      </li>
-      <li>
-        <a href="#/pending"></i> Pending</a>
-      </li>
-     
-      </ul>
+    
   </script>
 
   <script type="text/template" id="item-template">
