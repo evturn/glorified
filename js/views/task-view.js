@@ -1,4 +1,4 @@
-TodoView =  Backbone.View.extend({
+TaskView =  Backbone.View.extend({
 	tagName: 'li',
 	template: _.template($('#item-template').html()),
 	events: {

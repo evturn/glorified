@@ -51,7 +51,7 @@ AppView = Backbone.View.extend({
         });
   },
   addOne: function( todo ) {
-    var view = new TodoView({ model: todo });
+    var view = new TaskView({ model: todo });
     $('#todo-list').prepend( view.render().el );
   },
   addAll: function() {
