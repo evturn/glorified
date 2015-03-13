@@ -192,6 +192,10 @@ label[for='toggle-all'] {
 	list-style: none;
 }
 
+li:first-letter {
+  text-transform: uppercase;
+}
+
 #todo-list li {
 	position: relative;
 	font-size: 24px;
