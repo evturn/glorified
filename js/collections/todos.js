@@ -23,4 +23,4 @@ var TodoList = Backbone.Firebase.Collection.extend({
 
 });
 
-Todos = new TodoList();
+todosCollection = new TodoList();

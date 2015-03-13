@@ -7,9 +7,9 @@ var Router = Backbone.Router.extend({
       param = param.trim();
     }
     TodoFilter = param || '';
-    Todos.trigger('filter');
+    todosCollection.trigger('filter');
   }
  });
 
-TodoRouter = new Router();
+router = new Router();
 Backbone.history.start();
