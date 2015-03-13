@@ -1,7 +1,5 @@
-var app = app || {};
-
 var TodoList = Backbone.Firebase.Collection.extend({
-	model: app.Todo,
+	model: Todo,
 	url: 'https://ramenbuffet.firebaseio.com/todos',
   autoSync: true,
 	completed: function() {
@@ -25,4 +23,4 @@ var TodoList = Backbone.Firebase.Collection.extend({
 
 });
 
-app.Todos = new TodoList();
+Todos = new TodoList();

@@ -6,10 +6,10 @@ var Router = Backbone.Router.extend({
   	if (param) {
       param = param.trim();
     }
-    app.TodoFilter = param || '';
-    app.Todos.trigger('filter');
+    TodoFilter = param || '';
+    Todos.trigger('filter');
   }
  });
 
-app.TodoRouter = new Router();
+TodoRouter = new Router();
 Backbone.history.start();

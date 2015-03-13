@@ -1,6 +1,4 @@
-var app = app || {};
-
-app.AppView = Backbone.View.extend({
+AppView = Backbone.View.extend({
 	el: '#todoapp',
 	statsTemplate: _.template($('#stats-template').html()),
 	events: {
@@ -11,22 +9,21 @@ app.AppView = Backbone.View.extend({
 	initialize: function() {
     this.readFirebaseTodos();
     this.allCheckbox = this.$('#toggle-all')[0];
-    // this.listenTo(this.collection, 'sync', this.addAll)
     this.$input = this.$('#new-todo');
     this.$footer = this.$('#footer');
     this.$main = this.$('#main');
-    this.listenTo(app.Todos, 'add', this.addOne);
-    this.listenTo(app.Todos, 'reset', this.addAll);
-    this.listenTo(app.Todos, 'change:completed', this.filterOne);
-    this.listenTo(app.Todos,'filter', this.filterAll);
-    this.listenTo(app.Todos, 'all', this.render);
-    app.Todos.fetch();
+    this.listenTo(Todos, 'add', this.addOne);
+    this.listenTo(Todos, 'reset', this.addAll);
+    this.listenTo(Todos, 'change:completed', this.filterOne);
+    this.listenTo(Todos,'filter', this.filterAll);
+    this.listenTo(Todos, 'all', this.render);
+    Todos.fetch();
   },
   render: function() {
-    var completed = app.Todos.completed().length;
-    var remaining = app.Todos.remaining().length;
+    var completed = Todos.completed().length;
+    var remaining = Todos.remaining().length;
 
-    if ( app.Todos.length ) {
+    if ( Todos.length ) {
       this.$main.show();
       this.$footer.show();
 
@@ -37,7 +34,7 @@ app.AppView = Backbone.View.extend({
 
       this.$('#filters li a')
         .removeClass('selected')
-        .filter('[href="#/' + ( app.TodoFilter || '' ) + '"]')
+        .filter('[href="#/' + ( TodoFilter || '' ) + '"]')
         .addClass('selected');
     } else {
       this.$main.hide();
@@ -54,23 +51,23 @@ app.AppView = Backbone.View.extend({
         });
   },
   addOne: function( todo ) {
-    var view = new app.TodoView({ model: todo });
+    var view = new TodoView({ model: todo });
     $('#todo-list').prepend( view.render().el );
   },
   addAll: function() {
     this.$('#todo-list').html('');
-    app.Todos.each(this.addOne, this);
+    Todos.each(this.addOne, this);
   },
   filterOne : function (todo) {
     todo.trigger('visible');
   },
   filterAll : function () {
-    app.Todos.each(this.filterOne, this);
+    Todos.each(this.filterOne, this);
   },
 	newAttributes: function() {
     return {
       title: this.$input.val().trim(),
-      order: app.Todos.nextOrder(),
+      order: Todos.nextOrder(),
       completed: false
     };
   },
@@ -78,16 +75,16 @@ app.AppView = Backbone.View.extend({
     if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
       return;
     }
-    app.Todos.create( this.newAttributes() );
+    Todos.create( this.newAttributes() );
     this.$input.val('');
   },
   clearCompleted: function() {
-    _.invoke(app.Todos.completed(), 'destroy');
+    _.invoke(Todos.completed(), 'destroy');
     return false;
   },
 	toggleAllComplete: function() {
     var completed = this.allCheckbox.checked;
-    app.Todos.each(function( todo ) {
+    Todos.each(function( todo ) {
       todo.save({
         'completed': completed
       });
