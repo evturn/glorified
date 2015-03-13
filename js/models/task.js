@@ -1,7 +1,7 @@
 Task = Backbone.Model.extend({
   defaults: {
     title: '',
-    completed: false
+    pending: false
   },
 	toggle: function() {
     this.save({

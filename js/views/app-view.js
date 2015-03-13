@@ -84,10 +84,9 @@ AppView = Backbone.View.extend({
   },
 	toggleAllComplete: function() {
     var completed = this.allCheckbox.checked;
+    
     workload.each(function(task) {
-      task.save({
-        'completed': completed
-      });
+      task.save({'completed': completed});
     });
   }
 
