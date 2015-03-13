@@ -2,20 +2,20 @@ AppView = Backbone.View.extend({
 	el: '#todoapp',
 	statsTemplate: _.template($('#stats-template').html()),
 	events: {
-    'keypress #new-todo': 'createOnEnter',
+    'keypress #new-todo'    : 'createOnEnter',
     'click #clear-completed': 'clearCompleted',
-    'click #toggle-all': 'toggleAllComplete'
+    'click #toggle-all'     : 'toggleAllComplete'
   },
 	initialize: function() {
     this.readFirebase();
     this.allCheckbox = this.$('#toggle-all')[0];
-    this.$input = this.$('#new-todo');
-    this.$footer = this.$('#footer');
-    this.$main = this.$('#main');
+    this.$input      = this.$('#new-todo');
+    this.$footer     = this.$('#footer');
+    this.$main       = this.$('#main');
     this.listenTo(workload, 'add', this.addOne);
     this.listenTo(workload, 'reset', this.addAll);
     this.listenTo(workload, 'change:completed', this.filterOne);
-    this.listenTo(workload,'filter', this.filterAll);
+    this.listenTo(workload, 'filter', this.filterAll);
     this.listenTo(workload, 'all', this.render);
     workload.fetch();
   },
@@ -50,16 +50,16 @@ AppView = Backbone.View.extend({
           console.log("The read failed: " + errorObject.code);
         });
   },
-  addOne: function( todo ) {
-    var view = new TaskView({ model: todo });
-    $('#todo-list').prepend( view.render().el );
+  addOne: function(task) {
+    var view = new TaskView({model: task});
+    $('#todo-list').prepend(view.render().el);
   },
   addAll: function() {
     this.$('#todo-list').html('');
     workload.each(this.addOne, this);
   },
-  filterOne : function (todo) {
-    todo.trigger('visible');
+  filterOne : function(task) {
+    task.trigger('visible');
   },
   filterAll : function () {
     workload.each(this.filterOne, this);
@@ -71,8 +71,8 @@ AppView = Backbone.View.extend({
       completed: false
     };
   },
-  createOnEnter: function( event ) {
-    if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
+  createOnEnter: function(e) {
+    if (e.which !== ENTER_KEY || !this.$input.val().trim()) {
       return;
     }
     workload.create( this.newAttributes() );
@@ -84,8 +84,8 @@ AppView = Backbone.View.extend({
   },
 	toggleAllComplete: function() {
     var completed = this.allCheckbox.checked;
-    workload.each(function( todo ) {
-      todo.save({
+    workload.each(function(task) {
+      task.save({
         'completed': completed
       });
     });
