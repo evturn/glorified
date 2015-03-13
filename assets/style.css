@@ -28,7 +28,7 @@ button {
 }
 
 body {
-	font-family: Raleway;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 500;
 	/*line-height: 1.4em;*/
 	background: #eaeaea;
@@ -47,6 +47,7 @@ body {
 button,
 input[type="checkbox"] {
   outline: none;
+  vertical-align: text-top;
 }
 
 #todoapp {
@@ -365,8 +366,6 @@ footer#footer {
 
 #filters li a.selected {
 	font-weight: bold;
-	border: 1px solid #a3a3a3;
-	border-radius: 8%;
 }
 
 p {
@@ -391,11 +390,11 @@ a.timestamp {
 
 #clear-completed {
 	float: right;
-	position: relative;
+	/*position: relative;*/
 	line-height: 17px;
 	text-decoration: none;
 	background: rgba(0, 0, 0, 0.1);
-	font-size: 11px;
+	font-size: 20px;
 	padding: 0 10px;
 	border-radius: 3px;
 	box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);

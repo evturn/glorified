@@ -42,11 +42,7 @@
         <label for="toggle-all">MARK PENDING</label>
         <ul id="todo-list"></ul>
       </section>
-      <footer id="footer">
-        
-        <!-- STATS TEMPLATE -->
-
-      </footer>
+      <footer id="footer"></footer>
     </section>
     <div id="info">
       <p>Double-click to edit</p>
@@ -57,7 +53,7 @@
 
   <!-- UNDERSCORE TEMPLATES -->
    <script type="text/template" id="stats-template">
-    <span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'task' : 'tasks' %></span>
+    <span id="todo-count"><strong><%= remaining %></strong> remaining <i class="fa fa-briefcase fa-2x"></i></span>
     <ul id="filters">
       <li>
         <a class="selected" href="#/">All</a>
@@ -66,11 +62,11 @@
         <a href="#/active">Active</a>
       </li>
       <li>
-        <a href="#/pending">Pending</a>
+        <a href="#/pending"></i> Pending</a>
       </li>
     </ul>
     <% if (pending) { %>
-    <button id="clear-completed"><i class="fa fa-trash fa-2x"></i></button>
+    <button id="clear-completed"><%= pending %> PENDING<i class="fa fa-trash-o fa-2x"></i></button>
     <% } %>
   </script>
 
