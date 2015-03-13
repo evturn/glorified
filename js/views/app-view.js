@@ -3,8 +3,8 @@ AppView = Backbone.View.extend({
 	statsTemplate: _.template($('#stats-template').html()),
 	events: {
     'keypress #new-todo'    : 'createOnEnter',
-    'click #clear-completed': 'clearCompleted',
-    'click #toggle-all'     : 'toggleAllComplete'
+    'click #clear-completed': 'clearPending',
+    'click #toggle-all'     : 'toggleAllPending'
   },
 	initialize: function() {
     this.readFirebase();
@@ -14,13 +14,13 @@ AppView = Backbone.View.extend({
     this.$main       = this.$('#main');
     this.listenTo(workload, 'add', this.addOne);
     this.listenTo(workload, 'reset', this.addAll);
-    this.listenTo(workload, 'change:completed', this.filterOne);
+    this.listenTo(workload, 'change:pending', this.filterOne);
     this.listenTo(workload, 'filter', this.filterAll);
     this.listenTo(workload, 'all', this.render);
     workload.fetch();
   },
   render: function() {
-    var completed = workload.completed().length;
+    var pending = workload.pending().length;
     var remaining = workload.remaining().length;
 
     if (workload.length) {
@@ -28,7 +28,7 @@ AppView = Backbone.View.extend({
       this.$footer.show();
 
       this.$footer.html(this.statsTemplate({
-        completed: completed,
+        pending: pending,
         remaining: remaining
       }));
 
@@ -68,7 +68,7 @@ AppView = Backbone.View.extend({
     return {
       title: this.$input.val().trim(),
       order: workload.nextOrder(),
-      completed: false
+      pending: false
     };
   },
   createOnEnter: function(e) {
@@ -78,15 +78,15 @@ AppView = Backbone.View.extend({
     workload.create( this.newAttributes() );
     this.$input.val('');
   },
-  clearCompleted: function() {
-    _.invoke(workload.completed(), 'destroy');
+  clearPending: function() {
+    _.invoke(workload.pending(), 'destroy');
     return false;
   },
-	toggleAllComplete: function() {
-    var completed = this.allCheckbox.checked;
-    
+	toggleAllPending: function() {
+    var pending = this.allCheckbox.checked;
+
     workload.each(function(task) {
-      task.save({'completed': completed});
+      task.save({'pending': pending});
     });
   }
 

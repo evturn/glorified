@@ -2,7 +2,7 @@ TaskView =  Backbone.View.extend({
 	tagName: 'li',
 	template: _.template($('#item-template').html()),
 	events: {
-		'click .toggle'  : 'togglecompleted',
+		'click .toggle'  : 'togglePending',
     'dblclick label' : 'edit',
     'click .destroy' : 'clear',
     'keypress .edit' : 'updateOnEnter',
@@ -17,22 +17,22 @@ TaskView =  Backbone.View.extend({
   // Rerenders the titles of the item
   render: function() {
     this.$el.html( this.template( this.model.attributes));
-    this.$el.toggleClass('completed', this.model.get('completed'));
+    this.$el.toggleClass('pending', this.model.get('pending'));
     this.toggleVisible();
     this.$input = this.$('.edit');
     return this;
   },
-  toggleVisible : function () {
+  toggleVisible: function() {
     this.$el.toggleClass('hidden',  this.isHidden());
   },
   isHidden : function () {
-    var isCompleted = this.model.get('completed');
+    var isPending = this.model.get('pending');
     return ( // hidden cases only
-      (!isCompleted && TodoFilter === 'completed')
-      || (isCompleted && TodoFilter === 'active')
+      (!isPending && TodoFilter === 'pending')
+      || (isPending && TodoFilter === 'active')
     );
   },
-  togglecompleted: function() {
+  togglePending: function() {
     this.model.toggle();
   },
 	edit: function() {

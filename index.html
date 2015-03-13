@@ -66,17 +66,17 @@
         <a href="#/active">Active</a>
       </li>
       <li>
-        <a href="#/completed">Pending</a>
+        <a href="#/pending">Pending</a>
       </li>
     </ul>
-    <% if (completed) { %>
-    <button id="clear-completed">Clear all pending (<%= completed %>)</button>
+    <% if (pending) { %>
+    <button id="clear-completed">Clear all pending (<%= pending %>)</button>
     <% } %>
   </script>
 
   <script type="text/template" id="item-template">
     <div class="view">
-      <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+      <input class="toggle" type="checkbox" <%= pending ? 'checked' : '' %>>
       <label><%= title %><a href="#"></a></label>
       <button class="destroy"></button>
     </div>
