@@ -2,30 +2,28 @@ TaskView =  Backbone.View.extend({
 	tagName: 'li',
 	template: _.template($('#item-template').html()),
 	events: {
-		'click .toggle': 'togglecompleted',
-    'dblclick label': 'edit',
-    'click .destroy': 'clear',
-    'keypress .edit': 'updateOnEnter',
-    'blur .edit': 'close'
+		'click .toggle'  : 'togglecompleted',
+    'dblclick label' : 'edit',
+    'click .destroy' : 'clear',
+    'keypress .edit' : 'updateOnEnter',
+    'blur .edit'     : 'close'
   },
-
   // If an indivdual item gets updated it will rerender the view
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(this.model, 'visible', this.toggleVisible);
   },
-
   // Rerenders the titles of the item
   render: function() {
-    this.$el.html( this.template( this.model.attributes ) );
-    this.$el.toggleClass( 'completed', this.model.get('completed') );
+    this.$el.html( this.template( this.model.attributes));
+    this.$el.toggleClass('completed', this.model.get('completed'));
     this.toggleVisible();
     this.$input = this.$('.edit');
     return this;
   },
   toggleVisible : function () {
-    this.$el.toggleClass( 'hidden',  this.isHidden());
+    this.$el.toggleClass('hidden',  this.isHidden());
   },
   isHidden : function () {
     var isCompleted = this.model.get('completed');
@@ -44,15 +42,15 @@ TaskView =  Backbone.View.extend({
   // Close editing mode and save changes to the item
 	close: function() {
     var value = this.$input.val().trim();
-    if ( value ) {
-      this.model.save({ title: value });
+    if (value) {
+      this.model.save({title: value});
     } else {
     	this.clear();
     }
 
     this.$el.removeClass('editing');
   },
-  updateOnEnter: function( e ) {
+  updateOnEnter: function(e) {
 	  if ( e.which === ENTER_KEY ) {
 	    this.close();
 	  }
