@@ -3,9 +3,7 @@ var app = app || {};
 app.Todo = Backbone.Model.extend({
   defaults: {
     title: '',
-    completed: false,
-    important: '^',
-    urgent: false
+    completed: false
   },
 	toggle: function() {
     this.save({
