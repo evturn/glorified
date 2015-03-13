@@ -310,12 +310,17 @@ label[for='toggle-all'] {
 	margin-bottom: -1px;
 }
 
+footer#footer {
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
 #footer {
 	color: #777;
 	padding: 0 15px;
 	position: absolute;
 	right: 0;
-	top: -25px;
+	top: -45px;
 	left: 0;
 	height: 20px;
 	z-index: 1;
@@ -330,11 +335,6 @@ label[for='toggle-all'] {
 	left: 0;
 	height: 50px;
 	z-index: -1;
-	box-shadow:
-				0 6px 0 -3px rgba(255, 255, 255, 0.8),
-				0 7px 1px -3px rgba(0, 0, 0, 0.3),
-				0 43px 0 -6px rgba(255, 255, 255, 0.8),
-				0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
 #todo-count {
@@ -345,6 +345,7 @@ label[for='toggle-all'] {
 #filters {
 	margin: 0;
 	padding: 0;
+	font-size: 25px;
 	list-style: none;
 	position: absolute;
 	right: 0;
@@ -356,13 +357,16 @@ label[for='toggle-all'] {
 }
 
 #filters li a {
-	color: #83756f;
-	margin: 2px;
+	color: #a3a3a3;
+	padding: 0px 10px;
+	margin: 5px 5px;
 	text-decoration: none;
 }
 
 #filters li a.selected {
 	font-weight: bold;
+	border: 1px solid #a3a3a3;
+	border-radius: 8%;
 }
 
 p {
@@ -594,14 +598,59 @@ hr {
 
 @media (max-width: 570px) {
 	#todoapp h1{
-		top: -95px;
+		top: -115px;
 		left: -40px;
 		width: 100%;
 		font-size: 40px;
 		font-weight: bold;
 	}
+	
 	#todoapp {
-		margin: 0px 0 20px 0;
+		margin: 15px 0 20px 0;
+		box-shadow: none;
+	}
+
+	#footer {
+		top: -27px;
+	}
+	#filters {
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		list-style: none;
+		position: absolute;
+		right: 0;
+		left: 0;
+	}
+
+	#filters li {
+		display: inline;
+	}
+
+	#filters li a {
+		color: #83756f;
+		margin: 10px;
+		text-decoration: none;
+	}
+
+	#filters li a.selected {
+		font-weight: bold;
+	}
+
+	#todo-count {
+		float: left;
+		text-align: left;
+		font-size: 12px;
+	}
+
+	#footer:before {
+		top: -34px;
+			height: 22px;
+			box-shadow:
+				0 6px 0 -3px rgba(255, 255, 255, 0.8),
+				0 7px 1px -3px rgba(0, 0, 0, 0.3),
+				0 43px 0 -6px rgba(255, 255, 255, 0.8),
+				0 44px 2px -6px rgba(0, 0, 0, 0.2);
 	}
 	#todo-list li {
 		position: relative;
