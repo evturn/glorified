@@ -23,22 +23,24 @@
           </button>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <ul id="filters" class="nav navbar-nav navbar-right">
+        <ul id="filters" class="nav navbar-nav navbar-right text-center">
           <li><a href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
-          <li><a class="selected" href="#/">All</a></li>
-          <li><a href="#/active">Active</a></li>
-          <li><a href="#/pending"></i> Pending</a></li>   
+          <li><a class="selected" href="#/">ALL</a></li>
+          <li><a href="#/pending">PENDING</a></li>   
+          <li><a href="#/active">ACTIVE</a></li>
         </ul>    
       </div>
     </div><!--end container -->
-  </nav>
+  </nav><!-- end nav -->
 
   <div class="container">
     <section id="todoapp">
       <header id="header">
         
-        
+        <!-- INPUT FIELD -->
+
       </header>
+
       <section id="main">
         <input id="toggle-all" type="checkbox">
         <label for="toggle-all">MARK PENDING</label>
@@ -47,19 +49,18 @@
           <!-- ALL TASKS -->
 
         </ul>
-      
+      </section><!-- end main -->
 
-      </section>
-      <footer id="pending-footer">
+      <footer id="footer">
         
         <!-- CLEAR PENDING -->
 
       </footer>
-    </section>
-  </div>
+    </section><!-- end todoapp -->
+    </div>
     <div id="info">
       <p>Double-click to edit</p>
-      <p>Built by <a href="https://github.com/evturn">Evan Turner based on TodoMVC</a></p>
+      <p>Built by <a href="https://github.com/evturn">Evan Turner</a></p>
       <p>Part of <a href="http://evturn.com">evturn.com</a></p>
     </div>
 
@@ -68,7 +69,7 @@
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="header-template">
   <div class="col-xs-12 col-sm-12 text-center">
-    <h1>RAMENBUFFET<span id="todo-count" class="label label-default"><%= remaining %></span></a></h1>
+    <h1>RAMENBUFFET <span id="todo-count" class="label label-default"><%= remaining %></span></a></h1>
     </div>
     <input id="new-todo" placeholder="Write whatever, I don't care." autofocus>
   </script>
@@ -77,11 +78,6 @@
      <% if (pending) { %>
         <button id="clear-completed"><span class="label label-default"<%= pending %></span> <i class="fa fa-trash-o fa-2x"></i></button>
       <% } %>
-  </script>
-
-  
-   <script type="text/template" id="stats-template">
-    
   </script>
 
   <script type="text/template" id="item-template">

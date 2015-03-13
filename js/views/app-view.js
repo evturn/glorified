@@ -1,6 +1,5 @@
 AppView = Backbone.View.extend({
 	el: '#ramen-buffet',
-	statsTemplate: _.template($('#stats-template').html()),
   pendingTemplate: _.template($('#pending-template').html()),
   headerTemplate: _.template($('#header-template').html()),
 	events: {
@@ -13,7 +12,6 @@ AppView = Backbone.View.extend({
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input      = this.$('#new-todo');
     this.$footer     = this.$('#footer');
-    this.$pending    = this.$('#pending-footer');
     this.$header     = this.$('#header');
     this.$main       = this.$('#main');
     this.listenTo(workload, 'add', this.addOne);
@@ -31,7 +29,7 @@ AppView = Backbone.View.extend({
       this.$main.show();
       this.$footer.show();
 
-      this.$pending.append(this.pendingTemplate({
+      this.$footer.html(this.pendingTemplate({
         pending: pending
       }));
 
