@@ -1,8 +1,8 @@
 var Router = Backbone.Router.extend({
   routes:{
-    '*filter': 'setFilter'
+    '*filter' : 'setFilter'
   },
-  setFilter: function( param ) {
+  setFilter: function(param) {
   	if (param) {
       param = param.trim();
     }
