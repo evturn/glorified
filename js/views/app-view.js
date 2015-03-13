@@ -68,7 +68,8 @@ AppView = Backbone.View.extend({
     return {
       title: this.$input.val().trim(),
       order: workload.nextOrder(),
-      pending: false
+      pending: false,
+      timestamp: Firebase.ServerValue.TIMESTAMP
     };
   },
   createOnEnter: function(e) {
