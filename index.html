@@ -77,7 +77,7 @@
   <script type="text/template" id="item-template">
     <div class="view">
       <input class="toggle" type="checkbox" <%= pending ? 'checked' : '' %>>
-      <label><%= title %><a href="#"></a></label>
+      <label><%= title %><a class="timestamp" href="#"><%= timestamp %></a></label>
       <button class="destroy"></button>
     </div>
     <input class="edit" value="<%= title %>">

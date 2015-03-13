@@ -361,6 +361,11 @@ label[for='toggle-all'] {
 	font-weight: bold;
 }
 
+a.timestamp {
+	right: 0;
+	float: right;
+}
+
 #clear-completed {
 	float: right;
 	position: relative;
@@ -389,6 +394,8 @@ label[for='toggle-all'] {
 #info a {
 	color: inherit;
 }
+
+
 
 /*
 	Hack to remove background from Mobile Safari.
