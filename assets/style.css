@@ -1,3 +1,18 @@
+ul#filters li {
+	list-style: none;
+	display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
 html,
 body {
 	margin: 0;
@@ -12,7 +27,7 @@ body {
 	background-color: red;
 }
 
-button {
+/*button {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -25,7 +40,7 @@ button {
 	-ms-appearance: none;
 	-o-appearance: none;
 	appearance: none;
-}
+}*/
 
 body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -47,7 +62,6 @@ body {
 button,
 input[type="checkbox"] {
   outline: none;
-  vertical-align: text-top;
 }
 
 #todoapp {
@@ -84,7 +98,7 @@ input[type="checkbox"] {
 
 #todoapp h1 {
 	position: absolute;
-	top: -150px;
+	top: -80px;
 	width: 100%;
 	font-size: 55px;
 	font-weight: bold;
@@ -310,12 +324,12 @@ label[for='toggle-all'] {
 #todo-list li.editing:last-child {
 	margin-bottom: -1px;
 }
-
+/*
 footer#footer {
 	font-size: 20px;
 	text-transform: uppercase;
-}
-
+}*/
+/*
 #footer {
 	color: #777;
 	padding: 0 15px;
@@ -336,9 +350,9 @@ footer#footer {
 	left: 0;
 	height: 50px;
 	z-index: -1;
-}
+}*/
 
-#todo-count {
+/*#todo-count {
 	float: left;
 	text-align: left;
 }
@@ -366,7 +380,7 @@ footer#footer {
 
 #filters li a.selected {
 	font-weight: bold;
-}
+}*/
 
 p {
 	margin-right: -95px;
@@ -388,9 +402,9 @@ a.timestamp {
 	/*padding: 5px -60px 0 5px;*/
 }
 
-#clear-completed {
+/*#clear-completed {
 	float: right;
-	/*position: relative;*/
+	position: relative;
 	line-height: 17px;
 	text-decoration: none;
 	background: rgba(0, 0, 0, 0.1);
@@ -398,7 +412,7 @@ a.timestamp {
 	padding: 0 10px;
 	border-radius: 3px;
 	box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
-}
+}*/
 
 #clear-completed:hover {
 	background: rgba(0, 0, 0, 0.15);
@@ -609,7 +623,7 @@ hr {
 		box-shadow: none;
 	}
 
-	#footer {
+	/*#footer {
 		top: -27px;
 	}
 	#filters {
@@ -650,7 +664,7 @@ hr {
 				0 7px 1px -3px rgba(0, 0, 0, 0.3),
 				0 43px 0 -6px rgba(255, 255, 255, 0.8),
 				0 44px 2px -6px rgba(0, 0, 0, 0.2);
-	}
+	}*/
 	#todo-list li {
 		position: relative;
 		font-size: 16px;

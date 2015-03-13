@@ -12,6 +12,7 @@
 </head>
 <body>
 
+<div id="ramen-buffet">
 
 <nav class="navbar navbar-default">
   
@@ -23,9 +24,13 @@
           </button>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
+            
+
           <ul class="nav navbar-nav navbar-right">
-              <li><a id="dropdown" href="#"><i id="hamburger" class="fa fa-bars fa-4x"></i></a></li>
+              <li><a id="footer" href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
+
           </ul>
+
       </div>
   </div><!--end container -->
  
@@ -40,21 +45,38 @@
       <section id="main">
         <input id="toggle-all" type="checkbox">
         <label for="toggle-all">MARK PENDING</label>
-        <ul id="todo-list"></ul>
+        <ul id="todo-list">
+          
+          <!-- ALL TASKS -->
+
+        </ul>
+      
+
       </section>
-      <footer id="footer"></footer>
+      <footer id="pending-footer">Sup</footer>
     </section>
+  </div>
     <div id="info">
       <p>Double-click to edit</p>
       <p>Built by <a href="https://github.com/evturn">Evan Turner based on TodoMVC</a></p>
       <p>Part of <a href="http://evturn.com">evturn.com</a></p>
     </div>
-  </div>
+
+  </div><!-- end ramen-buffet -->
 
   <!-- UNDERSCORE TEMPLATES -->
+  <script type="text/template" id="pending-template">
+     <% if (pending) { %>
+        <button id="clear-completed"><span class="label label-default"<%= pending %></span> <i class="fa fa-trash-o fa-2x"></i></button>
+      <% } %>
+  </script>
+  
+
    <script type="text/template" id="stats-template">
-    <span id="todo-count"><strong><%= remaining %></strong> remaining <i class="fa fa-briefcase fa-2x"></i></span>
     <ul id="filters">
+      <li>
+      <a href="#" id="todo-count"><span class="label label-default"<%= remaining %></span> <i class="fa fa-briefcase fa-2x"></i></a>
+      </li>
       <li>
         <a class="selected" href="#/">All</a>
       </li>
@@ -64,10 +86,8 @@
       <li>
         <a href="#/pending"></i> Pending</a>
       </li>
-    </ul>
-    <% if (pending) { %>
-    <button id="clear-completed"><%= pending %> PENDING <i class="fa fa-trash-o fa-2x"></i></button>
-    <% } %>
+     
+      </ul>
   </script>
 
   <script type="text/template" id="item-template">
