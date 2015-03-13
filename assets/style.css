@@ -565,3 +565,31 @@ hr {
 		margin: 130px auto 40px auto;
 	}
 }
+
+@media (max-width: 570px) {
+	#todoapp h1{
+		top: -95px;
+		left: -40px;
+		width: 100%;
+		font-size: 40px;
+		font-weight: bold;
+	}
+	#todoapp {
+		margin: 0px 0 20px 0;
+	}
+	#todo-list li {
+		position: relative;
+		font-size: 16px;
+		border-bottom: 1px dotted #ccc;
+	}
+
+	#todo-list li .toggle:after {
+		content: '✔';
+		/* 40 + a couple of pixels visual adjustment */
+		line-height: 43px;
+		font-size: 20px;
+		color: #d9d9d9;
+		text-shadow: 0 -1px 0 #bfbfbf;
+}
+
+}
