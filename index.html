@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="assets/bootstrap-theme.min.css">
   <link rel="stylesheet" href="assets/font-awesome.css">
   <link rel="stylesheet" href="assets/style.css">
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600' type='text/css'>
 </head>
 <body>
 
@@ -35,9 +34,11 @@
 
   <div class="container">
     <section id="todoapp">
-      <header id="header">
-        
-        <!-- INPUT FIELD -->
+      <header>
+        <div id="header" class="col-xs-12 col-sm-12 text-center">
+
+        <!-- NUMBER REMAINING -->
+        </div>
         <input id="new-todo" placeholder="Write whatever, I don't care." autofocus>
       </header>
 
@@ -68,9 +69,9 @@
 
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="header-template">
-  <div class="col-xs-12 col-sm-12 text-center">
+  
     <h1>RAMENBUFFET <span id="todo-count" class="label label-default"><%= remaining %></span></a></h1>
-    </div>
+  
     
   </script>
 
