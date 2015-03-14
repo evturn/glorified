@@ -105,10 +105,10 @@ AppView = Backbone.View.extend({
       this.$header.html(this.headerTemplate({
         remaining: workload.length
       }));
-      $('#the-title').addClass('no-trash');
+      $('#the-title').css({
+        color: '#fff'
+      });
       console.log($('#todo-count').val());
-    } else {
-      $('#todo-count').removeClass('no-trash');
     }
   },
 
