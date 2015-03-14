@@ -515,16 +515,19 @@ hr {
 @media (max-width: 570px) {
   #todoapp h1 {
     top: -115px;
-    width: 100%;
+    /*width: 100%;*/
+    padding-top: 17px;
+    right: 8%;
     font-size: 35px;
     color: #DCDCDC;
     opacity: .3;
     font-weight: bold;
   }
   #todoapp {
-    margin: 15px 0 20px 0;
+    margin: 0 0 0 0;
     box-shadow: none;
   }
+
 
 }
 @media (max-width: 992px) {
