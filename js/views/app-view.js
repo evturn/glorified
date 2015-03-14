@@ -19,6 +19,7 @@ AppView = Backbone.View.extend({
     this.listenTo(workload, 'change:pending', this.filterOne);
     this.listenTo(workload, 'filter', this.filterAll);
     this.listenTo(workload, 'all', this.render);
+    this.listenTo(workload, 'all', this.resetHeader);
     workload.fetch();
   },
   render: function() {
@@ -34,7 +35,7 @@ AppView = Backbone.View.extend({
       }));
 
       this.$header.append(this.headerTemplate({
-        remaining: remaining
+        remaining: workload.length
       }));
 
       this.$('#filters li a')
@@ -95,7 +96,18 @@ AppView = Backbone.View.extend({
     workload.each(function(task) {
       task.save({'pending': pending});
     });
-  }
+  },
+  resetHeader: function() {
+    console.log('I was ran');
+    total = workload.length;
+    if (total === 0) {
+      this.$header.val('');
+      this.$header.html(this.headerTemplate({
+        remaining: workload.length
+      }));
+      console.log($('#todo-count').val());
+    }
+  },
 
 });
 

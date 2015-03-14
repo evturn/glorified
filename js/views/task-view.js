@@ -16,11 +16,19 @@ TaskView =  Backbone.View.extend({
   },
   // Rerenders the titles of the item
   render: function() {
-    this.$el.html( this.template( this.model.attributes));
+    this.$el.html( this.template(this.model.attributes));
     this.$el.toggleClass('completed', this.model.get('pending'));
     this.toggleVisible();
     this.$input = this.$('.edit');
     return this;
+  },
+  resetHeader: function() {
+    console.log('I was ran');
+    total = workload.length;
+    if (total === 0) {
+      $('#todo-count').html('0');
+      console.log($('#header'));
+    }
   },
   toggleVisible: function() {
     this.$el.toggleClass('hidden',  this.isHidden());
@@ -56,5 +64,6 @@ TaskView =  Backbone.View.extend({
 	},
 	clear: function() {
     this.model.destroy();
+    this.resetHeader();
   }
 });
