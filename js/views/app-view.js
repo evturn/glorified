@@ -66,7 +66,7 @@ AppView = Backbone.View.extend({
   filterOne : function(task) {
     task.trigger('visible');
   },
-  filterAll : function () {
+  filterAll : function() {
     workload.each(this.filterOne, this);
   },
 	newAttributes: function() {
