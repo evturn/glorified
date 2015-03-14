@@ -25,7 +25,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="filters" class="nav navbar-nav navbar-right text-center">
-            <li><a href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
+            <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-diamond fa-2x"></i></a></li>
             <li><a class="selected" href="#/">ALL</a></li>
             <li><a href="#/pending">PENDING</a></li>
             <li><a href="#/active">ACTIVE</a></li>
@@ -81,7 +81,34 @@
   </div>
   <!-- end ramen-buffet -->
 
-
+  <div class="modal fade text-center" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="col-xs-12 col-sm-9 col-sm-offset-1 modal-content">
+        <div class="modal-header">
+          <a type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times fa-2x"></i></a>
+          <h3 class="modal-title" id="myModalLabel">Login</h3>
+        </div>
+          <div class="modal-body">
+            <form class="form-signin" role="form">  
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" data-tabindex="1" />
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="text" class="form-control" data-tabindex="2" />
+              </div>
+              <div class="form-group">
+                <button type="button" id="login-btn" class="btn btn-primary">LOGIN</button>
+              </div>
+            </form>
+          </div><!-- end body -->
+          <div class="modal-footer text-center">
+            <p><a href="http://evturn.com"><img id="evturn-security" src="http://ramenbuffet.com/assets/ev.png"> Powered by evturn.com</a></p>
+          </div>
+      </div> <!-- end footer -->
+    </div><!-- end modal -->
+               
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="header-template">
     <h1 id="the-title">RAMENBUFFET
