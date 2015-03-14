@@ -1,6 +1,13 @@
 ul#filters li {
   list-style: none;
 }
+.navbar-collapse {
+  text-align:center;
+}
+.navbar-nav {
+    display:inline-block;
+    float:none;
+}
 #footer {
   color: #777;
   padding: 0 15px;
