@@ -13,4 +13,8 @@ $(function() {
 	moment().format();
 
 	new AppView();
+
+	var clock = $('#clock').FlipClock({});
+	clock.setTime(1500);
+	clock.setCountdown(true);
 });
