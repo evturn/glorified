@@ -238,6 +238,7 @@ ul#filters li {
 }
 #filters li a.selected {
   font-weight: bold;
+  font-size: 22px;
 }
 #toggle-all:before {
   content: '➠';
