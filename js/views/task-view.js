@@ -3,7 +3,7 @@ TaskView =  Backbone.View.extend({
 	template: _.template($('#item-template').html()),
 	events: {
 		'click .toggle'  : 'togglePending',
-    'dblclick label' : 'edit',
+    'click label' : 'edit',
     'click .destroy' : 'clear',
     'keypress .edit' : 'updateOnEnter',
     'blur .edit'     : 'close'

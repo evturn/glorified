@@ -226,6 +226,19 @@ label[for='toggle-all'] {
   
   border: none;
 }
+.navbar-default .navbar-nav>li>a {
+  line-height: normal;
+}
+
+.navbar-default .navbar-nav>li>a.pending {
+  color: #87C5D6;
+}
+ul#filters li {
+  font-size: 20px;
+}
+#filters li a.selected {
+  font-weight: bold;
+}
 #toggle-all:before {
   content: '➠';
   font-size: 28px;
