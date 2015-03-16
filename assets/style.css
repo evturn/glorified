@@ -8,8 +8,8 @@ ul#filters li {
   text-align:center;
 }
 .navbar-nav {
-    display:inline-block;
-    float:none;
+  display:inline-block;
+  float:none;
 }
 #footer {
   color: #777;
@@ -563,77 +563,3 @@ hr {
   }
 
 }
-  /*#footer {
-		top: -27px;
-	}
-	#filters {
-		margin: 0;
-		padding: 0;
-		font-size: 20px;
-		list-style: none;
-		position: absolute;
-		right: 0;
-		left: 0;
-	}
-
-	#filters li {
-		display: inline;
-	}
-
-	#filters li a {
-		color: #83756f;
-		margin: 10px;
-		text-decoration: none;
-	}
-
-	#filters li a.selected {
-		font-weight: bold;
-	}
-
-	#todo-count {
-		float: left;
-		text-align: left;
-		font-size: 12px;
-	}
-
-	#footer:before {
-		top: -34px;
-			height: 22px;
-			box-shadow:
-				0 6px 0 -3px rgba(255, 255, 255, 0.8),
-				0 7px 1px -3px rgba(0, 0, 0, 0.3),
-				0 43px 0 -6px rgba(255, 255, 255, 0.8),
-				0 44px 2px -6px rgba(0, 0, 0, 0.2);
-	}*/
-  /*	#todo-list li {
-		position: relative;
-		font-size: 16px;
-		border-bottom: 1px dotted #ccc;
-	}
-
-	#todo-list li .toggle:after {
-		content: '✔';
-
-		line-height: 43px;
-		font-size: 20px;
-		color: #d9d9d9;
-		text-shadow: 0 -1px 0 #bfbfbf;
-	}
-
-}
-
-}*/
-  /*@media (max-width: 745px) {
-	p {
-		margin-right: -95px;
-		margin-top: 5px;
-		margin-bottom: 5px;
-		margin-left: 0px;
-		max-width: 500px;
-	}
-}*/
-  /*@media (max-height: 767px) {
-	i#hamburger.fa.fa-bars.fa-4x {
-		visibility: hidden;
-	}
-}*/
