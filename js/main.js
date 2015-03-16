@@ -14,9 +14,7 @@ $(function() {
 
 	new AppView();
 
-	// var clockTwentyFive = $('#clock').FlipClock({});
-	// clock.setTime(1500);
-	// clock.setCountdown(true);
+
 	var clock = new FlipClock($('#clock'), {autoStart: false});
 		clock.setTime(1500);
 		clock.setCountdown(true);
