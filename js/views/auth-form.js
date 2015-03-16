@@ -31,6 +31,26 @@ var AuthForm = Backbone.View.extend({
   			}
 		});
 	},
+	register: function(e) {
+		e.preventDefault();
+		console.log('register clicked!');
+		userEmail 	 = $('#email').val();
+		userPassword = $('#password').val();
+		var ref = new Firebase(FIREBASE_URL + 'users');
+		ref.createUser({
+  		email    : userEmail,
+  		password : userPassword
+		}, function(error, userData) {
+		  if (error) {
+		    console.log("Error creating user:", error);
+		  } else {
+		    	console.log("Successfully created user account with uid:", userData.uid);
+		    	$('#register-form').fadeOut('slow', function() {
+		    		$('#register-form').remove();
+		    	});	
+		  	}
+		});
+	},
 	exit: function() {
 		$('.auth-form').fadeOut('fast', function() {
 			$('.auth-form').remove();
