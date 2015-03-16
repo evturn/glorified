@@ -26,7 +26,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="filters" class="nav navbar-nav text-center">
-            <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-diamond fa-2x"></i></a></li>
+            <li><a href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
             <li><a class="selected" href="#/">ALL</a></li>
             <li><a class="pending" href="#/pending">&#10144; IN PROGESS</a></li>
             <li><a href="#/active">&#10145; UNINITIATED</a></li>
@@ -91,14 +91,13 @@
   </div>
   <!-- end ramen-buffet -->
 
-  <div class="modal fade text-center" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="col-xs-12 col-sm-9 col-sm-offset-1 modal-content">
-        <div class="modal-header">
-          <a type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times fa-2x"></i></a>
-          <h3 class="modal-title" id="myModalLabel">Login</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-9 col-sm-offset-1">
+        <a type="button"><i class="fa fa-times fa-2x"></i></a>
+        <h3 class="modal-title" id="myModalLabel">Login</h3>
         </div>
-          <div class="modal-body">
+          <div class="col-xs-12 col-sm-9 col-sm-offset-1">
             <form class="form-signin" role="form">  
               <div class="form-group">
                 <label>Email</label>
@@ -113,11 +112,8 @@
               </div>
             </form>
           </div><!-- end body -->
-          <div class="modal-footer text-center">
-            <p><a href="http://evturn.com"><img id="evturn-security" src="http://ramenbuffet.com/assets/ev.png"> Powered by evturn.com</a></p>
-          </div>
-      </div> <!-- end footer -->
-    </div><!-- end modal -->
+        </div> <!-- end row -->
+      </div><!-- end container -->
                
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="header-template">
