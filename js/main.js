@@ -1,6 +1,7 @@
 var ENTER_KEY = 13;
 var FIREBASE_URL  = new Firebase('https://ramenbuffet.firebaseio.com/');
 var firebaseCollection = new Firebase(FIREBASE_URL + 'todos');
+var firebaseUsers = new Firebase(FIREBASE_URL + 'users');
 
 var query = firebaseCollection.orderByChild("timestamp").limitToLast(100);
 query.on("child_added", function(messageSnapshot) {

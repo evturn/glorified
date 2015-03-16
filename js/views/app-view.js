@@ -9,7 +9,8 @@ AppView = Backbone.View.extend({
     'click #diamond'        : 'renderAuthForm'
   },
 	initialize: function() {
-    this.readFirebase();
+    this.readFirebaseTasks();
+    this.readFirebaseUsers();
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input      = this.$('#new-todo');
     this.$footer     = this.$('#footer');
@@ -50,12 +51,21 @@ AppView = Backbone.View.extend({
 
     this.allCheckbox.checked = !remaining;
   },
-  readFirebase: function() {
+  readFirebaseTasks: function() {
     firebaseCollection.on("value", function(snapshot) {
         console.log('Firebase Collection', snapshot.val());
       }, function (errorObject) {
           console.log("The read failed: " + errorObject.code);
         });
+  },
+  readFirebaseUsers: function() {
+    firebaseUsers.onAuth(function(authData) {
+      if (authData) {
+        console.log("Authenticated with uid:", authData.uid);
+      } else {
+        console.log("Client unauthenticated.");
+      }
+    });
   },
   addOne: function(task) {
     var view = new TaskView({model: task});
