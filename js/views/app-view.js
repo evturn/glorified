@@ -6,7 +6,7 @@ AppView = Backbone.View.extend({
     'keypress #new-todo'    : 'createOnEnter',
     'click #clear-completed': 'clearPending',
     'click #toggle-all'     : 'toggleAllPending',
-    'click #diamond'        : 'renderAuthForm'
+    'click #diamond'        : 'toggleAuth'
   },
 	initialize: function() {
     this.readFirebaseTasks();
@@ -109,7 +109,6 @@ AppView = Backbone.View.extend({
     });
   },
   resetHeader: function() {
-    console.log('I was ran');
     total = workload.length;
     if (total === 0) {
       this.$header.val('');
@@ -122,10 +121,23 @@ AppView = Backbone.View.extend({
       console.log($('#todo-count').val());
     }
   },
-  renderAuthForm: function(e) {
+  toggleAuth: function(e) {
     e.preventDefault();
+    var authData = firebaseUsers.getAuth();
+    if (!authData) {
+      this.renderAuthForm();
+    } else {
+      this.logout();
+    }
+  },
+  renderAuthForm: function() {
     console.log('we got renderLogin');
     var authForm = new AuthForm();
+  },
+  logout: function() {
+    FIREBASE_URL.unauth();
+    var refUsers      = new Firebase(FIREBASE_URL + 'users');
+    var unauthConfirm = refUsers.getAuth();
   },
 });
 
