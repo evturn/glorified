@@ -2,15 +2,17 @@ AppView = Backbone.View.extend({
 	el: '#ramen-buffet',
   pendingTemplate: _.template($('#pending-template').html()),
   headerTemplate: _.template($('#header-template').html()),
+  userToolsTemplate: _.template($('#user-tools-template').html()),
 	events: {
-    'keypress #new-todo'    : 'createOnEnter',
-    'click #clear-completed': 'clearPending',
-    'click #toggle-all'     : 'toggleAllPending',
-    'click #diamond'        : 'toggleAuth'
+    'keypress #new-todo'     : 'createOnEnter',
+    'click #clear-completed' : 'clearPending',
+    'click #toggle-all'      : 'toggleAllPending',
+    'click #user-io'         : 'toggleAuth'
   },
 	initialize: function() {
     this.readFirebaseTasks();
     this.readFirebaseUsers();
+    this.renderUserTools();
     this.allCheckbox = this.$('#toggle-all')[0];
     this.$input      = this.$('#new-todo');
     this.$footer     = this.$('#footer');
@@ -65,7 +67,8 @@ AppView = Backbone.View.extend({
       } else {
         console.log("Client unauthenticated.");
       }
-    });
+      this.renderUserTools();
+    }.bind(this));
   },
   addOne: function(task) {
     var view = new TaskView({model: task});
@@ -139,6 +142,10 @@ AppView = Backbone.View.extend({
     var refUsers      = new Firebase(FIREBASE_URL + 'users');
     var unauthConfirm = refUsers.getAuth();
   },
+  renderUserTools: function() {
+    $('#user-tools').html(this.userToolsTemplate());
+    return this;
+  }
 });
 
 

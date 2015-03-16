@@ -6,8 +6,9 @@ var AuthForm = Backbone.View.extend({
 		this.renderLogin();
 	},
 	events: {
-		'click .close' : 'exit',
-		'click #login' : 'login'
+		'click .close' 		: 'exit',
+		'click #login' 		: 'login',
+		'click #register' : 'register'
 	},
 	renderLogin: function() {
 		this.$el.html(this.loginTemplate());
@@ -27,11 +28,11 @@ var AuthForm = Backbone.View.extend({
 			if (error) {
     		console.log("Login Failed!", error);
   		} else {
-    	console.log("Authenticated successfully with payload:", authData);
-    	$('#login-form').fadeOut('slow', function() {
-    		$('#login-form').remove();
-    	});	
-  		}
+		    	console.log("Authenticated successfully with payload:", authData);
+		    	$('#login-form').fadeOut('slow', function() {
+		    		$('#login-form').remove();
+		    	});	
+  			}
 		});
 	},
 	exit: function() {

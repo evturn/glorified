@@ -30,8 +30,8 @@
             <li><a class="pending" href="#/pending">&#10144; IN PROGESS</a></li>
             <li><a href="#/active">&#10145; UNINITIATED</a></li>
           </ul>
-           <ul class="nav navbar-nav navbar-right">
-              <li><a href="#" id="diamond"><i class="fa fa-diamond fa-2x"></i></a></li>
+           <ul id="user-tools" class="nav navbar-nav navbar-right">
+              
            </ul>
         </div>
       </div>
@@ -94,32 +94,37 @@
     </div>
     <!--end container -->
 
-  </div>
-  <!-- end ramen-buffet -->
+  </div><!-- end ramen-buffet -->
+
+
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="login-form-template">
-      <div class="row" id="login-form">
+    <div class="row" id="login-form">
+      <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <a type="button" class="close"><i class="fa fa-times fa-2x"></i></a>
+        <h3 class="text-center">RAMEN BUFFET | LOGIN</h3>
+        </div>
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-          <a type="button" class="close"><i class="fa fa-times fa-2x"></i></a>
-          <h3 class="text-center">RAMEN BUFFET | LOGIN</h3>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-            <form class="form-signin" role="form">  
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control input-lg" data-tabindex="1" name="email" id="email"/>
-              </div>
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control input-lg" data-tabindex="2" name="password" id="password"/>
-              </div>
-              <div class="form-group">
-                <a type="button" id="login" class="btn btn-primary">LOGIN</a>
-              </div>
-            </form>
-          </div><!-- end body -->
-        </div> <!-- end row -->
-    </script>
+          <form class="form-signin" role="form">  
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control input-lg" data-tabindex="1" name="email" id="email"/>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control input-lg" data-tabindex="2" name="password" id="password"/>
+            </div>
+            <div class="form-group">
+              <a type="button" id="login" class="btn btn-primary">LOGIN</a>
+            </div>
+          </form>
+        </div><!-- end body -->
+      </div> <!-- end row -->
+  </script>
+
+  <script type="text/template" id="user-tools-template">
+    <li><a href="#" id="user-io"><i class="fa fa-power-off fa-2x"></i> <%= firebaseUsers.getAuth() === null ? 'Login' : 'Logout' %></a></li>
+  </script>
 
   <script type="text/template" id="signup-form-template">
     <div class="row" id="signup-form">
@@ -138,7 +143,7 @@
               <input type="password" class="form-control input-lg" data-tabindex="2" name="password" id="password"/>
             </div>
             <div class="form-group">
-              <button type="button" id="signup" class="btn btn-primary">LOGIN</button>
+              <button type="button" id="register" class="btn btn-primary">LOGIN</button>
             </div>
           </form>
         </div><!-- end body -->
