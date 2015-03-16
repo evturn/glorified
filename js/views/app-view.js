@@ -5,7 +5,8 @@ AppView = Backbone.View.extend({
 	events: {
     'keypress #new-todo'    : 'createOnEnter',
     'click #clear-completed': 'clearPending',
-    'click #toggle-all'     : 'toggleAllPending'
+    'click #toggle-all'     : 'toggleAllPending',
+    'click #diamond'        : 'renderLogin'
   },
 	initialize: function() {
     this.readFirebase();
@@ -111,7 +112,11 @@ AppView = Backbone.View.extend({
       console.log($('#todo-count').val());
     }
   },
-
+  renderLogin: function(e) {
+    e.preventDefault();
+    console.log('we got renderLogin');
+    loginForm = new LoginForm();
+  },
 });
 
 

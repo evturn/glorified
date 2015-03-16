@@ -21,12 +21,10 @@ query.on("child_added", function(messageSnapshot) {
 // })
 
 
-
 $(function() {
 	moment().format();
 
 	new AppView();
-
 
 	var clock = new FlipClock($('#clock'), {autoStart: false});
 		clock.setTime(1500);

@@ -26,7 +26,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="filters" class="nav navbar-nav text-center">
-            <li><a href="#"><i class="fa fa-diamond fa-2x"></i></a></li>
+            <li><a href="#" id="diamond"><i class="fa fa-diamond fa-2x"></i></a></li>
             <li><a class="selected" href="#/">ALL</a></li>
             <li><a class="pending" href="#/pending">&#10144; IN PROGESS</a></li>
             <li><a href="#/active">&#10145; UNINITIATED</a></li>
@@ -36,7 +36,6 @@
       <!--end container -->
     </nav>
     <!-- end nav -->
-
     <div class="container">
       <section id="todoapp" class="row">
         <header>
@@ -90,13 +89,13 @@
 
   </div>
   <!-- end ramen-buffet -->
-
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-9 col-sm-offset-1">
-        <a type="button"><i class="fa fa-times fa-2x"></i></a>
-        <h3 class="modal-title" id="myModalLabel">Login</h3>
-        </div>
+  <!-- UNDERSCORE TEMPLATES -->
+  <script type="text/template" id="login-form-template">
+      <div class="row" id="login-form">
+        <div class="col-xs-12 col-sm-9 col-sm-offset-1">
+          <a type="button" class="close"><i class="fa fa-times fa-2x"></i></a>
+          <h3 class="text-center">LOGIN</h3>
+          </div>
           <div class="col-xs-12 col-sm-9 col-sm-offset-1">
             <form class="form-signin" role="form">  
               <div class="form-group">
@@ -108,14 +107,13 @@
                 <input type="text" class="form-control" data-tabindex="2" />
               </div>
               <div class="form-group">
-                <button type="button" id="login-btn" class="btn btn-primary">LOGIN</button>
+                <button type="button" id="login" class="btn btn-primary">LOGIN</button>
               </div>
             </form>
           </div><!-- end body -->
         </div> <!-- end row -->
-      </div><!-- end container -->
+    </script>
                
-  <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="header-template">
     <h1 id="the-title">RAMENBUFFET
       <span id="todo-count" class="label label-default">
@@ -158,6 +156,7 @@
   <script src="js/lib/flipclock.js"></script>  
   <script src="js/models/task.js"></script>
   <script src="js/collections/workload.js"></script>
+  <script src="js/views/login-form.js"></script>
   <script src="js/views/task-view.js"></script>
   <script src="js/views/app-view.js"></script>
   <script src="js/routers/router.js"></script>
