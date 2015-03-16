@@ -9,22 +9,16 @@ query.on("child_added", function(messageSnapshot) {
   // console.log('Task' + messageData);
 });
 
-// $('#diamond').on('click', function() {
-// 	FIREBASE_URL.authWithOAuthRedirect("twitter", function(error) {
-//   if (error) {
-//     console.log("Login Failed!", error);
-//   } else {
-//     // We'll never get here, as the page will redirect on success.
-//   }
-// });
-	
-// })
-
 
 $(function() {
 	moment().format();
 
 	new AppView();
+
+	$('#login').on('click', function(e) {
+		e.preventDefault();
+		console.log('login clicked!');
+	});
 
 	var clock = new FlipClock($('#clock'), {autoStart: false});
 		clock.setTime(1500);
