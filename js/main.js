@@ -14,11 +14,14 @@ $(function() {
 
 	new AppView();
 
-	var clockTwentyFive = $('#clock').FlipClock({});
-	clock.setTime(1500);
-	clock.setCountdown(true);
+	// var clockTwentyFive = $('#clock').FlipClock({});
+	// clock.setTime(1500);
+	// clock.setCountdown(true);
+	var clock = new FlipClock($('#clock'), {autoStart: false});
+		clock.setTime(1500);
+		clock.setCountdown(true);
 
-	var clockOneHour = $('#clock').FlipClock({});
-	clock.setTime(3600);
-	clock.setCountdown(true);
+		$('#clock').on('click', function() {
+			clock.start();
+		});
 });
