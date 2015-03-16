@@ -7,7 +7,8 @@ AppView = Backbone.View.extend({
     'keypress #new-todo'     : 'createOnEnter',
     'click #clear-completed' : 'clearPending',
     'click #toggle-all'      : 'toggleAllPending',
-    'click #user-io'         : 'toggleAuth'
+    'click #user-io'         : 'toggleAuth',
+    'click #register-icon'   : 'renderRegister'
   },
 	initialize: function() {
     this.readFirebaseTasks();
@@ -134,8 +135,13 @@ AppView = Backbone.View.extend({
     }
   },
   renderAuthForm: function() {
-    console.log('we got renderLogin');
     var authForm = new AuthForm();
+    authForm.renderLogin();
+  },
+  renderRegister: function(e) {
+    e.preventDefault();
+    var authForm = new AuthForm();
+    authForm.renderRegister();
   },
   logout: function() {
     FIREBASE_URL.unauth();

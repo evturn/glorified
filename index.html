@@ -32,6 +32,8 @@
           </ul>
            <ul id="user-tools" class="nav navbar-nav navbar-right">
               
+              <!-- USER IO -->
+
            </ul>
           <ul id="register-tool" class="nav navbar-nav navbar-left">
             <li><a href="#" id="register-icon"><i class="fa fa-diamond fa-2x"></i> Register</a></li>
@@ -42,6 +44,8 @@
     </nav>
   
     <div class="container" id="auth-form">
+      
+      <!-- LOGIN / REGISTER FORM -->
 
     </div>
 
@@ -102,7 +106,7 @@
 
   <!-- UNDERSCORE TEMPLATES -->
   <script type="text/template" id="login-form-template">
-    <div class="row" id="login-form">
+    <div class="row auth-form" id="login-form">
       <div class="col-xs-12 col-sm-6 col-sm-offset-3">
         <a type="button" class="close"><i class="fa fa-times fa-2x"></i></a>
         <h3 class="text-center">RAMEN BUFFET | LOGIN</h3>
@@ -129,8 +133,8 @@
     <li><a href="#" id="user-io"><i class="fa fa-power-off fa-2x"></i> <%= firebaseUsers.getAuth() === null ? 'Login' : 'Logout' %></a></li>
   </script>
 
-  <script type="text/template" id="signup-form-template">
-    <div class="row" id="signup-form">
+  <script type="text/template" id="register-form-template">
+    <div class="row auth-form" id="signup-form">
       <div class="col-xs-12 col-sm-6 col-sm-offset-3">
         <a type="button" class="close"><i class="fa fa-times fa-2x"></i></a>
         <h3 class="text-center">RAMEN BUFFET | REGISTER</h3>

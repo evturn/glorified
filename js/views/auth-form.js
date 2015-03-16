@@ -1,10 +1,7 @@
 var AuthForm = Backbone.View.extend({
 	el: '#auth-form',
 	loginTemplate: _.template($('#login-form-template').html()),
-	signupTemplate: _.template($('#signup-form-template').html()),
-	initialize: function() {
-		this.renderLogin();
-	},
+	registerTemplate: _.template($('#register-form-template').html()),
 	events: {
 		'click .close' 		: 'exit',
 		'click #login' 		: 'login',
@@ -13,7 +10,6 @@ var AuthForm = Backbone.View.extend({
 	renderLogin: function() {
 		this.$el.html(this.loginTemplate());
 		return this;
-		console.log('we rendered!');
 	},
 	login: function(e) {
 		e.preventDefault();
@@ -36,8 +32,13 @@ var AuthForm = Backbone.View.extend({
 		});
 	},
 	exit: function() {
-		$('#login-form').fadeOut('fast', function() {
-			$('#login-form').remove();
+		$('.auth-form').fadeOut('fast', function() {
+			$('.auth-form').remove();
 		});
+	},
+	renderRegister: function() {
+		this.$el.html(this.registerTemplate());
+		return this;
+		console.log('register rendered!');
 	},
 });
