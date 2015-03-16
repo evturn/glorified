@@ -23,11 +23,9 @@ TaskView =  Backbone.View.extend({
     return this;
   },
   resetHeader: function() {
-    console.log('I was ran');
     total = workload.length;
     if (total === 0) {
       $('#todo-count').html('0');
-      console.log($('#header'));
     }
   },
   toggleVisible: function() {

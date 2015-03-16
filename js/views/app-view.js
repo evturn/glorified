@@ -65,6 +65,7 @@ AppView = Backbone.View.extend({
     firebaseUsers.onAuth(function(authData) {
       if (authData) {
         console.log("Authenticated with uid:", authData.uid);
+        uid = authData.uid;
       } else {
         console.log("Client unauthenticated.");
       }
@@ -91,7 +92,8 @@ AppView = Backbone.View.extend({
       title: this.$input.val().trim(),
       order: workload.nextOrder(),
       pending: false,
-      timestamp: time
+      timestamp: time,
+      user_id: uid
     };
   },
   createOnEnter: function(e) {
@@ -122,7 +124,6 @@ AppView = Backbone.View.extend({
       $('#the-title').css({
         color: '#fff'
       });
-      console.log($('#todo-count').val());
     }
   },
   toggleAuth: function(e) {

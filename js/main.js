@@ -1,6 +1,6 @@
 var ENTER_KEY = 13;
 var FIREBASE_URL  = new Firebase('https://ramenbuffet.firebaseio.com/');
-var firebaseCollection = new Firebase(FIREBASE_URL + 'todos');
+var firebaseCollection = new Firebase(FIREBASE_URL + 'tasks');
 var firebaseUsers = new Firebase(FIREBASE_URL + 'users');
 
 var query = firebaseCollection.orderByChild("timestamp").limitToLast(100);
@@ -16,10 +16,6 @@ $(function() {
 
 	new AppView();
 
-	$('#login').on('click', function(e) {
-		e.preventDefault();
-		console.log('login clicked!');
-	});
 
 	var clock = new FlipClock($('#clock'), {autoStart: false});
 		clock.setTime(1500);

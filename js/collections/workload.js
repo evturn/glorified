@@ -1,6 +1,6 @@
 var Workload = Backbone.Firebase.Collection.extend({
 	model: Task,
-	url: 'https://ramenbuffet.firebaseio.com/todos',
+	url: 'https://ramenbuffet.firebaseio.com/tasks',
   autoSync: true,
 	pending: function() {
     return this.filter(function(task) {
