@@ -1,5 +1,5 @@
 var LoginForm = Backbone.View.extend({
-	el: '#header',
+	el: '#auth-form',
 	template: _.template($('#login-form-template').html()),
 	initialize: function() {
 		this.render();
@@ -8,7 +8,7 @@ var LoginForm = Backbone.View.extend({
 		'click .close' : 'exit'
 	},
 	render: function() {
-		this.$el.prepend(this.template());
+		this.$el.html(this.template());
 		return this;
 		console.log('we rendered!');
 	},
