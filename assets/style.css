@@ -1,3 +1,11 @@
+ul#user-tools {
+  padding-right: 15px;
+}
+
+a#user-io {
+  display: table-caption;
+}
+
 #clock {
   padding: 5% 25%;
 }
