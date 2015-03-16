@@ -115,7 +115,7 @@ AppView = Backbone.View.extend({
   renderLogin: function(e) {
     e.preventDefault();
     console.log('we got renderLogin');
-    loginForm = new LoginForm();
+    loginForm = new AuthForm();
   },
 });
 
