@@ -6,7 +6,7 @@
 * All updates in real-time
 * No setup
 
-![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/ramen-buffet.png)
+![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/img/ramen-buffet.png)
 
 ### Future Implementations
 
@@ -17,4 +17,4 @@
 * No setup
 * And this mobile version below:
 
-![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/ramen-buffet-m.png)
+![Alt text](https://raw.githubusercontent.com/evturn/ramen-buffet/master/assets/img/ramen-buffet-m.png)
