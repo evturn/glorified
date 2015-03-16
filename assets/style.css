@@ -155,7 +155,7 @@ button, input[type="checkbox"] {
   text-align: center;
   /*color: #b3b3b3;*/
   
-  color: rgba(255, 255, 255, 0.3);
+  color: #fff;
   /*text-shadow: -1px -1px rgba(0, 0, 0, 0.2);*/
   
   -webkit-text-rendering: optimizeLegibility;
