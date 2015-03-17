@@ -16,12 +16,17 @@ $(function() {
 
 	new AppView();
 
-	var clockSeconds = 1500;
+	var ten = 600;
+	var twentyFive = 1500;
+	var fourtyFive = 2700;
+	var sixty = 3600;
 
-	var clock = $('.clock').FlipClock(clockSeconds, {
+
+	var clock = $('.clock').FlipClock(twentyFive, {
 		autoStart: false,
 		clockFace: 'MinuteCounter'
 	});
+
 
 		$('#start').on('click', function() {
 			clock.start();
@@ -30,4 +35,10 @@ $(function() {
 		$('#pause').on('click', function() {
 			clock.stop();
 		});
+
+	$('#timer').on('click', function() {
+		console.log('clicked');
+	});
+
+
 });
