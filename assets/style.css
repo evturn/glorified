@@ -18,6 +18,15 @@ ul#clock-nav li{
 }
 ul#clock-nav li a{
   color: #fff;
+  color: #a8a8a8;
+  display: table-caption;
+  text-decoration: none;
+}
+ul#clock-nav li a:hover{
+  color: #fff;
+  display: table-caption;
+  color: #4d4d4d;
+  text-decoration: none;
 }
 ul#filters li {
   list-style: none;

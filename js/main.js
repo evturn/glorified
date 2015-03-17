@@ -16,21 +16,38 @@ $(function() {
 
 	new AppView();
 
-	var ten = 600;
+
 	var twentyFive = 1500;
-	var fourtyFive = 2700;
-	var sixty = 3600;
-
-
 	var clock = $('.clock').FlipClock(twentyFive, {
 		autoStart: false,
 		clockFace: 'MinuteCounter'
 	});
 
+		$('#one-third-hour').on('click', function() {
+			clock.setTime(900);
+			clock.setCountdown(true);
+			clock.start();
+		});
+		$('#half-hour').on('click', function() {
+			clock.setTime(1800);
+			clock.setCountdown(true);
+			clock.start();
+		});
+		$('#two-thirds-hour').on('click', function() {
+			clock.setTime(2700);
+			clock.setCountdown(true);
+			clock.start();
+		});
+		$('#one-hour').on('click', function() {
+			clock.setTime(3600);
+			clock.setCountdown(true);
+			clock.start();
+		});
+
 
 		$('#start').on('click', function() {
-			clock.start();
 			clock.setCountdown(true);
+			clock.start();
 		});
 		$('#pause').on('click', function() {
 			clock.stop();
