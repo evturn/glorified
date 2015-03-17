@@ -16,6 +16,9 @@ ul#clock-nav li{
   margin-left: 10px;
   margin-right: 20px;  
 }
+ul#clock-nav li a{
+  color: #fff;
+}
 ul#filters li {
   list-style: none;
 }
