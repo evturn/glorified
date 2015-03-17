@@ -47,6 +47,12 @@ ul#filters li {
   z-index: -1;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 6px 0 -3px rgba(255, 255, 255, 0.8), 0 7px 1px -3px rgba(0, 0, 0, 0.3), 0 43px 0 -6px rgba(255, 255, 255, 0.8), 0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
+a#clear-completed {
+  color: #000;
+}
+a#timer .label {
+  color: #000;
+}
 #timer {
   float: left;
   padding: 10px;
@@ -68,6 +74,7 @@ ul#filters li {
   float: right;
   padding: 10px;
   position: relative;
+  height: 25px;
   line-height: 20px;
   text-decoration: none;
   background: #ccc;
@@ -127,9 +134,6 @@ button {
   -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
-}
-button#clear-completed {
-  height: 25px;
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
