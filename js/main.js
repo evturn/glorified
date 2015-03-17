@@ -16,12 +16,18 @@ $(function() {
 
 	new AppView();
 
+	var clockSeconds = 1500;
 
-	var clock = new FlipClock($('#clock'), {autoStart: false});
-		clock.setTime(1500);
-		clock.setCountdown(true);
+	var clock = $('.clock').FlipClock(clockSeconds, {
+		autoStart: false,
+		clockFace: 'MinuteCounter'
+	});
 
-		$('#clock').on('click', function() {
+		$('#start').on('click', function() {
 			clock.start();
+			clock.setCountdown(true);
+		});
+		$('#pause').on('click', function() {
+			clock.stop();
 		});
 });

@@ -7,8 +7,14 @@ ul#register-tool {
 a#register-icon, a#user-io {
   display: table-caption;
 }
-#clock {
-  padding: 5% 25%;
+ul#clock-nav {
+  padding-top: 50px;
+  padding-left: 0px;
+}
+ul#clock-nav li{
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 20px;  
 }
 ul#filters li {
   list-style: none;
@@ -560,21 +566,17 @@ hr {
     margin: 0 0 0 0;
     box-shadow: none;
   }
-  #clock {
-    padding: 15% 25%;
-  }
-
-
+ 
 }
 @media (max-width: 992px) {
-    h1 {
-      top: -115px;
-      width: 100%;
-      font-size: 10px;
-      font-weight: bold;
+  h1 {
+    top: -115px;
+    width: 100%;
+    font-size: 10px;
+    font-weight: bold;
   }
-  #clock {
-    padding: 10% 15%;
-  }
-
+ 
 }
+
+
+
