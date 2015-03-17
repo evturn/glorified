@@ -53,6 +53,4 @@ $(function() {
 			clock.stop();
 		});
 
-	$('#clock').hide();
-
 });
