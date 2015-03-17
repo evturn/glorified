@@ -54,7 +54,7 @@ ul#filters li {
   height: 25px;
   line-height: 20px;
   text-decoration: none;
-  background: rgba(0, 0, 0, 0.1);
+  background: #ccc;
   font-size: 11px;
   padding: 0 10px;
   border-radius: 3px;
@@ -70,7 +70,7 @@ ul#filters li {
   position: relative;
   line-height: 20px;
   text-decoration: none;
-  background: rgba(0, 0, 0, 0.1);
+  background: #ccc;
   font-size: 11px;
   padding: 0 10px;
   border-radius: 3px;
@@ -81,11 +81,12 @@ ul#filters li {
   box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
 }
 .label-default {
-  background-color: #ccc;
+  background: #ccc;
 }
  
 #trash {
   display: inline-block;
+  background: none;
 }
 
 .no-trash:before {
