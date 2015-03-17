@@ -36,9 +36,6 @@ $(function() {
 			clock.stop();
 		});
 
-	$('#timer').on('click', function() {
-		console.log('clicked');
-	});
-
+	$('#clock').hide();
 
 });

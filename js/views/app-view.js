@@ -8,7 +8,8 @@ AppView = Backbone.View.extend({
     'click #clear-completed' : 'clearPending',
     'click #toggle-all'      : 'toggleAllPending',
     'click #user-io'         : 'toggleAuth',
-    'click #register-icon'   : 'renderRegister'
+    'click #register-icon'   : 'renderRegister',
+    'click #timer'           : 'toggleClock'
   },
 	initialize: function() {
     this.readFirebaseTasks();
@@ -152,7 +153,12 @@ AppView = Backbone.View.extend({
   renderUserTools: function() {
     $('#user-tools').html(this.userToolsTemplate());
     return this;
-  }
+  },
+  toggleClock: function(e) {
+    e.preventDefault();
+    console.log('shit');
+    $('#clock').slideToggle();
+  },
 });
 
 
