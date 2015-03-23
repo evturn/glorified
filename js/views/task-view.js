@@ -3,18 +3,16 @@ TaskView =  Backbone.View.extend({
 	template: _.template($('#item-template').html()),
 	events: {
 		'click .toggle'  : 'togglePending',
-    'click label' : 'edit',
+    'click label'    : 'edit',
     'click .destroy' : 'clear',
     'keypress .edit' : 'updateOnEnter',
     'blur .edit'     : 'close'
   },
-  // If an indivdual item gets updated it will rerender the view
   initialize: function() {
     this.listenTo(this.model, 'change', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(this.model, 'visible', this.toggleVisible);
   },
-  // Rerenders the titles of the item
   render: function() {
     this.$el.html( this.template(this.model.attributes));
     this.$el.toggleClass('completed', this.model.get('pending'));
