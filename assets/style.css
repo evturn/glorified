@@ -105,7 +105,6 @@ a#clear-completed {
   display: inline-block;
   background: none;
 }
-
 .no-trash:before {
   color: rgba(255, 255, 255, 0.3);
   -webkit-text-rendering: optimizeLegibility;
@@ -115,12 +114,9 @@ a#clear-completed {
   text-rendering: optimizeLegibility;
   
 }
-
 .no-trash {
   color: rgba(255, 255, 255, 0.3);
-
 }
-
 html, body {
   margin: 0;
   padding: 0;
@@ -200,10 +196,8 @@ button, input[type="checkbox"] {
   font-weight: bold;
   text-align: center;
   /*color: #b3b3b3;*/
-  
   color: #fff;
   /*text-shadow: -1px -1px rgba(0, 0, 0, 0.2);*/
-  
   -webkit-text-rendering: optimizeLegibility;
   -moz-text-rendering: optimizeLegibility;
   -ms-text-rendering: optimizeLegibility;
@@ -271,23 +265,21 @@ label[for='toggle-all'] {
   left: -4px;
   width: 40px;
   text-align: center;
-  /* Mobile Safari */
-  
+  /* Mobile Safari */ 
   border: none;
 }
 .navbar-default .navbar-nav>li>a {
   line-height: normal;
 }
-
 .navbar-default .navbar-nav>li>a.pending {
   color: #87C5D6;
 }
 ul#filters li {
-  font-size: 20px;
+  font-size: 28px;
 }
 #filters li a.selected {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 30px;
 }
 #toggle-all:before {
   content: '➠';

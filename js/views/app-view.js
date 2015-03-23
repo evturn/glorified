@@ -67,6 +67,7 @@ AppView = Backbone.View.extend({
       if (authData) {
         console.log("Authenticated with uid:", authData.uid);
         uid = authData.uid;
+        $('#register-icon').hide();
       } else {
         console.log("Client unauthenticated.");
       }

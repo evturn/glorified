@@ -5,9 +5,7 @@ var firebaseUsers = new Firebase(FIREBASE_URL + 'users');
 
 var query = firebaseCollection.orderByChild("timestamp").limitToLast(100);
 query.on("child_added", function(messageSnapshot) {
-  // This will only be called for the last 100 messages
   var messageData = messageSnapshot.val();
-  // console.log('Task' + messageData);
 });
 
 
@@ -43,7 +41,6 @@ $(function() {
 			clock.setCountdown(true);
 			clock.start();
 		});
-
 
 		$('#start').on('click', function() {
 			clock.setCountdown(true);
