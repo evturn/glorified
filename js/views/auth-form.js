@@ -3,16 +3,16 @@ var AuthForm = Backbone.View.extend({
 	loginTemplate: _.template($('#login-form-template').html()),
 	registerTemplate: _.template($('#register-form-template').html()),
 	events: {
-		'click .close' 		: 'exit',
-		'click #login' 		: 'login',
-		'click #register' : 'register'
+		'click .close' 				 : 'exit',
+		'click #login' 				 : 'login',
+		'click #register' 		 : 'register',
+		'keypress .form-login' : 'loginOnEnter'
 	},
 	renderLogin: function() {
 		this.$el.html(this.loginTemplate());
 		return this;
 	},
-	login: function(e) {
-		e.preventDefault();
+	login: function() {
 		console.log('login clicked!');
 		userEmail 	 = $('#email').val();
 		userPassword = $('#password').val();
@@ -30,6 +30,11 @@ var AuthForm = Backbone.View.extend({
 		    	});	
   			}
 		});
+	},
+  loginOnEnter: function(e) {
+	  if ( e.which === ENTER_KEY ) {
+	    this.login();
+	  }
 	},
 	register: function(e) {
 		e.preventDefault();
