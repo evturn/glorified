@@ -94,8 +94,7 @@ AppView = Backbone.View.extend({
       title: this.$input.val().trim(),
       order: workload.nextOrder(),
       pending: false,
-      timestamp: time,
-      user_id: uid
+      timestamp: time
     };
   },
   createOnEnter: function(e) {
