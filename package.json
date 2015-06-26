@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify main.js -o static/bundle.js",
-    "watch": "watchify main.js -o static/bundle.js --debug --verbose"
+    "build": "browserify main.js -o dist/bundle.js",
+    "watch": "watchify main.js -o dist/bundle.js --debug --verbose"
   },
   "repository": {
     "type": "git",

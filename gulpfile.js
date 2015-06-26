@@ -1,8 +1,12 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),  
+    source = require('vinyl-source-stream'),
+    watchify = require('watchify'),
+    browserify = require('browserify'),
     G = require('gulp-load-plugins')();
 
 var paths = require('./paths'),
+    main = paths.main,
     less = paths.less,
     font = paths.font,
     css = paths.css,
@@ -12,12 +16,35 @@ var onError = function(err) {
     console.log(err);
 };
 
-gulp.task('default', ['less', 'lint', 'watch']);
-
+gulp.task('default', ['browserify', 'less', 'lint', 'watch']);
+ 
 gulp.task('watch', function() {
   gulp.watch(less.watch, ['less']);
   gulp.watch(js.watch, ['lint']);
+  gulp.watch(main.src, ['watchify']);
 });
+
+
+gulp.task('browserify', function() {
+  return browserify(main.src)
+  .bundle()
+  .pipe(source(main.name))
+  .pipe(gulp.dest(main.dest));
+});
+ 
+gulp.task('watchify', function() {
+  var bundler = watchify(main.src);
+  bundler.on('update', rebundle);
+ 
+  function rebundle() {
+    return bundler.bundle()
+      .pipe(source(main.name))
+      .pipe(gulp.dest(main.dest));
+  }
+ 
+  return rebundle();
+});
+
 
 gulp.task('css', function() {
   return gulp.src(css.src)

@@ -31,5 +31,10 @@ module.exports = {
     'assets/css/animate.min.css'
     ],
     dest: 'dist/css'
-  }
+  },
+  main: {
+    src: 'main.js',
+    dest: 'dist/js',
+    name: 'bundle.js'
+  } 
 };
