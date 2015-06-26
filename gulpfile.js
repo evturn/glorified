@@ -17,7 +17,6 @@ var paths = require('./paths'),
 
 gulp.task('default', ['less', 'lint', 'watch']);
 
-
 gulp.task('watch', function() {
   gulp.watch(less.watch, ['less']);
   gulp.watch(js.watch, ['lint']);

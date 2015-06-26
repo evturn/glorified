@@ -6,7 +6,12 @@ module.exports = {
       'gulpfile.js',
       'main.js'
     ],
-    watch: this.src
+    watch: [
+      'assets/js/**/*.js',
+      'paths.js',
+      'gulpfile.js',
+      'main.js'
+    ]
   },
   less: {
     src: 'assets/less/*.less',
