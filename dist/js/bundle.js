@@ -511,9 +511,26 @@ module.exports = (function() {
 },{}],2:[function(require,module,exports){
 var $        = require('jquery');
 var _        = require('underscore');
-var backbone = require('backbone');
-var WOW      = require('./assets/js/lib/wow');
-},{"./assets/js/lib/wow":1,"backbone":3,"jquery":4,"underscore":5}],3:[function(require,module,exports){
+var Backbone = require('backbone');
+var WOW      = require('./lib/wow');
+
+var RB = RB || {};
+
+RB.task = new Backbone.Model.extend({});
+
+RB.list = new Backbone.Collection.extend({
+  model: RB.task,
+});
+
+$('h1').on('click', function() {
+  $('h1').css('color', 'red');
+});
+
+module.exports = RB;
+
+},{"./lib/wow":1,"backbone":4,"jquery":5,"underscore":6}],3:[function(require,module,exports){
+var scripts = require('./assets/js/main');
+},{"./assets/js/main":2}],4:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.1
 
@@ -2390,7 +2407,7 @@ var WOW      = require('./assets/js/lib/wow');
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":4,"underscore":5}],4:[function(require,module,exports){
+},{"jquery":5,"underscore":6}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -11602,7 +11619,7 @@ return jQuery;
 
 }));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -13152,4 +13169,4 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[2]);
+},{}]},{},[3]);
