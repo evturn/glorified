@@ -17,6 +17,7 @@ gulp.task('less', function() {
   return gulp.src(less.src)
     .pipe(G.plumber())
     .pipe(G.less())
+    .pipe(G.rename('style.min.css'))
     .on('error', function (err) {
         gutil.log(err);
         G.notify(err);
