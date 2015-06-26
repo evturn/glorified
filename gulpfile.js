@@ -8,6 +8,10 @@ var paths = require('./paths'),
     css = paths.css,
     js = paths.js;
 
+var onError = function(err) {
+    console.log(err);
+};
+
 gulp.task('default', ['less', 'lint', 'watch']);
 
 gulp.task('watch', function() {
@@ -17,6 +21,7 @@ gulp.task('watch', function() {
 
 gulp.task('css', function() {
   return gulp.src(css.src)
+    .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.cssmin())
     .pipe(G.rename('vendor.min.css'))
     .pipe(gulp.dest(css.dest));
@@ -29,7 +34,7 @@ gulp.task('fonts', function() {
 
 gulp.task('less', function() {
   return gulp.src(less.src)
-    .pipe(G.plumber())
+    .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.less())
     .pipe(G.rename('style.min.css'))
     .on('error', function (err) {
@@ -57,7 +62,7 @@ gulp.task('less', function() {
 
 gulp.task('lint', function() {
   gulp.src(js.src)
-    .pipe(G.plumber())
+    .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
       if (file.jshint.success) {
