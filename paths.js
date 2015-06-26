@@ -17,5 +17,17 @@ module.exports = {
     src: 'assets/less/*.less',
     watch: 'assets/less/**/*.less',
     dest: 'dist'
+  },
+  font: {
+    src: 'assets/fonts/**.*',
+    dest: 'dist'
+  },
+  css: {
+    src: [
+    'assets/css/bootstrap.css',
+    'assets/css/fontawesome.css',
+    'assets/css/animate.min.css'
+    ],
+    dest: 'dist'
   }
 };

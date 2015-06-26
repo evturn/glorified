@@ -4,6 +4,8 @@ var gulp = require('gulp'),
 
 var paths = require('./paths'),
     less = paths.less,
+    font = paths.font,
+    css = paths.css,
     js = paths.js;
 
 gulp.task('default', ['less', 'lint', 'watch']);
@@ -11,6 +13,18 @@ gulp.task('default', ['less', 'lint', 'watch']);
 gulp.task('watch', function() {
   gulp.watch(less.watch, ['less']);
   gulp.watch(js.watch, ['lint']);
+});
+
+gulp.task('css', function() {
+  return gulp.src(css.src)
+    .pipe(G.cssmin())
+    .pipe(G.rename('vendor.min.css'))
+    .pipe(gulp.dest(css.dest));
+});
+
+gulp.task('fonts', function() {
+  return gulp.src(font.src)
+    .pipe(gulp.dest(font.dest));
 });
 
 gulp.task('less', function() {
