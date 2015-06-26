@@ -1,15 +1,6 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    jshint = require('gulp-jshint'),
-    gless = require('gulp-less'),
-    uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),
-    minifyCss = require('gulp-minify-css'),
-    size = require('gulp-filesize'),
-    notify = require('gulp-notify'),
-    clean = require('gulp-clean'),
-    watchLess = require('gulp-watch-less'),
-    plugins = require('gulp-load-plugins')();
+    gutil = require('gulp-util'),  
+    G = require('gulp-load-plugins')();
 
 var paths = require('./paths'),
     less = paths.less,
@@ -24,14 +15,14 @@ gulp.task('watch', function() {
 
 gulp.task('less', function() {
   return gulp.src(less.src)
-    .pipe(plugins.plumber())
-    .pipe(plugins.less())
+    .pipe(G.plumber())
+    .pipe(G.less())
     .on('error', function (err) {
         gutil.log(err);
-        notify(err);
+        G.notify(err);
         this.emit('end');
     })
-    .pipe(plugins.autoprefixer({
+    .pipe(G.autoprefixer({
       browsers: [
           '> 1%',
           'last 2 versions',
@@ -45,14 +36,14 @@ gulp.task('less', function() {
       ],
       cascade: false
     }))
-    .pipe(plugins.cssmin())
+    .pipe(G.cssmin())
     .pipe(gulp.dest(less.dest)).on('error', gutil.log);
 });
 
 gulp.task('lint', function() {
   gulp.src(js.src)
-    .pipe(jshint())
-    .pipe(notify(function(file) {
+    .pipe(G.jshint())
+    .pipe(G.notify(function(file) {
       if (file.jshint.success) {
         return false;
       }
