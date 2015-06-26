@@ -1,33 +1,36 @@
-var watchify = require('watchify');
-var browserify = require('browserify');
-var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
-var sourcemaps = require('gulp-sourcemaps');
-var assign = require('lodash.assign');
+var gulp = require('gulp'),
+    gutil = require('gulp-util'),
+    jshint = require('gulp-jshint'),
+    less = require('gulp-less'),
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),
+    minifyCss = require('gulp-minify-css'),
+    size = require('gulp-filesize'),
+    notify = require('gulp-notify'),
+    imagemin = require('gulp-imagemin'),
+    clean = require('gulp-clean');
 
+gulp.task('default', ['less']);
 
-var customOpts = {
-  entry: ['index.js'],
-  debug: true
-};
-var opts = assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts)); 
+gulp.task('less', function() {
+  return gulp.src('assets/less/**/*.less')
+    .pipe(watch('assets/less/**/*.less'))
+    .pipe(less())
+    .pipe(gulp.dest('dist'));
+});
 
-gulp.task('js', bundle);  
-b.on('update', bundle);   
-b.on('log', gutil.log);
-
-function bundle() {
-  return b.bundle()
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('bundle.js'))
-    // buffer file contents
-    .pipe(buffer())
-    // sourcemaps
-    .pipe(sourcemaps.init({loadMaps: true}))
-    // Add transformation tasks to pipeline here
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist'));
-}
+gulp.task('lint', function() {
+  gulp.src(js.build)
+    .pipe(jshint())
+    .pipe(notify(function(file) {
+      if (file.jshint.success) {
+        return false;
+      }
+      var errors = file.jshint.results.map(function(data) {
+        if (data.error) {
+          return "(" + data.error.line + ':' + data.error.character + ') ' + data.error.reason;
+        }
+      }).join("\n");
+      return file.relative + " (" + file.jshint.results.length + " errors)\n" + errors;
+    }));
+});
