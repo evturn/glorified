@@ -57,6 +57,7 @@ gulp.task('less', function() {
 
 gulp.task('lint', function() {
   gulp.src(js.src)
+    .pipe(G.plumber())
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
       if (file.jshint.success) {
