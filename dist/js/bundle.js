@@ -523,7 +523,9 @@ RB.list = new Backbone.Collection.extend({
 });
 
 $('h1').on('click', function() {
-  $('h1').css('color', 'red');
+  var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
+  var color = colors[Math.floor(Math.random() * colors.length)];
+  $('h1').css('color', color);
 });
 
 module.exports = RB;
@@ -2407,6 +2409,7 @@ var scripts = require('./assets/js/main');
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"jquery":5,"underscore":6}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
@@ -13169,4 +13172,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[3]);
+},{}]},{},[3])
+
+
+//# sourceMappingURL=bundle.js.map

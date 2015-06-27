@@ -1,66 +1,69 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),  
-    source = require('vinyl-source-stream'),
-    watchify = require('watchify'),
-    browserify = require('browserify'),
     G = require('gulp-load-plugins')();
 
-var paths = require('./paths'),
-    main = paths.main,
-    less = paths.less,
-    font = paths.font,
-    css = paths.css,
-    js = paths.js;
+var watchify = require('watchify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var assign = require('lodash.assign');
+
+var paths = require('./config/paths');
 
 var onError = function(err) {
     console.log(err);
 };
 
-gulp.task('default', ['browserify', 'less', 'lint', 'watch']);
- 
+// Default & Watch
+gulp.task('default', ['js', 'less', 'lint', 'watch']);
 gulp.task('watch', function() {
-  gulp.watch(less.watch, ['less']);
-  gulp.watch(js.watch, ['lint']);
-  gulp.watch(main.src, ['watchify']);
+  gulp.watch(paths.less.watch, ['less']);
+  gulp.watch(paths.js.watch, ['lint']);
 });
 
+var customOpts = {
+  entries: ['./main.js'],
+  debug: true
+};
+var opts = assign({}, watchify.args, customOpts);
+var b = watchify(browserify(opts)); 
 
-gulp.task('browserify', function() {
-  return browserify(main.src)
-  .bundle()
-  .pipe(source(main.name))
-  .pipe(gulp.dest(main.dest));
-});
- 
-gulp.task('watchify', function() {
-  var bundler = watchify(main.src);
-  bundler.on('update', rebundle);
- 
-  function rebundle() {
-    return bundler.bundle()
-      .pipe(source(main.name))
-      .pipe(gulp.dest(main.dest));
-  }
- 
-  return rebundle();
-});
+gulp.task('js', bundle); // so you can run `gulp js` to build the file
+b.on('update', bundle); // on any dep update, runs the bundler
+b.on('log', gutil.log); // output build logs to terminal
+
+function bundle() {
+  return b.bundle()
+    // log errors if they happen
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('bundle.js'))
+    // optional, remove if you don't need to buffer file contents
+    .pipe(buffer())
+    // optional, remove if you dont want sourcemaps
+    .pipe(G.sourcemaps.init({loadMaps: true})) // loads map from browserify file
+       // Add transformation tasks to the pipeline here.
+    .pipe(G.sourcemaps.write('./')) // writes .map file
+    .pipe(gulp.dest('./dist/js'));
+}
+
+
 
 
 gulp.task('css', function() {
-  return gulp.src(css.src)
+  return gulp.src(paths.css.src)
     .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.cssmin())
     .pipe(G.rename('vendor.min.css'))
-    .pipe(gulp.dest(css.dest));
+    .pipe(gulp.dest(paths.css.dest));
 });
 
 gulp.task('fonts', function() {
-  return gulp.src(font.src)
-    .pipe(gulp.dest(font.dest));
+  return gulp.src(paths.font.src)
+    .pipe(gulp.dest(paths.font.dest));
 });
 
 gulp.task('less', function() {
-  return gulp.src(less.src)
+  return gulp.src(paths.less.src)
     .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.less())
     .pipe(G.rename('style.min.css'))
@@ -84,11 +87,11 @@ gulp.task('less', function() {
       cascade: false
     }))
     .pipe(G.cssmin())
-    .pipe(gulp.dest(less.dest)).on('error', gutil.log);
+    .pipe(gulp.dest(paths.less.dest)).on('error', gutil.log);
 });
 
 gulp.task('lint', function() {
-  gulp.src(js.src)
+  gulp.src(paths.js.src)
     .pipe(G.plumber({errorHandler: onError}))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
