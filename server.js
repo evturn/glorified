@@ -8,8 +8,9 @@ var express         = require('express'),
     cookieParser    = require('cookie-parser'),
     mongoose        = require('mongoose'),
     passport        = require('passport'),
-    hbs = require('./config/handlebars'),
-    root = __dirname + '/assets';
+    hbs             = require('./config/handlebars'),
+    router          = require('./routes/app');
+    root            = __dirname + '/assets';
 
 var app = module.exports = express();
 
@@ -23,5 +24,6 @@ app.use(express.static(root));
 app.use(logger('dev'));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/', router);
 
 var http = require('./config/http');
