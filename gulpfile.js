@@ -41,9 +41,6 @@ function bundle() {
     .pipe(gulp.dest('./dist/js'));
 }
 
-
-
-
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
     .pipe(G.plumber({errorHandler: gError}))

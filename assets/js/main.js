@@ -11,14 +11,8 @@ function colorGenerator() {
   return color;
 }
 
-RB.task = new Backbone.Model.extend({});
-
-RB.list = new Backbone.Collection.extend({
-  model: RB.task,
-});
-
-$('h1').on('click', function() {
-  $('h1').css('color', colorGenerator());
+$('.app-header').on('click', function() {
+  $('.app-header a').css('color', colorGenerator());
 });
 
 module.exports = RB;
