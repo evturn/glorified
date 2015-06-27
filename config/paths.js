@@ -1,18 +1,20 @@
 module.exports = {
-  js: {
+  linter: {
     src: [
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',
-      'paths.js',
+      'config/**/*.js',
+      'server.js',
       'gulpfile.js',
-      'main.js'
+      'browser.js'
     ],
     watch: [
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',
-      'paths.js',
+      'config/**/*.js',
+      'server.js',
       'gulpfile.js',
-      'main.js'
+      'browser.js'
     ]
   },
   less: {
@@ -34,9 +36,25 @@ module.exports = {
     dest: 'dist/css',
     filename: 'vendor.css'
   },
-  main: {
-    src: 'main.js',
+  browser: {
+    src: 'browser.js',
     dest: 'dist/js',
     filename: 'bundle.js'
-  } 
+  },
+  js: {
+    src: [
+      'assets/js/models/rb.js',
+      'assets/js/rb.js',
+      'assets/js/router.js',
+      'assets/js/main.js'
+    ],
+    watch: [
+      'assets/js/models/rb.js',
+      'assets/js/rb.js',
+      'assets/js/router.js',
+      'assets/js/main.js'
+    ],
+    dest: 'dist/js',
+    filename: 'rb.js'
+  }
 };

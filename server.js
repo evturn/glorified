@@ -9,7 +9,7 @@ var express         = require('express'),
     mongoose        = require('mongoose'),
     passport        = require('passport'),
     hbs = require('./config/handlebars'),
-    root = __dirname + '/public';
+    root = __dirname + '/assets';
 
 var app = module.exports = express();
 

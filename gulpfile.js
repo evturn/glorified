@@ -14,11 +14,12 @@ var paths = require('./config/paths');
 gulp.task('default', ['js', 'less', 'css', 'lint', 'watch']);
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
-  gulp.watch(paths.js.watch, ['lint']);
+  gulp.watch(paths.linter.watch, ['lint']);
+  gulp.watch(paths.js.watch, ['client']);
 });
 
 var customOpts = {
-  entries: ['./main.js'],
+  entries: [paths.browser.src],
   debug: true
 };
 var opts = assign({}, watchify.args, customOpts);
@@ -31,15 +32,24 @@ b.on('log', gutil.log);
 function bundle() {
   return b.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('bundle.js'))
+    .pipe(source(paths.browser.filename))
     // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
     // optional, remove if you dont want sourcemaps
     .pipe(G.sourcemaps.init({loadMaps: true})) // loads map from browserify file
-       // Add transformation tasks to the pipeline here.
+  // Add transformation tasks to the pipeline here.
     .pipe(G.sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./dist/js'));
+    .pipe(gulp.dest(paths.browser.dest));
 }
+
+gulp.task('client', function() {
+  return gulp.src(paths.js.src)
+    .pipe(G.plumber(gError))
+    .pipe(G.concat('min.js'))
+    .pipe(G.uglify())
+    .pipe(G.rename(paths.js.filename))
+    .pipe(gulp.dest(paths.js.dest));
+});
 
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
@@ -84,7 +94,7 @@ gulp.task('less', function() {
 });
 
 gulp.task('lint', function() {
-  gulp.src(paths.js.src)
+  gulp.src(paths.linter.src)
     .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
