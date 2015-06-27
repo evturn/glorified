@@ -18,7 +18,8 @@ module.exports = {
   less: {
     src: 'assets/less/*.less',
     watch: 'assets/less/**/*.less',
-    dest: 'dist/css'
+    dest: 'dist/css',
+    filename: 'less.css'
   },
   font: {
     src: 'assets/fonts/**.*',
@@ -27,14 +28,15 @@ module.exports = {
   css: {
     src: [
     'assets/css/bootstrap.css',
-    'assets/css/fontawesome.css',
+    'assets/css/font-awesome.css',
     'assets/css/animate.min.css'
     ],
-    dest: 'dist/css'
+    dest: 'dist/css',
+    filename: 'vendor.css'
   },
   main: {
     src: 'main.js',
     dest: 'dist/js',
-    name: 'bundle.js'
+    filename: 'bundle.js'
   } 
 };

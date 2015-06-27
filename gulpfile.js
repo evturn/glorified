@@ -11,7 +11,7 @@ var assign = require('lodash.assign');
 
 var paths = require('./config/paths');
 
-gulp.task('default', ['js', 'less', 'lint', 'watch']);
+gulp.task('default', ['js', 'less', 'css', 'lint', 'watch']);
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
   gulp.watch(paths.js.watch, ['lint']);
@@ -43,9 +43,10 @@ function bundle() {
 
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
-    .pipe(G.plumber({errorHandler: gError}))
+    .pipe(G.plumber(gError))
+    .pipe(G.concat('min.css'))
     .pipe(G.cssmin())
-    .pipe(G.rename('vendor.min.css'))
+    .pipe(G.rename(paths.css.filename))
     .pipe(gulp.dest(paths.css.dest));
 });
 
@@ -58,7 +59,7 @@ gulp.task('less', function() {
   return gulp.src(paths.less.src)
     .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.less())
-    .pipe(G.rename('style.min.css'))
+    .pipe(G.rename(paths.less.filename))
     .on('error', function (err) {
         gutil.log(err);
         G.notify(err);
