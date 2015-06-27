@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'),  
+    gutil = require('gulp-util'), 
+    gError = require('./config/gulp-error-handler'), 
     G = require('gulp-load-plugins')();
 
 var watchify = require('watchify');
@@ -10,11 +11,6 @@ var assign = require('lodash.assign');
 
 var paths = require('./config/paths');
 
-var onError = function(err) {
-    console.log(err);
-};
-
-// Default & Watch
 gulp.task('default', ['js', 'less', 'lint', 'watch']);
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
@@ -28,13 +24,12 @@ var customOpts = {
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts)); 
 
-gulp.task('js', bundle); // so you can run `gulp js` to build the file
-b.on('update', bundle); // on any dep update, runs the bundler
-b.on('log', gutil.log); // output build logs to terminal
+gulp.task('js', bundle);
+b.on('update', bundle);
+b.on('log', gutil.log);
 
 function bundle() {
   return b.bundle()
-    // log errors if they happen
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
     // optional, remove if you don't need to buffer file contents
@@ -51,7 +46,7 @@ function bundle() {
 
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
-    .pipe(G.plumber({errorHandler: onError}))
+    .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.cssmin())
     .pipe(G.rename('vendor.min.css'))
     .pipe(gulp.dest(paths.css.dest));
@@ -64,7 +59,7 @@ gulp.task('fonts', function() {
 
 gulp.task('less', function() {
   return gulp.src(paths.less.src)
-    .pipe(G.plumber({errorHandler: onError}))
+    .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.less())
     .pipe(G.rename('style.min.css'))
     .on('error', function (err) {
@@ -92,7 +87,7 @@ gulp.task('less', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.js.src)
-    .pipe(G.plumber({errorHandler: onError}))
+    .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
       if (file.jshint.success) {

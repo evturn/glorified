@@ -5,6 +5,12 @@ var WOW      = require('./lib/wow');
 
 var RB = RB || {};
 
+function colorGenerator() {
+  var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
+  var color = colors[Math.floor(Math.random() * colors.length)];
+  return color;
+}
+
 RB.task = new Backbone.Model.extend({});
 
 RB.list = new Backbone.Collection.extend({
@@ -12,9 +18,7 @@ RB.list = new Backbone.Collection.extend({
 });
 
 $('h1').on('click', function() {
-  var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
-  var color = colors[Math.floor(Math.random() * colors.length)];
-  $('h1').css('color', color);
+  $('h1').css('color', colorGenerator());
 });
 
 module.exports = RB;
