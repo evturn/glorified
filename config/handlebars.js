@@ -6,7 +6,7 @@ var partials = [
 ];
 
 var hbs = handlebars.create({
-  defaultLayout: 'main',
+  defaultLayout: 'app',
   extname: '.hbs',
   partialsDir: partials,
   layoutsDir: 'views/layouts'
