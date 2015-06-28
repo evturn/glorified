@@ -53,7 +53,14 @@ module.exports = {
     src: [
       'browser.js',
       'assets/js/models/rb.js',
-      'assets/js/rb.js',
+      'assets/js/views/app-view.js',
+      'assets/js/router.js',
+      'assets/js/main.js'
+    ],
+    watch: [
+      'browser.js',
+      'assets/js/models/rb.js',
+      'assets/js/views/app-view.js',
       'assets/js/router.js',
       'assets/js/main.js'
     ],

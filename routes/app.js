@@ -25,6 +25,12 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+app.get('/notes', function(req, res) {
+  console.log(req);
+  res.render('app/index', {layout: 'app', user: req.user});
+});
+
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { 
     return next(); 

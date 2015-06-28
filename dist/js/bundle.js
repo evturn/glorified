@@ -513,8 +513,11 @@ var $        = require('jquery');
 var _        = require('underscore');
 var Backbone = require('backbone');
 var WOW      = require('./lib/wow');
-
 var RB = RB || {};
+
+RB.appView = require('./views/app-view');
+
+
 
 function colorGenerator() {
   var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
@@ -527,30 +530,23 @@ $('.landing-header').on('click', function() {
 });
 
 module.exports = RB;
-},{"./lib/wow":1,"backbone":7,"jquery":8,"underscore":9}],3:[function(require,module,exports){
+},{"./lib/wow":1,"./views/app-view":5,"backbone":7,"jquery":8,"underscore":9}],3:[function(require,module,exports){
+var $        = require('jquery');
 var _        = require('underscore');
 var Backbone = require('backbone');
 
 var RB = RB || {};
 
-RB.task = new Backbone.Model.extend({});
+RB.note = new Backbone.Model.extend({});
 
 RB.list = new Backbone.Collection.extend({
-  model: RB.task,
+  model: RB.note,
+  url: '/notes'
 });
 
-module.exports = RB;
-},{"backbone":7,"underscore":9}],4:[function(require,module,exports){
-var $        = require('jquery');
-var _        = require('underscore');
-var Backbone = require('backbone');
-
-RB = {
- 
-};
 
 module.exports = RB;
-},{"backbone":7,"jquery":8,"underscore":9}],5:[function(require,module,exports){
+},{"backbone":7,"jquery":8,"underscore":9}],4:[function(require,module,exports){
 var $        = require('jquery');
 var _        = require('underscore');
 var Backbone = require('backbone');
@@ -560,7 +556,35 @@ var RB = RB || {};
 RB.router = Backbone.Router.extend({});
 
 module.exports = RB;
-},{"backbone":7,"jquery":8,"underscore":9}],6:[function(require,module,exports){
+},{"backbone":7,"jquery":8,"underscore":9}],5:[function(require,module,exports){
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var RB = require('../models/rb');
+
+RB.app = Backbone.View.extend({
+  el: '.app-container',
+  initialize: function() {
+    this.collection = new RB.list();
+    this.render();
+  },
+  events: {
+    'click .fa-plus' : 'getNotes'
+  },
+  render: function() {
+    this.collection.fetch();
+    console.log(this.collection);
+  },
+  getNotes: function() {
+    console.log(this.collection);
+    console.log(this.collection.fetch());
+    console.log(this.collection);
+  },
+});
+
+
+module.exports = RB;
+},{"../models/rb":3,"backbone":7,"jquery":8,"underscore":9}],6:[function(require,module,exports){
 var scripts = require('./assets/js/main');
 },{"./assets/js/main":2}],7:[function(require,module,exports){
 (function (global){
@@ -13202,7 +13226,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[6,3,4,5,2])
+},{}]},{},[6,3,5,4,2])
 
 
 //# sourceMappingURL=bundle.js.map

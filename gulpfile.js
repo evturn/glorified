@@ -19,6 +19,7 @@ gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
   gulp.watch(paths.jslint.watch, ['lint']);
   gulp.watch(paths.js.watch, ['client']);
+  gulp.watch(paths.browser.watch, ['browserify']);
 });
 
 gulp.task('browserify', bundle);
