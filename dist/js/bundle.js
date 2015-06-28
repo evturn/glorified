@@ -522,14 +522,47 @@ function colorGenerator() {
   return color;
 }
 
-$('.app-header').on('click', function() {
-  $('.app-header a').css('color', colorGenerator());
+$('.landing-header').on('click', function() {
+  $('.landing-header a').css('color', colorGenerator());
 });
 
 module.exports = RB;
-},{"./lib/wow":1,"backbone":4,"jquery":5,"underscore":6}],3:[function(require,module,exports){
+},{"./lib/wow":1,"backbone":7,"jquery":8,"underscore":9}],3:[function(require,module,exports){
+var _        = require('underscore');
+var Backbone = require('backbone');
+
+var RB = RB || {};
+
+RB.task = new Backbone.Model.extend({});
+
+RB.list = new Backbone.Collection.extend({
+  model: RB.task,
+});
+
+module.exports = RB;
+},{"backbone":7,"underscore":9}],4:[function(require,module,exports){
+var $        = require('jquery');
+var _        = require('underscore');
+var Backbone = require('backbone');
+
+RB = RB || {};
+
+RB = {
+ 
+};
+},{"backbone":7,"jquery":8,"underscore":9}],5:[function(require,module,exports){
+var $        = require('jquery');
+var _        = require('underscore');
+var Backbone = require('backbone');
+
+var RB = RB || {};
+
+RB.router = Backbone.Router.extend({});
+
+module.exports = RB;
+},{"backbone":7,"jquery":8,"underscore":9}],6:[function(require,module,exports){
 var scripts = require('./assets/js/main');
-},{"./assets/js/main":2}],4:[function(require,module,exports){
+},{"./assets/js/main":2}],7:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.1
 
@@ -2407,7 +2440,7 @@ var scripts = require('./assets/js/main');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"jquery":5,"underscore":6}],5:[function(require,module,exports){
+},{"jquery":8,"underscore":9}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -11619,7 +11652,7 @@ return jQuery;
 
 }));
 
-},{}],6:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -13169,7 +13202,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[3])
+},{}]},{},[6,3,4,5,2])
 
 
 //# sourceMappingURL=bundle.js.map

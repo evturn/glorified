@@ -50,7 +50,13 @@ module.exports = {
     filename: 'vendor.css'
   },
   browser: {
-    src: 'browser.js',
+    src: [
+      'browser.js',
+      'assets/js/models/rb.js',
+      'assets/js/rb.js',
+      'assets/js/router.js',
+      'assets/js/main.js'
+    ],
     dest: 'dist/js',
     filename: 'bundle.js'
   },

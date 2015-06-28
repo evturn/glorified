@@ -11,8 +11,8 @@ function colorGenerator() {
   return color;
 }
 
-$('.app-header').on('click', function() {
-  $('.app-header a').css('color', colorGenerator());
+$('.landing-header').on('click', function() {
+  $('.landing-header a').css('color', colorGenerator());
 });
 
 module.exports = RB;
