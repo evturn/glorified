@@ -26,4 +26,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', router);
 
+
+app.get('/', function(req, res) {
+  res.render('landing/index', {layout: 'landing'});
+});
+
 var http = require('./config/http');
