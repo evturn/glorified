@@ -1,14 +1,17 @@
 .lists-container {
   width: 30%;
-  .list-section-item {
+  .list-item {
     height: 50px;
     padding: 15px;
     border-bottom: 1px solid @grey;
     &.active {
       background-color: @grey;
-      .list-title {
+      .list-text {
         color: @white;
       }
+    }
+    .list-text {
+      font-size: 22px;
     }
   }
 }
