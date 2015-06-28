@@ -51,18 +51,7 @@ module.exports = {
   },
   browser: {
     src: [
-      'browser.js',
-      'assets/js/models/rb.js',
-      'assets/js/views/app-view.js',
-      'assets/js/router.js',
-      'assets/js/main.js'
-    ],
-    watch: [
-      'browser.js',
-      'assets/js/models/rb.js',
-      'assets/js/views/app-view.js',
-      'assets/js/router.js',
-      'assets/js/main.js'
+      'browser.js'
     ],
     dest: 'dist/js',
     filename: 'bundle.js'
@@ -75,12 +64,24 @@ module.exports = {
       'assets/js/main.js'
     ],
     watch: [
-      'assets/js/models/rb.js',
+      'assets/js/models/**/*.js',
       'assets/js/rb.js',
+      'assets/js/views/**/*.js',
       'assets/js/router.js',
       'assets/js/main.js'
     ],
     dest: 'dist/js',
     filename: 'rb.js'
+  },
+  jslib: {
+    src: [
+      'assets/js/lib/jquery.js',
+      'assets/js/lib/underscore.js',
+      'assets/js/lib/backbone.js',
+      'assets/js/lib/bootstrap.js',
+      'assets/js/lib/wow.js',
+    ],
+    dest: 'dist/js',
+    filename: 'jslib.js'
   }
 };

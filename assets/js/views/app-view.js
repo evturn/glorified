@@ -1,7 +1,4 @@
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
-var RB = require('../models/rb');
+Rb = RB || {};
 
 RB.app = Backbone.View.extend({
   el: '.app-container',
@@ -22,6 +19,3 @@ RB.app = Backbone.View.extend({
     console.log(this.collection);
   },
 });
-
-
-module.exports = RB;

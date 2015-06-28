@@ -8,9 +8,8 @@ var gBrowserify= require('./config/gulp-browserify'),
     bundle = gBrowserify.bundle;
 
 gulp.task('default', [
-  'browserify', 
-  'less', 
-  'css', 
+  'less',
+  'client',
   'lint', 
   'watch'
 ]);
@@ -19,7 +18,6 @@ gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
   gulp.watch(paths.jslint.watch, ['lint']);
   gulp.watch(paths.js.watch, ['client']);
-  gulp.watch(paths.browser.watch, ['browserify']);
 });
 
 gulp.task('browserify', bundle);
@@ -33,6 +31,15 @@ gulp.task('client', function() {
     .pipe(G.uglify())
     .pipe(G.rename(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest));
+});
+
+gulp.task('jslib', function() {
+  return gulp.src(paths.jslib.src)
+    .pipe(G.plumber(options.plumber))
+    .pipe(G.concat(paths.jslib.filename))
+    .pipe(G.uglify())
+    .pipe(G.rename(paths.jslib.filename))
+    .pipe(gulp.dest(paths.jslib.dest));
 });
 
 gulp.task('css', function() {
