@@ -53,14 +53,10 @@ gulp.task('less', function() {
     .pipe(G.plumber(options.plumber))
     .pipe(G.less())
     .pipe(G.rename(paths.less.filename))
-    .on('error', function (err) {
-        gutil.log(err);
-        G.notify(err);
-        this.emit('end');
-    })
+    .on('error', options.plumber.errorHandler)
     .pipe(G.autoprefixer(options.autoprefixer))
     .pipe(G.cssmin())
-    .pipe(gulp.dest(paths.less.dest)).on('error', gutil.log);
+    .pipe(gulp.dest(paths.less.dest)).on('error', options.plumber.errorHandler);
 });
 
 gulp.task('lint', function() {

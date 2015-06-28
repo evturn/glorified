@@ -17,6 +17,7 @@ module.exports = {
     errorHandler: function(err) {
       gutil.beep();
       console.log(err);
+      G.notify(err);
       this.emit('end');
     }
   },
