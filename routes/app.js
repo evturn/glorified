@@ -4,12 +4,8 @@ var FacebookStrategy = require('passport-facebook');
 var fbConfig = require('../config/passport-facebook');
 var app = express.Router();
 
-app.get('/', function(req, res) {
-  res.render('landing/index', {layout: 'landing'});
-});
-
-app.get('/ramen', ensureAuthenticated, function(req, res){
-  res.render('app/index', { layout: 'app', user: req.user });
+app.get('/', ensureAuthenticated, function(req, res) {
+  res.render('app/index', {layout: 'app', user: req.user});
 });
 
 app.get('/auth/facebook',
@@ -18,15 +14,10 @@ app.get('/auth/facebook',
     // function will not be called.
   });
 
-app.get('hi', function(req, res) {
-  console.log(req);
-  res.render('app/index', {layout: 'app'});
-})
-
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
-    res.redirect('/ramen');
+    res.redirect('/');
   });
 
 app.get('/logout', function(req, res){
@@ -38,7 +29,7 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { 
     return next(); 
   }
-  res.redirect('/ramen');
+  res.render('landing/index', {layout: 'landing'});
 };
 
 module.exports = app;

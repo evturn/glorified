@@ -26,11 +26,11 @@ passport.use(new FacebookStrategy({
 
       User.findOne({fbId: id}, function(err, user) {
         if (err) {
-          console.log('Error in SignUp: ' + err);
-          return done(err);
+          console.log('So, ' + err);
+          return done({message: 'So, ' + err});
         }
         if (user) {
-          console.log('Welcome back, ' + id);
+          console.log(user);
           return done(null, user);
         } else {
           var attr = profile._json;
@@ -54,7 +54,5 @@ passport.use(new FacebookStrategy({
           });
         }
       });
-    
-
-  }
+    }
 ));
