@@ -2,7 +2,7 @@
   "name": "ramen-buffet",
   "version": "0.0.3",
   "description": "Ramen Buffet.",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify main.js -o dist/bundle.js",
@@ -64,6 +64,7 @@
     "morgan": "^1.5.1",
     "nodemon": "^1.3.7",
     "passport": "^0.2.1",
+    "passport-facebook": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^1.0.0",
     "underscore": "^1.8.3"
