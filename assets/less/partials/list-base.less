@@ -14,11 +14,26 @@
 .section-header {
   padding: 5px 15px 5px 15px;
   border-bottom: 2px solid @lightgrey;
-  .fa {
+  .fa-plus {
     float: right;
     font-size: 1em;
     color: @primarylight;
     cursor: pointer;
+  }
+}
+
+.section-header,
+.list-item {
+  .fa-pencil {
+    display: none;
+  }
+  & .edit:hover .fa-pencil {
+    display: inline-block;
+    font-size: 0.5em;
+    color: @darkgrey;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
