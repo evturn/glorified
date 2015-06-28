@@ -20,7 +20,7 @@ var b = function() {
   return watchify(browserify(opts));
 }();
 
-exports.browserifyOptions = function() {
+exports.options = function() {
   var customOpts = {
     entries: [paths.browser.src],
     debug: true

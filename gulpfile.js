@@ -2,11 +2,10 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'), 
     gError = require('./config/gulp-error-handler'), 
     G = require('gulp-load-plugins')();
-
 var paths = require('./config/paths');
-var bConfig = require('./config/gulp-browserify'),
-    b = bConfig.browserifyOptions(),
-    bundle = bConfig.bundle;
+var gBrowserify= require('./config/gulp-browserify'),
+    b = gBrowserify.options(),
+    bundle = gBrowserify.bundle;
 
 gulp.task('default', ['browserify', 'less', 'css', 'lint', 'watch']);
 
