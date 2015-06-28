@@ -10,7 +10,7 @@ var express         = require('express'),
     passport        = require('passport'),
     hbs             = require('./config/handlebars'),
     router          = require('./routes/app');
-    root            = __dirname + '/assets';
+    root            = __dirname + '/dist';
 
 var app = module.exports = express();
 
