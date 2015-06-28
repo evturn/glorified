@@ -11,7 +11,8 @@ var express         = require('express'),
     passport        = require('passport'),
     FacebookStrategy = require('passport-facebook'),
     hbs             = require('./config/handlebars'),
-    router          = require('./routes/app');
+    authRouter      = require('./routes/app');
+    notesRouter     = require('./routes/notes');
     root            = __dirname + '/dist';
 
 var app = module.exports = express();
@@ -31,6 +32,7 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', router);
+app.use('/', authRouter);
+app.use('/notes', notesRouter);
 
 var http = require('./config/http');
