@@ -9,7 +9,7 @@ var express         = require('express'),
     mongoose        = require('mongoose'),
     db              = require('./config/mongo')(mongoose),
     passport        = require('passport'),
-    passportConfig  = require('./config/passport'),
+    FacebookStrategy = require('passport-facebook'),
     hbs             = require('./config/handlebars'),
     router          = require('./routes/app');
     root            = __dirname + '/dist';
@@ -24,13 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(root));
 app.use(logger('dev'));
+app.use(require('express-session')({
+  secret: 'dudeman jones',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', router);
-
-
-app.get('/', function(req, res) {
-  res.render('landing/index', {layout: 'landing'});
-});
 
 var http = require('./config/http');

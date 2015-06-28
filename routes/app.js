@@ -1,9 +1,39 @@
 var express = require('express');
-var appCtrl = require('../controllers/app'),
-    get = appCtrl.get;
-var r = express.Router();
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook');
+var fbConfig = require('../config/passport-facebook');
+var app = express.Router();
 
-r.route('/ramen')
-  .get(get);
+app.get('/', function(req, res) {
+  res.render('landing/index', {layout: 'landing'});
+});
 
-module.exports = r;
+app.get('/ramen', ensureAuthenticated, function(req, res){
+  res.render('app/index', { layout: 'app', user: req.user });
+});
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'),
+  function(req, res){
+    // function will not be called.
+  });
+
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/ramen');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { 
+    return next(); 
+  }
+  res.redirect('/ramen');
+};
+
+module.exports = app;
