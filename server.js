@@ -8,6 +8,7 @@ var express         = require('express'),
     cookieParser    = require('cookie-parser'),
     mongoose        = require('mongoose'),
     passport        = require('passport'),
+    passportConfig  = require('./config/passport'),
     hbs             = require('./config/handlebars'),
     router          = require('./routes/app');
     root            = __dirname + '/dist';

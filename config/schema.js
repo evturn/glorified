@@ -26,7 +26,7 @@ exports.User = function() {
 exports.Note = function() {
   return new mongoose.Schema({
     list       : {type : String},
-    position   : {type : number},
+    position   : {type : Number},
     created    : {type : Date, default: Date.now},
     body       : {type : String}
   });
