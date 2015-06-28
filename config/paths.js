@@ -1,3 +1,10 @@
+// jslint     - all
+// less
+// fonts
+// css        - vendor only
+// browserify - client and vendor js
+// js         - client only
+
 module.exports = {
   jslint: {
     src: [
