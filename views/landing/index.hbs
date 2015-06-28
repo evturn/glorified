@@ -1,25 +1,17 @@
-
-
 <div class="container-fluid landing-wrapper">
   <div class="row">
-    <p class="landing-header"><a href="#">Ramen Buffet</a></p>
-    <div class="col-sm-6 col-sm-offset-3">
-      <h1><i class="fa fa-sign-in"></i> Login</h1>
+    <div class="header-container">
+      <p class="landing-header"><a href="#">Ramen Buffet</a></p>
+    </div>
+    <div class="login-container">
       <p class="lead">{{message}}</p>
-      <a href="/auth/facebook"><img class="img-responsive" src="http://media.bestofmicro.com/R/O/464964/original/Facebook-logo-PSD.jpg" style="height: 22px;"></a>
-      <form action="/login" method="post">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-      </form>
-    <hr>
-    <p>Need an account? <a href="/signup">Signup</a></p>
+      <div class="login-facebook">
+        <a href="/auth/facebook"><i class="fa fa-facebook"></i></a>
+      </div>
+      <div class="login-twitter">
+        <a href="/auth/facebook"><i class="fa fa-twitter"></i></a>
+      </div>
+      <hr>
     </div>
   </div>
 </div>

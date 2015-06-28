@@ -1,14 +1,42 @@
 .landing-wrapper {
   background-color: @grey;
-}
-
-.landing-header {
-  font-size: 60px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  a {
-    text-decoration: none;
-    color: @white;
+  .header-container {
+    width: 100%;
+    text-align: center;
+  }
+  .landing-header {
+    font-size: 60px;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    a {
+      text-decoration: none;
+      color: @white;
+    }
+  }
+  .login-container {
+    text-align: center;
+    width: 100%;
+    padding: 15px;
+    .login-facebook,
+    .login-twitter {
+      display: inline-block; 
+      background-color: @white;
+      border-radius: 50%;
+      border: 2px solid @grey;
+      padding: 25px;
+      margin-left: 30px;
+      margin-right: 30px;
+      &:hover {
+        background-color: @darkgrey;
+        a {
+          color: @whitesmoke;
+        }
+      }
+    }
+    .fa {
+      font-size: 4em;
+      height: 50px;
+      width: 50px;
+    }
   }
 }
