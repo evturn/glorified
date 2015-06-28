@@ -38,13 +38,22 @@ li { list-style-type: none; }
 }
 
 .section-header {
-  padding: 5px 7px 5px 7px;
+  padding: 5px 15px 5px 15px;
   border-bottom: 2px solid @lightgrey;
 }
 
 .header-text {
   font-size: 28px;
   text-transform: uppercase;
+}
+
+.section-header {
+  .fa {
+    float: right;
+    font-size: 1em;
+    color: @primarylight;
+    cursor: pointer;
+  }
 }
 
 .list-title {
@@ -55,12 +64,14 @@ li { list-style-type: none; }
 .list-item {
   min-height: 40px;
   color: @primarylight;
+  padding: 15px 15px 10px 15px;
+  border-bottom: 1px solid @grey;
+  .list-text {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
 }
 
-.list-text {
-  font-size: 18px;
-  margin-bottom: 0;
-}
 
 .lists-container,
 .active-list-container {
