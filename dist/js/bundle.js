@@ -545,11 +545,11 @@ var $        = require('jquery');
 var _        = require('underscore');
 var Backbone = require('backbone');
 
-RB = RB || {};
-
 RB = {
  
 };
+
+module.exports = RB;
 },{"backbone":7,"jquery":8,"underscore":9}],5:[function(require,module,exports){
 var $        = require('jquery');
 var _        = require('underscore');
