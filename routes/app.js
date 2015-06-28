@@ -5,6 +5,7 @@ var fbConfig = require('../config/passport-facebook');
 var app = express.Router();
 
 app.get('/', ensureAuthenticated, function(req, res) {
+  console.log(req.user);
   res.render('app/index', {layout: 'app', user: req.user});
 });
 
@@ -27,7 +28,7 @@ app.get('/logout', function(req, res){
 
 app.get('/notes', function(req, res) {
   console.log(req);
-  res.render('app/index', {layout: 'app', user: req.user});
+  res.json({user: req.user});
 });
 
 

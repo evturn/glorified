@@ -3,13 +3,9 @@
     <a href="/notes">
     <span class="edit"><h3 class="header-text">Grocery <i class="fa fa-pencil"></i></span><i class="fa fa-plus"></i></h3></a>
   </div>
+  {{#each user.notes}}
   <div class="list-item">
-    <span class="edit"><p class="list-text">Banana <i class="fa fa-pencil"></i></span></p>
+    <span class="edit"><p class="list-text">{{note}} <i class="fa fa-pencil"></i></span></p>
   </div>
-  <div class="list-item">
-    <span class="edit"><p class="list-text">Cinder Block <i class="fa fa-pencil"></i></span></p>
-  </div>
-  <div class="list-item">
-    <span class="edit"><p class="list-text">Cambodian Dank Sauce <i class="fa fa-pencil"></i></span></p>
-  </div>
+  {{/each}}
 </div>
