@@ -18,6 +18,11 @@ app.get('/auth/facebook',
     // function will not be called.
   });
 
+app.get('hi', function(req, res) {
+  console.log(req);
+  res.render('app/index', {layout: 'app'});
+})
+
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {

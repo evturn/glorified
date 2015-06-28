@@ -31,7 +31,7 @@ passport.use(new FacebookStrategy({
         }
         if (user) {
           console.log('Welcome back, ' + id);
-          return done(user);
+          return done(null, user);
         } else {
           var attr = profile._json;
           var newUser = new User({
