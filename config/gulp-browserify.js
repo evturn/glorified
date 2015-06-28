@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'), 
-    gError = require('./gulp-error-handler'), 
+    gutil = require('gulp-util'),
     G = require('gulp-load-plugins')();
 
 var browserify = require('browserify'),
@@ -10,6 +9,7 @@ var browserify = require('browserify'),
     assign = require('lodash.assign');
 
 var paths = require('./paths');
+var options = require('./gulp-options');
 
 var b = function() {
   var customOpts = {

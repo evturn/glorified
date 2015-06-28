@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'), 
-    gError = require('./config/gulp-error-handler'), 
+    gutil = require('gulp-util'),  
     G = require('gulp-load-plugins')();
 var paths = require('./config/paths');
 var options = require('./config/gulp-options');
@@ -28,8 +27,8 @@ b.on('log', gutil.log);
 
 gulp.task('client', function() {
   return gulp.src(paths.js.src)
-    .pipe(G.plumber(gError))
-    .pipe(G.concat('min.js'))
+    .pipe(G.plumber(options.plumber))
+    .pipe(G.concat(paths.js.filename))
     .pipe(G.uglify())
     .pipe(G.rename(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest));
@@ -37,8 +36,8 @@ gulp.task('client', function() {
 
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
-    .pipe(G.plumber(gError))
-    .pipe(G.concat('min.css'))
+    .pipe(G.plumber(options.plumber))
+    .pipe(G.concat(paths.css.filename))
     .pipe(G.cssmin())
     .pipe(G.rename(paths.css.filename))
     .pipe(gulp.dest(paths.css.dest));
@@ -51,7 +50,7 @@ gulp.task('fonts', function() {
 
 gulp.task('less', function() {
   return gulp.src(paths.less.src)
-    .pipe(G.plumber({errorHandler: gError}))
+    .pipe(G.plumber(options.plumber))
     .pipe(G.less())
     .pipe(G.rename(paths.less.filename))
     .on('error', function (err) {
@@ -66,7 +65,7 @@ gulp.task('less', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.jslint.src)
-    .pipe(G.plumber({errorHandler: gError}))
+    .pipe(G.plumber(options.plumber))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
       if (file.jshint.success) {

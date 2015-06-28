@@ -10,7 +10,14 @@ module.exports = {
       'IE 9',
       'IE 10',
       'IE 11'
-    ]
+    ],
+    cascade: false
   },
-  cascade: false
+  plumber: {
+    errorHandler: function(err) {
+      gutil.beep();
+      console.log(err);
+      this.emit('end');
+    }
+  }
 };
