@@ -1,5 +1,5 @@
 module.exports = {
-  linter: {
+  jslint: {
     src: [
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',

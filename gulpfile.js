@@ -3,15 +3,22 @@ var gulp = require('gulp'),
     gError = require('./config/gulp-error-handler'), 
     G = require('gulp-load-plugins')();
 var paths = require('./config/paths');
+var options = require('./config/gulp-options');
 var gBrowserify= require('./config/gulp-browserify'),
     b = gBrowserify.options(),
     bundle = gBrowserify.bundle;
 
-gulp.task('default', ['browserify', 'less', 'css', 'lint', 'watch']);
+gulp.task('default', [
+  'browserify', 
+  'less', 
+  'css', 
+  'lint', 
+  'watch'
+]);
 
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
-  gulp.watch(paths.linter.watch, ['lint']);
+  gulp.watch(paths.jslint.watch, ['lint']);
   gulp.watch(paths.js.watch, ['client']);
 });
 
@@ -52,26 +59,13 @@ gulp.task('less', function() {
         G.notify(err);
         this.emit('end');
     })
-    .pipe(G.autoprefixer({
-      browsers: [
-          '> 1%',
-          'last 2 versions',
-          'firefox >= 4',
-          'safari 7',
-          'safari 8',
-          'IE 8',
-          'IE 9',
-          'IE 10',
-          'IE 11'
-      ],
-      cascade: false
-    }))
+    .pipe(G.autoprefixer(options.autoprefixer))
     .pipe(G.cssmin())
     .pipe(gulp.dest(paths.less.dest)).on('error', gutil.log);
 });
 
 gulp.task('lint', function() {
-  gulp.src(paths.linter.src)
+  gulp.src(paths.jslint.src)
     .pipe(G.plumber({errorHandler: gError}))
     .pipe(G.jshint())
     .pipe(G.notify(function(file) {
