@@ -59,15 +59,12 @@ module.exports = {
   js: {
     src: [
       'assets/js/models/rb.js',
-      'assets/js/rb.js',
-      'assets/js/router.js',
+      'assets/js/views/app-view.js',
       'assets/js/main.js'
     ],
     watch: [
       'assets/js/models/**/*.js',
-      'assets/js/rb.js',
-      'assets/js/views/**/*.js',
-      'assets/js/router.js',
+      'assets/js/views/app-view.js',
       'assets/js/main.js'
     ],
     dest: 'dist/js',
@@ -77,9 +74,7 @@ module.exports = {
     src: [
       'assets/js/lib/jquery.js',
       'assets/js/lib/underscore.js',
-      'assets/js/lib/backbone.js',
-      'assets/js/lib/bootstrap.js',
-      'assets/js/lib/wow.js',
+      'assets/js/lib/backbone.js'
     ],
     dest: 'dist/js',
     filename: 'jslib.js'

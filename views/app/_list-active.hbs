@@ -1,11 +1,11 @@
 <div class="active-list-container">
   <div class="section-header">
-    <a href="/notes">
-    <span class="edit"><h3 class="header-text">Grocery <i class="fa fa-pencil"></i></span><i class="fa fa-plus"></i></h3></a>
+    <span class="edit"><h3 class="header-text">Grocery <i class="fa fa-pencil"></i></span><i class="fa fa-plus"></i></h3>
   </div>
   {{#each user.notes}}
   <div class="list-item">
-    <span class="edit"><p class="list-text">{{note}} <i class="fa fa-pencil"></i></span></p>
+    <span class="edit"><p class="list-text">{{this.body}} <i class="fa fa-pencil"></i></span></p>
   </div>
   {{/each}}
+  
 </div>

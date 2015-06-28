@@ -1,4 +1,4 @@
-var RB = RB || {};
+
 
 function colorGenerator() {
   var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
@@ -9,3 +9,6 @@ function colorGenerator() {
 $('.landing-header').on('click', function() {
   $('.landing-header a').css('color', colorGenerator());
 });
+
+
+var app = new App();

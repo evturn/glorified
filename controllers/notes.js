@@ -1,10 +1,11 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var Note = require('../models/note');
 var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
-  console.log(req.user.notes);
-  res.send(req.user.notes);
+  console.log(req.user);
+  res.send({notes: req.user.notes});
 };
 
 exports.postNotes = function(req, res) {
@@ -18,9 +19,9 @@ exports.postNotes = function(req, res) {
   currentUser.notes.push(note);
   currentUser.save(function(err) {
     if (err) {
-      return console.log(err)
-    }; 
-    console.log('Me just saved: ', place);
+      return console.log(err);
+    }
+    console.log('Me just saved: ', note);
     res.send({message: 'Place Added!'});
   });
 };
@@ -31,7 +32,9 @@ exports.deleteNote = function(req, res) {
   var id = req.body.noteId;
   var note = user.note.id(id).remove();
   user.save(function(err) {
-    if (err) return res.send(err);
+    if (err) {
+      return res.send(err);
+    }
     console.log('Me deleted it');
     res.redirect('/');
   });

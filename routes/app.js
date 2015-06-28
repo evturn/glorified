@@ -26,17 +26,12 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/notes', function(req, res) {
-  console.log(req);
-  res.json({user: req.user});
-});
-
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { 
     return next(); 
   }
   res.render('landing/index', {layout: 'landing'});
-};
+}
 
 module.exports = app;
