@@ -2,5 +2,8 @@
   "camelcase": true,
   "unused": false,
   "node": true,
-  "moz": true
+  "moz": true,
+  "curly": true,
+  "eqeqeq": true,
+  "futurehostile": true
 }

@@ -11,6 +11,9 @@ module.exports = {
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',
       'config/**/*.js',
+      'models/**/*.js',
+      'controllers/**/*.js',
+      'routes/**/*.js',
       'server.js',
       'gulpfile.js',
       'browser.js'
@@ -19,6 +22,9 @@ module.exports = {
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',
       'config/**/*.js',
+      'models/**/*.js',
+      'controllers/**/*.js',
+      'routes/**/*.js',
       'server.js',
       'gulpfile.js',
       'browser.js'
