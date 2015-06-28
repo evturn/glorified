@@ -3,44 +3,22 @@ var gulp = require('gulp'),
     gError = require('./config/gulp-error-handler'), 
     G = require('gulp-load-plugins')();
 
-var watchify = require('watchify');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var assign = require('lodash.assign');
-
 var paths = require('./config/paths');
+var bConfig = require('./config/gulp-browserify'),
+    b = bConfig.browserifyOptions(),
+    bundle = bConfig.bundle;
 
-gulp.task('default', ['js', 'less', 'css', 'lint', 'watch']);
+gulp.task('default', ['browserify', 'less', 'css', 'lint', 'watch']);
+
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);
   gulp.watch(paths.linter.watch, ['lint']);
   gulp.watch(paths.js.watch, ['client']);
 });
 
-var customOpts = {
-  entries: [paths.browser.src],
-  debug: true
-};
-var opts = assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts)); 
-
-gulp.task('js', bundle);
+gulp.task('browserify', bundle);
 b.on('update', bundle);
 b.on('log', gutil.log);
-
-function bundle() {
-  return b.bundle()
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source(paths.browser.filename))
-    // optional, remove if you don't need to buffer file contents
-    .pipe(buffer())
-    // optional, remove if you dont want sourcemaps
-    .pipe(G.sourcemaps.init({loadMaps: true})) // loads map from browserify file
-  // Add transformation tasks to the pipeline here.
-    .pipe(G.sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest(paths.browser.dest));
-}
 
 gulp.task('client', function() {
   return gulp.src(paths.js.src)
