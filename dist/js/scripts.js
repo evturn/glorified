@@ -1,0 +1,1 @@
+function colorGenerator(){var r=["red","blue","green","yellow","purple","grey","black","orange","brown"],e=r[Math.floor(Math.random()*r.length)];return e}$(".landing-header").on("click",function(){$(".landing-header a").css("color",colorGenerator())});

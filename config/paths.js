@@ -49,17 +49,17 @@ module.exports = {
   },
   js: {
     src: [
-      'assets/js/models/rb.js',
-      'assets/js/views/app-view.js',
+      'assets/js/models/**/*.js',
+      'assets/js/views/**/*.js',
       'assets/js/main.js'
     ],
     watch: [
       'assets/js/models/**/*.js',
-      'assets/js/views/app-view.js',
+      'assets/js/views/**/*.js',
       'assets/js/main.js'
     ],
     dest: 'dist/js',
-    filename: 'rb.js',
+    filename: 'scripts.js',
     vendor: {
       src: [
         'assets/js/lib/jquery.js',
@@ -67,7 +67,7 @@ module.exports = {
         'assets/js/lib/backbone.js'
       ],
       dest: 'dist/js',
-      filename: 'jslib.js'
+      filename: 'vendor.js'
     }
   }
 };
