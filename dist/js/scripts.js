@@ -1,13 +1,50 @@
 var Note = Backbone.Model.extend({});
+var User = Backbone.Model.extend({});
+var ActiveList = Backbone.View.extend({
+  el: '.active-list-container',
+  initialize: function() {
+    this.allLists();
+  },
+  allLists: function() {
+    $.ajax({
+    url: '/notes',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      var notes = data.user.notes;
+      for (var i = 0; i < notes.length; i++) {
+        var note = new Note(notes[i]);
+        var view = new NoteItem({model: note});
+        view.render();
+        $('.active-notes').append(view);        
+      }
+    },
+    error: function(err) {
+      $('.kurt-loader').append('<p>We got ', error);
+    },
+  });
+
+  }
+});
 var NoteItem = Backbone.View.extend({
+  el: '.list-item',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
 	},
+  events: {
+    'click .fa-check' : 'done'
+  },
 	render: function() {
 		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
+  done: function(e) {
+    var target = $(e.currentTarget);
+    console.log('clicking ', this.model);
+    console.log('target ', target);
+    this.model.set({done: true});
+  },
 });
 function colorGenerator() {
   var colors = ['red', 'blue', 'green', 'yellow', 'purple', 'grey', 'black', 'orange', 'brown'];
@@ -28,6 +65,8 @@ $(function() {
 	});
 
 });
+
+var activeList = new ActiveList();
 
 function createNote() {
 	var body = $('.new-note-input').val();
@@ -50,7 +89,7 @@ function createNote() {
 			view.render();
 			$('.active-notes').append(view);
 			$('.kurt-loader').fadeOut('fast', function() {
-        this.empty();
+        $('.kurt-loader').empty();
       });
 		},
 		error: function(err) {

@@ -18,6 +18,8 @@ $(function() {
 
 });
 
+var activeList = new ActiveList();
+
 function createNote() {
 	var body = $('.new-note-input').val();
 	var category = $('.new-category-input').val();
@@ -39,7 +41,7 @@ function createNote() {
 			view.render();
 			$('.active-notes').append(view);
 			$('.kurt-loader').fadeOut('fast', function() {
-        this.empty();
+        $('.kurt-loader').empty();
       });
 		},
 		error: function(err) {

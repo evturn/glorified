@@ -7,6 +7,12 @@ exports.getNotes = function(req, res) {
   res.send({user: req.user});
 };
 
+exports.getLists = function(req, res) {
+  var arr = [];
+  var notes = req.user.notes;
+  console.log(notes);
+};
+
 exports.postNotes = function(req, res) {
   var currentUser = req.user;
   var position = req.user.notes.length + 1;
