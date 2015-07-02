@@ -4,13 +4,13 @@ var Note = require('../models/note');
 var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
-  console.log(req.user);
   res.send({notes: req.user.notes});
 };
 
 exports.postNotes = function(req, res) {
   var currentUser = req.user;
   var position = req.user.notes.length + 1;
+  console.log('body ', req.body);
   var note = new Note({
     position: position,
     list : req.body.category,
