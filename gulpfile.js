@@ -31,7 +31,8 @@ gulp.task('less', function() {
 gulp.task('js', function() {
   return gulp.src(paths.js.src)
     .pipe(G.plumber(options.plumber))
-    .pipe(G.concat(paths.js.filename))
+    .pipe(G.concat('scripts.js'))
+    .pipe(gulp.dest(paths.js.dest))
     .pipe(G.uglify())
     .pipe(G.rename(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest));

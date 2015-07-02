@@ -54,12 +54,12 @@ module.exports = {
       'assets/js/main.js'
     ],
     watch: [
-      'assets/js/models/**/*.js',
-      'assets/js/views/**/*.js',
+      'assets/js/models/**/*',
+      'assets/js/views/**/*',
       'assets/js/main.js'
     ],
     dest: 'dist/js',
-    filename: 'scripts.js',
+    filename: 'scripts.min.js',
     vendor: {
       src: [
         'assets/js/lib/jquery.js',

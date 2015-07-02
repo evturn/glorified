@@ -3,6 +3,9 @@ gulp-autoprefixer
 gulp-plumbler
 gulp-notify
 */
+var gulp = require('gulp'),
+    gutil = require('gulp-util'),
+    G = require('gulp-load-plugins')();
 
 module.exports = {
   autoprefixer: {
