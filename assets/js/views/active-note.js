@@ -4,15 +4,9 @@ var NoteItem = Backbone.View.extend({
 	initalize: function() {
 		this.render();
 	},
-  events: {
-    'click .fa-check' : 'done',
-    'click .fa-trash' : 'trash'
-  },
 	render: function() {
+    console.log(this.model);
 		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
-  done: function() {
-
-  },
 });

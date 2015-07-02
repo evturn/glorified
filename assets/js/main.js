@@ -19,8 +19,6 @@ $(function() {
 });
 
 
-var activeList = new ActiveList();
-
 function createNote() {
 	var body = $('.new-note-input').val();
 	var list = $('.new-category-input').val();

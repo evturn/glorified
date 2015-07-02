@@ -1,3 +1,4 @@
+var ListName = Backbone.Model.extend({});
 var Note = Backbone.Model.extend({});
 var User = Backbone.Model.extend({});
 var Notes = Backbone.Collection.extend({
@@ -8,6 +9,8 @@ var Notes = Backbone.Collection.extend({
     this.fetch({
       success: function(data) {
         console.log('fetch ', data);
+        var activeList = new ActiveList({collection: data});
+        var menuLists = new MenuLists({collection: data});
         return data;
       },
       error: function(err) {
@@ -30,21 +33,24 @@ var Notes = Backbone.Collection.extend({
     var lists = this.lists();
     console.log(lists[0]);
   },
+  newestList: function() {
+    var lists = this.lists();
+    console.log(lists[length - 1]);
+  }
 });
 
 var notes = new Notes();
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
   initialize: function() {
-    
+    this.render();
   },
-  render: function() {  
-    for (var i = 0; i < notes.length; i++) {
-      var note = new Note(notes[i]);
-      var view = new NoteItem({model: note});
+  render: function() {
+    this.collection.each(function(model) {
+      var view = new NoteItem({model: model});
       view.render();
       $('.active-notes').append(view);        
-    }
+    });
   }
 });
 var NoteItem = Backbone.View.extend({
@@ -53,16 +59,37 @@ var NoteItem = Backbone.View.extend({
 	initalize: function() {
 		this.render();
 	},
-  events: {
-    'click .fa-check' : 'done',
-    'click .fa-trash' : 'trash'
-  },
 	render: function() {
+    console.log(this.model);
 		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
-  done: function() {
-
+});
+var MenuItem = Backbone.View.extend({
+  className: '.list-item',
+  itemTemplate: _.template($('#list-name-item').html()),
+  initalize: function() {
+    this.render();
+  },
+  render: function() {
+    $('.list-names-container').append(this.itemTemplate(this.model.toJSON()));
+    return this;
+  },
+});
+var MenuLists = Backbone.View.extend({
+  el: '.list-container',
+  initalize: function() {
+    this.render();
+  },
+  render: function() {
+    var a = this.collection.lists();
+    for (var i = 0; i < a.length; i++) {
+      console.log(a[i]);
+      var list = new ListName({name: a[i]});
+      var view = new MenuItem({model: list});
+      view.render();
+      $('.list-names-container').append(view);
+    }
   },
 });
 function colorGenerator() {
@@ -85,8 +112,6 @@ $(function() {
 
 });
 
-
-var activeList = new ActiveList();
 
 function createNote() {
 	var body = $('.new-note-input').val();

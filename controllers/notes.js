@@ -19,7 +19,7 @@ exports.postNotes = function(req, res) {
   var position = req.user.notes.length + 1;
   var note = new Note({
     position: position,
-    list : req.body.category,
+    list : req.body.list,
     body : req.body.body
   });
   currentUser.notes.push(note);
