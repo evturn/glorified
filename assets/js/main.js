@@ -18,6 +18,7 @@ $(function() {
 
 });
 
+
 var activeList = new ActiveList();
 
 function createNote() {

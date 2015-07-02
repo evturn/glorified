@@ -4,7 +4,9 @@ var Note = require('../models/note');
 var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
-  res.send({user: req.user});
+  var notes = req.user.notes;
+  console.log('!!!!!!!!!!!!! ', notes);
+  res.send(notes);
 };
 
 exports.getLists = function(req, res) {
