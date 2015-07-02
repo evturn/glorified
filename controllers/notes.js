@@ -10,7 +10,6 @@ exports.getNotes = function(req, res) {
 exports.getLists = function(req, res) {
   var arr = [];
   var notes = req.user.notes;
-  console.log(notes);
 };
 
 exports.postNotes = function(req, res) {
@@ -29,6 +28,20 @@ exports.postNotes = function(req, res) {
     console.log('Me just saved: ', note);
     res.json(note);
   });
+};
+
+exports.putNote = function(req, res) {
+  var currentUser = req.user;
+  var id = req.body.id;
+  console.log(req);
+  var note = currentUser.notes.id(id).update();
+  currentUser.save(function(err) {
+    if (err) {
+      return res.send(err);
+    }
+    console.log('Me updated ', note);
+  });
+  res.json(note);
 };
 
 

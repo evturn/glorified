@@ -1,5 +1,9 @@
 var Note = Backbone.Model.extend({});
 var User = Backbone.Model.extend({});
+var Notes = Backbone.Collection.extend({
+  url: '/notes',
+  model: Note,
+});
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
   initialize: function() {
@@ -27,23 +31,21 @@ var ActiveList = Backbone.View.extend({
   }
 });
 var NoteItem = Backbone.View.extend({
-  el: '.list-item',
+  className: '.list-item',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
 	},
   events: {
-    'click .fa-check' : 'done'
+    'click .fa-check' : 'done',
+    'click .fa-trash' : 'trash'
   },
 	render: function() {
 		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
-  done: function(e) {
-    var target = $(e.currentTarget);
-    console.log('clicking ', this.model);
-    console.log('target ', target);
-    this.model.set({done: true});
+  done: function() {
+
   },
 });
 function colorGenerator() {
@@ -70,7 +72,7 @@ var activeList = new ActiveList();
 
 function createNote() {
 	var body = $('.new-note-input').val();
-	var category = $('.new-category-input').val();
+	var list = $('.new-category-input').val();
 	$('.kurt-loader').html('<img src="img/dog.gif">');
 	$.ajax({
 		url: '/notes',
@@ -78,7 +80,7 @@ function createNote() {
 		dataType: 'json',
 		data: {
 			body: body,
-			category: category
+			list: list
 		},
 		success: function(data) {
 			$('.new-note-input').val('');

@@ -22,7 +22,7 @@ var activeList = new ActiveList();
 
 function createNote() {
 	var body = $('.new-note-input').val();
-	var category = $('.new-category-input').val();
+	var list = $('.new-category-input').val();
 	$('.kurt-loader').html('<img src="img/dog.gif">');
 	$.ajax({
 		url: '/notes',
@@ -30,7 +30,7 @@ function createNote() {
 		dataType: 'json',
 		data: {
 			body: body,
-			category: category
+			list: list
 		},
 		success: function(data) {
 			$('.new-note-input').val('');
