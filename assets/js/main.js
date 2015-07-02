@@ -34,16 +34,13 @@ function createNote() {
 			$('.new-note-input').val('');
 			$('.new-category-input').val('');
 			console.log(data);
-			var body = data.body;
-			var category = data.category;
-			var created = data.created;
-			var position = data.position;
-			var id = data._id;
 			var note = new Note(data);
 			var view = new NoteItem({model: note});
 			view.render();
 			$('.active-notes').append(view);
-			$('.kurt-loader').empty();
+			$('.kurt-loader').fadeOut('fast', function() {
+        this.empty();
+      });
 		},
 		error: function(err) {
 			$('.kurt-loader').empty();
