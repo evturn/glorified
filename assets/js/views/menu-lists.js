@@ -8,6 +8,7 @@ var MenuLists = Backbone.View.extend({
     this.collection.each(function(model) {
       var list = model.get('list');
       if (a.indexOf(list) === -1) {
+        a.push(list);
         var listName = new ListName({name: list});
         var view = new MenuItem({model: listName});
         view.render();
