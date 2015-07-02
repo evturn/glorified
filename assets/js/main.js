@@ -34,7 +34,7 @@ function createNote() {
 		success: function(data) {
 			console.log(data);
 			$('.kurt-loader').empty();
-			$('.kurt-loader').append('<p>We got ', data);
+			console.log(data);
 			$('.new-note-input').val('');
 			$('.new-category-input').val('');
 		},

@@ -1,4 +1,6 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var urlencoded = bodyParser.urlencoded({extended: false});
 var NotesCtrl = require('../controllers/notes'),
     getNotes = NotesCtrl.getNotes,
     postNotes = NotesCtrl.postNotes,
@@ -8,7 +10,7 @@ var r = express.Router();
 
 r.route('/')
   .get(ensureAuthenticated, getNotes)
-  .post(ensureAuthenticated, postNotes);
+  .post(ensureAuthenticated, urlencoded, postNotes);
 
 r.route('/:id')
   .delete(ensureAuthenticated, deleteNote);

@@ -4,13 +4,12 @@ var Note = require('../models/note');
 var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
-  res.send({notes: req.user.notes});
+  res.send({user: req.user});
 };
 
 exports.postNotes = function(req, res) {
   var currentUser = req.user;
   var position = req.user.notes.length + 1;
-  console.log('body ', req.body);
   var note = new Note({
     position: position,
     list : req.body.category,
@@ -22,7 +21,7 @@ exports.postNotes = function(req, res) {
       return console.log(err);
     }
     console.log('Me just saved: ', note);
-    res.send({message: 'Place Added!'});
+    res.json(note);
   });
 };
 
