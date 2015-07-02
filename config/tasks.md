@@ -2,3 +2,5 @@
 	-models that are done get class '.done' grey, position.length + 1
 
 -Click username shows all details
+
+-Put ajax call in active-list view with click event

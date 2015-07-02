@@ -21,7 +21,7 @@ $(function() {
 
 function createNote() {
 	var body = $('.new-note-input').val();
-	var list = $('.new-category-input').val();
+	var list = $('.new-list-input').val();
 	$('.kurt-loader').html('<img src="img/dog.gif">');
 	$.ajax({
 		url: '/notes',
@@ -33,7 +33,7 @@ function createNote() {
 		},
 		success: function(data) {
 			$('.new-note-input').val('');
-			$('.new-category-input').val('');
+			$('.new-list-input').val('');
 			console.log(data);
 			var note = new Note(data);
 			var view = new NoteItem({model: note});

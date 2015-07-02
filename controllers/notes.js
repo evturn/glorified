@@ -5,7 +5,6 @@ var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
   var notes = req.user.notes;
-  console.log('!!!!!!!!!!!!! ', notes);
   res.send(notes);
 };
 

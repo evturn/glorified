@@ -41,6 +41,7 @@ var Notes = Backbone.Collection.extend({
 var notes = new Notes();
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
+  inputTemplate: _.template($('#active-input').html()),
   list: null,
   initialize: function(list) {
     if (!list) {
@@ -60,7 +61,8 @@ var ActiveList = Backbone.View.extend({
   switchList: function(list) {
     $('.active-notes').empty();
     var self = this;
-    $('.header-text .edit').html(list);
+    var listName = {name: list};
+    $('.active-list.section-header').html(this.inputTemplate(listName));
     this.collection.each(function(model) {
       if (model.get('list') === list) {
         var view = new NoteItem({model: model});
@@ -140,7 +142,7 @@ $(function() {
 
 function createNote() {
 	var body = $('.new-note-input').val();
-	var list = $('.new-category-input').val();
+	var list = $('.new-list-input').val();
 	$('.kurt-loader').html('<img src="img/dog.gif">');
 	$.ajax({
 		url: '/notes',
@@ -152,7 +154,7 @@ function createNote() {
 		},
 		success: function(data) {
 			$('.new-note-input').val('');
-			$('.new-category-input').val('');
+			$('.new-list-input').val('');
 			console.log(data);
 			var note = new Note(data);
 			var view = new NoteItem({model: note});

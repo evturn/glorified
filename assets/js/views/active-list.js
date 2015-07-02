@@ -1,5 +1,6 @@
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
+  inputTemplate: _.template($('#active-input').html()),
   list: null,
   initialize: function(list) {
     if (!list) {
@@ -19,7 +20,8 @@ var ActiveList = Backbone.View.extend({
   switchList: function(list) {
     $('.active-notes').empty();
     var self = this;
-    $('.header-text .edit').html(list);
+    var listName = {name: list};
+    $('.active-list.section-header').html(this.inputTemplate(listName));
     this.collection.each(function(model) {
       if (model.get('list') === list) {
         var view = new NoteItem({model: model});
