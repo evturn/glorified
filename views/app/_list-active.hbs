@@ -13,6 +13,10 @@
   </div>
   <div class="kurt-loader"></div>
   <div class="active-notes">
-    
+    {{#each user.notes}}
+    <div class="list-item">
+      <p class="list-text"><span class="edit">{{ this.body }}</span><i class="fa fa-check"></i></p>
+    </div>
+    {{/each}}
   </div>
 </div>

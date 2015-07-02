@@ -22,7 +22,6 @@ function createNote() {
 	var body = $('.new-note-input').val();
 	var category = $('.new-category-input').val();
 	$('.kurt-loader').html('<img src="img/dog.gif">');
-	console.log(location);
 	$.ajax({
 		url: '/notes',
 		type: 'POST',
@@ -32,11 +31,19 @@ function createNote() {
 			category: category
 		},
 		success: function(data) {
-			console.log(data);
-			$('.kurt-loader').empty();
-			console.log(data);
 			$('.new-note-input').val('');
 			$('.new-category-input').val('');
+			console.log(data);
+			var body = data.body;
+			var category = data.category;
+			var created = data.created;
+			var position = data.position;
+			var id = data._id;
+			var note = new Note(data);
+			var view = new NoteItem({model: note});
+			view.render();
+			$('.active-notes').append(view);
+			$('.kurt-loader').empty();
 		},
 		error: function(err) {
 			$('.kurt-loader').empty();

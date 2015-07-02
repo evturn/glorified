@@ -4,7 +4,7 @@ var NoteItem = Backbone.View.extend({
 		this.render();
 	},
 	render: function() {
-		this.$el.html(this.itemTemplate(this.model.toJSON()));
+		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
 });
