@@ -6,7 +6,7 @@
 // js         - client only
 
 module.exports = {
-  jslint: {
+  jshint: {
     src: [
       'assets/js/**/*.js',
       '!assets/js/lib/**/*.js',
@@ -15,8 +15,7 @@ module.exports = {
       'controllers/**/*.js',
       'routes/**/*.js',
       'server.js',
-      'gulpfile.js',
-      'browser.js'
+      'gulpfile.js'
     ],
     watch: [
       'assets/js/**/*.js',
@@ -26,8 +25,7 @@ module.exports = {
       'controllers/**/*.js',
       'routes/**/*.js',
       'server.js',
-      'gulpfile.js',
-      'browser.js'
+      'gulpfile.js'
     ]
   },
   less: {
@@ -49,13 +47,6 @@ module.exports = {
     dest: 'dist/css',
     filename: 'vendor.css'
   },
-  browser: {
-    src: [
-      'browser.js'
-    ],
-    dest: 'dist/js',
-    filename: 'bundle.js'
-  },
   js: {
     src: [
       'assets/js/models/rb.js',
@@ -68,15 +59,15 @@ module.exports = {
       'assets/js/main.js'
     ],
     dest: 'dist/js',
-    filename: 'rb.js'
-  },
-  jslib: {
-    src: [
-      'assets/js/lib/jquery.js',
-      'assets/js/lib/underscore.js',
-      'assets/js/lib/backbone.js'
-    ],
-    dest: 'dist/js',
-    filename: 'jslib.js'
+    filename: 'rb.js',
+    vendor: {
+      src: [
+        'assets/js/lib/jquery.js',
+        'assets/js/lib/underscore.js',
+        'assets/js/lib/backbone.js'
+      ],
+      dest: 'dist/js',
+      filename: 'jslib.js'
+    }
   }
 };
