@@ -19,6 +19,7 @@ var ActiveList = Backbone.View.extend({
   switchList: function(list) {
     $('.active-notes').empty();
     var self = this;
+    $('.header-text .edit').html(list);
     this.collection.each(function(model) {
       if (model.get('list') === list) {
         var view = new NoteItem({model: model});
