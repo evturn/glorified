@@ -1,11 +1,17 @@
 var MenuItem = Backbone.View.extend({
-  className: '.list-item',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
     this.render();
   },
+  events: {
+    'click .list-text' : 'select'
+  },
   render: function() {
-    $('.list-names-container').append(this.itemTemplate(this.model.toJSON()));
+    this.$el.html(this.itemTemplate(this.model.toJSON()));
     return this;
+  },
+  select: function() {
+    var listName = this.model.get('name');
+    var activeList = new ActiveList({collection: notes, name: listName});
   },
 });

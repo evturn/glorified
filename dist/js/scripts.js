@@ -9,7 +9,6 @@ var Notes = Backbone.Collection.extend({
     this.fetch({
       success: function(data) {
         console.log('fetch ', data);
-        var activeList = new ActiveList({collection: data});
         var menuLists = new MenuLists({collection: data});
         return data;
       },
@@ -42,37 +41,59 @@ var Notes = Backbone.Collection.extend({
 var notes = new Notes();
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
-  initialize: function() {
-    this.render();
+  list: null,
+  initialize: function(list) {
+    if (!list) {
+      this.render();
+    } else {
+      this.switchList(list.name);
+    }
   },
   render: function() {
+    var self = this;
     this.collection.each(function(model) {
       var view = new NoteItem({model: model});
       view.render();
-      $('.active-notes').append(view);        
+      $('.active-notes').append(view.el);
     });
-  }
+  },
+  switchList: function(list) {
+    $('.active-notes').empty();
+    var self = this;
+    this.collection.each(function(model) {
+      if (model.get('list') === list) {
+        var view = new NoteItem({model: model});
+        view.render();
+        $('.active-notes').append(view.el);
+      }
+    });
+  },
 });
 var NoteItem = Backbone.View.extend({
-  className: '.list-item',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
 	},
 	render: function() {
-		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
+		this.$el.html(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
 });
 var MenuItem = Backbone.View.extend({
-  className: '.list-item',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
     this.render();
   },
+  events: {
+    'click .list-text' : 'select'
+  },
   render: function() {
-    $('.list-names-container').append(this.itemTemplate(this.model.toJSON()));
+    this.$el.html(this.itemTemplate(this.model.toJSON()));
     return this;
+  },
+  select: function() {
+    var listName = this.model.get('name');
+    var activeList = new ActiveList({collection: notes, name: listName});
   },
 });
 var MenuLists = Backbone.View.extend({
@@ -89,10 +110,10 @@ var MenuLists = Backbone.View.extend({
         var listName = new ListName({name: list});
         var view = new MenuItem({model: listName});
         view.render();
-        $('.list-names-container').append(view);
+        $('.list-names-container').append(view.el);
       }
     });
-    
+    var activeList = new ActiveList({collection: this.collection});
   },
 });
 function colorGenerator() {

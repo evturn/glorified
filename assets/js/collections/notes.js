@@ -6,7 +6,6 @@ var Notes = Backbone.Collection.extend({
     this.fetch({
       success: function(data) {
         console.log('fetch ', data);
-        var activeList = new ActiveList({collection: data});
         var menuLists = new MenuLists({collection: data});
         return data;
       },
