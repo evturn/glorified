@@ -60,7 +60,6 @@ var NoteItem = Backbone.View.extend({
 		this.render();
 	},
 	render: function() {
-    console.log(this.model);
 		$('.active-notes').append(this.itemTemplate(this.model.toJSON()));
 		return this;
 	},
@@ -78,18 +77,21 @@ var MenuItem = Backbone.View.extend({
 });
 var MenuLists = Backbone.View.extend({
   el: '.list-container',
-  initalize: function() {
+  initialize: function() {
     this.render();
   },
   render: function() {
-    var a = this.collection.lists();
-    for (var i = 0; i < a.length; i++) {
-      console.log(a[i]);
-      var list = new ListName({name: a[i]});
-      var view = new MenuItem({model: list});
-      view.render();
-      $('.list-names-container').append(view);
-    }
+    var a = [];
+    this.collection.each(function(model) {
+      var list = model.get('list');
+      if (a.indexOf(list) === -1) {
+        var listName = new ListName({name: list});
+        var view = new MenuItem({model: listName});
+        view.render();
+        $('.list-names-container').append(view);
+      }
+    });
+    
   },
 });
 function colorGenerator() {
