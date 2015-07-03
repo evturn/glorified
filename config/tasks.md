@@ -8,3 +8,5 @@
 -Make initial welcome container before clicking on list
 
 -Remove border on input
+
+-Refresh list menu when new note is added

@@ -46,6 +46,7 @@
 .active-form .list-item {
   min-height: 70px;
   border-bottom: 1px solid @grey;
+  position: relative;
   .input-container {
     float: left;
     width: 80%;
@@ -55,7 +56,18 @@
     width: 20%;
     text-align: center;
     .fa {
-      font-size: 2em;
+      font-size: 3em;
+      height: 80px;
+      border-radius: 50%;
+      width: 80px;
+      position: absolute;
+      margin-top: -20px;
+      z-index: 1;
+      color: @white;
+      background-color: @grey;
+      padding-top: 20px;
+      padding-left: 2px;
+      right: 20px;
     }
   }
   
