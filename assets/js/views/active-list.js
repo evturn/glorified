@@ -11,7 +11,8 @@ var ActiveList = Backbone.View.extend({
   },
   events: {
     'click .create-note-btn' : 'createNote',
-    'keypress .note-input'   : 'createOnEnter'
+    'keypress .note-input'   : 'createOnEnter',
+    'keyup .active-input'    : 'elluminateBtn'
   },
   render: function() {
     var self = this;
@@ -37,6 +38,15 @@ var ActiveList = Backbone.View.extend({
   createOnEnter: function(e) {
     if (e.keyCode === 13) {
       this.createNote();
+    }
+  },
+  elluminateBtn: function(e) {
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
+    if (body.trim() && list.trim() !== '') {
+      $('.create-note-btn .fa').addClass('ready');
+    } else {
+      $('.create-note-btn .fa').removeClass('ready');
     }
   },
   createNote: function() {

@@ -26,18 +26,19 @@
 }
 .active-input {
   width: 100%;
-  height: 60px;
   border: 0;
-  font-size: 28px;
   &:focus {
     outline: none;
   }
   &.list-input {
     .placeholder(@grey);
+    height: 40px;
+    font-size: 28px;
     color: @black;
   }
   &.note-input {
     height: 40px;
+    font-size: 24px;
     .placeholder(@grey);
     color: @black;
   }
@@ -68,10 +69,15 @@
       padding-top: 20px;
       padding-left: 2px;
       right: 20px;
+      &.ready {
+        color: @whitesmoke;
+        background-color: @primarylight;
+      }
     }
   }
   
 }
+
 
 .done {
   color: blue;

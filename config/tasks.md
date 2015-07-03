@@ -14,3 +14,7 @@
 -keydown to make new note
 
 -keypress if both inputs have at least one character in it addClass to btn
+
+-enter date created with note
+
+-show total
