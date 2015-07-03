@@ -70,8 +70,7 @@ var ActiveList = Backbone.View.extend({
     $('.active-list').html(this.inputTemplate(listName));
     this.collection.each(function(model) {
       if (model.get('list') === list) {
-        var cA = model.get('created');
-        var timestamp = self.convertDate(new Date(cA));
+        var timestamp = self.convertDate(new Date(model.get('created')));
         var m = model.set({timestamp: timestamp});
         var view = new NoteItem({model: m});
         view.render();
@@ -113,12 +112,17 @@ var ActiveList = Backbone.View.extend({
     $('.note-input').val('');
   },
   convertDate: function(date) {
-    var cA = date;
-    var year = cA.getUTCFullYear();
-    var month = cA.getUTCMonth();
-    var day = cA.getUTCDate();
-    month = ('0' + (month + 1)).slice(-2);
-    var timestamp = month + '/' + day;
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    var d = date;
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var meridiem = hours > 12 ? 'PM' : 'AM';
+    var hour = hours > 12 ? hours - 12 : hours;
+    month = ('' + (month + 1)).slice(-2);
+    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
     return timestamp;
   },
 });
