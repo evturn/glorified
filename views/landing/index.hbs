@@ -1,15 +1,27 @@
-<div class="container-fluid landing-wrapper">
+<div class="container-fluid">
   <div class="row">
     <div class="header-container">
       <p class="landing-header"><a href="#">Ramen Buffet</a></p>
     </div>
-    <div class="login-container">
-      <p class="lead">{{message}}</p>
-      <div class="login-facebook">
-        <a href="/auth/facebook"><i class="fa fa-facebook"></i></a>
-      </div>
-      <div class="login-twitter">
-        <a href="/auth/facebook"><i class="fa fa-twitter"></i></a>
+
+    <div class="login-wrapper">
+      <div class="login-container">
+        <div class="login-header">
+          <p class="lead light">Login with another account</p>
+        </div>
+        <div class="btn-container">
+          <p class="lead">{{message}}</p>
+          <a href="/auth/facebook">
+            <div class="login-facebook">
+              <i class="fa fa-facebook"></i>
+            </div>
+          </a>
+          <a href="/auth/facebook">
+            <div class="login-twitter">
+              <i class="fa fa-twitter"></i>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
