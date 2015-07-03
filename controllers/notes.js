@@ -48,14 +48,15 @@ exports.putNote = function(req, res) {
 
 exports.deleteNote = function(req, res) {
   var user = req.user;
-  var id = req.body.noteId;
-  var note = user.note.id(id).remove();
+  var id = req.body.note;
+  console.log('What is this!!! ', req);
+  var note = user.notes.id(id).remove();
   user.save(function(err) {
     if (err) {
       return res.send(err);
     }
     console.log('Me deleted it');
-    res.redirect('/');
+    res.json({message: 'Removed'});
   });
   
 };

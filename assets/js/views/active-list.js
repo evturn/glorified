@@ -10,7 +10,8 @@ var ActiveList = Backbone.View.extend({
     }
   },
   events: {
-    'click .create-note-btn': 'createNote'
+    'click .create-note-btn' : 'createNote',
+    'keypress .note-input'   : 'createOnEnter'
   },
   render: function() {
     var self = this;
@@ -32,6 +33,11 @@ var ActiveList = Backbone.View.extend({
         $('.active-notes').append(view.el);
       }
     });
+  },
+  createOnEnter: function(e) {
+    if (e.keyCode === 13) {
+      this.createNote();
+    }
   },
   createNote: function() {
     $('.kurt-loader').html('<img src="img/dog.gif">');

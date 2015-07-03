@@ -14,8 +14,8 @@ r.route('/')
   .post(ensureAuthenticated, urlencoded, postNotes);
 
 r.route('/:id')
-  .put(ensureAuthenticated, putNote)
-  .delete(ensureAuthenticated, deleteNote);
+  .put(ensureAuthenticated, urlencoded, putNote)
+  .delete(ensureAuthenticated, urlencoded, deleteNote);
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { 
