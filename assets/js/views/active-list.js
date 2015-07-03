@@ -10,7 +10,7 @@ var ActiveList = Backbone.View.extend({
     }
   },
   events: {
-    'click .new-note-btn': 'createNote'
+    'click .create-note-btn': 'createNote'
   },
   render: function() {
     var self = this;
@@ -35,8 +35,8 @@ var ActiveList = Backbone.View.extend({
   },
   createNote: function() {
     $('.kurt-loader').html('<img src="img/dog.gif">');
-    var body = $('.new-note-input').val();
-    var list = $('.new-list-input').val();
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
     if (body === '' || list === '') {
       return false;
     }
@@ -50,6 +50,6 @@ var ActiveList = Backbone.View.extend({
     $('.kurt-loader').fadeOut('fast', function() {
       $('.kurt-loader').empty();
     });
-    $('.new-note-input').val('');
+    $('.note-input').val('');
   }
 });
