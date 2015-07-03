@@ -1,0 +1,13 @@
+<script>
+  function colorGenerator() {
+    var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    return color;
+  }
+  var spectrum = function() {
+    $('.fa').css('-webkit-transition', 'all 0.7s ease')
+            .css('-o-transition', 'all 0.7s ease')
+            .css('transition', 'all 0.7s ease')
+            .css('color', colorGenerator());
+  };
+  setInterval(spectrum, 300);
+</script>
