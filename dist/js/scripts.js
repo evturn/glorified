@@ -142,7 +142,7 @@ var MenuItem = Backbone.View.extend({
     this.render();
   },
   events: {
-    'click .list-text' : 'select'
+    'click .list-item' : 'select'
   },
   render: function() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
