@@ -1,8 +1,14 @@
 <script type="text/template" id="list-active-item">
   <div class="list-item">
-    <p class="list-text">
-      <span class="edit"><%= body %></span>
-        <i class="fa fa-check"></i>
-    </p>
+    <div class="input-container">
+      <p class="note-text"><%= body %></p>
+    </div>
+    <div class="timestamp-container">
+      <p class="thin-sm"><%= created %></p>
+    </div>
+    <div class="btn-container">
+      <i class="fa fa-trash"></i>
+      <i class="fa fa-check"></i>
+    </div>
   </div>
 </script>
