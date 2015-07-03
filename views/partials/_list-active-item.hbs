@@ -1,6 +1,7 @@
 <script type="text/template" id="list-active-item">
   <div class="list-item wow fadeIn">
-    <div class="input-container">
+    <% var done = this.model.get('done') ? 'done' : '' %>
+    <div class="input-container <%= done %>">
       <p class="note-text"><%= body %></p>
     </div>
     <div class="timestamp-container">

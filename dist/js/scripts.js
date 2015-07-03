@@ -1,5 +1,7 @@
 var ListName = Backbone.Model.extend({});
-var Note = Backbone.Model.extend({});
+var Note = Backbone.Model.extend({
+  idAttribute: '_id'
+});
 var User = Backbone.Model.extend({});
 var Notes = Backbone.Collection.extend({
   url: '/notes',
@@ -131,7 +133,8 @@ var NoteItem = Backbone.View.extend({
 		this.render();
 	},
   events: {
-    'click .fa-trash' : 'clear'
+    'click .fa-trash' : 'clear',
+    'click .fa-check' : 'done'
   },
 	render: function() {
 		this.$el.html(this.itemTemplate(this.model.toJSON()));
@@ -149,6 +152,32 @@ var NoteItem = Backbone.View.extend({
       },
       error: function(err) {
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">' + err + '</p>');
+        notify();
+      }
+    });
+  },
+  done: function(e) {
+    var $evt = $(e.currentTarget);
+    var note = this.model;
+    if (!this.model.get('done')) {
+      $evt.parent().parent().addClass('done');
+      note.set({done: true});
+    } else {
+      $evt.parent().parent().removeClass('done');
+      note.set({done: false});
+    }
+    $.ajax({
+      type: 'PUT',
+      url: 'notes/' + note.get('_id'),
+      data: note.toJSON(),
+      dataType: 'JSON',
+      success: function(data) {
+        console.log(data);
+        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">Note updated</p>');
+        notify();
+      },
+      error: function(err) {
+        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">Note updated</p>');
         notify();
       }
     });

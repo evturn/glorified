@@ -67,6 +67,7 @@ module.exports = {
         'assets/js/lib/jquery.js',
         'assets/js/lib/underscore.js',
         'assets/js/lib/backbone.js',
+        'assets/js/lib/bootstrap.js',
         'assets/js/lib/wow.js'
       ],
       dest: 'dist/js',

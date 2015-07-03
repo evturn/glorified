@@ -1,12 +1,12 @@
 -Checkmark adds sets model {done: true}
 	-models that are done get class '.done' grey, position.length + 1
 
--Trash deletes item from DB
 
 -Click username shows all details
 
--Refresh list menu when new note is added
+-Refresh MenuList menu when new note is added
 
++Trash deletes item from DB
 +show total notes in list
 +Facebook avatar
 +Put ajax call in active-list view with click event

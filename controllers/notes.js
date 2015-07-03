@@ -33,16 +33,19 @@ exports.postNotes = function(req, res) {
 
 exports.putNote = function(req, res) {
   var currentUser = req.user;
-  var id = req.body.id;
-  console.log(req);
-  var note = currentUser.notes.id(id).update();
+  var id = req.body._id;
+  var note = currentUser.notes.id(id);
+  console.log('bod ', req.body);
+
+  currentUser.notes.push(req.body);
+
   currentUser.save(function(err) {
     if (err) {
       return res.send(err);
     }
     console.log('Me updated ', note);
   });
-  res.json(note);
+  res.send('Note updated');
 };
 
 
