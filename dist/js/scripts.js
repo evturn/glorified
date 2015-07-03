@@ -70,7 +70,10 @@ var ActiveList = Backbone.View.extend({
     $('.active-list').html(this.inputTemplate(listName));
     this.collection.each(function(model) {
       if (model.get('list') === list) {
-        var view = new NoteItem({model: model});
+        var cA = model.get('created');
+        var timestamp = self.convertDate(new Date(cA));
+        var m = model.set({timestamp: timestamp});
+        var view = new NoteItem({model: m});
         view.render();
         $('.active-notes').append(view.el);
       }
@@ -108,7 +111,16 @@ var ActiveList = Backbone.View.extend({
       $('.kurt-loader').empty();
     });
     $('.note-input').val('');
-  }
+  },
+  convertDate: function(date) {
+    var cA = date;
+    var year = cA.getUTCFullYear();
+    var month = cA.getUTCMonth();
+    var day = cA.getUTCDate();
+    month = ('0' + (month + 1)).slice(-2);
+    var timestamp = day + '/' + month;
+    return timestamp;
+  },
 });
 var NoteItem = Backbone.View.extend({
 	itemTemplate: _.template($('#list-active-item').html()),
