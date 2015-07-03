@@ -3,6 +3,7 @@
   width: 100%%;
   padding-left: 15px;
   padding-right: 15px;
+  height: 50px;
   text-align: center;
   & a {
     color: @white;
@@ -12,18 +13,21 @@
     text-transform: uppercase;
     text-align: center;
     font-size: 28px;
+    margin-top: 5px;
+    margin-bottom: 0;
   }
-  .nav-right,
-  .nav-left {
-    max-height: 30px;
-    min-height: 30px;
-  }
+  
   .nav-left {
     float: left;
+    margin-bottom: 0;
   }
   .nav-right {
     float: right;
     li { display: inline-block; }
+    .nav-avatar {
+      margin-right: 10px;
+      border-radius: 50%;
+    }
     .nav-text {
       font-size: 12px;
       margin-top: 10px;
