@@ -118,7 +118,7 @@ var ActiveList = Backbone.View.extend({
     var month = cA.getUTCMonth();
     var day = cA.getUTCDate();
     month = ('0' + (month + 1)).slice(-2);
-    var timestamp = day + '/' + month;
+    var timestamp = month + '/' + day;
     return timestamp;
   },
 });
