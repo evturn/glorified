@@ -3,7 +3,7 @@
   width: 30%;
   .list-item {
     height: 50px;
-    padding: 15px;
+    padding: 10px;
     border-bottom: 1px solid @grey;
     cursor: pointer;
     &.active,
@@ -11,10 +11,22 @@
       background-color: @grey;
       .list-text {
         color: @white;
+        .badge {
+          background-color: @white;
+          color: @grey;
+        }
       }
     }
     .list-text {
       font-size: 22px;
+      .badge {
+        border-radius: 1px;
+        background-color: @grey;
+        color: @white;
+        float: left;
+        margin-top: 5px;
+        margin-right: 15px;
+      }
     }
   }
 }

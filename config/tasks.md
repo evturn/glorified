@@ -7,8 +7,8 @@
 
 -Refresh list menu when new note is added
 
--show total notes in list
-
++show total notes in list
++Facebook avatar
 +Put ajax call in active-list view with click event
 +Make initial welcome container before clicking on list
 +Remove border on input
