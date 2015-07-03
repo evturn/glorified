@@ -49,7 +49,10 @@ var NoteItem = Backbone.View.extend({
       },
       error: function(err) {
         console.log(err);
+        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">Note updated</p>');
+        notify();
       }
     });
+    this.render();
   },
 });

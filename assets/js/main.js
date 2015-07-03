@@ -11,5 +11,5 @@ var notify = function() {
       $('.kurt-loader').empty();
       $('.kurt-loader').css({'display': 'block'});
     });
-  }, 1500);
+  }, 3000);
 };

@@ -177,10 +177,12 @@ var NoteItem = Backbone.View.extend({
         notify();
       },
       error: function(err) {
+        console.log(err);
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">Note updated</p>');
         notify();
       }
     });
+    this.render();
   },
 });
 var MenuItem = Backbone.View.extend({
@@ -235,5 +237,5 @@ var notify = function() {
       $('.kurt-loader').empty();
       $('.kurt-loader').css({'display': 'block'});
     });
-  }, 1500);
+  }, 3000);
 };
