@@ -37,6 +37,9 @@ var ActiveList = Backbone.View.extend({
     $('.kurt-loader').html('<img src="img/dog.gif">');
     var body = $('.new-note-input').val();
     var list = $('.new-list-input').val();
+    if (body === '' || list === '') {
+      return false;
+    }
     var note = notes.create({
       body: body,
       list: list
@@ -48,6 +51,5 @@ var ActiveList = Backbone.View.extend({
       $('.kurt-loader').empty();
     });
     $('.new-note-input').val('');
-    $('.new-list-input').val('');
   }
 });
