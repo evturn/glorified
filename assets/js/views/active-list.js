@@ -9,6 +9,9 @@ var ActiveList = Backbone.View.extend({
       this.switchList(list.name);
     }
   },
+  events: {
+    'click .new-note-btn': 'createNote'
+  },
   render: function() {
     var self = this;
     this.collection.each(function(model) {
@@ -30,4 +33,21 @@ var ActiveList = Backbone.View.extend({
       }
     });
   },
+  createNote: function() {
+    $('.kurt-loader').html('<img src="img/dog.gif">');
+    var body = $('.new-note-input').val();
+    var list = $('.new-list-input').val();
+    var note = notes.create({
+      body: body,
+      list: list
+    });
+    var view = new NoteItem({model: note});
+    view.render();    
+    $('.active-notes').append(view.el);
+    $('.kurt-loader').fadeOut('fast', function() {
+      $('.kurt-loader').empty();
+    });
+    $('.new-note-input').val('');
+    $('.new-list-input').val('');
+  }
 });

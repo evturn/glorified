@@ -50,6 +50,9 @@ var ActiveList = Backbone.View.extend({
       this.switchList(list.name);
     }
   },
+  events: {
+    'click .new-note-btn': 'createNote'
+  },
   render: function() {
     var self = this;
     this.collection.each(function(model) {
@@ -71,6 +74,23 @@ var ActiveList = Backbone.View.extend({
       }
     });
   },
+  createNote: function() {
+    $('.kurt-loader').html('<img src="img/dog.gif">');
+    var body = $('.new-note-input').val();
+    var list = $('.new-list-input').val();
+    var note = notes.create({
+      body: body,
+      list: list
+    });
+    var view = new NoteItem({model: note});
+    view.render();    
+    $('.active-notes').append(view.el);
+    $('.kurt-loader').fadeOut('fast', function() {
+      $('.kurt-loader').empty();
+    });
+    $('.new-note-input').val('');
+    $('.new-list-input').val('');
+  }
 });
 var NoteItem = Backbone.View.extend({
 	itemTemplate: _.template($('#list-active-item').html()),
@@ -128,45 +148,3 @@ function colorGenerator() {
 $('.landing-header').on('click', function() {
   $('.landing-header a').css('color', colorGenerator());
 });
-
-
-$(function() {
-
-	$(document).on('click', '.new-note-btn', function(e) {
-		e.preventDefault();
-		createNote();
-	});
-
-});
-
-
-function createNote() {
-	var body = $('.new-note-input').val();
-	var list = $('.new-list-input').val();
-	$('.kurt-loader').html('<img src="img/dog.gif">');
-	$.ajax({
-		url: '/notes',
-		type: 'POST',
-		dataType: 'json',
-		data: {
-			body: body,
-			list: list
-		},
-		success: function(data) {
-			$('.new-note-input').val('');
-			$('.new-list-input').val('');
-			console.log(data);
-			var note = new Note(data);
-			var view = new NoteItem({model: note});
-			view.render();
-			$('.active-notes').append(view);
-			$('.kurt-loader').fadeOut('fast', function() {
-        $('.kurt-loader').empty();
-      });
-		},
-		error: function(err) {
-			$('.kurt-loader').empty();
-			$('.kurt-loader').append('<p>We got ', error);
-		},
-	});
-}

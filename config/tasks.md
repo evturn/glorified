@@ -4,3 +4,7 @@
 -Click username shows all details
 
 -Put ajax call in active-list view with click event
+
+-Make initial welcome container before clicking on list
+
+-Remove border on input
