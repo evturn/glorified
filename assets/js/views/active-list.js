@@ -5,7 +5,6 @@ var ActiveList = Backbone.View.extend({
   initialize: function(list) {
     if (!list) {
       var listName = this.collection.models[length - 1].get('list');
-      console.log(listName);
       this.switchList(listName);
     } else {
       this.switchList(list.name);
@@ -15,14 +14,6 @@ var ActiveList = Backbone.View.extend({
     'click .create-note-btn' : 'createNote',
     'keypress .note-input'   : 'createOnEnter',
     'keyup .active-input'    : 'elluminateBtn'
-  },
-  render: function() {
-    var self = this;
-    this.collection.each(function(model) {
-      var view = new NoteItem({model: model});
-      view.render();
-      $('.active-notes').append(view.el);
-    });
   },
   switchList: function(list) {
     $('.active-notes').empty();
@@ -55,7 +46,6 @@ var ActiveList = Backbone.View.extend({
   },
   createNote: function() {
     var self = this;
-    $('.kurt-loader').html('<img src="img/dog.gif">');
     var body = $('.note-input').val();
     var list = $('.list-input').val();
     if (body === '' || list === '') {
@@ -73,12 +63,11 @@ var ActiveList = Backbone.View.extend({
         var view = new NoteItem({model: m});
         view.render();    
         $('.active-notes').append(view.el);
+        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
+        $('.note-input').val('');
       }
     });
-    $('.kurt-loader').fadeOut('fast', function() {
-      $('.kurt-loader').empty();
-    });
-    $('.note-input').val('');
+    notify();
   },
   convertDate: function(date) {
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];

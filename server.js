@@ -23,6 +23,7 @@ app.engine('hbs', hbs.engine);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(methodOverride());
 app.use(express.static(root));
 app.use(logger('dev'));
 app.use(require('express-session')({
@@ -34,5 +35,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);
 app.use('/notes', notesRouter);
+
 
 var http = require('./config/http');
