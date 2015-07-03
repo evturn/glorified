@@ -37,3 +37,30 @@ li { list-style-type: none; }
 .app-wrapper {
   padding-top: 40px;
 }
+
+.placeholder(@color) {
+  input[type="text"],
+  input {
+    color: @color;
+  }
+  input::-webkit-input-placeholder,
+  textarea::-webkit-input-placeholder { 
+    color: @color;
+    opacity:1;
+  }
+  input:-moz-placeholder, 
+  textarea:-moz-placeholder { 
+    color: @color;
+    opacity:1;
+  }
+  input::-moz-placeholder,
+  textarea::-moz-placeholder { 
+    color: @color;
+    opacity:1;
+  }
+  input:-ms-input-placeholder,
+  textarea:-ms-input-placeholder { 
+    color: @color;
+    opacity:1;
+  }
+}

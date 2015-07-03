@@ -65,7 +65,7 @@ var ActiveList = Backbone.View.extend({
     $('.active-notes').empty();
     var self = this;
     var listName = {name: list};
-    $('.active-list.section-header').html(this.inputTemplate(listName));
+    $('.active-list').html(this.inputTemplate(listName));
     this.collection.each(function(model) {
       if (model.get('list') === list) {
         var view = new NoteItem({model: model});

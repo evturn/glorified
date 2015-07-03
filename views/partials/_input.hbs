@@ -1,7 +1,15 @@
 <script type="text/template" id="active-input">
-  <form>
-    <input type="text" class="active-input list-input" name="list" value="<%= name %>">    
-    <input type="text" class="active-input note-input" name="body" placeholder="Note">
-    <button class="create-note-btn"><i class="fa fa-plus"></i></button>
+  <form class="active-form">
+    <div class="list-item">
+      <input type="text" class="active-input list-input" name="list" value="<%= name %>">    
+    </div>
+    <div class="list-item">
+      <div class="input-container">
+        <input type="text" class="active-input note-input" name="body" placeholder="New note">
+      </div>
+      <div class="btn-container">
+        <a class="create-note-btn"><i class="fa fa-plus"></i></a>
+      </div>
+    </div>
   </form>
 </script>
