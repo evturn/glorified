@@ -45,7 +45,9 @@ var ActiveList = Backbone.View.extend({
   list: null,
   initialize: function(list) {
     if (!list) {
-      this.render();
+      var listName = this.collection.models[length - 1].get('list');
+      console.log(listName);
+      this.switchList(listName);
     } else {
       this.switchList(list.name);
     }
@@ -93,19 +95,27 @@ var ActiveList = Backbone.View.extend({
     }
   },
   createNote: function() {
+    var self = this;
     $('.kurt-loader').html('<img src="img/dog.gif">');
     var body = $('.note-input').val();
     var list = $('.list-input').val();
     if (body === '' || list === '') {
       return false;
     }
-    var note = notes.create({
+    var note;
+    note = notes.create({
       body: body,
       list: list
+    }, 
+    {
+      success: function() {
+        var timestamp = self.convertDate(new Date(note.get('created')));
+        var m = note.set({timestamp: timestamp});
+        var view = new NoteItem({model: m});
+        view.render();    
+        $('.active-notes').append(view.el);
+      }
     });
-    var view = new NoteItem({model: note});
-    view.render();    
-    $('.active-notes').append(view.el);
     $('.kurt-loader').fadeOut('fast', function() {
       $('.kurt-loader').empty();
     });
@@ -175,6 +185,8 @@ var MenuLists = Backbone.View.extend({
     var activeList = new ActiveList({collection: this.collection});
   },
 });
+new WOW().init();
+
 $(document).on('click', '.list-names-container .list-item', function() {
   $('.list-item').removeClass('active');
   $(this).addClass('active');
