@@ -48,7 +48,6 @@ exports.putNote = function(req, res) {
   res.send('Note updated');
 };
 
-
 exports.deleteNote = function(req, res) {
   var user = req.user;
   var id = req.params.id;
