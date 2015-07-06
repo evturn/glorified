@@ -13,6 +13,7 @@ var Wrapper = Backbone.View.extend({
         $('.active-notes').prepend('<p class="lead">' + err + '</p>');
       }
     });
+    this.listenTo(this.collection, 'change', this.Lists);
   },
   setLists: function() {
     var self = this;
