@@ -50,15 +50,18 @@ var ActiveList = Backbone.View.extend({
       return false;
     }
     var note;
+    var created = Date.now();
+    var timestamp = this.convertDate(created);
     note = wrapper.collection.create({
       body: body,
-      list: list
+      list: list,
+      created: created,
+      timestamp: timestamp
     }, 
     {
-      success: function() {
-        var timestamp = self.convertDate(new Date(note.get('created')));
-        var m = note.set({timestamp: timestamp});
-        var view = new NoteItem({model: m});
+      success: function(data) {
+        var view = new NoteItem({model: data});
+        console.log(data);
         view.render();    
         $('.active-notes').append(view.el);
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
@@ -68,8 +71,8 @@ var ActiveList = Backbone.View.extend({
     notify();
   },
   convertDate: function(date) {
+    var d = new Date(date);
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    var d = date;
     var year = d.getFullYear();
     var month = d.getMonth();
     var day = d.getDate();
@@ -89,7 +92,7 @@ var NoteItem = Backbone.View.extend({
 	},
   events: {
     'click .fa-trash' : 'clear',
-    'click .fa-check' : 'done'
+    'click .fa-check' : 'put'
   },
 	render: function() {
 		this.$el.html(this.itemTemplate(this.model.toJSON()));
@@ -111,7 +114,7 @@ var NoteItem = Backbone.View.extend({
       }
     });
   },
-  done: function(e) {
+  put: function(e) {
     var $evt = $(e.currentTarget);
     var note = this.model;
     if (!this.model.get('done')) {

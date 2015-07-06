@@ -13,8 +13,10 @@ exports.postNotes = function(req, res) {
   var position = req.user.notes.length + 1;
   var note = new Note({
     position: position,
-    list : req.body.list,
-    body : req.body.body
+    list      : req.body.list,
+    body      : req.body.body,
+    timestamp : req.body.timestamp,
+    created   : req.body.created
   });
   currentUser.notes.push(note);
   currentUser.save(function(err) {
@@ -22,7 +24,7 @@ exports.postNotes = function(req, res) {
       return console.log(err);
     }
     console.log('Me just saved: ', note);
-    res.json(note);
+    res.send(note);
   });
 };
 
@@ -30,15 +32,13 @@ exports.putNote = function(req, res) {
   var currentUser = req.user;
   var id = req.body._id;
   var note = currentUser.notes.id(id);
-  console.log('bod ', req.body);
 
-  currentUser.notes.push(req.body);
+  currentUser.notes.push(req.body)
 
   currentUser.save(function(err) {
     if (err) {
       return res.send(err);
     }
-    console.log('Me updated ', note);
   });
   res.send('Note updated');
 };

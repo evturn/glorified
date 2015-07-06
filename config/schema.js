@@ -26,9 +26,10 @@ exports.Note = function() {
   return new mongoose.Schema({
     list       : {type : String},
     position   : {type : Number},
-    created    : {type : Date, default: Date.now},
+    created    : {type : Date},
     body       : {type : String},
-    done       : {type : Boolean, default: false}
+    done       : {type : Boolean, default: false},
+    timestamp  : {type: String}
   });
 };
 

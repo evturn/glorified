@@ -5,7 +5,7 @@ var NoteItem = Backbone.View.extend({
 	},
   events: {
     'click .fa-trash' : 'clear',
-    'click .fa-check' : 'done'
+    'click .fa-check' : 'put'
   },
 	render: function() {
 		this.$el.html(this.itemTemplate(this.model.toJSON()));
@@ -27,7 +27,7 @@ var NoteItem = Backbone.View.extend({
       }
     });
   },
-  done: function(e) {
+  put: function(e) {
     var $evt = $(e.currentTarget);
     var note = this.model;
     if (!this.model.get('done')) {
