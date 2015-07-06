@@ -7,11 +7,11 @@ var MenuItem = Backbone.View.extend({
     'click .list-item' : 'select'
   },
   render: function(list) {
-    $('.list-names-container').append(this.itemTemplate(list));
+    this.$el.html(this.itemTemplate(list));
     return this;
   },
-  select: function() {
-    var listName = this.model.get('name');
-    var activeList = new ActiveList({collection: notes, name: listName});
+  select: function(e) {
+    var $t = $(e.currentTarget).data('id');
+    console.log($t);
   },
 });

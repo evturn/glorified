@@ -24,6 +24,7 @@ var Wrapper = Backbone.View.extend({
         var length = self.collection.where({list: list}).length;
         var view = new MenuItem();
         view.render({name: list, length: length});
+        $('.list-names-container').append(view.el);
         a.push(list);
       }
     });
