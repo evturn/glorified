@@ -29,4 +29,37 @@
       }
     }
   }
+  .section-header {
+    padding: 5px 15px 5px 15px;
+    border-bottom: 2px solid @lightgrey;
+    position: relative;
+    a.create-list-btn {
+      .fa {
+        font-size: 1.25em;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        position: absolute;
+        margin-top: -13px;
+        z-index: 1;
+        color: @white;
+        background-color: @grey;
+        padding-top: 9px;
+        padding-left: 11px;
+        right: 20px;
+        cursor: pointer;
+        .transition(all 0.2s ease);
+        &:hover {
+          font-size: 1.5em;
+          color: @whitesmoke;
+          background-color: @primarylight;
+          height: 55px;
+          width: 55px;
+          padding-top: 9px;
+          margin-top: -16px;
+          right: 18px;
+        }
+      }
+    }
+  }
 }
