@@ -13,21 +13,11 @@ var ActiveList = Backbone.View.extend({
   },
   render: function() {
     var self = this;
-    console.log(this.list);
     var listName;
     for (var i = 0; i < this.list.length; i++) {
       listName = {name: this.list[i].get('list')};
     }
     $('.active-list').html(this.inputTemplate(listName));
-    // this.collection.each(function(model) {
-    //   if (model.get('list') === list) {
-    //     var timestamp = self.convertDate(new Date(model.get('created')));
-    //     var m = model.set({timestamp: timestamp});
-    //     var view = new NoteItem({model: m});
-    //     view.render();
-    //     $('.active-notes').append(view.el);
-    //   }
-    // });
   },
   createOnEnter: function(e) {
     if (e.keyCode === 13) {
@@ -51,7 +41,7 @@ var ActiveList = Backbone.View.extend({
       return false;
     }
     var note;
-    note = notes.create({
+    note = wrapper.collection.create({
       body: body,
       list: list
     }, 
