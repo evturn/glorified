@@ -105,15 +105,19 @@ var NoteItem = Backbone.View.extend({
 	},
   clear: function() {
     var self = this;
+    var note = this.model;
     $.ajax({
       type: 'DELETE',
       url: 'notes/' + this.model.get('_id'),
+      data: note.toJSON(),
       success: function(data) {
+        wrapper.collection.remove(note.get('_id'));
         self.remove();
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">' + data + '</p>');
         notify();
       },
       error: function(err) {
+        self.remove();
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">' + err + '</p>');
         notify();
       }
@@ -175,28 +179,32 @@ var Wrapper = Backbone.View.extend({
       success: function(data) {
         console.log('fetch ', data);
         self.setLists();
+        self.setActive();
         return data;
       },
       error: function(err) {
         $('.active-notes').prepend('<p class="lead">' + err + '</p>');
       }
     });
-    this.listenTo(this.collection, 'change', this.Lists);
+    this.listenTo(this.collection, 'all', this.setLists);
   },
   setLists: function() {
+    $('.list-names-container').empty();
     var self = this;
     var a = [];
     this.collection.each(function(model) {
       var list = model.get('list');
       if (a.indexOf(list) === -1) {
-        var length = self.collection.where({list: list}).length;
-        var view = new MenuItem();
-        view.render({name: list, length: length});
-        $('.list-names-container').append(view.el);
         a.push(list);
       }
     });
-    this.setActive();
+    for (var i = 0; i < a.length; i++) {
+      var name = a[i];
+      var total = self.collection.where({list: a[i]}).length;
+      var view = new MenuItem();
+      view.render({name: name, length: total});
+      $('.list-names-container').append(view.el);
+    }
     return this;
   },
   setActive: function(listName) {

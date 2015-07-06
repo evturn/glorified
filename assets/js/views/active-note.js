@@ -13,15 +13,19 @@ var NoteItem = Backbone.View.extend({
 	},
   clear: function() {
     var self = this;
+    var note = this.model;
     $.ajax({
       type: 'DELETE',
       url: 'notes/' + this.model.get('_id'),
+      data: note.toJSON(),
       success: function(data) {
+        wrapper.collection.remove(note.get('_id'));
         self.remove();
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">' + data + '</p>');
         notify();
       },
       error: function(err) {
+        self.remove();
         $('.kurt-loader').html('<p class="thin-lg wow bounceIn">' + err + '</p>');
         notify();
       }
