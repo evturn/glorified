@@ -1,4 +1,5 @@
 new WOW().init();
+var wrapper = new Wrapper();
 
 $(document).on('click', '.list-names-container .list-item', function() {
   $('.list-item').removeClass('active');

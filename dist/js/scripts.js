@@ -5,42 +5,8 @@ var Note = Backbone.Model.extend({
 var User = Backbone.Model.extend({});
 var Notes = Backbone.Collection.extend({
   url: '/notes',
-  model: Note,
-  initialize: function() {
-    var self = this;
-    this.fetch({
-      success: function(data) {
-        console.log('fetch ', data);
-        var menuLists = new MenuLists({collection: data});
-        return data;
-      },
-      error: function(err) {
-        $('.active-notes').prepend('<p class="lead">' + err + '</p>');
-      }
-    });
-  },
-  lists: function(serverData) {
-    var data = serverData || this;
-    var a = [];
-    for (var i = 0; i < data.models.length; i++) {
-      var list = data.models[i].attributes.list;
-      if (a.indexOf(list) === -1) {
-        a.push(list);
-      }
-    }
-    return a;
-  },
-  firstList: function() {
-    var lists = this.lists();
-    console.log(lists[0]);
-  },
-  newestList: function() {
-    var lists = this.lists();
-    console.log(lists[length - 1]);
-  }
+  model: Note
 });
-
-var notes = new Notes();
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
   inputTemplate: _.template($('#active-input').html()),
@@ -193,8 +159,8 @@ var MenuItem = Backbone.View.extend({
   events: {
     'click .list-item' : 'select'
   },
-  render: function() {
-    this.$el.html(this.itemTemplate(this.model.toJSON()));
+  render: function(list) {
+    $('.list-names-container').append(this.itemTemplate(list));
     return this;
   },
   select: function() {
@@ -208,23 +174,54 @@ var MenuLists = Backbone.View.extend({
     this.render();
   },
   render: function() {
-    var self = this;
-    var a = [];
-    this.collection.each(function(model) {
-      var list = model.get('list');
-      if (a.indexOf(list) === -1) {
-        a.push(list);
-        var total = self.collection.where({list: list}).length;
-        var listName = new ListName({name: list, length: total});
-        var view = new MenuItem({model: listName});
-        view.render();
-        $('.list-names-container').append(view.el);
-      }
-    });
+    var view = new MenuItem({model: listName});
+    view.render();
+    $('.list-names-container').append(view.el);
     var activeList = new ActiveList({collection: this.collection});
   },
 });
+var Wrapper = Backbone.View.extend({
+  el: '.app-wrapper',
+  initialize: function() {
+    var self = this;
+    this.collection = new Notes();
+    this.collection.fetch({
+      success: function(data) {
+        console.log('fetch ', data);
+        self.lists();
+        return data;
+      },
+      error: function(err) {
+        $('.active-notes').prepend('<p class="lead">' + err + '</p>');
+      }
+    });
+  },
+  lists: function() {
+    var self = this;
+    var a = [];
+    var b =[];
+    this.collection.each(function(model) {
+      var list = model.get('list');
+      if (a.indexOf(list) === -1) {
+        var length = self.collection.where({list: list}).length;
+        var view = new MenuItem();
+        view.render({name: list, length: length});
+        a.push(list);
+      }
+    });
+    return this;
+  },
+  menu: function(array) {
+    var models = self.collection.where({list: listName});
+    for (var i = 0; i < array.length; i++) {
+      console.log(array[i].name);
+      console.log(array[i].models);
+    }
+
+  }
+});
 new WOW().init();
+var wrapper = new Wrapper();
 
 $(document).on('click', '.list-names-container .list-item', function() {
   $('.list-item').removeClass('active');

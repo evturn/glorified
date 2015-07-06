@@ -7,13 +7,13 @@ var NotesCtrl = require('../controllers/notes'),
     putNote = NotesCtrl.putNote,
     deleteNote = NotesCtrl.deleteNote;
 
-var r = express.Router();
+var notes = express.Router();
 
-r.route('/')
+notes.route('/')
   .get(ensureAuthenticated, getNotes)
   .post(ensureAuthenticated, urlencoded, postNotes);
 
-r.route('/:id')
+notes.route('/:id')
   .put(ensureAuthenticated, putNote)
   .delete(ensureAuthenticated, deleteNote);
 
@@ -24,4 +24,4 @@ function ensureAuthenticated(req, res, next) {
   res.render('landing/index', {layout: 'landing'});
 };
 
-module.exports = r;
+module.exports = notes;

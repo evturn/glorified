@@ -6,8 +6,8 @@ var MenuItem = Backbone.View.extend({
   events: {
     'click .list-item' : 'select'
   },
-  render: function() {
-    this.$el.html(this.itemTemplate(this.model.toJSON()));
+  render: function(list) {
+    $('.list-names-container').append(this.itemTemplate(list));
     return this;
   },
   select: function() {
