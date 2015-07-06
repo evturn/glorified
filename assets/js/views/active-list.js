@@ -40,23 +40,29 @@ var ActiveList = Backbone.View.extend({
     if (body === '' || list === '') {
       return false;
     }
-    var note;
     var created = Date.now();
     var timestamp = this.convertDate(created);
-    note = wrapper.collection.create({
-      body: body,
-      list: list,
-      created: created,
-      timestamp: timestamp
-    }, 
-    {
-      success: function(data) {
-        var view = new NoteItem({model: data});
-        console.log(data);
-        view.render();    
-        $('.active-notes').append(view.el);
-        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
-        $('.note-input').val('');
+
+    if (wrapper.collection.findWhere({body: body})) {
+      // Makes sure of no duplicates
+      return false;
+    }
+    wrapper.collection.create({
+        body: body,
+        list: list,
+        created: created,
+        timestamp: timestamp
+      }, 
+      {
+        success: function(data) {
+          var view = new NoteItem({model: data});
+          view.render();    
+          $('.active-notes').append(view.el);
+          $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
+          $('.note-input').val('');
+      },
+        error: function(err) {
+          console.log(err);
       }
     });
     notify();

@@ -36,9 +36,7 @@ var Wrapper = Backbone.View.extend({
     var active = this.collection.where({list: listName});
     var activeList = new ActiveList(active);
     for (var i = 0; i < active.length; i++) {  
-      var timestamp = activeList.convertDate(new Date(active[i].get('created')));
-      var m = active[i].set({timestamp: timestamp});
-      var view = new NoteItem({model: m});
+      var view = new NoteItem({model: active[i]});
       view.render();
       $('.active-notes').append(view.el);
     }

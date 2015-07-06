@@ -1,4 +1,3 @@
-var ListName = Backbone.Model.extend({});
 var Note = Backbone.Model.extend({
   idAttribute: '_id'
 });
@@ -49,23 +48,29 @@ var ActiveList = Backbone.View.extend({
     if (body === '' || list === '') {
       return false;
     }
-    var note;
     var created = Date.now();
     var timestamp = this.convertDate(created);
-    note = wrapper.collection.create({
-      body: body,
-      list: list,
-      created: created,
-      timestamp: timestamp
-    }, 
-    {
-      success: function(data) {
-        var view = new NoteItem({model: data});
-        console.log(data);
-        view.render();    
-        $('.active-notes').append(view.el);
-        $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
-        $('.note-input').val('');
+
+    if (wrapper.collection.findWhere({body: body})) {
+      // Makes sure of no duplicates
+      return false;
+    }
+    wrapper.collection.create({
+        body: body,
+        list: list,
+        created: created,
+        timestamp: timestamp
+      }, 
+      {
+        success: function(data) {
+          var view = new NoteItem({model: data});
+          view.render();    
+          $('.active-notes').append(view.el);
+          $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
+          $('.note-input').val('');
+      },
+        error: function(err) {
+          console.log(err);
       }
     });
     notify();
@@ -199,9 +204,7 @@ var Wrapper = Backbone.View.extend({
     var active = this.collection.where({list: listName});
     var activeList = new ActiveList(active);
     for (var i = 0; i < active.length; i++) {  
-      var timestamp = activeList.convertDate(new Date(active[i].get('created')));
-      var m = active[i].set({timestamp: timestamp});
-      var view = new NoteItem({model: m});
+      var view = new NoteItem({model: active[i]});
       view.render();
       $('.active-notes').append(view.el);
     }

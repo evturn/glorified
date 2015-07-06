@@ -1,1 +1,0 @@
-var ListName = Backbone.Model.extend({});
