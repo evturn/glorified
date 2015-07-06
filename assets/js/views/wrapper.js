@@ -6,7 +6,7 @@ var Wrapper = Backbone.View.extend({
     this.collection.fetch({
       success: function(data) {
         console.log('fetch ', data);
-        self.lists();
+        self.setLists();
         return data;
       },
       error: function(err) {
@@ -14,10 +14,9 @@ var Wrapper = Backbone.View.extend({
       }
     });
   },
-  lists: function() {
+  setLists: function() {
     var self = this;
     var a = [];
-    var b =[];
     this.collection.each(function(model) {
       var list = model.get('list');
       if (a.indexOf(list) === -1) {
@@ -30,12 +29,9 @@ var Wrapper = Backbone.View.extend({
     });
     return this;
   },
-  menu: function(array) {
-    var models = self.collection.where({list: listName});
-    for (var i = 0; i < array.length; i++) {
-      console.log(array[i].name);
-      console.log(array[i].models);
-    }
-
-  }
+  setActive: function(listName) {
+    var active = this.collection.where({list: listName});
+    var activeList = new ActiveList(active);
+    return this;
+  },
 });

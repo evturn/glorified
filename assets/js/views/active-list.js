@@ -1,34 +1,33 @@
 var ActiveList = Backbone.View.extend({
   el: '.active-list-container',
-  inputTemplate: _.template($('#active-input').html()),
   list: null,
+  inputTemplate: _.template($('#active-input').html()),
   initialize: function(list) {
-    if (!list) {
-      var listName = this.collection.models[length - 1].get('list');
-      this.switchList(listName);
-    } else {
-      this.switchList(list.name);
-    }
+    this.list = list;
+    this.render();
   },
   events: {
     'click .create-note-btn' : 'createNote',
     'keypress .note-input'   : 'createOnEnter',
     'keyup .active-input'    : 'elluminateBtn'
   },
-  switchList: function(list) {
-    $('.active-notes').empty();
+  render: function() {
     var self = this;
-    var listName = {name: list};
+    console.log(this.list);
+    var listName;
+    for (var i = 0; i < this.list.length; i++) {
+      listName = {name: this.list[i].get('list')};
+    }
     $('.active-list').html(this.inputTemplate(listName));
-    this.collection.each(function(model) {
-      if (model.get('list') === list) {
-        var timestamp = self.convertDate(new Date(model.get('created')));
-        var m = model.set({timestamp: timestamp});
-        var view = new NoteItem({model: m});
-        view.render();
-        $('.active-notes').append(view.el);
-      }
-    });
+    // this.collection.each(function(model) {
+    //   if (model.get('list') === list) {
+    //     var timestamp = self.convertDate(new Date(model.get('created')));
+    //     var m = model.set({timestamp: timestamp});
+    //     var view = new NoteItem({model: m});
+    //     view.render();
+    //     $('.active-notes').append(view.el);
+    //   }
+    // });
   },
   createOnEnter: function(e) {
     if (e.keyCode === 13) {

@@ -11,7 +11,8 @@ var MenuItem = Backbone.View.extend({
     return this;
   },
   select: function(e) {
-    var $t = $(e.currentTarget).data('id');
-    console.log($t);
+    var $listName = $(e.currentTarget).data('id');
+    wrapper.setActive($listName);
+    return this;
   },
 });
