@@ -188,6 +188,9 @@ var Wrapper = Backbone.View.extend({
     });
     this.listenTo(this.collection, 'all', this.setLists);
   },
+  events: {
+    'click .create-list-btn' : 'newList'
+  },
   setLists: function() {
     $('.list-names-container').empty();
     var self = this;
@@ -218,6 +221,9 @@ var Wrapper = Backbone.View.extend({
     }
     return this;
   },
+  newList: function() {
+    this.setActive();
+  }
 });
 new WOW().init();
 var wrapper = new Wrapper();
