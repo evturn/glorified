@@ -222,7 +222,8 @@ var Wrapper = Backbone.View.extend({
     return this;
   },
   newList: function() {
-    this.setActive();
+    $('.active-notes').empty();
+    var activeList = new ActiveList();
   }
 });
 new WOW().init();

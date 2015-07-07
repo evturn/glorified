@@ -6,25 +6,34 @@
     text-align: center;
   }
   .landing-header {
-    font-size: 60px;
     text-transform: uppercase;
     letter-spacing: -4px;
+    font-size: 44px;
     a {
       text-decoration: none;
       color: @white;
     }
+    @media (min-width: @screen-sm) {
+      font-size: 60px;
+    }
   }
-
   .login-wrapper {
-    padding-left: 38%;
-    padding-right: 38%;
+    padding-left: 10%;
+    padding-right: 10%;
     width: 100%;
+    @media (min-width: @screen-sm) {
+      padding-left: 35%;
+      padding-right: 35%;
+    }
   }
 
   .login-header {
-    height: 25%;
+    height: 50%;
     padding-top: 25%;
     text-transform: uppercase;
+    @media (min-height: @screen-sm) {
+      height: 25%;
+    }
   }
 
   .login-container {
@@ -38,21 +47,14 @@
     position: relative;
     border-radius: 2px;
     .box-shadow(0px 0px 8px -4px rgba(0,0,0,0.75););
-    .login-facebook,
-    .login-twitter {
-      position: absolute;
-      bottom: 100px;
-      display: inline-block; 
+    .btn-container {
+      height: 50%;
+    }
+    .login-facebook {
       background-color: @whitesmoke;
       border-radius: 1%;
       padding: 30px;
       .transition(all 0.3s ease);
-    }
-    .login-facebook {
-      left: 40px;
-    }
-    .login-twitter {
-      right: 40px;
     }
     .fa {
       font-size: 4em;
