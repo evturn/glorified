@@ -40,4 +40,4 @@ function cleanURL() {
       document.body.scrollLeft = scroll.left;
     }
   }
-};
+}
