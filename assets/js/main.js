@@ -17,6 +17,4 @@ var notify = function() {
 
 $(function() {
   $('[data-toggle="popover"]').popover({html: true});
-
-  window.location.hash = '';
 });
