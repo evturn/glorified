@@ -15,7 +15,6 @@ var Wrapper = Backbone.View.extend({
       }
     });
     this.listenTo(this.collection, 'all', this.setLists);
-    parent.location.hash = '';
   },
   events: {
     'click .create-list-btn' : 'newList'
