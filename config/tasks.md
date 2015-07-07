@@ -2,10 +2,10 @@
 
 -Click username shows all details
 
--Refresh MenuList menu when new note is added
++Refresh MenuList menu when new note is added
 
--Fix duplicates on POST
--Fix DELETE and PUT routes
++Fix duplicates on POST
++Fix DELETE and PUT routes
 
 +Checkmark adds sets model {done: true}
 +Trash deletes item from DB
