@@ -223,6 +223,8 @@ var Wrapper = Backbone.View.extend({
   },
   newList: function() {
     $('.active-notes').empty();
+    $('.list-input').val('');
+    $('.list-input').focus();
     var activeList = new ActiveList();
   }
 });
