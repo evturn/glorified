@@ -2,7 +2,6 @@ var Wrapper = Backbone.View.extend({
   el: '.app-wrapper',
   initialize: function() {
     var self = this;
-    window.location.hash = '';
     this.collection = new Notes();
     this.collection.fetch({
       success: function(data) {
@@ -16,6 +15,7 @@ var Wrapper = Backbone.View.extend({
       }
     });
     this.listenTo(this.collection, 'all', this.setLists);
+    parent.location.hash = '';
   },
   events: {
     'click .create-list-btn' : 'newList'
