@@ -1,6 +1,9 @@
 .lists-container {
+  width: 100%;
   .box-shadow(0px 0px 8px -4px rgba(0,0,0,0.75););
-  width: 30%;
+  @media (min-width: @screen-sm) {
+    width: 30%;
+  }
   .list-item {
     height: 50px;
     padding: 10px;
