@@ -18,7 +18,7 @@ passport.use(new FacebookStrategy({
 
   clientID: process.env.FACEBOOK_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: "http://localhost:3000/auth/facebook/callback"
+  callbackURL: "http://ramenbuffet/auth/facebook/callback"
 
 }, function(accessToken, refreshToken, profile, done) {
     var id = profile.id;
