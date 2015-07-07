@@ -18,12 +18,6 @@ var notify = function() {
 $(function() {
   $('[data-toggle="popover"]').popover({html: true});
 
-  cleanURL();
-
-});
-
-
-function cleanURL() {
   if (window.location.hash && window.location.hash === "#_=_") {
   
     if (Modernizr.history) {
@@ -40,4 +34,8 @@ function cleanURL() {
       document.body.scrollLeft = scroll.left;
     }
   }
-}
+
+});
+
+
+
