@@ -244,3 +244,7 @@ var notify = function() {
     });
   }, 3000);
 };
+
+$(function() {
+  $('[data-toggle="popover"]').popover({html: true});
+});
