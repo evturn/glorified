@@ -17,12 +17,6 @@ var notify = function() {
 
 $(function() {
   $('[data-toggle="popover"]').popover({html: true});
-});
 
-$(document).ready(function(e){
-  if (window.location.hash == '#_=_') {
-      window.location.hash = '';
-      history.pushState('', document.title, window.location.pathname);
-      e.preventDefault();
-  }
+  window.location.hash = '';
 });
