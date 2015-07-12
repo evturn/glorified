@@ -22,3 +22,24 @@
   border-bottom: 1px solid @grey;
 }
 
+
+@media (max-width: @screen-sm) {
+  .lists-wrapper {
+    border-top: 5px solid @primarylight;
+    margin-bottom: 15px;
+    .header-container .header-text {
+      font-size: 18px;
+      margin: 0;
+      .create-list-btn .fa {
+        padding-top:15px;
+        padding-left: 15px;
+      }
+    }
+  }
+  .active-list-wrapper {
+    border-top: 5px solid @primarylight;
+  }
+  .active-notes-wrapper {
+
+  }
+}

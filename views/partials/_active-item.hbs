@@ -1,15 +1,13 @@
 <script type="text/template" id="list-active-item">
-
-    <% var done = this.model.get('done') ? 'done' : '' %>
-    <div class="input-container <%= done %>">
-      <p class="note-text"><%= body %></p>
-    </div>
-    <div class="timestamp-container">
-      <p class="thin-sm"><%= timestamp %></p>
-    </div>
-    <div class="btn-container">
-      <i class="fa fa-trash"></i>
-      <i class="fa fa-check"></i>
-    </div>
-
+  <% var done = this.model.get('done') ? 'done' : '' %>
+  <div class="input-container <%= done %>">
+    <p class="note-text"><%= body %></p>
+  </div>
+  <div class="timestamp-container">
+    <p class="thin-sm"><%= timestamp %></p>
+  </div>
+  <div class="btn-container">
+    <i class="fa fa-trash"></i>
+    <i class="fa fa-check"></i>
+  </div>
 </script>
