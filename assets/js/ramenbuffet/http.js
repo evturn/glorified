@@ -1,0 +1,44 @@
+RAMENBUFFET.http = {
+  post: function() {
+
+  },
+  put: function(cxt, model) {
+    var self = cxt;
+    var note = model;
+    $.ajax({
+      type: 'PUT',
+      url: 'notes/' + note.get('_id'),
+      data: note.toJSON(),
+      dataType: 'JSON',
+      success: function(data) {
+        var message = "Note updated";
+        RAMENBUFFET.e.notify(message);
+      },
+      error: function(err) {
+        var message = "Error updating note";
+        RAMENBUFFET.e.notify(message);
+        console.log(err);
+      }
+    });
+  },
+  destroy: function(cxt, model) {
+    var self = cxt;
+    var note = model;
+    $.ajax({
+      type: 'DELETE',
+      url: 'notes/' + note.get('_id'),
+      data: note.toJSON(),
+      success: function(data) {
+        wrapper.collection.remove(note.get('_id'));
+        self.remove();
+        var message = "Note deleted";
+        RAMENBUFFET.e.notify(message);
+      },
+      error: function(err) {
+        self.remove();
+        var message = "Error deleting note";
+        RAMENBUFFET.e.notify(message);
+      }
+    });
+  },
+};

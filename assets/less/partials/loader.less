@@ -1,17 +1,32 @@
-.notification-center {
+
+.kurt-loader {
+  position: absolute;
   height: 40px;
-  width: 100%;
-  padding-top: 5px;
-  .kurt-loader {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    text-transform: uppercase;
-    .transition(all 0.3s ease);
-    .thin-lg {
-      background: @primarylight;
-      color: @whitesmoke;
+  left: 0px;
+  top: 0;
+  padding-left: 15px;
+  text-transform: uppercase;
+  display: inline-block;
+  .transition(all 0.3s ease);
+  .thin-lg {
+    margin-bottom: 0;
+    margin-top: 8px;
+    font-size: 18px;
+    color: @red;
+    .fa {
+      width: 28px;
+      text-align: left;
+      color: @red;
     }
   }
+}
 
+
+
+.trigger-duration {
+  .animation-duration(1s);
+}
+
+.trigger-delay {
+  .animation-delay(1.3s);
 }

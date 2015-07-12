@@ -112,53 +112,25 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
   clear: function() {
     var self = this;
     var note = this.model;
-    $.ajax({
-      type: 'DELETE',
-      url: 'notes/' + this.model.get('_id'),
-      data: note.toJSON(),
-      success: function(data) {
-        wrapper.collection.remove(note.get('_id'));
-        self.remove();
-        var message = "Note deleted";
-        RAMENBUFFET.e.notify(message);
-      },
-      error: function(err) {
-        self.remove();
-        var message = "Error deleting note";
-        RAMENBUFFET.e.notify(message);
-      }
-    });
+    RAMENBUFFET.http.destroy(self, note);
   },
   put: function(e) {
     var $evt = $(e.currentTarget);
+    var self = this;
     var note = this.model;
-
-    $.ajax({
-      type: 'PUT',
-      url: 'notes/' + note.get('_id'),
-      data: note.toJSON(),
-      dataType: 'JSON',
-      success: function(data) {
-        var message = "Note updated";
-        RAMENBUFFET.e.notify(message);
-      },
-      error: function(err) {
-        var message = "Error updating note";
-        RAMENBUFFET.e.notify(message);
-      }
-    });
-    if (!this.model.get('done')) {
+    if (!note.get('done')) {
       $evt.parent().parent().addClass('done');
       note.set({done: true});
     } else {
       $evt.parent().parent().removeClass('done');
       note.set({done: false});
     }
+    RAMENBUFFET.http.put(self, note);
     this.render();
   },
 });
 RAMENBUFFET.ListItem = Backbone.View.extend({
-  className: 'menu-list list-item animated',
+  className: 'menu-list list-item',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
     this.render();
@@ -239,10 +211,16 @@ RAMENBUFFET.e = {
     this.fixPath();
   },
   notify: function(notification) {
-    $('.kurt-loader').html('<p class="notification thin-lg animated fadeIn">' + notification + '</p>');
-    $('.notification').fadeOut(1000, function() {
-      $('.kurt-loader').empty();
-    });
+    var $loader = $('.kurt-loader');
+    var icon = '<i class="fa fa-bolt"></i>';
+    var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
+    $loader.html(message);
+    var $notification = $('.notification');
+    setTimeout(function() {
+      $notification.removeClass('fadeIn');
+      $notification.addClass('fadeOut');
+    }, 1200);
+
   },
   fixPath: function() {
     if (window.location.hash && window.location.hash === "#_=_") {
@@ -251,11 +229,54 @@ RAMENBUFFET.e = {
         left: document.body.scrollLeft
       };
       window.location.hash = "";
-
       document.body.scrollTop = scroll.top;
       document.body.scrollLeft = scroll.left;
     }
   }
+};
+RAMENBUFFET.http = {
+  post: function() {
+
+  },
+  put: function(cxt, model) {
+    var self = cxt;
+    var note = model;
+    $.ajax({
+      type: 'PUT',
+      url: 'notes/' + note.get('_id'),
+      data: note.toJSON(),
+      dataType: 'JSON',
+      success: function(data) {
+        var message = "Note updated";
+        RAMENBUFFET.e.notify(message);
+      },
+      error: function(err) {
+        var message = "Error updating note";
+        RAMENBUFFET.e.notify(message);
+        console.log(err);
+      }
+    });
+  },
+  destroy: function(cxt, model) {
+    var self = cxt;
+    var note = model;
+    $.ajax({
+      type: 'DELETE',
+      url: 'notes/' + note.get('_id'),
+      data: note.toJSON(),
+      success: function(data) {
+        wrapper.collection.remove(note.get('_id'));
+        self.remove();
+        var message = "Note deleted";
+        RAMENBUFFET.e.notify(message);
+      },
+      error: function(err) {
+        self.remove();
+        var message = "Error deleting note";
+        RAMENBUFFET.e.notify(message);
+      }
+    });
+  },
 };
 RAMENBUFFET.lists = {
   init: function() {
@@ -271,7 +292,7 @@ RAMENBUFFET.lists = {
   },
   collapseLists: function() {
     $(document).on('click', '.toggle-list-btn.close-list', function() {
-      var $lists = $('.lists-container .list-item');
+      var $lists = $('.lists-container');
       var $open = $('.toggle-list-btn.open-list');
       var $close = $('.toggle-list-btn.close-list');
       $close.addClass('hidden');
@@ -281,7 +302,7 @@ RAMENBUFFET.lists = {
   },
   expandLists: function() {
     $(document).on('click', '.toggle-list-btn.open-list', function() {
-      var $lists = $('.lists-container .list-item');
+      var $lists = $('.lists-container');
       var $open = $('.toggle-list-btn.open-list');
       var $close = $('.toggle-list-btn.close-list');
       $close.removeClass('hidden');

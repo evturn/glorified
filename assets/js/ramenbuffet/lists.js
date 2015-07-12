@@ -12,7 +12,7 @@ RAMENBUFFET.lists = {
   },
   collapseLists: function() {
     $(document).on('click', '.toggle-list-btn.close-list', function() {
-      var $lists = $('.lists-container .list-item');
+      var $lists = $('.lists-container');
       var $open = $('.toggle-list-btn.open-list');
       var $close = $('.toggle-list-btn.close-list');
       $close.addClass('hidden');
@@ -22,7 +22,7 @@ RAMENBUFFET.lists = {
   },
   expandLists: function() {
     $(document).on('click', '.toggle-list-btn.open-list', function() {
-      var $lists = $('.lists-container .list-item');
+      var $lists = $('.lists-container');
       var $open = $('.toggle-list-btn.open-list');
       var $close = $('.toggle-list-btn.close-list');
       $close.removeClass('hidden');

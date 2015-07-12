@@ -1,5 +1,5 @@
 RAMENBUFFET.ListItem = Backbone.View.extend({
-  className: 'menu-list list-item animated',
+  className: 'menu-list list-item',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
     this.render();
