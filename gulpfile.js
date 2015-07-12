@@ -1,13 +1,13 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'),  
-    G = require('gulp-load-plugins')();
+    gutil = require('gulp-util'),
+    $ = require('gulp-load-plugins')();
 var paths = require('./config/paths');
 var options = require('./config/gulp-options');
 
 gulp.task('default', [
   'less',
   'js',
-  'lint', 
+  'lint',
   'watch'
 ]);
 
@@ -19,40 +19,40 @@ gulp.task('watch', function() {
 
 gulp.task('less', function() {
   return gulp.src(paths.less.src)
-    .pipe(G.plumber(options.plumber))
-    .pipe(G.less())
-    .pipe(G.rename(paths.less.filename))
+    .pipe($.plumber(options.plumber))
+    .pipe($.less())
+    .pipe($.rename(paths.less.filename))
     .on('error', options.plumber.errorHandler)
-    .pipe(G.autoprefixer(options.autoprefixer))
-    .pipe(G.cssmin())
+    .pipe($.autoprefixer(options.autoprefixer))
+    .pipe($.cssmin())
     .pipe(gulp.dest(paths.less.dest)).on('error', options.plumber.errorHandler);
 });
 
 gulp.task('js', function() {
   return gulp.src(paths.js.src)
-    .pipe(G.plumber(options.plumber))
-    .pipe(G.concat('scripts.js'))
+    .pipe($.plumber(options.plumber))
+    .pipe($.concat('scripts.js'))
     .pipe(gulp.dest(paths.js.dest))
-    .pipe(G.uglify())
-    .pipe(G.rename(paths.js.filename))
+    .pipe($.uglify())
+    .pipe($.rename(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest));
 });
 
 gulp.task('jslib', function() {
   return gulp.src(paths.js.vendor.src)
-    .pipe(G.plumber(options.plumber))
-    .pipe(G.concat(paths.js.vendor.filename))
-    .pipe(G.uglify())
-    .pipe(G.rename(paths.js.vendor.filename))
+    .pipe($.plumber(options.plumber))
+    .pipe($.concat(paths.js.vendor.filename))
+    .pipe($.uglify())
+    .pipe($.rename(paths.js.vendor.filename))
     .pipe(gulp.dest(paths.js.vendor.dest));
 });
 
 gulp.task('css', function() {
   return gulp.src(paths.css.src)
-    .pipe(G.plumber(options.plumber))
-    .pipe(G.concat(paths.css.filename))
-    .pipe(G.cssmin())
-    .pipe(G.rename(paths.css.filename))
+    .pipe($.plumber(options.plumber))
+    .pipe($.concat(paths.css.filename))
+    .pipe($.cssmin())
+    .pipe($.rename(paths.css.filename))
     .pipe(gulp.dest(paths.css.dest));
 });
 
@@ -63,7 +63,7 @@ gulp.task('fonts', function() {
 
 gulp.task('lint', function() {
   gulp.src(paths.jshint.src)
-    .pipe(G.plumber(options.plumber))
-    .pipe(G.jshint())
-    .pipe(G.notify(options.notify.jshint));
+    .pipe($.plumber(options.plumber))
+    .pipe($.jshint())
+    .pipe($.notify(options.notify.jshint));
 });

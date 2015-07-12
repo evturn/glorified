@@ -1,11 +1,11 @@
-/* 
+/*
 gulp-autoprefixer
 gulp-plumbler
 gulp-notify
 */
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    G = require('gulp-load-plugins')();
+    $ = require('gulp-load-plugins')();
 
 module.exports = {
   autoprefixer: {
@@ -26,8 +26,8 @@ module.exports = {
     errorHandler: function(err) {
       gutil.beep();
       console.log(err);
-      G.notify(err);
       this.emit('end');
+      $.notify(err);
     }
   },
   notify: {
