@@ -154,20 +154,14 @@ var NoteItem = Backbone.View.extend({
   },
 });
 var MenuItem = Backbone.View.extend({
+  className: 'menu-list list-item animated',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
     this.render();
   },
-  events: {
-    'click .list-item' : 'select'
-  },
   render: function(list) {
     this.$el.html(this.itemTemplate(list));
-    return this;
-  },
-  select: function(e) {
-    var $listName = $(e.currentTarget).data('id');
-    wrapper.setActive($listName);
+    this.$el.attr('data-id', list.name);
     return this;
   },
 });
@@ -190,7 +184,14 @@ var Wrapper = Backbone.View.extend({
     this.listenTo(this.collection, 'all', this.setLists);
   },
   events: {
-    'click .create-list-btn' : 'newList'
+    'click .create-list-btn' : 'newList',
+    'click .menu-list.list-item' : 'select'
+  },
+  select: function(e) {
+    console.log(e);
+    var $listName = $(e.currentTarget).data('id');
+    this.setActive($listName);
+    return this;
   },
   setLists: function() {
     $('.lists-container').empty();
@@ -236,6 +237,24 @@ $(document).on('click', '.lists-container .list-item', function() {
   $('.list-item').removeClass('active');
   $(this).addClass('active');
 });
+
+$(document).on('click', '.header-container.close .toggle-list-btn', function() {
+  var $lists = $('.lists-container .list-item');
+  $('.header-container.open').removeClass('close');
+  $('.header-container.open').addClass('open');
+  $lists.slideToggle('fast');
+});
+
+$(document).on('click', '.header-container.open .toggle-list-btn', function() {
+  var $lists = $('.lists-container .list-item');
+  $('.header-container.open').removeClass('open');
+  $('.header-container.open').addClass('close');
+  $lists.slideToggle('fast');
+});
+
+
+
+
 
 var notify = function() {
   setTimeout(function(){

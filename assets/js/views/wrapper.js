@@ -17,7 +17,14 @@ var Wrapper = Backbone.View.extend({
     this.listenTo(this.collection, 'all', this.setLists);
   },
   events: {
-    'click .create-list-btn' : 'newList'
+    'click .create-list-btn' : 'newList',
+    'click .menu-list.list-item' : 'select'
+  },
+  select: function(e) {
+    console.log(e);
+    var $listName = $(e.currentTarget).data('id');
+    this.setActive($listName);
+    return this;
   },
   setLists: function() {
     $('.lists-container').empty();

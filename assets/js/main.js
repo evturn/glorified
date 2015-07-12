@@ -6,6 +6,24 @@ $(document).on('click', '.lists-container .list-item', function() {
   $(this).addClass('active');
 });
 
+$(document).on('click', '.header-container.close .toggle-list-btn', function() {
+  var $lists = $('.lists-container .list-item');
+  $('.header-container.open').removeClass('close');
+  $('.header-container.open').addClass('open');
+  $lists.slideToggle('fast');
+});
+
+$(document).on('click', '.header-container.open .toggle-list-btn', function() {
+  var $lists = $('.lists-container .list-item');
+  $('.header-container.open').removeClass('open');
+  $('.header-container.open').addClass('close');
+  $lists.slideToggle('fast');
+});
+
+
+
+
+
 var notify = function() {
   setTimeout(function(){
     $('.kurt-loader').fadeOut('fast', function() {

@@ -24,12 +24,16 @@
   .lists-wrapper {
     border-top: 5px solid @primarylight;
     margin-bottom: 15px;
-    .header-container .header-text {
-      font-size: 18px;
-      margin: 0;
-      .toggle-list-btn .fa {
-        background-color: transparent;
-        color: @primarylight;
+    .header-container,
+    .header-container.open,
+    .header-container.close {
+      .header-text {
+        font-size: 18px;
+        margin: 0;
+        .toggle-list-btn .fa {
+          background-color: transparent;
+          color: @primarylight;
+        }
       }
     }
   }
