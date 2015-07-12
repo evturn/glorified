@@ -6,7 +6,7 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
   },
   events: {
     'click .fa-trash'     : 'clear',
-    'click .fa-check'     : 'put',
+    'click .fa-check'     : 'done',
     'click .fa-sort-up'   : 'moveUp',
     'click .fa-sort-down' : 'moveDown'
   },
@@ -19,7 +19,7 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     var note = this.model;
     RAMENBUFFET.http.destroy(self, note);
   },
-  put: function(e) {
+  done: function(e) {
     var $evt = $(e.currentTarget);
     var self = this;
     var note = this.model;
