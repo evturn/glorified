@@ -27,7 +27,7 @@ app.use(methodOverride());
 app.use(express.static(root));
 app.use(logger('dev'));
 app.use(require('express-session')({
-  secret: 'dudeman jones',
+  secret: 'dudeman jonesz',
   resave: false,
   saveUninitialized: false
 }));
