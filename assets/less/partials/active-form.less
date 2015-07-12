@@ -1,55 +1,8 @@
 .active-list-container {
   background-color: @white;
-  .box-shadow(0px 0px 8px -4px rgba(0,0,0,0.75););
   .list-text {
     font-size: 18px;
     margin-bottom: 0;
-  }
-}
-
-.active-notes-container {
-  .list-item {
-    height: 100%;
-    min-height: 45px;
-    padding: 20px 15px 5px;
-    .transition(all 0.6s ease);
-  }
-  .input-container {
-    width: 60%;
-    @media (min-width: @screen-lg) {
-      width: 70%;
-    }
-    float: left;
-    display: inline-block;
-    .transition(all 0.3s ease);
-  }
-  .timestamp-container {
-    text-align: left;
-    color: @grey;
-    width: 20%;
-    display: inline-block;
-  }
-  .btn-container {
-    width: 20%;
-    @media (min-width: @screen-lg) {
-      width: 10%;
-    }
-    float: right;
-    padding-right: 10px;
-    text-align: center;
-    .fa {
-      color: @lightgrey;
-      font-size: 1.5em;
-      width: 25px;
-      height: 25px;
-      cursor: pointer;
-      .transition(all 0.2s ease);
-      &:hover {
-        font-size: 1.6em;
-        width: 23px;
-        color: @primarylight;
-      }
-    }
   }
 }
 
@@ -116,11 +69,4 @@
       }
     }
   }
-
-}
-
-
-.done {
-  .transition(all 0.3s ease);
-  color: @lightgrey;
 }

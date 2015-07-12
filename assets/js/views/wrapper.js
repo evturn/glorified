@@ -39,7 +39,7 @@ var Wrapper = Backbone.View.extend({
     return this;
   },
   setActive: function(listName) {
-    $('.active-notes').empty();
+    $('.active-notes-container').empty();
     var active = this.collection.where({list: listName});
     var activeList = new ActiveList(active);
     for (var i = 0; i < active.length; i++) {
