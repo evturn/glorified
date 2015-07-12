@@ -6,7 +6,11 @@
 
     .list-item {
       padding: 0;
-      overflow:auto;
+      padding-bottom: 10px;
+      padding-top: 10px;
+      overflow: auto;
+      position: relative;
+      border-bottom: 1px solid @grey;
       .transition(all 0.6s ease);
 
       .left-container {
@@ -15,7 +19,7 @@
         width: 15%;
         min-height: 50px;
         height: 100%;
-        padding: 10px;
+        padding-left: 10px;
         text-align: left;
         .fa{
           display: block;
@@ -32,7 +36,8 @@
         width: 85%;
 
         .timestamp {
-
+          width: 70%;
+          display: inline-block;
         }
 
         .note {
@@ -44,20 +49,19 @@
         }
 
         .edit {
-          width: 30%;
-          float: right;
-          padding-right: 10px;
-          text-align: left;
+          display: inline-block;
+          overflow: auto;
+          height: 100%;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          margin-left: 5px;
           .fa {
             color: @lightgrey;
-            font-size: 1.5em;
-            width: 25px;
-            height: 25px;
+            font-size: 2em;
             cursor: pointer;
-            .transition(all 0.2s ease);
+            .transition(all 0.3s ease);
             &:hover {
-              font-size: 1.6em;
-              width: 23px;
               color: @primarylight;
             }
           }
