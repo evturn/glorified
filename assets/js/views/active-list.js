@@ -66,7 +66,7 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     var day = d.getDate();
     var hours = d.getHours();
     var minutes = d.getMinutes();
-    var min = minutes > 10 ? ('0' + minutes) : minutes;
+    var min = minutes > 10 ? minutes : ('0' + minutes);
     var meridiem = hours >= 12 ? 'PM' : 'AM';
     var hour = hours > 12 ? hours - 12 : hours;
     month = ('' + (month + 1)).slice(-2);
