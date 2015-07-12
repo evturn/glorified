@@ -20,7 +20,7 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
   events: {
     'click .create-note-btn' : 'createNote',
     'keypress .note-input'   : 'createOnEnter',
-    'keyup .active-input'    : 'elluminateBtn'
+    'keyup .active-input'    : 'validate'
   },
   render: function() {
     var self = this;
@@ -35,7 +35,7 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
       this.createNote();
     }
   },
-  elluminateBtn: function(e) {
+  validate: function(e) {
     var body = $('.note-input').val();
     var list = $('.list-input').val();
     if (body.trim() && list.trim() !== '') {
@@ -55,7 +55,7 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     var timestamp = this.convertDate(created);
 
     if (wrapper.collection.findWhere({body: body})) {
-      // Makes sure of no duplicates
+      // Prevents duplicate saves
       return false;
     }
     var note = {
