@@ -1,7 +1,7 @@
 var ActiveList = Backbone.View.extend({
-  el: '.active-list-container',
+  el: '.active-list-wrapper',
   list: null,
-  inputTemplate: _.template($('#active-input').html()),
+  inputTemplate: _.template($('#active-list-name').html()),
   initialize: function(list) {
     this.list = list;
     this.render();
@@ -17,7 +17,7 @@ var ActiveList = Backbone.View.extend({
     for (var i = 0; i < this.list.length; i++) {
       listName = {name: this.list[i].get('list')};
     }
-    $('.active-list').html(this.inputTemplate(listName));
+    $('.form-list-name').html(this.inputTemplate(listName));
   },
   createOnEnter: function(e) {
     if (e.keyCode === 13) {
@@ -52,12 +52,12 @@ var ActiveList = Backbone.View.extend({
         list: list,
         created: created,
         timestamp: timestamp
-      }, 
+      },
       {
         success: function(data) {
           var view = new NoteItem({model: data});
-          view.render();    
-          $('.active-notes').append(view.el);
+          view.render();
+          $('.active-notes-container').append(view.el);
           $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
           $('.note-input').val('');
       },

@@ -1,5 +1,5 @@
 var Wrapper = Backbone.View.extend({
-  el: '.app-wrapper',
+  el: '.dmc',
   initialize: function() {
     var self = this;
     this.collection = new Notes();
@@ -20,7 +20,7 @@ var Wrapper = Backbone.View.extend({
     'click .create-list-btn' : 'newList'
   },
   setLists: function() {
-    $('.list-names-container').empty();
+    $('.lists-container').empty();
     var self = this;
     var a = [];
     this.collection.each(function(model) {
@@ -34,7 +34,7 @@ var Wrapper = Backbone.View.extend({
       var total = self.collection.where({list: a[i]}).length;
       var view = new MenuItem();
       view.render({name: name, length: total});
-      $('.list-names-container').append(view.el);
+      $('.lists-container').append(view.el);
     }
     return this;
   },
@@ -42,15 +42,15 @@ var Wrapper = Backbone.View.extend({
     $('.active-notes').empty();
     var active = this.collection.where({list: listName});
     var activeList = new ActiveList(active);
-    for (var i = 0; i < active.length; i++) {  
+    for (var i = 0; i < active.length; i++) {
       var view = new NoteItem({model: active[i]});
       view.render();
-      $('.active-notes').append(view.el);
+      $('.active-notes-container').append(view.el);
     }
     return this;
   },
   newList: function() {
-    $('.active-notes').empty();
+    $('.active-notes-container').empty();
     $('.list-input').val('');
     $('.list-input').focus();
     var activeList = new ActiveList();

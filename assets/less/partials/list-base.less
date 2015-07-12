@@ -1,13 +1,14 @@
-.lists-container,
-.active-list-container {
+.lists-wrapper,
+.active-list-wrapper {
   background-color: @white;
-  display: inline-block;
   vertical-align: top;
   border-radius: 2px;
+  display: inline-block;
 }
 
 .header-text {
   font-size: 28px;
+  text-align: left;
   text-transform: uppercase;
 }
 
@@ -26,6 +27,10 @@
 .list-item {
   min-height: 40px;
   color: @primarylight;
+  text-align: left;
   padding: 15px 15px 10px 15px;
   border-bottom: 1px solid @grey;
+  .list-text {
+    text-align: left;
+  }
 }

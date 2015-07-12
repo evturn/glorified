@@ -7,9 +7,9 @@ var Notes = Backbone.Collection.extend({
   model: Note
 });
 var ActiveList = Backbone.View.extend({
-  el: '.active-list-container',
+  el: '.active-list-wrapper',
   list: null,
-  inputTemplate: _.template($('#active-input').html()),
+  inputTemplate: _.template($('#active-list-name').html()),
   initialize: function(list) {
     this.list = list;
     this.render();
@@ -25,7 +25,7 @@ var ActiveList = Backbone.View.extend({
     for (var i = 0; i < this.list.length; i++) {
       listName = {name: this.list[i].get('list')};
     }
-    $('.active-list').html(this.inputTemplate(listName));
+    $('.form-list-name').html(this.inputTemplate(listName));
   },
   createOnEnter: function(e) {
     if (e.keyCode === 13) {
@@ -60,12 +60,12 @@ var ActiveList = Backbone.View.extend({
         list: list,
         created: created,
         timestamp: timestamp
-      }, 
+      },
       {
         success: function(data) {
           var view = new NoteItem({model: data});
-          view.render();    
-          $('.active-notes').append(view.el);
+          view.render();
+          $('.active-notes-container').append(view.el);
           $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
           $('.note-input').val('');
       },
@@ -91,6 +91,7 @@ var ActiveList = Backbone.View.extend({
   },
 });
 var NoteItem = Backbone.View.extend({
+  className: 'list-item wow fadeIn animated',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
@@ -171,7 +172,7 @@ var MenuItem = Backbone.View.extend({
   },
 });
 var Wrapper = Backbone.View.extend({
-  el: '.app-wrapper',
+  el: '.dmc',
   initialize: function() {
     var self = this;
     this.collection = new Notes();
@@ -192,7 +193,7 @@ var Wrapper = Backbone.View.extend({
     'click .create-list-btn' : 'newList'
   },
   setLists: function() {
-    $('.list-names-container').empty();
+    $('.lists-container').empty();
     var self = this;
     var a = [];
     this.collection.each(function(model) {
@@ -206,7 +207,7 @@ var Wrapper = Backbone.View.extend({
       var total = self.collection.where({list: a[i]}).length;
       var view = new MenuItem();
       view.render({name: name, length: total});
-      $('.list-names-container').append(view.el);
+      $('.lists-container').append(view.el);
     }
     return this;
   },
@@ -214,15 +215,15 @@ var Wrapper = Backbone.View.extend({
     $('.active-notes').empty();
     var active = this.collection.where({list: listName});
     var activeList = new ActiveList(active);
-    for (var i = 0; i < active.length; i++) {  
+    for (var i = 0; i < active.length; i++) {
       var view = new NoteItem({model: active[i]});
       view.render();
-      $('.active-notes').append(view.el);
+      $('.active-notes-container').append(view.el);
     }
     return this;
   },
   newList: function() {
-    $('.active-notes').empty();
+    $('.active-notes-container').empty();
     $('.list-input').val('');
     $('.list-input').focus();
     var activeList = new ActiveList();
@@ -231,7 +232,7 @@ var Wrapper = Backbone.View.extend({
 new WOW().init();
 var wrapper = new Wrapper();
 
-$(document).on('click', '.list-names-container .list-item', function() {
+$(document).on('click', '.lists-container .list-item', function() {
   $('.list-item').removeClass('active');
   $(this).addClass('active');
 });
@@ -249,20 +250,17 @@ $(function() {
   $('[data-toggle="popover"]').popover({html: true});
 
   if (window.location.hash && window.location.hash === "#_=_") {
-  
-    if (Modernizr.history) {
-      window.history.pushState("", document.title, window.location.pathname);
-    } else {
-  
+
+
       var scroll = {
         top: document.body.scrollTop,
         left: document.body.scrollLeft
       };
       window.location.hash = "";
-  
+
       document.body.scrollTop = scroll.top;
       document.body.scrollLeft = scroll.left;
-    }
+
   }
 
 });
