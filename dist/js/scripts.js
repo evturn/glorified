@@ -238,17 +238,21 @@ $(document).on('click', '.lists-container .list-item', function() {
   $(this).addClass('active');
 });
 
-$(document).on('click', '.header-container.close .toggle-list-btn', function() {
+$(document).on('click', '.toggle-list-btn.close-list', function() {
   var $lists = $('.lists-container .list-item');
-  $('.header-container.open').removeClass('close');
-  $('.header-container.open').addClass('open');
+  var $open = $('.toggle-list-btn.open-list');
+  var $close = $('.toggle-list-btn.close-list');
+  $close.addClass('hidden');
+  $open.removeClass('hidden');
   $lists.slideToggle('fast');
 });
 
-$(document).on('click', '.header-container.open .toggle-list-btn', function() {
+$(document).on('click', '.toggle-list-btn.open-list', function() {
   var $lists = $('.lists-container .list-item');
-  $('.header-container.open').removeClass('open');
-  $('.header-container.open').addClass('close');
+  var $open = $('.toggle-list-btn.open-list');
+  var $close = $('.toggle-list-btn.close-list');
+  $close.removeClass('hidden');
+  $open.addClass('hidden');
   $lists.slideToggle('fast');
 });
 
