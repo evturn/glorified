@@ -3,15 +3,18 @@
     <i class="fa fa-sort-up"></i>
     <i class="fa fa-sort-down"></i>
   </div>
-  <% var done = this.model.get('done') ? 'done' : '' %>
-  <div class="input-container <%= done %>">
-    <p class="note-text"><%= body %></p>
-  </div>
-    <div class="timestamp-container">
+  <div class="right-container">
+    <div class="timestamp">
       <p class="thin-sm"><%= timestamp %></p>
     </div>
-  <div class="btn-container">
-    <i class="fa fa-trash"></i>
-    <i class="fa fa-check"></i>
+    <% var done = this.model.get('done') ? 'done' : '' %>
+    <div class="note <%= done %>">
+      <p class="note-text"><%= body %></p>
+    </div>
+    <div class="edit">
+      <i class="fa fa-trash"></i>
+      <i class="fa fa-check"></i>
+    </div>
+
   </div>
 </script>
