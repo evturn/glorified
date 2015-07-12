@@ -38,8 +38,48 @@
   }
   .active-list-wrapper {
     border-top: 5px solid @primarylight;
+    .active-form .list-item {
+      min-height: 50px;
+      .input-container {
+        width: 70%;
+      }
+    }
+    .active-input.list-input,
+    .active-input.note-input {
+      height: 20px;
+      font-size: 18px;
+    }
+    .active-form .list-item .btn-container .fa {
+      margin-top: -30px;
+      right: 10px;
+    }
   }
   .active-notes-wrapper {
+    .active-notes-container {
+      .list-item {
+        min-height: 50px;
+        padding: 10px 15px 5px;
+        .note-text {
+          font-size: 14px;
+        }
+      }
+      .input-container {
+        width: 70%;
+      }
+      .timestamp-container {
+        float: left;
+        display: block;
+        width: 100%;
+        margin-bottom: -10px;
+        .thin-sm {
+          font-size: 10px;
+        }
+      }
+      .btn-container {
+        text-align: right;
+        width: 30%;
+      }
+    }
 
   }
 }
