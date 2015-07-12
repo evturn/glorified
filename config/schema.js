@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 exports.User = function() {
   return new mongoose.Schema({
+    username   : {type : String, unique: true, index: false},
     email      : {type : String, unique: false},
     name       : {type : String, unique: false},
     lastName   : {type : String, unique: false},
