@@ -58,14 +58,15 @@ var ActiveList = Backbone.View.extend({
           var view = new NoteItem({model: data});
           view.render();
           $('.active-notes-container').append(view.el);
-          $('.kurt-loader').html('<p class="thin-lg wow bounceIn">New note created</p>');
+          var message = "Note added";
+          RAMENBUFFET.e.notify(message);
           $('.note-input').val('');
       },
         error: function(err) {
-          console.log(err);
+          var message = "Note added?";
+          RAMENBUFFET.e.notify(message);
       }
     });
-    notify();
   },
   convertDate: function(date) {
     var d = new Date(date);
