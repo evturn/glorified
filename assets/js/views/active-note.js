@@ -27,7 +27,7 @@ var NoteItem = Backbone.View.extend({
       },
       error: function(err) {
         self.remove();
-        var message = "Note deleted?";
+        var message = "Error deleting note";
         RAMENBUFFET.e.notify(message);
       }
     });
@@ -46,7 +46,7 @@ var NoteItem = Backbone.View.extend({
         RAMENBUFFET.e.notify(message);
       },
       error: function(err) {
-        var message = "Note updated?";
+        var message = "Error updating note";
         RAMENBUFFET.e.notify(message);
       }
     });

@@ -63,7 +63,7 @@ var ActiveList = Backbone.View.extend({
           $('.note-input').val('');
       },
         error: function(err) {
-          var message = "Note added?";
+          var message = "Error creating note";
           RAMENBUFFET.e.notify(message);
       }
     });

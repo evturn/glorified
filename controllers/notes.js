@@ -40,13 +40,13 @@ exports.putNote = function(req, res) {
       return res.send(err);
     }
   });
-  res.send('Note updated');
+  res.send(note);
 };
 
 exports.deleteNote = function(req, res) {
   var user = req.user;
   var id = req.params.id;
-  
+
   var note = user.notes.id(id).remove();
   user.save(function(err) {
     if (err) {
@@ -55,5 +55,5 @@ exports.deleteNote = function(req, res) {
     console.log('Me deleted it');
     res.send('Note successfully deleted');
   });
-  
+
 };
