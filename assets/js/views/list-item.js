@@ -1,4 +1,4 @@
-var MenuItem = Backbone.View.extend({
+RAMENBUFFET.ListItem = Backbone.View.extend({
   className: 'menu-list list-item animated',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {

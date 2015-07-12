@@ -1,8 +1,8 @@
-var Wrapper = Backbone.View.extend({
+RAMENBUFFET.Wrapper = Backbone.View.extend({
   el: '.dmc',
   initialize: function() {
     var self = this;
-    this.collection = new Notes();
+    this.collection = new RAMENBUFFET.Notes();
     this.collection.fetch({
       success: function(data) {
         console.log('fetch ', data);
@@ -39,7 +39,7 @@ var Wrapper = Backbone.View.extend({
     for (var i = 0; i < a.length; i++) {
       var name = a[i];
       var total = self.collection.where({list: a[i]}).length;
-      var view = new MenuItem();
+      var view = new RAMENBUFFET.ListItem();
       view.render({name: name, length: total});
       $('.lists-container').append(view.el);
     }
@@ -48,9 +48,9 @@ var Wrapper = Backbone.View.extend({
   setActive: function(listName) {
     $('.active-notes-container').empty();
     var active = this.collection.where({list: listName});
-    var activeList = new ActiveList(active);
+    var activeList = new RAMENBUFFET.ActiveList(active);
     for (var i = 0; i < active.length; i++) {
-      var view = new NoteItem({model: active[i]});
+      var view = new RAMENBUFFET.ActiveNote({model: active[i]});
       view.render();
       $('.active-notes-container').append(view.el);
     }
@@ -60,6 +60,6 @@ var Wrapper = Backbone.View.extend({
     $('.active-notes-container').empty();
     $('.list-input').val('');
     $('.list-input').focus();
-    var activeList = new ActiveList();
+    var activeList = new RAMENBUFFET.ActiveList();
   }
 });

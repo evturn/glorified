@@ -1,4 +1,4 @@
-var NoteItem = Backbone.View.extend({
+RAMENBUFFET.ActiveNote = Backbone.View.extend({
   className: 'list-item wow fadeIn animated',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {

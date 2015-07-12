@@ -50,14 +50,14 @@ module.exports = {
   js: {
     src: [
       'assets/js/models/**/*.js',
-      'assets/js/collections/**/*.js',
       'assets/js/views/**/*.js',
+      'assets/js/ramenbuffet/**/*.js',
       'assets/js/main.js'
     ],
     watch: [
       'assets/js/models/**/*',
-      'assets/js/collections/**/*.js',
       'assets/js/views/**/*',
+      'assets/js/ramenbuffet/**/*.js',
       'assets/js/main.js'
     ],
     dest: 'dist/js',

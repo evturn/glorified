@@ -1,4 +1,4 @@
-var ActiveList = Backbone.View.extend({
+RAMENBUFFET.ActiveList = Backbone.View.extend({
   el: '.active-list-wrapper',
   list: null,
   inputTemplate: _.template($('#active-list-name').html()),
@@ -55,7 +55,7 @@ var ActiveList = Backbone.View.extend({
       },
       {
         success: function(data) {
-          var view = new NoteItem({model: data});
+          var view = new RAMENBUFFET.ActiveNote({model: data});
           view.render();
           $('.active-notes-container').append(view.el);
           var message = "Note added";
@@ -76,10 +76,11 @@ var ActiveList = Backbone.View.extend({
     var day = d.getDate();
     var hours = d.getHours();
     var minutes = d.getMinutes();
-    var meridiem = hours > 12 ? 'PM' : 'AM';
+    var min = minutes > 10 ? ('0' + minutes) : minutes;
+    var meridiem = hours >= 12 ? 'PM' : 'AM';
     var hour = hours > 12 ? hours - 12 : hours;
     month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
+    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
     return timestamp;
   },
 });

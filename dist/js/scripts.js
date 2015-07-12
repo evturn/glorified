@@ -1,12 +1,15 @@
-var Note = Backbone.Model.extend({
+var RAMENBUFFET = {};
+
+RAMENBUFFET.Note = Backbone.Model.extend({
   idAttribute: '_id'
 });
-var User = Backbone.Model.extend({});
-var Notes = Backbone.Collection.extend({
+
+RAMENBUFFET.Notes = Backbone.Collection.extend({
   url: '/notes',
-  model: Note
+  model: RAMENBUFFET.Note
 });
-var ActiveList = Backbone.View.extend({
+
+RAMENBUFFET.ActiveList = Backbone.View.extend({
   el: '.active-list-wrapper',
   list: null,
   inputTemplate: _.template($('#active-list-name').html()),
@@ -63,7 +66,7 @@ var ActiveList = Backbone.View.extend({
       },
       {
         success: function(data) {
-          var view = new NoteItem({model: data});
+          var view = new RAMENBUFFET.ActiveNote({model: data});
           view.render();
           $('.active-notes-container').append(view.el);
           var message = "Note added";
@@ -84,14 +87,15 @@ var ActiveList = Backbone.View.extend({
     var day = d.getDate();
     var hours = d.getHours();
     var minutes = d.getMinutes();
-    var meridiem = hours > 12 ? 'PM' : 'AM';
+    var min = minutes > 10 ? ('0' + minutes) : minutes;
+    var meridiem = hours >= 12 ? 'PM' : 'AM';
     var hour = hours > 12 ? hours - 12 : hours;
     month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
+    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
     return timestamp;
   },
 });
-var NoteItem = Backbone.View.extend({
+RAMENBUFFET.ActiveNote = Backbone.View.extend({
   className: 'list-item wow fadeIn animated',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
@@ -153,7 +157,7 @@ var NoteItem = Backbone.View.extend({
     this.render();
   },
 });
-var MenuItem = Backbone.View.extend({
+RAMENBUFFET.ListItem = Backbone.View.extend({
   className: 'menu-list list-item animated',
   itemTemplate: _.template($('#list-name-item').html()),
   initalize: function() {
@@ -165,11 +169,11 @@ var MenuItem = Backbone.View.extend({
     return this;
   },
 });
-var Wrapper = Backbone.View.extend({
+RAMENBUFFET.Wrapper = Backbone.View.extend({
   el: '.dmc',
   initialize: function() {
     var self = this;
-    this.collection = new Notes();
+    this.collection = new RAMENBUFFET.Notes();
     this.collection.fetch({
       success: function(data) {
         console.log('fetch ', data);
@@ -206,7 +210,7 @@ var Wrapper = Backbone.View.extend({
     for (var i = 0; i < a.length; i++) {
       var name = a[i];
       var total = self.collection.where({list: a[i]}).length;
-      var view = new MenuItem();
+      var view = new RAMENBUFFET.ListItem();
       view.render({name: name, length: total});
       $('.lists-container').append(view.el);
     }
@@ -215,9 +219,9 @@ var Wrapper = Backbone.View.extend({
   setActive: function(listName) {
     $('.active-notes-container').empty();
     var active = this.collection.where({list: listName});
-    var activeList = new ActiveList(active);
+    var activeList = new RAMENBUFFET.ActiveList(active);
     for (var i = 0; i < active.length; i++) {
-      var view = new NoteItem({model: active[i]});
+      var view = new RAMENBUFFET.ActiveNote({model: active[i]});
       view.render();
       $('.active-notes-container').append(view.el);
     }
@@ -227,18 +231,32 @@ var Wrapper = Backbone.View.extend({
     $('.active-notes-container').empty();
     $('.list-input').val('');
     $('.list-input').focus();
-    var activeList = new ActiveList();
+    var activeList = new RAMENBUFFET.ActiveList();
   }
 });
-new WOW().init();
-var wrapper = new Wrapper();
-
-var RAMENBUFFET = {
+RAMENBUFFET.e = {
   init: function() {
-    RAMENBUFFET.lists.init();
+    this.fixPath();
+  },
+  notify: function(notification) {
+    $('.kurt-loader').html('<p class="notification thin-lg animated fadeIn">' + notification + '</p>');
+    $('.notification').fadeOut(1000, function() {
+      $('.kurt-loader').empty();
+    });
+  },
+  fixPath: function() {
+    if (window.location.hash && window.location.hash === "#_=_") {
+      var scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      };
+      window.location.hash = "";
+
+      document.body.scrollTop = scroll.top;
+      document.body.scrollLeft = scroll.left;
+    }
   }
 };
-
 RAMENBUFFET.lists = {
   init: function() {
     this.setActiveList();
@@ -272,38 +290,15 @@ RAMENBUFFET.lists = {
     });
   }
 };
+var wrapper = new RAMENBUFFET.Wrapper();
+
+
+RAMENBUFFET.init = function() {
+    RAMENBUFFET.lists.init();
+    RAMENBUFFET.e.init();
+    new WOW().init();
+};
 
 $(document).ready(function() {
   RAMENBUFFET.init();
 });
-
-RAMENBUFFET.e = {
-  notify: function(notification) {
-    $('.kurt-loader').html('<p class="notification thin-lg animated bounceIn">' + notification + '</p>');
-    $('.notification').fadeOut('slow', function() {
-      $('.kurt-loader').empty();
-    });
-  }
-};
-
-
-
-
-$(function() {
-  $('[data-toggle="popover"]').popover({html: true});
-
-  if (window.location.hash && window.location.hash === "#_=_") {
-    var scroll = {
-      top: document.body.scrollTop,
-      left: document.body.scrollLeft
-    };
-    window.location.hash = "";
-
-    document.body.scrollTop = scroll.top;
-    document.body.scrollLeft = scroll.left;
-  }
-
-});
-
-
-
