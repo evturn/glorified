@@ -4,12 +4,7 @@ var gulp = require('gulp'),
 var paths = require('./config/paths');
 var options = require('./config/gulp-options');
 
-gulp.task('default', [
-  'less',
-  'js',
-  'lint',
-  'watch'
-]);
+gulp.task('default', ['less', 'js', 'lint', 'watch']);
 
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less']);

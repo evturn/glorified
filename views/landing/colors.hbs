@@ -4,10 +4,16 @@
     return color;
   }
   var spectrum = function() {
-    $('.fa').css('-webkit-transition', 'all 0.7s ease')
-            .css('-o-transition', 'all 0.7s ease')
-            .css('transition', 'all 0.7s ease')
-            .css('color', colorGenerator());
+
+    function go(element, attr) {
+      element.css('-webkit-transition', 'all 0.7s ease')
+             .css('-o-transition', 'all 0.7s ease')
+             .css('transition', 'all 0.7s ease')
+             .css(attr, colorGenerator());
+    }
+
+    go($('.login-facebook'), 'background-color');
+    go($('.fa'), 'color');
   };
-  setInterval(spectrum, 300);
+  setInterval(spectrum, 400);
 </script>

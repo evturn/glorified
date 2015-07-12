@@ -28,9 +28,10 @@
           margin-right: auto;
           margin-left: auto;
           margin-bottom: 0;
+          color: @grey;
           .transition(0.3s);
           &:hover {
-            color: @grey;
+            color: @primarylight;
           }
         }
       }
@@ -43,6 +44,9 @@
         .timestamp {
           width: 70%;
           display: inline-block;
+          color: @grey;
+          margin-bottom: -10px;
+          margin-top: 5px;
         }
 
         .note {
@@ -58,13 +62,15 @@
           overflow: auto;
           height: 100%;
           position: absolute;
-          top: 10px;
+          top: 0px;
+          padding-top: 20px;
           right: 10px;
           margin-left: 5px;
           .fa {
             color: @lightgrey;
             font-size: 2em;
             cursor: pointer;
+            margin-right: 10px;
             .transition(all 0.3s ease);
             &:hover {
               color: @primarylight;
