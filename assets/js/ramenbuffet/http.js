@@ -20,6 +20,7 @@ RAMENBUFFET.http = {
   put: function(cxt, model) {
     var self = cxt;
     var note = model;
+    var list = note.get('list');
     $.ajax({
       type: 'PUT',
       url: 'notes/' + note.get('_id'),
@@ -28,7 +29,13 @@ RAMENBUFFET.http = {
       success: function(data) {
         var message = "Note updated";
         RAMENBUFFET.e.notify(message);
-        console.log(data);
+        console.log('Ajaxing ', data);
+        wrapper.collection.fetch({
+          success: function(data) {
+            console.log('Fetching ', data);
+            wrapper.setActive(list);
+          }
+        });
       },
       error: function(err) {
         var message = "Error updating note";

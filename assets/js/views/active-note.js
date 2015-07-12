@@ -1,5 +1,5 @@
 RAMENBUFFET.ActiveNote = Backbone.View.extend({
-  className: 'list-item wow fadeIn animated',
+  className: 'list-item',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
@@ -40,16 +40,17 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     var list = note.get('list');
     var models = wrapper.collection.where({list: list});
     var total = models.length;
-    if (position !== 1 || 0) {
+    if (position !== 1) {
       for (var i = 0; i < total; i++) {
         if (models[i].get('position') === (position - 1)) {
           var neighbor = models[i];
+          var newPosition = neighbor.get('position');
           neighbor.set({position: position});
+          note.set({position: newPosition});
           RAMENBUFFET.http.put(self, neighbor);
+          RAMENBUFFET.http.put(self, note);
         }
       }
-      note.set({position: position - 1});
-      RAMENBUFFET.http.put(self, note);
     } else {
       return false;
     }

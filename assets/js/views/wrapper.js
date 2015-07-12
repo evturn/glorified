@@ -47,10 +47,10 @@ RAMENBUFFET.Wrapper = Backbone.View.extend({
   },
   setActive: function(listName) {
     $('.active-notes-container').empty();
-    var active = this.collection.where({list: listName});
-    var activeList = new RAMENBUFFET.ActiveList(active);
-    for (var i = 0; i < active.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: active[i]});
+    var activeModels = this.collection.where({list: listName});
+    var activeList = new RAMENBUFFET.ActiveList(activeModels);
+    for (var i = 0; i < activeModels.length; i++) {
+      var view = new RAMENBUFFET.ActiveNote({model: activeModels[i]});
       view.render();
       $('.active-notes-container').append(view.el);
     }

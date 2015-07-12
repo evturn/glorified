@@ -38,8 +38,8 @@ exports.putNote = function(req, res) {
     if (err) {
       return res.send(err);
     }
+    res.send(note);
   });
-  res.send(note);
 };
 
 exports.deleteNote = function(req, res) {

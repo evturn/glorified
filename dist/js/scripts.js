@@ -6,7 +6,8 @@ RAMENBUFFET.Note = Backbone.Model.extend({
 
 RAMENBUFFET.Notes = Backbone.Collection.extend({
   url: '/notes',
-  model: RAMENBUFFET.Note
+  model: RAMENBUFFET.Note,
+  comparator: 'position'
 });
 
 RAMENBUFFET.ActiveList = Backbone.View.extend({
@@ -86,7 +87,7 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
   },
 });
 RAMENBUFFET.ActiveNote = Backbone.View.extend({
-  className: 'list-item wow fadeIn animated',
+  className: 'list-item',
 	itemTemplate: _.template($('#list-active-item').html()),
 	initalize: function() {
 		this.render();
@@ -127,16 +128,17 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     var list = note.get('list');
     var models = wrapper.collection.where({list: list});
     var total = models.length;
-    if (position !== 1 || 0) {
+    if (position !== 1) {
       for (var i = 0; i < total; i++) {
         if (models[i].get('position') === (position - 1)) {
           var neighbor = models[i];
+          var newPosition = neighbor.get('position');
           neighbor.set({position: position});
+          note.set({position: newPosition});
           RAMENBUFFET.http.put(self, neighbor);
+          RAMENBUFFET.http.put(self, note);
         }
       }
-      note.set({position: position - 1});
-      RAMENBUFFET.http.put(self, note);
     } else {
       return false;
     }
@@ -224,10 +226,10 @@ RAMENBUFFET.Wrapper = Backbone.View.extend({
   },
   setActive: function(listName) {
     $('.active-notes-container').empty();
-    var active = this.collection.where({list: listName});
-    var activeList = new RAMENBUFFET.ActiveList(active);
-    for (var i = 0; i < active.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: active[i]});
+    var activeModels = this.collection.where({list: listName});
+    var activeList = new RAMENBUFFET.ActiveList(activeModels);
+    for (var i = 0; i < activeModels.length; i++) {
+      var view = new RAMENBUFFET.ActiveNote({model: activeModels[i]});
       view.render();
       $('.active-notes-container').append(view.el);
     }
@@ -290,6 +292,7 @@ RAMENBUFFET.http = {
   put: function(cxt, model) {
     var self = cxt;
     var note = model;
+    var list = note.get('list');
     $.ajax({
       type: 'PUT',
       url: 'notes/' + note.get('_id'),
@@ -298,7 +301,13 @@ RAMENBUFFET.http = {
       success: function(data) {
         var message = "Note updated";
         RAMENBUFFET.e.notify(message);
-        console.log(data);
+        console.log('Ajaxing ', data);
+        wrapper.collection.fetch({
+          success: function(data) {
+            console.log('Fetching ', data);
+            wrapper.setActive(list);
+          }
+        });
       },
       error: function(err) {
         var message = "Error updating note";
