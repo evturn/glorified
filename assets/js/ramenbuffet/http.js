@@ -28,6 +28,7 @@ RAMENBUFFET.http = {
       success: function(data) {
         var message = "Note updated";
         RAMENBUFFET.e.notify(message);
+        console.log(data);
       },
       error: function(err) {
         var message = "Error updating note";

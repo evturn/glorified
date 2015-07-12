@@ -40,18 +40,21 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     if (body === '' || list === '') {
       return false;
     }
-    var created = Date.now();
-    var timestamp = this.convertDate(created);
-
     if (wrapper.collection.findWhere({body: body})) {
       // Prevents duplicate saves
       return false;
     }
+    var created = Date.now();
+    var timestamp = this.convertDate(created);
+    var numOfNotes = wrapper.collection.where({list: list}).length;
+    console.log(numOfNotes);
+    var position = numOfNotes + 1;
     var note = {
-        body: body,
-        list: list,
-        created: created,
-        timestamp: timestamp
+        body      : body,
+        list      : list,
+        created   : created,
+        timestamp : timestamp,
+        position  : position
     };
     RAMENBUFFET.http.post(self, note);
   },

@@ -10,9 +10,8 @@ exports.getNotes = function(req, res) {
 
 exports.postNotes = function(req, res) {
   var currentUser = req.user;
-  var position = req.user.notes.length + 1;
   var note = new Note({
-    position: position,
+    position  : req.body.position,
     list      : req.body.list,
     body      : req.body.body,
     timestamp : req.body.timestamp,

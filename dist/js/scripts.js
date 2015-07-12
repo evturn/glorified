@@ -51,18 +51,21 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     if (body === '' || list === '') {
       return false;
     }
-    var created = Date.now();
-    var timestamp = this.convertDate(created);
-
     if (wrapper.collection.findWhere({body: body})) {
       // Prevents duplicate saves
       return false;
     }
+    var created = Date.now();
+    var timestamp = this.convertDate(created);
+    var numOfNotes = wrapper.collection.where({list: list}).length;
+    console.log(numOfNotes);
+    var position = numOfNotes + 1;
     var note = {
-        body: body,
-        list: list,
-        created: created,
-        timestamp: timestamp
+        body      : body,
+        list      : list,
+        created   : created,
+        timestamp : timestamp,
+        position  : position
     };
     RAMENBUFFET.http.post(self, note);
   },
@@ -89,8 +92,10 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
 		this.render();
 	},
   events: {
-    'click .fa-trash' : 'clear',
-    'click .fa-check' : 'put'
+    'click .fa-trash'     : 'clear',
+    'click .fa-check'     : 'put',
+    'click .fa-sort-up'   : 'moveUp',
+    'click .fa-sort-down' : 'moveDown'
   },
 	render: function() {
 		this.$el.html(this.itemTemplate(this.model.toJSON()));
@@ -114,6 +119,48 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     }
     RAMENBUFFET.http.put(self, note);
     this.render();
+  },
+  moveUp: function() {
+    var self = this;
+    var note = this.model;
+    var position = note.get('position');
+    var list = note.get('list');
+    var models = wrapper.collection.where({list: list});
+    var total = models.length;
+    if (position !== 1 || 0) {
+      for (var i = 0; i < total; i++) {
+        if (models[i].get('position') === (position - 1)) {
+          var neighbor = models[i];
+          neighbor.set({position: position});
+          RAMENBUFFET.http.put(self, neighbor);
+        }
+      }
+      note.set({position: position - 1});
+      RAMENBUFFET.http.put(self, note);
+    } else {
+      return false;
+    }
+  },
+  moveDown: function() {
+    var self = this;
+    var note = this.model;
+    var position = note.get('position');
+    var list = note.get('list');
+    var models = wrapper.collection.where({list: list});
+    var total = models.length;
+    if (position !== total) {
+      for (var i = 0; i < total; i++) {
+        if (models[i].get('position') === (position + 1)) {
+          var neighbor = models[i];
+          neighbor.set({position: position});
+          RAMENBUFFET.http.put(self, neighbor);
+        }
+      }
+      note.set({position: position + 1});
+      RAMENBUFFET.http.put(self, note);
+    } else {
+      return false;
+    }
   },
 });
 RAMENBUFFET.ListItem = Backbone.View.extend({
@@ -251,6 +298,7 @@ RAMENBUFFET.http = {
       success: function(data) {
         var message = "Note updated";
         RAMENBUFFET.e.notify(message);
+        console.log(data);
       },
       error: function(err) {
         var message = "Error updating note";
