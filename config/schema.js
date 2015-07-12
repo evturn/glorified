@@ -2,15 +2,15 @@ var mongoose = require('mongoose');
 
 exports.User = function() {
   return new mongoose.Schema({
-    username   : {type : String, unique: true},
-    email      : {type : String, unique: true},
+    username   : {type : String},
+    email      : {type : String},
     name       : {type : String},
     lastName   : {type : String},
     firstName  : {type : String},
     gender     : {type : String},
     fbProfile  : {type : String},
     password   : {type : String},
-    fbId       : {type : String},
+    fbId       : {type : String, unique: true},
     fbToken    : {type : String},
     fbEmail    : {type : String},
     fbName     : {type : String},
