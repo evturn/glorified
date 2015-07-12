@@ -31,42 +31,31 @@
   }
 }
 
-.active-form .list-item {
+.active-form .list-item.form-list-note {
   min-height: 70px;
   border-bottom: 1px solid @grey;
   position: relative;
-  .input-container {
+  .left-container {
     float: left;
-    width: 80%;
-  }
-  .btn-container {
-    float: right;
-    width: 20%;
-    text-align: center;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    text-align: left;
     .fa {
-      font-size: 3em;
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      position: absolute;
-      margin-top: -20px;
-      z-index: 1;
-      color: @white;
-      background-color: @grey;
-      padding-top: 20px;
-      padding-left: 2px;
-      right: 20px;
+      font-size: 2em;
+      margin-right: auto;
+      margin-left: auto;
+      color: @whitesmoke;
       .transition(all 0.2s ease);
       &.ready {
-        font-size: 3.3em;
-        color: @whitesmoke;
-        background-color: @primarylight;
-        height: 90px;
-        width: 90px;
-        padding-top: 25px;
-        margin-top: -25px;
-        right: 15px;
+        font-size: 2.1em;
+        color: @primarylight;
       }
     }
+  }
+  .input-container {
+    padding: 15px 0 10px;
+    display: inline-block;
   }
 }
