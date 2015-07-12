@@ -1,11 +1,6 @@
 .app-navbar {
-  background-color: @grey;
-
-}
-.nav-wrapper {
-  padding-left: 15px;
-  padding-right: 15px;
   text-align: center;
+  background-color: @grey;
   height: 65px;
     & a {
     color: @white;
@@ -52,9 +47,8 @@
   }
 }
 
-
 @media (min-width: @screen-sm) {
-  .nav-wrapper {
+  .app-navbar {
     height: 50px;
     .app-header {
       text-align: center;
@@ -76,58 +70,4 @@
       }
     }
   }
-  .popover.fade.bottom.in {
-    display: none !important;
-  }
 }
-
-  .popover.fade.bottom.in,
-  .popover.fade.bottom {
-    height: 60px;
-    width: 100px;
-    border-radius: 20px;
-    font-size: 22px;
-    text-transform: uppercase;
-    .popover-content {
-      text-align: left;
-      padding: 10px 5px;
-      a {
-        cursor: pointer;
-        color: @whitesmoke;
-        padding-bottom: 30px;
-      }
-    }
-  }
-  .popover.fade.bottom.in,
-  .popover.fade.bottom {
-    top: 62px !important;
-    left: 240px !important;
-  }
-  .popover.bottom>.arrow {
-    top: -8px;
-    border-top-color: none;
-    border-top-color: @primarylight;
-    border-bottom-color: @primarylight;
-    margin-left: 18px;
-    bottom: -9px;
-  }
-  .popover.bottom>.arrow:before {
-    border-top-color: none;
-  }
-  .popover.bottom>.arrow:after {
-    border-top-color: @primarylight;
-    bottom: 1px;
-    margin-left: -9px;
-    content: " ";
-    border-top-color: @primarylight;
-    border-bottom-width: 0;
-    border-bottom-color: @primarylight;
-  }
-
-  .popover {
-    border: 0;
-    border-radius: 0;
-    -webskit-box-shadow: 0;
-    box-shadow: 0 0 0 0;
-    background-color: @primarylight;
-  }
