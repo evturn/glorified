@@ -1,26 +1,38 @@
-@media (max-width: @screen-sm) {
-  .active-list-wrapper {
-    .left-container {
-      float: left;
+.active-list-wrapper {
+  border-top: 5px solid @primarylight;
+  .active-form .list-item {
+    min-height: 50px;
+    .input-container {
+      width: 70%;
+    }
+  }
+
+  .left-container {
+    float: left;
+    display: inline-block;
+    width: 15%;
+    height: 50px;
+    padding: 10px;
+    text-align: left;
+    .create-list-btn .fa{
+      font-size: 2em;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+
+  .active-form .list-item.form-list-name {
+    padding: 0;
+    .input-container {
+      padding: 15px 15px 10px;
+      float: right;
+      width: 85%;
       display: inline-block;
-      width: 15%;
-      height: 50px;
-      padding: 10px;
-      text-align: left;
-      .create-list-btn .fa{
-        font-size: 2em;
-        margin-right: auto;
-        margin-left: auto;
-      }
     }
-    .active-form .list-item.form-list-name {
-      padding: 0;
-      .input-container {
-        padding: 15px 15px 10px;
-        float: right;
-        width: 85%;
-        display: inline-block;
-      }
-    }
+  }
+  .active-input.list-input,
+  .active-input.note-input {
+    height: 20px;
+    font-size: 18px;
   }
 }
