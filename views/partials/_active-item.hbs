@@ -1,11 +1,15 @@
 <script type="text/template" id="list-active-item">
-  <div class="timestamp-container">
-    <p class="thin-sm"><%= timestamp %></p>
+  <div class="left-container">
+    <i class="fa fa-sort-up"></i>
+    <i class="fa fa-sort-down"></i>
   </div>
   <% var done = this.model.get('done') ? 'done' : '' %>
   <div class="input-container <%= done %>">
     <p class="note-text"><%= body %></p>
   </div>
+    <div class="timestamp-container">
+      <p class="thin-sm"><%= timestamp %></p>
+    </div>
   <div class="btn-container">
     <i class="fa fa-trash"></i>
     <i class="fa fa-check"></i>

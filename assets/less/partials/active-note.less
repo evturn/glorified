@@ -6,15 +6,28 @@
   .list-item {
     height: 100%;
     min-height: 45px;
-    padding: 20px 15px 5px;
+    padding: 0;
     .transition(all 0.6s ease);
+  }
+  .left-container {
+    float: left;
+    display: inline-block;
+    width: 15%;
+    height: 50px;
+    text-align: left;
+    .fa{
+      display: block;
+      font-size: 3em;
+      margin-bottom: -35px;
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
   .input-container {
     width: 60%;
     @media (min-width: @screen-lg) {
       width: 70%;
     }
-    float: left;
     display: inline-block;
     .transition(all 0.3s ease);
   }
