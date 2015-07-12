@@ -42,20 +42,31 @@
 }
 
 @media (min-width: @screen-sm) {
+  .dmc {
+    max-width: @screen-lg;
+  }
+
   .lists-wrapper {
     display: inline-block;
-    width: 20%;
+    width: 30%;
   }
 
   .active-desktop {
-    width: 77%;
+    width: 67%;
     margin-left: 3%;
     display: inline-block;
-  .active-list-wrapper,
-  .active-notes-wrapper {
-    display: inline-block;
-  }
-
+    .active-list-wrapper,
+    .active-notes-wrapper {
+      display: inline-block;
+    }
+    .active-notes-wrapper .active-notes-container {
+      .right-container {
+        width: 93%;
+      }
+      .left-container {
+        width: 5%;
+      }
+    }
   }
 
 }
