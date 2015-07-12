@@ -47,26 +47,13 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
       // Makes sure of no duplicates
       return false;
     }
-    wrapper.collection.create({
+    var note = {
         body: body,
         list: list,
         created: created,
         timestamp: timestamp
-      },
-      {
-        success: function(data) {
-          var view = new RAMENBUFFET.ActiveNote({model: data});
-          view.render();
-          $('.active-notes-container').append(view.el);
-          var message = "Note added";
-          RAMENBUFFET.e.notify(message);
-          $('.note-input').val('');
-      },
-        error: function(err) {
-          var message = "Error creating note";
-          RAMENBUFFET.e.notify(message);
-      }
-    });
+    };
+    RAMENBUFFET.http.post(self, note);
   },
   convertDate: function(date) {
     var d = new Date(date);
