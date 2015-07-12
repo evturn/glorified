@@ -4,7 +4,7 @@ RAMENBUFFET.e = {
   },
   notify: function(notification) {
     var $loader = $('.kurt-loader');
-    var icon = '<i class="fa fa-bolt"></i>';
+    var icon = '<i class="fa fa-asterisk"></i>';
     var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
     $loader.html(message);
     var $notification = $('.notification');

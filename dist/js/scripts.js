@@ -88,20 +88,20 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
 });
 RAMENBUFFET.ActiveNote = Backbone.View.extend({
   className: 'list-item',
-	itemTemplate: _.template($('#list-active-item').html()),
-	initalize: function() {
-		this.render();
-	},
+  itemTemplate: _.template($('#list-active-item').html()),
+  initalize: function() {
+    this.render();
+  },
   events: {
     'click .fa-trash'     : 'clear',
     'click .fa-check'     : 'put',
     'click .fa-sort-up'   : 'moveUp',
     'click .fa-sort-down' : 'moveDown'
   },
-	render: function() {
-		this.$el.html(this.itemTemplate(this.model.toJSON()));
-		return this;
-	},
+  render: function() {
+    this.$el.html(this.itemTemplate(this.model.toJSON()));
+    return this;
+  },
   clear: function() {
     var self = this;
     var note = this.model;
@@ -248,7 +248,7 @@ RAMENBUFFET.e = {
   },
   notify: function(notification) {
     var $loader = $('.kurt-loader');
-    var icon = '<i class="fa fa-bolt"></i>';
+    var icon = '<i class="fa fa-asterisk"></i>';
     var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
     $loader.html(message);
     var $notification = $('.notification');
