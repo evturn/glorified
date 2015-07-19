@@ -1,4 +1,5 @@
-var wrapper = new RAMENBUFFET.Wrapper();
+var notes = new RAMENBUFFET.Notes();
+var wrapper = new RAMENBUFFET.App({collection: notes});
 
 RAMENBUFFET.init = function() {
     RAMENBUFFET.lists.init();

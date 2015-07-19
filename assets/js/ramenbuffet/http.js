@@ -1,4 +1,24 @@
 RAMENBUFFET.http = {
+
+  get: function(callback) {
+
+    notes.fetch({
+
+      success: function(data) {
+        RAMENBUFFET.fn.setLists(data);
+        RAMENBUFFET.fn.setActive(data);
+
+        return data;
+      },
+
+      error: function(err) {
+        return RAMENBUFFET.e.notify(err);
+      }
+
+    });
+
+  },
+
   post: function(cxt, model) {
     var self = cxt;
     var note = model;
