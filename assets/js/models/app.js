@@ -7,5 +7,6 @@ RAMENBUFFET.Note = Backbone.Model.extend({
 RAMENBUFFET.Notes = Backbone.Collection.extend({
   url: '/notes',
   model: RAMENBUFFET.Note,
+  wait: true,
   comparator: 'position'
 });

@@ -42,9 +42,15 @@ RAMENBUFFET.fn = {
     var models = notes.where({list: listname});
     var active = new RAMENBUFFET.ActiveList(models);
 
+    var listModels = new RAMENBUFFET.Notes(models);
+    for (var i = 0; i < listModels.length; i++) {
+      var listedNote = listModels.models[i].set({position: i + 1});
+
+    }
+
     $notes.empty();
-    for (var i = 0; i < models.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: models[i]});
+    for (var i = 0; i < listModels.length; i++) {
+      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[i]});
 
       view.render();
       $notes.append(view.el);

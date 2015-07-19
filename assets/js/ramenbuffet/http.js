@@ -32,14 +32,12 @@ RAMENBUFFET.http = {
         created   : created,
         timestamp : timestamp,
         position  : total + 1
-    }, success: function(data) {
-      console.log(data);
-      var view = new RAMENBUFFET.ActiveNote({model: data});
-      view.render();
-      $('.active-notes-container').append(view.el);
-      RAMENBUFFET.e.notify('Note added');
-
     });
+    var view = new RAMENBUFFET.ActiveNote({model: data});
+    view.render();
+    $('.active-notes-container').append(view.el);
+    RAMENBUFFET.e.notify('Note added');
+
   },
 
   put: function(model) {
@@ -63,23 +61,16 @@ RAMENBUFFET.http = {
     });
   },
 
-  destroy: function(cxt, model) {
-    var self = cxt;
-    var note = model;
-    $.ajax({
-      type: 'DELETE',
-      url: 'notes/' + note.get('_id'),
-      data: note.toJSON(),
-      success: function(data) {
-        notes.remove(note.get('_id'));
-        self.remove();
-        var message = "Note deleted";
-        RAMENBUFFET.e.notify(message);
+  destroy: function(model) {
+    model.destroy({
+      success: function(model, response) {
+        notes.remove(model);
+        RAMENBUFFET.e.notify('Note deleted');
+        console.log(response);
       },
       error: function(err) {
-        self.remove();
-        var message = "Error deleting note";
-        RAMENBUFFET.e.notify(message);
+        RAMENBUFFET.e.notify(err);
+        console.log(err);
       }
     });
   },

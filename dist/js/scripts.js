@@ -7,6 +7,7 @@ RAMENBUFFET.Note = Backbone.Model.extend({
 RAMENBUFFET.Notes = Backbone.Collection.extend({
   url: '/notes',
   model: RAMENBUFFET.Note,
+  wait: true,
   comparator: 'position'
 });
 
@@ -120,7 +121,7 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
 
         if (positionB === (positionA - 1)) {
           note.set({position: positionB});
-          adjacent.set({position: positionA});
+          ajacent.set({position: positionA});
 
 
         }
@@ -274,9 +275,15 @@ RAMENBUFFET.fn = {
     var models = notes.where({list: listname});
     var active = new RAMENBUFFET.ActiveList(models);
 
+    var listModels = new RAMENBUFFET.Notes(models);
+    for (var i = 0; i < listModels.length; i++) {
+      var listedNote = listModels.models[i].set({position: i + 1});
+
+    }
+
     $notes.empty();
-    for (var i = 0; i < models.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: models[i]});
+    for (var i = 0; i < listModels.length; i++) {
+      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[i]});
 
       view.render();
       $notes.append(view.el);
@@ -336,14 +343,12 @@ RAMENBUFFET.http = {
         created   : created,
         timestamp : timestamp,
         position  : total + 1
-    }, success: function(data) {
-      console.log(data);
-      var view = new RAMENBUFFET.ActiveNote({model: data});
-      view.render();
-      $('.active-notes-container').append(view.el);
-      RAMENBUFFET.e.notify('Note added');
-
     });
+    var view = new RAMENBUFFET.ActiveNote({model: data});
+    view.render();
+    $('.active-notes-container').append(view.el);
+    RAMENBUFFET.e.notify('Note added');
+
   },
 
   put: function(model) {
@@ -367,23 +372,16 @@ RAMENBUFFET.http = {
     });
   },
 
-  destroy: function(cxt, model) {
-    var self = cxt;
-    var note = model;
-    $.ajax({
-      type: 'DELETE',
-      url: 'notes/' + note.get('_id'),
-      data: note.toJSON(),
-      success: function(data) {
-        notes.remove(note.get('_id'));
-        self.remove();
-        var message = "Note deleted";
-        RAMENBUFFET.e.notify(message);
+  destroy: function(model) {
+    model.destroy({
+      success: function(model, response) {
+        notes.remove(model);
+        RAMENBUFFET.e.notify('Note deleted');
+        console.log(response);
       },
       error: function(err) {
-        self.remove();
-        var message = "Error deleting note";
-        RAMENBUFFET.e.notify(message);
+        RAMENBUFFET.e.notify(err);
+        console.log(err);
       }
     });
   },

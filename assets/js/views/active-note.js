@@ -53,7 +53,7 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
 
         if (positionB === (positionA - 1)) {
           note.set({position: positionB});
-          adjacent.set({position: positionA});
+          ajacent.set({position: positionA});
 
 
         }
