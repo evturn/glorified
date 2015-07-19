@@ -46,45 +46,24 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     }
   },
   createNote: function() {
-    var self = this;
     var body = $('.note-input').val();
     var list = $('.list-input').val();
-    if (body === '' || list === '') {
+    if (body.trim() && list.trim() === '') {
       return false;
     }
-    if (wrapper.collection.findWhere({body: body})) {
+    if (notes.findWhere({body: body})) {
       // Prevents duplicate saves
       return false;
     }
-    var created = Date.now();
-    var timestamp = this.convertDate(created);
-    var numOfNotes = wrapper.collection.where({list: list}).length;
-    console.log(numOfNotes);
-    var position = numOfNotes + 1;
+
     var note = {
-        body      : body,
-        list      : list,
-        created   : created,
-        timestamp : timestamp,
-        position  : position
+        body : body,
+        list : list
     };
-    RAMENBUFFET.http.post(self, note);
+
+    RAMENBUFFET.http.post(note);
   },
-  convertDate: function(date) {
-    var d = new Date(date);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var min = minutes > 10 ? minutes : ('0' + minutes);
-    var meridiem = hours >= 12 ? 'PM' : 'AM';
-    var hour = hours > 12 ? hours - 12 : hours;
-    month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
-    return timestamp;
-  },
+
 });
 RAMENBUFFET.ActiveNote = Backbone.View.extend({
   className: 'list-item',
@@ -103,52 +82,68 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     return this;
   },
   clear: function() {
-    var self = this;
-    var note = this.model;
-    RAMENBUFFET.http.destroy(self, note);
+    RAMENBUFFET.http.destroy(this.model);
   },
   done: function(e) {
     var $evt = $(e.currentTarget);
-    var self = this;
+    var $selector = $evt.parent().parent();
     var note = this.model;
+
+
     if (!note.get('done')) {
-      $evt.parent().parent().addClass('done');
       note.set({done: true});
-    } else {
-      $evt.parent().parent().removeClass('done');
-      note.set({done: false});
+      $selector.addClass('done');
     }
-    RAMENBUFFET.http.put(self, note);
+    else {
+      note.set({done: false});
+      $selector.removeClass('done');
+
+    }
+
+    RAMENBUFFET.http.put(note);
     this.render();
   },
   moveUp: function() {
-    var self = this;
     var note = this.model;
-    var position = note.get('position');
-    var list = note.get('list');
-    var models = wrapper.collection.where({list: list});
-    var total = models.length;
-    if (position !== 1) {
+    var positionA = note.get('position');
+    var listname = note.get('list');
+    var list = notes.where({list: listname});
+    var total = list.length;
+
+    if (positionA !== 1) {
+      var ajacent;
+      var positionB;
+
       for (var i = 0; i < total; i++) {
-        if (models[i].get('position') === (position - 1)) {
-          var neighbor = models[i];
-          var newPosition = neighbor.get('position');
-          neighbor.set({position: position});
-          note.set({position: newPosition});
-          RAMENBUFFET.http.put(self, neighbor);
-          RAMENBUFFET.http.put(self, note);
+          var ajacent = list[i]; // jshint ignore:line
+          var positionB = ajacent.get('position'); // jshint ignore:line
+
+        if (positionB === (positionA - 1)) {
+          note.set({position: positionB});
+          adjacent.set({position: positionA});
+
+
         }
+
       }
-    } else {
+
+    RAMENBUFFET.http.put(note);
+    RAMENBUFFET.http.put(ajacent);
+    }
+
+
+    else {
+
       return false;
     }
+
   },
   moveDown: function() {
     var self = this;
     var note = this.model;
     var position = note.get('position');
     var list = note.get('list');
-    var models = wrapper.collection.where({list: list});
+    var models = notes.where({list: list});
     var total = models.length;
     if (position !== total) {
       for (var i = 0; i < total; i++) {
@@ -188,13 +183,15 @@ RAMENBUFFET.App = Backbone.View.extend({
   },
 
   events: {
-    'click .create-list-btn' : 'newList',
+    'click .create-list-btn'     : 'newList',
     'click .menu-list.list-item' : 'select'
   },
+
   select: function(e) {
-    console.log(e);
-    var $listName = $(e.currentTarget).data('id');
-    RAMENBUFFET.fn.setActive(this.collection, $listName);
+    var $listname = $(e.currentTarget).data('id');
+
+    RAMENBUFFET.fn.selectList($listname);
+
     return this;
   },
 
@@ -235,6 +232,12 @@ RAMENBUFFET.e = {
 };
 RAMENBUFFET.fn = {
 
+  selectList: function(listname) {
+    RAMENBUFFET.fn.setActive(listname);
+
+    return this;
+  },
+
   setLists: function(collection) {
     var $lists = $('.lists-container');
     var array = [];
@@ -266,9 +269,9 @@ RAMENBUFFET.fn = {
     return this;
   },
 
-  setActive: function(collection, listname) {
+  setActive: function(listname) {
     var $notes = $('.active-notes-container');
-    var models = collection.where({list: listname});
+    var models = notes.where({list: listname});
     var active = new RAMENBUFFET.ActiveList(models);
 
     $notes.empty();
@@ -282,6 +285,22 @@ RAMENBUFFET.fn = {
     return this;
   },
 
+  convertDate: function(date) {
+    var d = new Date(date);
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var min = minutes > 10 ? minutes : ('0' + minutes);
+    var meridiem = hours >= 12 ? 'PM' : 'AM';
+    var hour = hours > 12 ? hours - 12 : hours;
+    month = ('' + (month + 1)).slice(-2);
+    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+    return timestamp;
+  },
+
 };
 RAMENBUFFET.http = {
 
@@ -290,8 +309,10 @@ RAMENBUFFET.http = {
     notes.fetch({
 
       success: function(data) {
+        var listname = "New List";
+
         RAMENBUFFET.fn.setLists(data);
-        RAMENBUFFET.fn.setActive(data);
+        RAMENBUFFET.fn.setActive(listname);
 
         return data;
       },
@@ -304,51 +325,48 @@ RAMENBUFFET.http = {
 
   },
 
-  post: function(cxt, model) {
-    var self = cxt;
-    var note = model;
-    wrapper.collection.create(note, {
-      success: function(data) {
-        var view = new RAMENBUFFET.ActiveNote({model: data});
-        view.render();
-        $('.active-notes-container').append(view.el);
-        var message = "Note added";
-        RAMENBUFFET.e.notify(message);
-        $('.note-input').val('');
-      },
-      error: function(err) {
-        var message = "Error creating note";
-        RAMENBUFFET.e.notify(message);
-      }
+  post: function(model) {
+    var listname = model.list;
+    var created    = Date.now();
+    var timestamp  = RAMENBUFFET.fn.convertDate(created);
+    var total = notes.where({list: listname}).length;
+    notes.create({
+        body      : model.body,
+        list      : model.list,
+        created   : created,
+        timestamp : timestamp,
+        position  : total + 1
+    }, success: function(data) {
+      console.log(data);
+      var view = new RAMENBUFFET.ActiveNote({model: data});
+      view.render();
+      $('.active-notes-container').append(view.el);
+      RAMENBUFFET.e.notify('Note added');
+
     });
   },
-  put: function(cxt, model) {
-    var self = cxt;
+
+  put: function(model) {
     var note = model;
-    var list = note.get('list');
+    var listname = model.get('list');
+
+    console.log(note);
     $.ajax({
       type: 'PUT',
       url: 'notes/' + note.get('_id'),
       data: note.toJSON(),
       dataType: 'JSON',
       success: function(data) {
-        var message = "Note updated";
-        RAMENBUFFET.e.notify(message);
+        RAMENBUFFET.e.notify('Note updated');
         console.log('Ajaxing ', data);
-        wrapper.collection.fetch({
-          success: function(data) {
-            console.log('Fetching ', data);
-            wrapper.setActive(list);
-          }
-        });
+        RAMENBUFFET.fn.setActive(listname);
       },
       error: function(err) {
-        var message = "Error updating note";
-        RAMENBUFFET.e.notify(message);
-        console.log(err);
+        RAMENBUFFET.e.notify(err);
       }
     });
   },
+
   destroy: function(cxt, model) {
     var self = cxt;
     var note = model;
@@ -357,7 +375,7 @@ RAMENBUFFET.http = {
       url: 'notes/' + note.get('_id'),
       data: note.toJSON(),
       success: function(data) {
-        wrapper.collection.remove(note.get('_id'));
+        notes.remove(note.get('_id'));
         self.remove();
         var message = "Note deleted";
         RAMENBUFFET.e.notify(message);

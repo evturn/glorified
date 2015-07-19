@@ -9,13 +9,15 @@ RAMENBUFFET.App = Backbone.View.extend({
   },
 
   events: {
-    'click .create-list-btn' : 'newList',
+    'click .create-list-btn'     : 'newList',
     'click .menu-list.list-item' : 'select'
   },
+
   select: function(e) {
-    console.log(e);
-    var $listName = $(e.currentTarget).data('id');
-    RAMENBUFFET.fn.setActive(this.collection, $listName);
+    var $listname = $(e.currentTarget).data('id');
+
+    RAMENBUFFET.fn.selectList($listname);
+
     return this;
   },
 

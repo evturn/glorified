@@ -15,52 +15,68 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     return this;
   },
   clear: function() {
-    var self = this;
-    var note = this.model;
-    RAMENBUFFET.http.destroy(self, note);
+    RAMENBUFFET.http.destroy(this.model);
   },
   done: function(e) {
     var $evt = $(e.currentTarget);
-    var self = this;
+    var $selector = $evt.parent().parent();
     var note = this.model;
+
+
     if (!note.get('done')) {
-      $evt.parent().parent().addClass('done');
       note.set({done: true});
-    } else {
-      $evt.parent().parent().removeClass('done');
-      note.set({done: false});
+      $selector.addClass('done');
     }
-    RAMENBUFFET.http.put(self, note);
+    else {
+      note.set({done: false});
+      $selector.removeClass('done');
+
+    }
+
+    RAMENBUFFET.http.put(note);
     this.render();
   },
   moveUp: function() {
-    var self = this;
     var note = this.model;
-    var position = note.get('position');
-    var list = note.get('list');
-    var models = wrapper.collection.where({list: list});
-    var total = models.length;
-    if (position !== 1) {
+    var positionA = note.get('position');
+    var listname = note.get('list');
+    var list = notes.where({list: listname});
+    var total = list.length;
+
+    if (positionA !== 1) {
+      var ajacent;
+      var positionB;
+
       for (var i = 0; i < total; i++) {
-        if (models[i].get('position') === (position - 1)) {
-          var neighbor = models[i];
-          var newPosition = neighbor.get('position');
-          neighbor.set({position: position});
-          note.set({position: newPosition});
-          RAMENBUFFET.http.put(self, neighbor);
-          RAMENBUFFET.http.put(self, note);
+          var ajacent = list[i]; // jshint ignore:line
+          var positionB = ajacent.get('position'); // jshint ignore:line
+
+        if (positionB === (positionA - 1)) {
+          note.set({position: positionB});
+          adjacent.set({position: positionA});
+
+
         }
+
       }
-    } else {
+
+    RAMENBUFFET.http.put(note);
+    RAMENBUFFET.http.put(ajacent);
+    }
+
+
+    else {
+
       return false;
     }
+
   },
   moveDown: function() {
     var self = this;
     var note = this.model;
     var position = note.get('position');
     var list = note.get('list');
-    var models = wrapper.collection.where({list: list});
+    var models = notes.where({list: list});
     var total = models.length;
     if (position !== total) {
       for (var i = 0; i < total; i++) {

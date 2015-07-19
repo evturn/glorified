@@ -34,43 +34,22 @@ RAMENBUFFET.ActiveList = Backbone.View.extend({
     }
   },
   createNote: function() {
-    var self = this;
     var body = $('.note-input').val();
     var list = $('.list-input').val();
-    if (body === '' || list === '') {
+    if (body.trim() && list.trim() === '') {
       return false;
     }
-    if (wrapper.collection.findWhere({body: body})) {
+    if (notes.findWhere({body: body})) {
       // Prevents duplicate saves
       return false;
     }
-    var created = Date.now();
-    var timestamp = this.convertDate(created);
-    var numOfNotes = wrapper.collection.where({list: list}).length;
-    console.log(numOfNotes);
-    var position = numOfNotes + 1;
+
     var note = {
-        body      : body,
-        list      : list,
-        created   : created,
-        timestamp : timestamp,
-        position  : position
+        body : body,
+        list : list
     };
-    RAMENBUFFET.http.post(self, note);
+
+    RAMENBUFFET.http.post(note);
   },
-  convertDate: function(date) {
-    var d = new Date(date);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var min = minutes > 10 ? minutes : ('0' + minutes);
-    var meridiem = hours >= 12 ? 'PM' : 'AM';
-    var hour = hours > 12 ? hours - 12 : hours;
-    month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
-    return timestamp;
-  },
+
 });

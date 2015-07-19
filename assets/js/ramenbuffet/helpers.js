@@ -1,5 +1,11 @@
 RAMENBUFFET.fn = {
 
+  selectList: function(listname) {
+    RAMENBUFFET.fn.setActive(listname);
+
+    return this;
+  },
+
   setLists: function(collection) {
     var $lists = $('.lists-container');
     var array = [];
@@ -31,9 +37,9 @@ RAMENBUFFET.fn = {
     return this;
   },
 
-  setActive: function(collection, listname) {
+  setActive: function(listname) {
     var $notes = $('.active-notes-container');
-    var models = collection.where({list: listname});
+    var models = notes.where({list: listname});
     var active = new RAMENBUFFET.ActiveList(models);
 
     $notes.empty();
@@ -45,6 +51,22 @@ RAMENBUFFET.fn = {
     }
 
     return this;
+  },
+
+  convertDate: function(date) {
+    var d = new Date(date);
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var min = minutes > 10 ? minutes : ('0' + minutes);
+    var meridiem = hours >= 12 ? 'PM' : 'AM';
+    var hour = hours > 12 ? hours - 12 : hours;
+    month = ('' + (month + 1)).slice(-2);
+    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+    return timestamp;
   },
 
 };
