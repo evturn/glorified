@@ -282,9 +282,8 @@ RAMENBUFFET.fn = {
     }
 
     $notes.empty();
-    for (var i = 0; i < listModels.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[i]});
-
+    for (var j = 0; j < listModels.length; j++) {
+      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[j]});
       view.render();
       $notes.append(view.el);
     }
@@ -337,16 +336,17 @@ RAMENBUFFET.http = {
     var created    = Date.now();
     var timestamp  = RAMENBUFFET.fn.convertDate(created);
     var total = notes.where({list: listname}).length;
-    notes.create({
+    var note = notes.create({
         body      : model.body,
-        list      : model.list,
+        list      : listname,
         created   : created,
         timestamp : timestamp,
         position  : total + 1
     });
-    var view = new RAMENBUFFET.ActiveNote({model: data});
+    var view = new RAMENBUFFET.ActiveNote({model: note});
     view.render();
     $('.active-notes-container').append(view.el);
+    RAMENBUFFET.fn.setLists(notes);
     RAMENBUFFET.e.notify('Note added');
 
   },

@@ -49,9 +49,8 @@ RAMENBUFFET.fn = {
     }
 
     $notes.empty();
-    for (var i = 0; i < listModels.length; i++) {
-      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[i]});
-
+    for (var j = 0; j < listModels.length; j++) {
+      var view = new RAMENBUFFET.ActiveNote({model: listModels.models[j]});
       view.render();
       $notes.append(view.el);
     }
