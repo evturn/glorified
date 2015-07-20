@@ -60,6 +60,7 @@ RB.setNotes = function(selector, collection) {
   var listname = collection.models[0].get('list');
   $('.active-input.list-input').val(listname);
   $selector = RB.tojquery(selector);
+  $selector.empty();
   collection.each(function(model) {
     var view = new RB.NoteItem({model: model});
     $selector.append(view.render().el);
