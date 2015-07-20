@@ -5,11 +5,13 @@ RB.Note = Backbone.Model.extend({});
 RB.Notes = Backbone.Collection.extend({
   model: RB.Note,
   url: '/notes',
+  merge: true,
 });
 
 RB.List = Backbone.Collection.extend({
   model: RB.Note,
   url: '/notes',
+  merge: true,
 });
 RB.all = function() {
   var notes = new RB.Notes();
@@ -19,6 +21,7 @@ RB.all = function() {
     success: function(collection) {
       console.log(collection);
       var app = new RB.App({collection: collection});
+      RB.collection = collection;
     },
     error: function(err) {
       console.log(err);
@@ -132,6 +135,51 @@ RB.tojquery = function(element) {
   }
 
 };
+
+RB.convertDate = function(date) {
+  var d = new Date(date);
+  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  var year = d.getFullYear();
+  var month = d.getMonth();
+  var day = d.getDate();
+  var hours = d.getHours();
+  var minutes = d.getMinutes();
+  var min = minutes > 10 ? minutes : ('0' + minutes);
+  var meridiem = hours >= 12 ? 'PM' : 'AM';
+  var hour = hours > 12 ? hours - 12 : hours;
+  month = ('' + (month + 1)).slice(-2);
+  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+  return timestamp;
+};
+RB.post = function() {
+  var date = Date.now();
+  var timestamp = RB.convertDate(date);
+  var notes = RB.collection;
+  var note = {
+    body: $('.note-input').val(),
+    list: $('.list-input').val(),
+    created: date,
+    timestamp: timestamp,
+    done: false
+  };
+
+  if (notes.findWhere({body: note.body}) && notes.findWhere({list: note.list})) {
+    return false;
+  }
+
+  var saved = notes.create(note);
+  console.log(saved);
+  return saved;
+
+};
+
+RB.put = function() {
+
+};
+
+RB.destroy = function() {
+
+};
 RB.e = {
   init: function() {
     RB.e.setActiveList();
@@ -209,10 +257,47 @@ RB.Input = Backbone.View.extend({
     this.render();
   },
 
+  events: {
+    'click .create-note-btn' : 'createNote',
+    'keyup .note-input'      : 'createOnEnter',
+    'keyup .active-input'    : 'validate'
+  },
+
   render: function() {
     $('.active-list-container').html(this.inputTemplate());
 
     return this;
+  },
+
+  createOnEnter: function(e) {
+    if (e.keyCode === 13) {
+      this.createNote();
+    }
+  },
+
+  validate: function() {
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
+
+    if (body.trim() && list.trim() !== '') {
+      $('.create-note-btn .fa').addClass('ready');
+    }
+    else {
+      $('.create-note-btn .fa').removeClass('ready');
+    }
+
+  },
+
+  createNote: function() {
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
+
+    if (body.trim() && list.trim() !== '') {
+      RB.post();
+      return false;
+    }
+
+    return false;
   },
 
 });

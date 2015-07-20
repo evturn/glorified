@@ -6,6 +6,7 @@ RB.all = function() {
     success: function(collection) {
       console.log(collection);
       var app = new RB.App({collection: collection});
+      RB.collection = collection;
     },
     error: function(err) {
       console.log(err);
@@ -118,4 +119,20 @@ RB.tojquery = function(element) {
       }
   }
 
+};
+
+RB.convertDate = function(date) {
+  var d = new Date(date);
+  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  var year = d.getFullYear();
+  var month = d.getMonth();
+  var day = d.getDate();
+  var hours = d.getHours();
+  var minutes = d.getMinutes();
+  var min = minutes > 10 ? minutes : ('0' + minutes);
+  var meridiem = hours >= 12 ? 'PM' : 'AM';
+  var hour = hours > 12 ? hours - 12 : hours;
+  month = ('' + (month + 1)).slice(-2);
+  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+  return timestamp;
 };

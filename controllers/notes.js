@@ -22,7 +22,7 @@ exports.postNotes = function(req, res) {
     if (err) {
       return console.log(err);
     }
-    console.log('Me just saved: ', note);
+    console.log('Data: ', note);
     res.send(note);
   });
 };
