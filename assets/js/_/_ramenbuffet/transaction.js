@@ -1,26 +1,8 @@
-RAMENBUFFET.ActiveNote = Backbone.View.extend({
-  className: 'list-item',
-  itemTemplate: _.template($('#list-active-item').html()),
-  initalize: function() {
-    this.render();
-  },
-  events: {
-    'click .fa-trash'     : 'clear',
-    'click .fa-check'     : 'done',
-    'click .fa-sort-up'   : 'moveUp',
-    'click .fa-sort-down' : 'moveDown'
-  },
-  render: function() {
-    this.$el.html(this.itemTemplate(this.model.toJSON()));
-    return this;
-  },
-  clear: function() {
-    RAMENBUFFET.http.destroy(this.model);
-  },
-  done: function(e) {
-    var $evt = $(e.currentTarget);
-    var $selector = $evt.parent().parent();
-    var note = this.model;
+RAMENBUFFET.tn = {
+
+  done: function($event, model) {
+    var $selector = $event.parent().parent();
+    var note = model;
 
 
     if (!note.get('done')) {
@@ -33,11 +15,11 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
 
     }
 
-    RAMENBUFFET.http.put(note);
-    this.render();
+    return note;
   },
-  moveUp: function() {
-    var note = this.model;
+
+  up: function(model) {
+    var note = model;
     var positionA = note.get('position');
     var listname = note.get('list');
     var list = notes.where({list: listname});
@@ -71,9 +53,9 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
     }
 
   },
-  moveDown: function() {
-    var self = this;
-    var note = this.model;
+
+  down: function(model) {
+    var note = model;
     var position = note.get('position');
     var list = note.get('list');
     var models = notes.where({list: list});
@@ -92,4 +74,4 @@ RAMENBUFFET.ActiveNote = Backbone.View.extend({
       return false;
     }
   },
-});
+};

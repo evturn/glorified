@@ -1,11 +1,11 @@
 RAMENBUFFET.http = {
 
-  get: function(callback) {
+  get: function(listname) {
 
     notes.fetch({
 
       success: function(data) {
-        var listname = "New List";
+        var listname = listname || "New List";
 
         RAMENBUFFET.fn.setLists(data);
         RAMENBUFFET.fn.setActive(listname);
@@ -25,13 +25,11 @@ RAMENBUFFET.http = {
     var listname = model.list;
     var created    = Date.now();
     var timestamp  = RAMENBUFFET.fn.convertDate(created);
-    var total = notes.where({list: listname}).length;
     var note = notes.create({
         body      : model.body,
         list      : listname,
         created   : created,
-        timestamp : timestamp,
-        position  : total + 1
+        timestamp : timestamp
     });
     var view = new RAMENBUFFET.ActiveNote({model: note});
     view.render();
@@ -42,24 +40,11 @@ RAMENBUFFET.http = {
   },
 
   put: function(model) {
-    var note = model;
-    var listname = model.get('list');
+    var note = notes.set(model);
 
-    console.log(note);
-    $.ajax({
-      type: 'PUT',
-      url: 'notes/' + note.get('_id'),
-      data: note.toJSON(),
-      dataType: 'JSON',
-      success: function(data) {
-        RAMENBUFFET.e.notify('Note updated');
-        console.log('Ajaxing ', data);
-        RAMENBUFFET.fn.setActive(listname);
-      },
-      error: function(err) {
-        RAMENBUFFET.e.notify(err);
-      }
-    });
+    RAMENBUFFET.e.notify('Note updated');
+
+    return note;
   },
 
   destroy: function(model) {

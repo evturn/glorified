@@ -1,12 +1,8 @@
-<script type="text/template" id="list-active-item">
-  <div class="left-container">
-    <p><i class="fa fa-sort-up"></i></p>
-    <p><i class="fa fa-sort-down"></i></p>
-  </div>
+<script type="text/template" id="note-item-template">
+
   <div class="right-container">
     <div class="timestamp">
       <p class="thin-sm"><%= timestamp %></p>
-      <p class="thin-sm"> <%= position %></p>
     </div>
     <% var done = this.model.get('done') ? 'done' : '' %>
     <div class="note <%= done %>">

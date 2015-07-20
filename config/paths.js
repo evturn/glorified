@@ -9,7 +9,7 @@ module.exports = {
   jshint: {
     src: [
       'assets/js/**/*.js',
-      '!assets/js/lib/**/*.js',
+      '!assets/js/vendor/**/*.js',
       'config/**/*.js',
       'models/**/*.js',
       'controllers/**/*.js',
@@ -19,7 +19,7 @@ module.exports = {
     ],
     watch: [
       'assets/js/**/*.js',
-      '!assets/js/lib/**/*.js',
+      '!assets/js/vendor/**/*.js',
       'config/**/*.js',
       'models/**/*.js',
       'controllers/**/*.js',
@@ -49,14 +49,14 @@ module.exports = {
   },
   js: {
     src: [
-      'assets/js/models/**/*.js',
+      'assets/js/ramenbuffet/models.js',
+      'assets/js/ramenbuffet/functions.js',
+      'assets/js/ramenbuffet/init.js',
       'assets/js/views/**/*.js',
-      'assets/js/ramenbuffet/**/*.js',
       'assets/js/main.js'
     ],
     watch: [
-      'assets/js/models/**/*',
-      'assets/js/views/**/*',
+      'assets/js/views/**/*.js',
       'assets/js/ramenbuffet/**/*.js',
       'assets/js/main.js'
     ],
@@ -64,11 +64,11 @@ module.exports = {
     filename: 'scripts.min.js',
     vendor: {
       src: [
-        'assets/js/lib/jquery.js',
-        'assets/js/lib/underscore.js',
-        'assets/js/lib/backbone.js',
-        'assets/js/lib/bootstrap.js',
-        'assets/js/lib/wow.js'
+        'assets/js/vendor/jquery.js',
+        'assets/js/vendor/underscore.js',
+        'assets/js/vendor/backbone.js',
+        'assets/js/vendor/bootstrap.js',
+        'assets/js/vendor/wow.js'
       ],
       dest: 'dist/js',
       filename: 'vendor.js'
