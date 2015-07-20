@@ -15,6 +15,7 @@ RB.NoteItem = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
+
     return this;
   },
 

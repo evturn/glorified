@@ -10,6 +10,7 @@ RB.Input = Backbone.View.extend({
 
   render: function() {
     $('.active-list-container').html(this.inputTemplate());
+
     return this;
   },
 
