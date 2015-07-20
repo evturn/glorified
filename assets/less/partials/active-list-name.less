@@ -1,17 +1,17 @@
 .active-list-wrapper {
   border-top: 5px solid @primarylight;
   .active-form .list-item {
-    min-height: 50px;
-    .input-container {
 
+    @media (min-width: @sm) {
+      min-height: 50px;
     }
+
   }
 
   .left-container {
-    float: left;
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     padding: 10px;
     text-align: left;
     .transition(all 0.2s ease);
@@ -27,20 +27,23 @@
     }
   }
 
+  .active-form .list-item.form-list-note,
   .active-form .list-item.form-list-name {
     padding: 0;
     .input-container {
-      padding: 15px 0 10px;
       display: inline-block;
-      width: 80%;
+      width: 50%;
+      padding: 10px 0 10px;
       @media (min-width: @sm) {
-        width: 90%;
+        width: 85%;
+        padding: 15px 0 10px;
       }
       .active-input.list-input {
         width: 100%;
       }
     }
   }
+
   .active-input.list-input,
   .active-input.note-input {
     height: 25px;
