@@ -6,6 +6,7 @@
 // js         - client only
 
 module.exports = {
+
   jshint: {
     src: [
       'assets/js/**/*.js',
@@ -28,16 +29,19 @@ module.exports = {
       'gulpfile.js'
     ]
   },
+
   less: {
     src: 'assets/less/*.less',
     watch: 'assets/less/**/*.less',
     dest: 'dist/css',
     filename: 'less.css'
   },
+
   font: {
     src: 'assets/fonts/**.*',
     dest: 'dist/fonts'
   },
+
   css: {
     src: [
     'assets/css/bootstrap.css',
@@ -47,6 +51,7 @@ module.exports = {
     dest: 'dist/css',
     filename: 'vendor.css'
   },
+
   js: {
     src: [
       'assets/js/ramenbuffet/models.js',
