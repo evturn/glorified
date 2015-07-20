@@ -5,7 +5,6 @@ RB.Input = Backbone.View.extend({
   inputTemplate: _.template($('#input-template').html()),
 
   initialize: function() {
-    // Initialize with a collection
     this.render();
   },
 

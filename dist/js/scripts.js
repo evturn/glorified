@@ -12,7 +12,6 @@ RB.List = Backbone.Collection.extend({
   url: '/notes',
 });
 RB.all = function() {
-
   var notes = new RB.Notes();
 
   notes.fetch({
@@ -21,13 +20,11 @@ RB.all = function() {
       console.log(collection);
       var app = new RB.App({collection: collection});
     },
-
     error: function(err) {
       console.log(err);
     }
 
   });
-
 
 };
 
@@ -59,25 +56,33 @@ RB.setLists = function(collection, array, template) {
     var subCollection = new RB.List(listObjects);
     var inputs = new RB.Input();
 
-    $listsContainer.append(template({name: lists[i], length: subCollection.length}));
+    $listsContainer.append(template({
+      name: lists[i],
+      length: subCollection.length}));
   }
 
 };
 
 RB.getNotes = function(models) {
   var subCollection = new RB.List(models);
+
   return subCollection;
+
 };
 
 RB.setNotes = function(selector, collection) {
   var listname = collection.models[0].get('list');
+
   $('.active-input.list-input').val(listname);
   $selector = RB.tojquery(selector);
   $selector.empty();
+
   collection.each(function(model) {
     var view = new RB.NoteItem({model: model});
+
     $selector.append(view.render().el);
   });
+
 };
 
 RB.notify = function(notification) {
@@ -85,6 +90,7 @@ RB.notify = function(notification) {
   var $notification = $('.notification');
   var icon = '<i class="fa fa-asterisk"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
+
   $loader.html(message);
   setTimeout(function() {
     $notification.removeClass('fadeIn');
@@ -99,13 +105,16 @@ RB.fixPath = function() {
       top: document.body.scrollTop,
       left: document.body.scrollLeft
     };
+
     window.location.hash = "";
     document.body.scrollTop = scroll.top;
     document.body.scrollLeft = scroll.left;
   }
+
 };
 
 RB.tojquery = function(element) {
+
   switch (typeof element) {
     case "object":
       if (element instanceof jQuery) {
@@ -121,6 +130,7 @@ RB.tojquery = function(element) {
         return $(document.getElementsByClassName(element));
       }
   }
+
 };
 RB.e = {
   init: function() {
@@ -195,7 +205,6 @@ RB.Input = Backbone.View.extend({
   inputTemplate: _.template($('#input-template').html()),
 
   initialize: function() {
-    // Initialize with a collection
     this.render();
   },
 
