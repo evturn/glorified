@@ -1,1 +1,1 @@
-RB.all();
+RB.init();

@@ -51,6 +51,7 @@ module.exports = {
     src: [
       'assets/js/ramenbuffet/models.js',
       'assets/js/ramenbuffet/functions.js',
+      'assets/js/ramenbuffet/listeners.js',
       'assets/js/ramenbuffet/init.js',
       'assets/js/views/**/*.js',
       'assets/js/main.js'
