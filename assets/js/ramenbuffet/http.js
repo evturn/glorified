@@ -24,6 +24,7 @@ RB.put = function() {
 
 };
 
-RB.destroy = function() {
-
+RB.destroy = function(model) {
+  model.destroy();
+  RB.notify('Note deleted');
 };

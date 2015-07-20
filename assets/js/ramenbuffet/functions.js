@@ -88,14 +88,13 @@ RB.setNotes = function(selector, collection) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
-  var $notification = $('.notification');
   var icon = '<i class="fa fa-asterisk"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);
   setTimeout(function() {
-    $notification.removeClass('fadeIn');
-    $notification.addClass('fadeOut');
+    $('.notification').removeClass('animated fadeIn');
+    $('.notification').addClass('animated fadeOut');
   }, 1200);
 
 };

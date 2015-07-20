@@ -1,6 +1,8 @@
 var RB = {};
 
-RB.Note = Backbone.Model.extend({});
+RB.Note = Backbone.Model.extend({
+  idAttribute: '_id',
+});
 
 RB.Notes = Backbone.Collection.extend({
   model: RB.Note,
@@ -103,14 +105,13 @@ RB.setNotes = function(selector, collection) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
-  var $notification = $('.notification');
   var icon = '<i class="fa fa-asterisk"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);
   setTimeout(function() {
-    $notification.removeClass('fadeIn');
-    $notification.addClass('fadeOut');
+    $('.notification').removeClass('animated fadeIn');
+    $('.notification').addClass('animated fadeOut');
   }, 1200);
 
 };
@@ -190,8 +191,9 @@ RB.put = function() {
 
 };
 
-RB.destroy = function() {
-
+RB.destroy = function(model) {
+  model.destroy();
+  RB.notify('Note deleted');
 };
 RB.e = {
   init: function() {
@@ -323,14 +325,20 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   events: {
-    'click .fa-trash' : 'clear',
-    'click .fa-check' : 'done',
+    'click .edit .fa-trash' : 'clear',
+    'click .edit .fa-check' : 'done',
   },
 
   render: function() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;
+  },
+
+  clear: function() {
+    var list = this.model.get('list');
+    RB.destroy(this.model);
+    RB.reset(list);
   },
 
 });

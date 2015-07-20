@@ -9,14 +9,20 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   events: {
-    'click .fa-trash' : 'clear',
-    'click .fa-check' : 'done',
+    'click .edit .fa-trash' : 'clear',
+    'click .edit .fa-check' : 'done',
   },
 
   render: function() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;
+  },
+
+  clear: function() {
+    var list = this.model.get('list');
+    RB.destroy(this.model);
+    RB.reset(list);
   },
 
 });
