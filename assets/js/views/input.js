@@ -45,10 +45,10 @@ RB.Input = Backbone.View.extend({
 
     if (body.trim() && list.trim() !== '') {
       RB.post();
-      return false;
+      RB.reset(list);
+
     }
 
-    return false;
   },
 
 });

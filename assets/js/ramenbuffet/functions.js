@@ -16,6 +16,17 @@ RB.all = function() {
 
 };
 
+RB.reset = function(listname) {
+  var collection = RB.collection;
+  var lists = RB.getLists(collection);
+  var notesArray = collection.where({list: listname});
+  var notes = RB.getNotes(notesArray);
+
+  RB.setLists(collection, lists);
+  RB.setNotes('.active-notes-container', notes);
+
+};
+
 RB.returnVal = function(value) {
   return value;
 };
@@ -35,10 +46,12 @@ RB.getLists = function(collection) {
   return arr;
 };
 
-RB.setLists = function(collection, array, template) {
+RB.setLists = function(collection, array) {
   var lists = array;
+  var template = _.template($('#list-name-template').html());
   var $listsContainer = $('.lists-container');
 
+  $listsContainer.empty();
   for (var i = 0; i < lists.length; i++) {
     var listObjects = collection.where({list: lists[i]});
     var subCollection = new RB.List(listObjects);
