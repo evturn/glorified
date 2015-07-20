@@ -14,32 +14,11 @@
       border-bottom: 1px solid @grey;
       .transition(all 0.6s ease);
 
-      .left-container {
-        float: left;
-        display: inline-block;
-        width: 15%;
-        height: 100%;
-        padding-left: 10px;
-        text-align: left;
-        p {
-          cursor: pointer;
-          font-size: 2em;
-          height: 25px;
-          margin-right: auto;
-          margin-left: auto;
-          margin-bottom: 0;
-          color: @grey;
-          .transition(0.3s);
-          &:hover {
-            color: @primarylight;
-          }
-        }
-      }
-
 
       .right-container {
-        float: right;
+        float: left;
         width: 85%;
+        margin-left: 15px;
 
         .timestamp {
           width: 70%;
