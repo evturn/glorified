@@ -34,13 +34,24 @@ RB.all = function() {
 };
 
 RB.reset = function(listname) {
-  var collection = RB.collection;
-  var lists = RB.getLists(collection);
-  var notesArray = collection.where({list: listname});
-  var notes = RB.getNotes(notesArray);
+  var notes = RB.collection;
 
-  RB.setLists(collection, lists);
-  RB.setNotes('.active-notes-container', notes);
+  notes.fetch({
+    success: function(collection) {
+      var lists = RB.getLists(collection);
+      var notesArray = collection.where({list: listname});
+      var notes = RB.getNotes(notesArray);
+
+      RB.setLists(collection, lists);
+      RB.setNotes('.active-notes-container', notes);
+
+    },
+    error: function(err) {
+      console.log(err);
+    }
+
+  });
+
 
 };
 
@@ -105,7 +116,7 @@ RB.setNotes = function(selector, collection) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
-  var icon = '<i class="fa fa-asterisk"></i>';
+  var icon = '<i class="fa fa-bell-o"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);
@@ -182,18 +193,32 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
-  console.log(saved);
   return saved;
 
 };
 
-RB.put = function() {
+RB.put = function(model) {
+  var list = model.get('list');
+  var notes = RB.collection;
 
+  notes.set(model);
+  RB.reset(list);
+  RB.notify('Updated');
 };
 
 RB.destroy = function(model) {
-  model.destroy();
-  RB.notify('Note deleted');
+  var list = model.get('list');
+
+  model.destroy({
+    success: function(model) {
+      RB.reset(list);
+      RB.notify('Note deleted');
+    },
+    error: function(err) {
+      RB.reset(list);
+      RB.notify('Removed');
+    }
+  });
 };
 RB.e = {
   init: function() {
@@ -325,8 +350,8 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   events: {
-    'click .edit .fa-trash' : 'clear',
-    'click .edit .fa-check' : 'done',
+    'click .edit .fa-trash' : 'destroyNote',
+    'click .edit .fa-check' : 'toggleDone'
   },
 
   render: function() {
@@ -335,10 +360,24 @@ RB.NoteItem = Backbone.View.extend({
     return this;
   },
 
-  clear: function() {
-    var list = this.model.get('list');
+  destroyNote: function() {
     RB.destroy(this.model);
-    RB.reset(list);
+  },
+
+  toggleDone: function() {
+    var note = this.model;
+    var isDone = note.get('done');
+
+    if (isDone) {
+      note.set({done: false});
+      note.save();
+    }
+    else {
+      note.set({done: true});
+      note.save();
+    }
+
+    RB.put(note);
   },
 
 });

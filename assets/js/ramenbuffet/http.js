@@ -15,16 +15,30 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
-  console.log(saved);
   return saved;
 
 };
 
-RB.put = function() {
+RB.put = function(model) {
+  var list = model.get('list');
+  var notes = RB.collection;
 
+  notes.set(model);
+  RB.reset(list);
+  RB.notify('Updated');
 };
 
 RB.destroy = function(model) {
-  model.destroy();
-  RB.notify('Note deleted');
+  var list = model.get('list');
+
+  model.destroy({
+    success: function(model) {
+      RB.reset(list);
+      RB.notify('Note deleted');
+    },
+    error: function(err) {
+      RB.reset(list);
+      RB.notify('Removed');
+    }
+  });
 };

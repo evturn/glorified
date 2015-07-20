@@ -17,13 +17,24 @@ RB.all = function() {
 };
 
 RB.reset = function(listname) {
-  var collection = RB.collection;
-  var lists = RB.getLists(collection);
-  var notesArray = collection.where({list: listname});
-  var notes = RB.getNotes(notesArray);
+  var notes = RB.collection;
 
-  RB.setLists(collection, lists);
-  RB.setNotes('.active-notes-container', notes);
+  notes.fetch({
+    success: function(collection) {
+      var lists = RB.getLists(collection);
+      var notesArray = collection.where({list: listname});
+      var notes = RB.getNotes(notesArray);
+
+      RB.setLists(collection, lists);
+      RB.setNotes('.active-notes-container', notes);
+
+    },
+    error: function(err) {
+      console.log(err);
+    }
+
+  });
+
 
 };
 
@@ -88,7 +99,7 @@ RB.setNotes = function(selector, collection) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
-  var icon = '<i class="fa fa-asterisk"></i>';
+  var icon = '<i class="fa fa-bell-o"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);

@@ -9,8 +9,8 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   events: {
-    'click .edit .fa-trash' : 'clear',
-    'click .edit .fa-check' : 'done',
+    'click .edit .fa-trash' : 'destroyNote',
+    'click .edit .fa-check' : 'toggleDone'
   },
 
   render: function() {
@@ -19,10 +19,24 @@ RB.NoteItem = Backbone.View.extend({
     return this;
   },
 
-  clear: function() {
-    var list = this.model.get('list');
+  destroyNote: function() {
     RB.destroy(this.model);
-    RB.reset(list);
+  },
+
+  toggleDone: function() {
+    var note = this.model;
+    var isDone = note.get('done');
+
+    if (isDone) {
+      note.set({done: false});
+      note.save();
+    }
+    else {
+      note.set({done: true});
+      note.save();
+    }
+
+    RB.put(note);
   },
 
 });
