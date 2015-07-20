@@ -8,12 +8,18 @@ RB.App = Backbone.View.extend({
     this.render();
   },
 
-  events: {},
+  events: {
+    'click .lists-container .list-item' : 'renderList'
+  },
 
   render: function() {
     var lists = RB.getLists(this.collection);
     RB.setLists(this.collection, lists, this.listnameItem);
 
+  },
+
+  renderList: function(e) {
+    var listname = $(e.currentTarget).data('id');
   },
 
 });
