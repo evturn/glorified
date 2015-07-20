@@ -51,6 +51,20 @@ RB.setLists = function(collection, array, template) {
 
 };
 
+RB.getNotes = function(models) {
+  var subCollection = new RB.List(models);
+  return subCollection;
+};
+
+RB.setNotes = function(selector, collection) {
+  var listname = collection.models[0].get('list');
+  $('.active-input.list-input').val(listname);
+  $selector = RB.tojquery(selector);
+  collection.each(function(model) {
+    var view = new RB.NoteItem({model: model});
+    $selector.append(view.render().el);
+  });
+};
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
@@ -74,5 +88,23 @@ RB.fixPath = function() {
     window.location.hash = "";
     document.body.scrollTop = scroll.top;
     document.body.scrollLeft = scroll.left;
+  }
+};
+
+RB.tojquery = function(element) {
+  switch (typeof element) {
+    case "object":
+      if (element instanceof jQuery) {
+        return element;
+      }
+    break;
+
+    case "string":
+      if (element.charAt(0) === '.') {
+        return $(element);
+      }
+      else {
+        return $(document.getElementsByClassName(element));
+      }
   }
 };
