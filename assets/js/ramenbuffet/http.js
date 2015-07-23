@@ -24,10 +24,12 @@ RB.put = function(model) {
   var notes = RB.collection;
 
   model.save(null, {
+
     success: function(data) {
       notes.set(data);
       RB.reset(list);
       RB.notify('Updated');
+
     }
 
   });
@@ -37,13 +39,17 @@ RB.destroy = function(model) {
   var list = model.get('list');
 
   model.destroy({
+
     success: function(model) {
       RB.reset(list);
       RB.notify('Note deleted');
+
     },
     error: function(err) {
       RB.reset(list);
       RB.notify('Removed');
+
     }
+
   });
 };

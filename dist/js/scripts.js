@@ -24,19 +24,20 @@ RB.all = function() {
       console.log(collection);
       var app = new RB.App({collection: collection});
       RB.collection = collection;
+
     },
     error: function(err) {
       console.log(err);
     }
 
   });
-
 };
 
 RB.reset = function(listname) {
   var notes = RB.collection;
 
   notes.fetch({
+
     success: function(collection) {
       var lists = RB.getLists(collection);
       var notes = collection.where({list: listname});
@@ -50,8 +51,6 @@ RB.reset = function(listname) {
     }
 
   });
-
-
 };
 
 RB.returnVal = function(value) {
@@ -79,6 +78,7 @@ RB.setLists = function(collection, array) {
   var $listsContainer = $('.lists-container');
 
   $listsContainer.empty();
+
   for (var i = 0; i < lists.length; i++) {
     var listObjects = collection.where({list: lists[i]});
     var inputs = new RB.Input();
@@ -112,7 +112,6 @@ RB.setNotes = function(selector, models) {
   }
 
   RB.resetActiveList(listname);
-
 };
 
 RB.notify = function(notification) {
@@ -129,6 +128,7 @@ RB.notify = function(notification) {
 };
 
 RB.fixPath = function() {
+
   if (window.location.hash && window.location.hash === "#_=_") {
     var scroll = {
       top: document.body.scrollTop,
@@ -138,6 +138,7 @@ RB.fixPath = function() {
     window.location.hash = "";
     document.body.scrollTop = scroll.top;
     document.body.scrollLeft = scroll.left;
+
   }
 
 };
@@ -175,6 +176,7 @@ RB.convertDate = function(date) {
   var hour = hours > 12 ? hours - 12 : hours;
   month = ('' + (month + 1)).slice(-2);
   var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+
   return timestamp;
 };
 
@@ -209,10 +211,12 @@ RB.put = function(model) {
   var notes = RB.collection;
 
   model.save(null, {
+
     success: function(data) {
       notes.set(data);
       RB.reset(list);
       RB.notify('Updated');
+
     }
 
   });
@@ -222,14 +226,18 @@ RB.destroy = function(model) {
   var list = model.get('list');
 
   model.destroy({
+
     success: function(model) {
       RB.reset(list);
       RB.notify('Note deleted');
+
     },
     error: function(err) {
       RB.reset(list);
       RB.notify('Removed');
+
     }
+
   });
 };
 RB.e = {
