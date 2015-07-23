@@ -15,7 +15,6 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
-  RB.resetActiveList(note.list);
   return saved;
 
 };

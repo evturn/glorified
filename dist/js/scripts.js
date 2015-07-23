@@ -91,7 +91,13 @@ RB.setLists = function(collection, array) {
 };
 
 RB.setNotes = function(selector, models) {
-  var listname = models[0].get('list');
+
+  if (models.length > 0) {
+    var listname = models[0].get('list');
+  }
+  else {
+    var listname = '';
+  }
 
   $('.active-input.list-input').val(listname);
   $selector = RB.tojquery(selector);
@@ -173,8 +179,8 @@ RB.convertDate = function(date) {
 
 RB.resetActiveList = function(listname) {
   var $element = $('div').find("[data-id='" + listname + "']");
+
   $element.addClass('active');
-  console.log($element);
 };
 RB.post = function() {
   var date = Date.now();
@@ -193,7 +199,6 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
-  RB.resetActiveList(note.list);
   return saved;
 
 };
