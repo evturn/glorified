@@ -91,12 +91,13 @@ RB.setLists = function(collection, array) {
 };
 
 RB.setNotes = function(selector, models) {
+  var listname;
 
   if (models.length > 0) {
-    var listname = models[0].get('list');
+    listname = models[0].get('list');
   }
   else {
-    var listname = '';
+    listname = '';
   }
 
   $('.active-input.list-input').val(listname);
