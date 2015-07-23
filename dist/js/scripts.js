@@ -82,12 +82,11 @@ RB.setLists = function(collection, array) {
   $listsContainer.empty();
   for (var i = 0; i < lists.length; i++) {
     var listObjects = collection.where({list: lists[i]});
-    var subCollection = new RB.List(listObjects);
     var inputs = new RB.Input();
 
     $listsContainer.append(template({
       name: lists[i],
-      length: subCollection.length}));
+      length: listObjects.length}));
   }
 
 };
@@ -99,18 +98,19 @@ RB.getNotes = function(models) {
 
 };
 
-RB.setNotes = function(selector, collection) {
-  var listname = collection.models[0].get('list');
+RB.setNotes = function(selector, models) {
+  var listname = models[0].get('list');
 
   $('.active-input.list-input').val(listname);
   $selector = RB.tojquery(selector);
   $selector.empty();
 
-  collection.each(function(model) {
-    var view = new RB.NoteItem({model: model});
+  for (var i = 0; i < models.length; i++) {
+    var note = models[i];
+    var view = new RB.NoteItem({model: note});
 
     $selector.append(view.render().el);
-  });
+  }
 
 };
 
@@ -278,8 +278,7 @@ RB.App = Backbone.View.extend({
 
   renderList: function(e) {
     var listname = $(e.currentTarget).data('id');
-    var notesArray = this.collection.where({list: listname});
-    var notes = RB.getNotes(notesArray);
+    var notes = this.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
   },
