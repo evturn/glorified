@@ -74,13 +74,6 @@ RB.setLists = function(collection, array) {
 
 };
 
-RB.getNotes = function(models) {
-  var subCollection = new RB.List(models);
-
-  return subCollection;
-
-};
-
 RB.setNotes = function(selector, models) {
   var listname = models[0].get('list');
 
