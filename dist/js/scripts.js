@@ -39,8 +39,7 @@ RB.reset = function(listname) {
   notes.fetch({
     success: function(collection) {
       var lists = RB.getLists(collection);
-      var notesArray = collection.where({list: listname});
-      var notes = RB.getNotes(notesArray);
+      var notes = collection.where({list: listname});
 
       RB.setLists(collection, lists);
       RB.setNotes('.active-notes-container', notes);
