@@ -29,11 +29,9 @@ RB.NoteItem = Backbone.View.extend({
 
     if (isDone) {
       note.set({done: false});
-      note.save();
     }
     else {
       note.set({done: true});
-      note.save();
     }
 
     RB.put(note);

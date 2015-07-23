@@ -23,9 +23,15 @@ RB.put = function(model) {
   var list = model.get('list');
   var notes = RB.collection;
 
-  notes.set(model);
-  RB.reset(list);
-  RB.notify('Updated');
+  model.save(null, {
+    success: function(data) {
+      notes.set(data);
+      console.log(data);
+      RB.reset(list);
+      RB.notify('Updated');
+    }
+
+  });
 };
 
 RB.destroy = function(model) {
