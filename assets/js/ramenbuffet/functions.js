@@ -74,27 +74,34 @@ RB.setLists = function(collection, array) {
 };
 
 RB.setNotes = function(selector, models) {
-  var listname;
+  var $notesContainer = $('.active-notes-container');
+  var $listInput = $('.active-input.list-input');
+  var $noteInput = $('.active-input.note-input');
 
   if (models.length > 0) {
-    listname = models[0].get('list');
+    var listname = models[0].get('list');
+
+    $listInput.val(listname);
+    $selector = RB.tojquery(selector);
+    $selector.empty();
+
+    for (var i = 0; i < models.length; i++) {
+      var note = models[i];
+      var view = new RB.NoteItem({model: note});
+
+      $selector.append(view.render().el);
+    }
+
+    RB.resetActiveList(listname);
+
   }
   else {
-    listname = '';
+    $listInput.val('');
+    $noteInput.val('');
+    $notesContainer.empty();
+
   }
 
-  $('.active-input.list-input').val(listname);
-  $selector = RB.tojquery(selector);
-  $selector.empty();
-
-  for (var i = 0; i < models.length; i++) {
-    var note = models[i];
-    var view = new RB.NoteItem({model: note});
-
-    $selector.append(view.render().el);
-  }
-
-  RB.resetActiveList(listname);
 };
 
 RB.notify = function(notification) {
