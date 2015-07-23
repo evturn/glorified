@@ -15,6 +15,7 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
+  RB.resetActiveList(note.list);
   return saved;
 
 };
@@ -26,7 +27,6 @@ RB.put = function(model) {
   model.save(null, {
     success: function(data) {
       notes.set(data);
-      console.log(data);
       RB.reset(list);
       RB.notify('Updated');
     }

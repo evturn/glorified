@@ -104,6 +104,8 @@ RB.setNotes = function(selector, models) {
     $selector.append(view.render().el);
   }
 
+  RB.resetActiveList(listname);
+
 };
 
 RB.notify = function(notification) {
@@ -168,6 +170,12 @@ RB.convertDate = function(date) {
   var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
   return timestamp;
 };
+
+RB.resetActiveList = function(listname) {
+  var $element = $('div').find("[data-id='" + listname + "']");
+  $element.addClass('active');
+  console.log($element);
+};
 RB.post = function() {
   var date = Date.now();
   var timestamp = RB.convertDate(date);
@@ -185,6 +193,7 @@ RB.post = function() {
   }
 
   var saved = notes.create(note);
+  RB.resetActiveList(note.list);
   return saved;
 
 };
@@ -196,7 +205,6 @@ RB.put = function(model) {
   model.save(null, {
     success: function(data) {
       notes.set(data);
-      console.log(data);
       RB.reset(list);
       RB.notify('Updated');
     }
@@ -331,7 +339,6 @@ RB.Input = Backbone.View.extend({
     if (body.trim() && list.trim() !== '') {
       RB.post();
       RB.reset(list);
-
     }
 
   },

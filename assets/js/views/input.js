@@ -47,7 +47,6 @@ RB.Input = Backbone.View.extend({
     if (body.trim() && list.trim() !== '') {
       RB.post();
       RB.reset(list);
-
     }
 
   },

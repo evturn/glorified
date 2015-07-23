@@ -87,6 +87,8 @@ RB.setNotes = function(selector, models) {
     $selector.append(view.render().el);
   }
 
+  RB.resetActiveList(listname);
+
 };
 
 RB.notify = function(notification) {
@@ -150,4 +152,10 @@ RB.convertDate = function(date) {
   month = ('' + (month + 1)).slice(-2);
   var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
   return timestamp;
+};
+
+RB.resetActiveList = function(listname) {
+  var $element = $('div').find("[data-id='" + listname + "']");
+  $element.addClass('active');
+  console.log($element);
 };
