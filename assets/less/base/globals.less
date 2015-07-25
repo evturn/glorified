@@ -11,6 +11,21 @@
 .bg-grey         { background-color: @grey; }
 .bg-lightgrey    { background-color: @lightgrey; }
 
+*,
+*:before,
+*:after {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-scrollbar {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .wrapper {
   width: 100%;
   padding-left: 15px;
