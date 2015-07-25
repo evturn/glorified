@@ -4,53 +4,6 @@
   border-top: 5px solid @primarylight;
   margin-bottom: 15px;
 
-  .list-item {
-    overflow: auto;
-    padding: 7.5px;
-    border-bottom: 1px solid @grey;
-    cursor: pointer;
-
-    @media (min-width: @sm) {
-      padding: 10px;
-    }
-
-    &.active,
-    &:hover {
-      background-color: @primarylighthover;
-      border-bottom: 1px solid @primarylighthover;
-
-      .list-text {
-        color: @white;
-
-        .badge {
-          background-color: @white;
-          color: @primarylight;
-        }
-      }
-    }
-
-    .list-text {
-      font-size: 16px;
-      margin-bottom: 0;
-
-      @media (min-width: @sm) {
-        font-size: 20px;
-      }
-
-      .badge {
-        border-radius: 1px;
-        background-color: @grey;
-        color: @white;
-        float: left;
-        margin-right: 15px;
-        padding: 5px 8px;
-        @media (min-width: @sm) {
-          margin-top: 5px;
-        }
-      }
-    }
-  }
-
   .header-container {
     padding: 5px 10px;
     border-bottom: 2px solid @lightgrey;
@@ -63,7 +16,6 @@
     .create-list-btn {
       float: left;
     }
-
 
     .toggle-list-btn .fa,
     .create-list-btn .fa {
@@ -78,10 +30,7 @@
 
       }
     }
-
-
   }
-
 }
 
 

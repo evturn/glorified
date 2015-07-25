@@ -10,7 +10,17 @@
 
   .input-container {
     float: left;
-    width: 80%;
+    width: 65%;
+  }
+
+  .stat {
+    display: inline-block;
+  }
+
+  .edit {
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: top;
   }
 
   .garbage-container {
@@ -31,7 +41,19 @@
     }
 
     .caption {
+      font-family: @sanscondensed;
       font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-block;
+      background: @grey;
+      color: @white;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 5px 8px;
+      border-radius: 2px;
     }
   }
 }

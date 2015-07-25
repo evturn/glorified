@@ -1,1 +1,47 @@
+.lists-wrapper {
 
+  .list-item {
+    overflow: auto;
+    padding: 7.5px 10px;
+    border-bottom: 1px solid @grey;
+    cursor: pointer;
+
+    @media (min-width: @sm) {
+      padding: 7.5px 10px;
+    }
+
+    &.active,
+    &:hover {
+      background-color: @primarylighthover;
+      border-bottom: 1px solid @primarylighthover;
+
+      .list-text {
+        color: @white;
+
+        .badge {
+          font-weight: 600;
+          background-color: @white;
+          color: @primarylight;
+        }
+      }
+    }
+
+    .list-text {
+      font-size: 16px;
+      margin-bottom: 0;
+
+      @media (min-width: @sm) {
+        font-size: 20px;
+      }
+
+      .badge {
+        border-radius: 1px;
+        background-color: @grey;
+        color: @white;
+        float: left;
+        margin-right: 15px;
+        padding: 5px 8px;
+      }
+    }
+  }
+}
