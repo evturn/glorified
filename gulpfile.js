@@ -10,7 +10,7 @@ gulp.task('default', ['less', 'js', 'lint', 'watch', 'browsersync']);
 
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less', 'reloader']);
-  gulp.watch(paths.jshint.watch, ['lint', 'reloader']);
+  gulp.watch(paths.jshint.watch, ['lint']);
   gulp.watch(paths.js.watch, ['js', 'reloader']);
   gulp.watch('./**/*.hbs').on('change', browserSync.reload);
 });
@@ -67,7 +67,7 @@ gulp.task('lint', function() {
     .pipe($.notify(options.notify.jshint));
 });
 
-gulp.task('reloader', ['less', 'js'], function() {
+gulp.task('reloader', ['less'], function() {
   browserSync.reload();
 });
 
