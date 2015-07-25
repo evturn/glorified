@@ -281,14 +281,11 @@ RB.e = {
   },
 
   deviceEnv: function() {
-    var $listsContainer = $('.lists-container');
-    var $icon = $('.toggle-list-btn .fa');
 
     if (RB.e.isMobile()) {
-      $listsContainer.slideToggle('fast');
-      $icon.toggleClass('collapsed');
-
+      setTimeout(RB.e.toggleLists, 800);
     }
+
   },
 
   setActiveList: function() {
