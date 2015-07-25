@@ -1,0 +1,24 @@
+.active-form .list-item.form-note {
+  border-bottom: 1px solid @grey;
+  height: 100%;
+
+  .input-container {
+    float: left;
+    width: 80%;
+  }
+
+  .validation-container {
+    float: right;
+
+    .fa {
+      font-size: 2em;
+      color: @whitesmoke;
+      .transition(all 0.2s ease);
+
+      &.ready {
+        font-size: 2.1em;
+        color: @primarylight;
+      }
+    }
+  }
+}

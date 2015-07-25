@@ -1,0 +1,27 @@
+.active-form .list-item {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.active-input {
+  width: 100%;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.list-input {
+    height: 32px;
+    font-size: 18px;
+    color: @black;
+    .placeholder(@grey);
+  }
+
+  &.note-input {
+    height: 30px;
+    font-size: 16px;
+    color: @black;
+    .placeholder(@grey);
+  }
+}
