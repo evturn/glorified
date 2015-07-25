@@ -44,8 +44,7 @@ module.exports = {
 
   css: {
     src: [
-    'assets/css/font-awesome.css',
-    'assets/css/animate.min.css'
+    'assets/css/**/*.css'
     ],
     dest: 'dist/css',
     filename: 'vendor.css'
