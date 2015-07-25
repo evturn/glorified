@@ -1,8 +1,8 @@
 .lists-wrapper {
-  border-top: 5px solid @primarylight;
-  .border-top-radius(4px);
-  margin-bottom: 15px;
   .no-scrollbar;
+  .border-top-radius(4px);
+  border-top: 5px solid @primarylight;
+  margin-bottom: 15px;
 
   .list-item {
     overflow: auto;
@@ -28,12 +28,15 @@
         }
       }
     }
+
     .list-text {
       font-size: 16px;
       margin-bottom: 0;
+
       @media (min-width: @sm) {
         font-size: 20px;
       }
+
       .badge {
         border-radius: 1px;
         background-color: @grey;
@@ -46,6 +49,7 @@
       }
     }
   }
+
   .header-container {
     padding: 5px 10px;
     border-bottom: 2px solid @lightgrey;
@@ -70,6 +74,7 @@
 
       &:hover {
         color: @primarylighthover;
+
       }
     }
 

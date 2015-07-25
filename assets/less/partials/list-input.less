@@ -14,10 +14,18 @@
   }
 
   .garbage-container {
+    .transition(all 0.2s ease);
     float: right;
+    color: @darkgrey;
+    cursor: pointer;
+
+    &:hover .fa {
+      .transform-rotate(-25deg);
+    }
 
     .fa {
-      font-size: 2em;
+      font-size: 1.5em;
+
     }
   }
 }
