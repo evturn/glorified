@@ -11,8 +11,7 @@ RB.Input = Backbone.View.extend({
   events: {
     'click .create-note-btn' : 'createNote',
     'keyup .note-input'      : 'createOnEnter',
-    'keyup .active-input'    : 'validate',
-    'click .create-list-btn' : 'createList'
+    'keyup .active-input'    : 'validate'
   },
 
   render: function() {
@@ -52,16 +51,6 @@ RB.Input = Backbone.View.extend({
       $noteInput.val('').focus();
     }
 
-  },
-
-  createList: function() {
-    var $noteInput = $('.note-input');
-    var $listInput = $('.list-input');
-    var $notesContainer = $('.active-notes-container');
-
-    $noteInput.val('');
-    $listInput.val('').focus();
-    $notesContainer.empty();
   },
 
 });

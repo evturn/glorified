@@ -306,11 +306,8 @@ RB.App = Backbone.View.extend({
   el: '.dmc',
 
   events: {
-    'click .lists-container .list-item' : 'renderList'
-  },
-
-  render: function() {
-
+    'click .lists-container .list-item' : 'renderList',
+    'click .create-list-btn' : 'createList'
   },
 
   renderList: function(e) {
@@ -318,6 +315,16 @@ RB.App = Backbone.View.extend({
     var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
+  },
+
+  createList: function() {
+    var $noteInput = $('.note-input');
+    var $listInput = $('.list-input');
+    var $notesContainer = $('.active-notes-container');
+
+    $noteInput.val('');
+    $listInput.val('').focus();
+    $notesContainer.empty();
   },
 
 });
@@ -334,8 +341,7 @@ RB.Input = Backbone.View.extend({
   events: {
     'click .create-note-btn' : 'createNote',
     'keyup .note-input'      : 'createOnEnter',
-    'keyup .active-input'    : 'validate',
-    'click .create-list-btn' : 'createList'
+    'keyup .active-input'    : 'validate'
   },
 
   render: function() {
@@ -375,16 +381,6 @@ RB.Input = Backbone.View.extend({
       $noteInput.val('').focus();
     }
 
-  },
-
-  createList: function() {
-    var $noteInput = $('.note-input');
-    var $listInput = $('.list-input');
-    var $notesContainer = $('.active-notes-container');
-
-    $noteInput.val('');
-    $listInput.val('').focus();
-    $notesContainer.empty();
   },
 
 });
