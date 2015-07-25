@@ -13,9 +13,7 @@ RB.App = Backbone.View.extend({
 
     RB.setNotes('.active-notes-container', notes);
 
-    if (RB.e.isMobile()) {
-      RB.e.toggleLists();
-    }
+    RB.e.deviceEnv(400);
 
   },
 

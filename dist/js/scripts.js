@@ -273,17 +273,17 @@ RB.e = {
 
   init: function() {
     RB.e.setActiveList();
-    RB.e.deviceEnv();
+    RB.e.deviceEnv(800);
 
     $(document).on('click', '.toggle-list-btn', function() {
       RB.e.toggleLists();
      });
   },
 
-  deviceEnv: function() {
+  deviceEnv: function(num) {
 
     if (RB.e.isMobile()) {
-      setTimeout(RB.e.toggleLists, 800);
+      setTimeout(RB.e.toggleLists, num);
     }
 
   },
@@ -327,9 +327,7 @@ RB.App = Backbone.View.extend({
 
     RB.setNotes('.active-notes-container', notes);
 
-    if (RB.e.isMobile()) {
-      RB.e.toggleLists();
-    }
+    RB.e.deviceEnv(400);
 
   },
 
