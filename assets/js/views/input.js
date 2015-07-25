@@ -46,16 +46,16 @@ RB.Input = Backbone.View.extend({
 
     if (body.trim() && list.trim() !== '') {
       RB.post();
-      RB.reset(list);
+      $('.note-input').val('').focus();
     }
 
   },
 
   createList: function() {
     var $notesContainer = $('.active-notes-container');
-
+    $('.note-input').val('');
+    $('.list-input').val('').focus();
     $notesContainer.empty();
-    RB.reset('');
   },
 
 });

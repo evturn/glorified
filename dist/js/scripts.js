@@ -17,19 +17,22 @@ RB.List = Backbone.Collection.extend({
 });
 RB.init = function() {
   RB.fixPath();
-  RB.all();
+  var app = new RB.App();
+  RB.get();
   RB.e.init();
 };
 
-RB.all = function() {
+RB.get = function() {
   var notes = new RB.Notes();
 
   notes.fetch({
 
     success: function(collection) {
-      console.log(collection);
-      var app = new RB.App({collection: collection});
+      console.log('Get called');
       RB.collection = collection;
+      var lists = RB.getLists(RB.collection);
+
+      RB.setLists(RB.collection, lists);
 
     },
     error: function(err) {
@@ -41,7 +44,7 @@ RB.all = function() {
 
 RB.reset = function(listname) {
   var notes = RB.collection;
-
+  console.log('Reset called');
   notes.fetch({
 
     success: function(collection) {
@@ -57,10 +60,6 @@ RB.reset = function(listname) {
     }
 
   });
-};
-
-RB.returnVal = function(value) {
-  return value;
 };
 
 RB.getLists = function(collection) {
@@ -125,6 +124,13 @@ RB.setNotes = function(selector, models) {
 
   }
 
+};
+
+RB.setNote = function(model) {
+  console.log(model);
+  var $notesContainer = $('.active-notes-container');
+  var view = new RB.NoteItem({model: model});
+  $notesContainer.append(view.render().el);
 };
 
 RB.notify = function(notification) {
@@ -199,6 +205,7 @@ RB.resetActiveList = function(listname) {
   $element.addClass('active');
 };
 RB.post = function() {
+  var listname = $('.list-input').val();
   var date = Date.now();
   var timestamp = RB.convertDate(date);
   var notes = RB.collection;
@@ -214,8 +221,17 @@ RB.post = function() {
     return false;
   }
 
-  var saved = notes.create(note);
-  return saved;
+  notes.create(note, {
+
+    success: function(data) {
+      RB.setNote(data);
+      RB.reset(listname);
+    },
+    error: function(err) {
+      console.log(err);
+    }
+
+  });
 
 };
 
@@ -290,23 +306,17 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
-  initialize: function() {
-    this.render();
-  },
-
   events: {
     'click .lists-container .list-item' : 'renderList'
   },
 
   render: function() {
-    var lists = RB.getLists(this.collection);
 
-    RB.setLists(this.collection, lists);
   },
 
   renderList: function(e) {
     var listname = $(e.currentTarget).data('id');
-    var notes = this.collection.where({list: listname});
+    var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
   },
@@ -360,16 +370,16 @@ RB.Input = Backbone.View.extend({
 
     if (body.trim() && list.trim() !== '') {
       RB.post();
-      RB.reset(list);
+      $('.note-input').val('').focus();
     }
 
   },
 
   createList: function() {
     var $notesContainer = $('.active-notes-container');
-
+    $('.note-input').val('');
+    $('.list-input').val('').focus();
     $notesContainer.empty();
-    RB.reset('');
   },
 
 });

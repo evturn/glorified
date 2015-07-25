@@ -1,4 +1,5 @@
 RB.post = function() {
+  var listname = $('.list-input').val();
   var date = Date.now();
   var timestamp = RB.convertDate(date);
   var notes = RB.collection;
@@ -14,8 +15,17 @@ RB.post = function() {
     return false;
   }
 
-  var saved = notes.create(note);
-  return saved;
+  notes.create(note, {
+
+    success: function(data) {
+      RB.setNote(data);
+      RB.reset(listname);
+    },
+    error: function(err) {
+      console.log(err);
+    }
+
+  });
 
 };
 

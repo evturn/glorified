@@ -1,18 +1,21 @@
 RB.init = function() {
   RB.fixPath();
-  RB.all();
+  var app = new RB.App();
+  RB.get();
   RB.e.init();
 };
 
-RB.all = function() {
+RB.get = function() {
   var notes = new RB.Notes();
 
   notes.fetch({
 
     success: function(collection) {
-      console.log(collection);
-      var app = new RB.App({collection: collection});
+      console.log('Get called');
       RB.collection = collection;
+      var lists = RB.getLists(RB.collection);
+
+      RB.setLists(RB.collection, lists);
 
     },
     error: function(err) {
@@ -24,7 +27,7 @@ RB.all = function() {
 
 RB.reset = function(listname) {
   var notes = RB.collection;
-
+  console.log('Reset called');
   notes.fetch({
 
     success: function(collection) {
@@ -40,10 +43,6 @@ RB.reset = function(listname) {
     }
 
   });
-};
-
-RB.returnVal = function(value) {
-  return value;
 };
 
 RB.getLists = function(collection) {
@@ -108,6 +107,13 @@ RB.setNotes = function(selector, models) {
 
   }
 
+};
+
+RB.setNote = function(model) {
+  console.log(model);
+  var $notesContainer = $('.active-notes-container');
+  var view = new RB.NoteItem({model: model});
+  $notesContainer.append(view.render().el);
 };
 
 RB.notify = function(notification) {
