@@ -16,10 +16,10 @@ passport.deserializeUser(function(id, done) {
 
 var url;
 if (process.env.NODE_ENV === "development") {
-var url = 'http://localhost:3000/auth/facebook/callback'
+  url = 'http://localhost:3000/auth/facebook/callback';
 }
 else {
-var url = 'http://ramenbuffet.com/auth/facebook/callback'
+  url = 'http://ramenbuffet.com/auth/facebook/callback';
 }
 
 passport.use(new FacebookStrategy({

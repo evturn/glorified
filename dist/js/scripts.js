@@ -15,6 +15,12 @@ RB.List = Backbone.Collection.extend({
   url: '/notes',
   merge: true,
 });
+RB.init = function() {
+  RB.fixPath();
+  RB.all();
+  RB.e.init();
+};
+
 RB.all = function() {
   var notes = new RB.Notes();
 
@@ -279,11 +285,6 @@ RB.e = {
       $lists.slideToggle('fast');
     });
   }
-};
-RB.init = function() {
-  RB.fixPath();
-  RB.all();
-  RB.e.init();
 };
 RB.App = Backbone.View.extend({
 

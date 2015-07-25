@@ -21,11 +21,11 @@ passport.deserializeUser(User.deserializeUser());
 
 passport.use(new LocalStrategy(function(username, password, done) {
   User.findOne({ username: username }, function(err, user) {
-    if (err) { 
-      return done(err); 
+    if (err) {
+      return done(err);
     }
-    if (!user) { 
-      return done(null, false, { message: 'Unknown user ' + username }); 
+    if (!user) {
+      return done(null, false, { message: 'Unknown user ' + username });
     }
     user.comparePassword(password, function(err, isMatch) {
       if (err) {

@@ -1,3 +1,9 @@
+RB.init = function() {
+  RB.fixPath();
+  RB.all();
+  RB.e.init();
+};
+
 RB.all = function() {
   var notes = new RB.Notes();
 
