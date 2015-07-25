@@ -12,6 +12,11 @@ RB.App = Backbone.View.extend({
     var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
+
+    if (RB.e.isMobile()) {
+      RB.e.toggleLists();
+    }
+
   },
 
   createList: function() {

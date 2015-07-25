@@ -113,13 +113,21 @@ RB.setNotes = function(selector, models) {
     }
 
     RB.resetActiveList(listname);
-    $noteInput.focus();
+
+    if (!RB.e.isMobile()) {
+      $noteInput.focus();
+    }
+
   }
   else {
     $listInput.val('');
     $noteInput.val('');
     $notesContainer.empty();
-    $noteInput.focus();
+
+    if (!RB.e.isMobile()) {
+      $noteInput.focus();
+    }
+
   }
 
 };
@@ -265,7 +273,22 @@ RB.e = {
 
   init: function() {
     RB.e.setActiveList();
-    RB.e.toggleLists();
+    RB.e.deviceEnv();
+
+    $(document).on('click', '.toggle-list-btn', function() {
+      RB.e.toggleLists();
+     });
+  },
+
+  deviceEnv: function() {
+    var $listsContainer = $('.lists-container');
+    var $icon = $('.toggle-list-btn .fa');
+
+    if (RB.e.isMobile()) {
+      $listsContainer.slideToggle('fast');
+      $icon.toggleClass('collapsed');
+
+    }
   },
 
   setActiveList: function() {
@@ -278,15 +301,18 @@ RB.e = {
   },
 
   toggleLists: function() {
-    $(document).on('click', '.toggle-list-btn', function() {
-      var $listsContainer = $('.lists-container');
-      var $icon = $('.toggle-list-btn .fa');
+    var $listsContainer = $('.lists-container');
+    var $icon = $('.toggle-list-btn .fa');
 
-      $listsContainer.slideToggle('fast');
-      $icon.toggleClass('collapsed');
-
-    });
+    $listsContainer.slideToggle('fast');
+    $icon.toggleClass('collapsed');
   },
+
+  isMobile: function() {
+    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return device;
+
+  }
 
 };
 RB.App = Backbone.View.extend({
@@ -303,6 +329,11 @@ RB.App = Backbone.View.extend({
     var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
+
+    if (RB.e.isMobile()) {
+      RB.e.toggleLists();
+    }
+
   },
 
   createList: function() {
