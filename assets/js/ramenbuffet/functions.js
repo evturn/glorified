@@ -11,7 +11,6 @@ RB.get = function() {
   notes.fetch({
 
     success: function(collection) {
-      console.log('Get called');
       RB.collection = collection;
       var lists = RB.getLists(RB.collection);
 
@@ -27,7 +26,6 @@ RB.get = function() {
 
 RB.reset = function(listname) {
   var notes = RB.collection;
-  console.log('Reset called');
   notes.fetch({
 
     success: function(collection) {
@@ -118,13 +116,14 @@ RB.setNote = function(model) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
+  var $notification = $('.notification');
   var icon = '<i class="fa fa-bell-o"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);
   setTimeout(function() {
-    $('.notification').removeClass('animated fadeIn');
-    $('.notification').addClass('animated fadeOut');
+    $notification.removeClass('animated fadeIn');
+    $notification.addClass('animated fadeOut');
   }, 1200);
 
 };

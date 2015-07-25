@@ -28,14 +28,15 @@ RB.Input = Backbone.View.extend({
   },
 
   validate: function() {
-    var body = $('.note-input').val();
-    var list = $('.list-input').val();
+    var $body = $('.note-input').val();
+    var $list = $('.list-input').val();
+    var $check = $('.create-note-btn .fa');
 
-    if (body.trim() && list.trim() !== '') {
-      $('.create-note-btn .fa').addClass('ready');
+    if ($body.trim() && $list.trim() !== '') {
+      $check.addClass('ready');
     }
     else {
-      $('.create-note-btn .fa').removeClass('ready');
+      $check.removeClass('ready');
     }
 
   },

@@ -28,7 +28,6 @@ RB.get = function() {
   notes.fetch({
 
     success: function(collection) {
-      console.log('Get called');
       RB.collection = collection;
       var lists = RB.getLists(RB.collection);
 
@@ -44,7 +43,6 @@ RB.get = function() {
 
 RB.reset = function(listname) {
   var notes = RB.collection;
-  console.log('Reset called');
   notes.fetch({
 
     success: function(collection) {
@@ -135,13 +133,14 @@ RB.setNote = function(model) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
+  var $notification = $('.notification');
   var icon = '<i class="fa fa-bell-o"></i>';
   var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
 
   $loader.html(message);
   setTimeout(function() {
-    $('.notification').removeClass('animated fadeIn');
-    $('.notification').addClass('animated fadeOut');
+    $notification.removeClass('animated fadeIn');
+    $notification.addClass('animated fadeOut');
   }, 1200);
 
 };
@@ -208,7 +207,7 @@ RB.post = function() {
   var listname = $('.list-input').val();
   var date = Date.now();
   var timestamp = RB.convertDate(date);
-  var notes = RB.collection;
+
   var note = {
     body: $('.note-input').val(),
     list: $('.list-input').val(),
@@ -217,15 +216,16 @@ RB.post = function() {
     done: false
   };
 
-  if (notes.findWhere({body: note.body}) && notes.findWhere({list: note.list})) {
+  if (RB.collection.findWhere({body: note.body}) && RB.collection.findWhere({list: note.list})) {
     return false;
   }
 
-  notes.create(note, {
+  RB.collection.create(note, {
 
     success: function(data) {
       RB.setNote(data);
       RB.reset(listname);
+
     },
     error: function(err) {
       console.log(err);
@@ -236,14 +236,13 @@ RB.post = function() {
 };
 
 RB.put = function(model) {
-  var list = model.get('list');
-  var notes = RB.collection;
+  var listname = model.get('list');
 
   model.save(null, {
 
     success: function(data) {
-      notes.set(data);
-      RB.reset(list);
+      RB.collection.set(data);
+      RB.reset(listname);
       RB.notify('Updated');
 
     }
@@ -352,14 +351,15 @@ RB.Input = Backbone.View.extend({
   },
 
   validate: function() {
-    var body = $('.note-input').val();
-    var list = $('.list-input').val();
+    var $body = $('.note-input').val();
+    var $list = $('.list-input').val();
+    var $check = $('.create-note-btn .fa');
 
-    if (body.trim() && list.trim() !== '') {
-      $('.create-note-btn .fa').addClass('ready');
+    if ($body.trim() && $list.trim() !== '') {
+      $check.addClass('ready');
     }
     else {
-      $('.create-note-btn .fa').removeClass('ready');
+      $check.removeClass('ready');
     }
 
   },
