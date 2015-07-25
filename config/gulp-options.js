@@ -10,7 +10,9 @@ var gulp = require('gulp'),
 module.exports = {
 
   browserSync: {
-    proxy: 'http://localhost:3000'
+      open: true,
+      port: 3000,
+      proxy: 'localhost:3000'
   },
 
   autoprefixer: {

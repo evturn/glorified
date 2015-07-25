@@ -281,25 +281,15 @@ RB.e = {
     });
   },
   collapseLists: function() {
-    $(document).on('click', '.toggle-list-btn.close-list', function() {
-      var $lists = $('.lists-container');
-      var $open = $('.toggle-list-btn.open-list');
-      var $close = $('.toggle-list-btn.close-list');
-      $close.addClass('hidden');
-      $open.removeClass('hidden');
-      $lists.slideToggle('fast');
+    $(document).on('click', '.toggle-list-btn', function() {
+      var $listsContainer = $('.lists-container');
+      var $icon = $('.toggle-list-btn .fa');
+
+      $listsContainer.slideToggle('fast');
+      $icon.toggleClass('collapsed');
+
     });
   },
-  expandLists: function() {
-    $(document).on('click', '.toggle-list-btn.open-list', function() {
-      var $lists = $('.lists-container');
-      var $open = $('.toggle-list-btn.open-list');
-      var $close = $('.toggle-list-btn.close-list');
-      $close.removeClass('hidden');
-      $open.addClass('hidden');
-      $lists.slideToggle('fast');
-    });
-  }
 };
 RB.App = Backbone.View.extend({
 

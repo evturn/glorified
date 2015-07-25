@@ -1,0 +1,108 @@
+.animation-duration(@duration) {
+  -webkit-animation-duration: @duration;
+          animation-duration: @duration;
+}
+
+.animation-delay(@delay) {
+  -webkit-animation-delay: @delay;
+          animation-delay: @delay;
+}
+
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
+
+.placeholder(@color) {
+  input[type="text"],
+  input {
+    color: @color;
+  }
+  input::-webkit-input-placeholder,
+  textarea::-webkit-input-placeholder {
+    color: @color;
+    opacity:1;
+  }
+  input:-moz-placeholder,
+  textarea:-moz-placeholder {
+    color: @color;
+    opacity:1;
+  }
+  input::-moz-placeholder,
+  textarea::-moz-placeholder {
+    color: @color;
+    opacity:1;
+  }
+  input:-ms-input-placeholder,
+  textarea:-ms-input-placeholder {
+    color: @color;
+    opacity:1;
+  }
+}
+
+.transition(@transition) {
+  -webkit-transition: @transition;
+       -o-transition: @transition;
+          transition: @transition;
+}
+
+.transition-delay(@transition-delay) {
+  -webkit-transition-delay: @transition-delay;
+          transition-delay: @transition-delay;
+}
+
+.transition-duration(@transition-duration) {
+  -webkit-transition-duration: @transition-duration;
+          transition-duration: @transition-duration;
+}
+
+.size(@width; @height) {
+  width: @width;
+  height: @height;
+}
+
+.square(@size) {
+  .size(@size; @size);
+}
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.border-top-radius(@radius) {
+  border-top-right-radius: @radius;
+   border-top-left-radius: @radius;
+}
+.border-right-radius(@radius) {
+  border-bottom-right-radius: @radius;
+     border-top-right-radius: @radius;
+}
+.border-bottom-radius(@radius) {
+  border-bottom-right-radius: @radius;
+   border-bottom-left-radius: @radius;
+}
+.border-left-radius(@radius) {
+  border-bottom-left-radius: @radius;
+     border-top-left-radius: @radius;
+}
+
+.transform-rotate(@degrees) {
+  -ms-transform:rotate(@degrees);
+  -moz-transform: rotate(@degrees);
+  -o-transform: rotate(@degrees);
+  -webkit-transform: rotate(@degrees);
+  transform: rotate(@degrees);
+}

@@ -12,7 +12,7 @@ gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less', 'reloader']);
   gulp.watch(paths.jshint.watch, ['lint', 'reloader']);
   gulp.watch(paths.js.watch, ['js', 'reloader']);
-  gulp.watch('*.hbs').on('change', browserSync.reload);
+  gulp.watch('./**/*.hbs').on('change', browserSync.reload);
 });
 
 gulp.task('less', function() {
@@ -23,7 +23,7 @@ gulp.task('less', function() {
     .on('error', options.plumber.errorHandler)
     .pipe($.autoprefixer(options.autoprefixer))
     .pipe($.cssmin())
-    .pipe(gulp.dest(paths.less.dest)).on('error', options.plumber.errorHandler);
+    .pipe(gulp.dest(paths.less.dest)).on('error', gutil.log);
 });
 
 gulp.task('js', function() {
@@ -33,7 +33,8 @@ gulp.task('js', function() {
     .pipe(gulp.dest(paths.js.dest))
     .pipe($.uglify())
     .pipe($.rename(paths.js.filename))
-    .pipe(gulp.dest(paths.js.dest));
+    .pipe(gulp.dest(paths.js.dest))
+    .on('error', gutil.log);
 });
 
 gulp.task('jslib', function() {
@@ -71,5 +72,5 @@ gulp.task('reloader', ['less', 'js'], function() {
 });
 
 gulp.task('browsersync', function() {
-  browserSync.init(options.browserSync);
+  browserSync.init(null, options.browserSync);
 });
