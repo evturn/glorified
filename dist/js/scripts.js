@@ -85,6 +85,7 @@ RB.setLists = function(collection, array) {
   for (var i = 0; i < lists.length; i++) {
     var listObjects = collection.where({list: lists[i]});
     var total = collection.where({list: lists[i], done: false}).length;
+
     var inputs = new RB.Input();
 
     $listsContainer.append(template({
@@ -98,6 +99,9 @@ RB.setNotes = function(selector, models) {
   var $notesContainer = $('.active-notes-container');
   var $listInput = $('.active-input.list-input');
   var $noteInput = $('.active-input.note-input');
+  var $statContainer = $('.garbage-container .stat');
+  var $trashContainer = $('.garbage-container .edit');
+  var totalDone = 0;
 
   if (models.length > 0) {
     var listname = models[0].get('list');
@@ -108,6 +112,9 @@ RB.setNotes = function(selector, models) {
 
     for (var i = 0; i < models.length; i++) {
       var note = models[i];
+      if (note.get('done') === true) {
+        totalDone += 1;
+      }
       var view = new RB.NoteItem({model: note});
 
       $selector.append(view.render().el);
@@ -115,8 +122,15 @@ RB.setNotes = function(selector, models) {
 
     RB.resetActiveList(listname);
 
-    if (!RB.e.isMobile()) {
-      $noteInput.focus();
+    if (totalDone > 0) {
+      $statContainer.html('<span class="thin-sm badge">' +totalDone + ' Done</span>');
+      $trashContainer.html('<span class="remove-done-btn"><i class="fa fa-trash-o"></i></span>');
+
+    }
+    else {
+      $statContainer.empty();
+      $trashContainer.empty();
+
     }
 
   }
@@ -125,10 +139,11 @@ RB.setNotes = function(selector, models) {
     $noteInput.val('');
     $notesContainer.empty();
 
-    if (!RB.e.isMobile()) {
-      $noteInput.focus();
-    }
 
+  }
+
+  if (!RB.e.isMobile()) {
+    $noteInput.focus();
   }
 
 };
