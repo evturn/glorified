@@ -10,7 +10,7 @@ RB.NoteItem = Backbone.View.extend({
 
   events: {
     'click .edit .fa-trash'        : 'destroyNote',
-    'click .edit .fa-check-circle' : 'toggleDone'
+    'click .edit .fa-check-square' : 'toggleDone'
   },
 
   render: function() {
