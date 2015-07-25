@@ -269,18 +269,22 @@ RB.destroy = function(model) {
   });
 };
 RB.e = {
+
   init: function() {
     RB.e.setActiveList();
-    RB.e.collapseLists();
-    RB.e.expandLists();
+    RB.e.toggleLists();
   },
+
   setActiveList: function() {
     $(document).on('click', '.lists-container .list-item', function() {
-      $('.list-item').removeClass('active');
+      var $listItem = $('.list-item');
+
+      $listItem.removeClass('active');
       $(this).addClass('active');
     });
   },
-  collapseLists: function() {
+
+  toggleLists: function() {
     $(document).on('click', '.toggle-list-btn', function() {
       var $listsContainer = $('.lists-container');
       var $icon = $('.toggle-list-btn .fa');
@@ -290,6 +294,7 @@ RB.e = {
 
     });
   },
+
 };
 RB.App = Backbone.View.extend({
 
