@@ -8,6 +8,11 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')();
 
 module.exports = {
+
+  browserSync: {
+    proxy: 'http://localhost:3000'
+  },
+
   autoprefixer: {
     browsers: [
       '> 1%',
@@ -22,6 +27,7 @@ module.exports = {
     ],
     cascade: false
   },
+
   plumber: {
     errorHandler: function(err) {
       gutil.beep();
@@ -30,6 +36,7 @@ module.exports = {
       $.notify(err);
     }
   },
+
   notify: {
     jshint: function(file) {
       if (file.jshint.success) {
@@ -43,4 +50,5 @@ module.exports = {
       return file.relative + " (" + file.jshint.results.length + " errors)\n" + errors;
     }
   }
+
 };
