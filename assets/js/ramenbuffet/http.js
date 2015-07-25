@@ -1,11 +1,12 @@
 RB.post = function() {
+  var $noteInput = $('.note-input');
   var listname = $('.list-input').val();
   var date = Date.now();
   var timestamp = RB.convertDate(date);
 
   var note = {
-    body: $('.note-input').val(),
-    list: $('.list-input').val(),
+    body: $noteInput.val(),
+    list: listname,
     created: date,
     timestamp: timestamp,
     done: false
@@ -20,6 +21,7 @@ RB.post = function() {
     success: function(data) {
       RB.setNote(data);
       RB.reset(listname);
+      $noteInput.focus();
 
     },
     error: function(err) {

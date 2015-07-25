@@ -96,13 +96,13 @@ RB.setNotes = function(selector, models) {
     }
 
     RB.resetActiveList(listname);
-
+    $noteInput.focus();
   }
   else {
     $listInput.val('');
     $noteInput.val('');
     $notesContainer.empty();
-
+    $noteInput.focus();
   }
 
 };
