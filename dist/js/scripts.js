@@ -252,17 +252,17 @@ RB.put = function(model) {
 };
 
 RB.destroy = function(model) {
-  var list = model.get('list');
+  var listname = model.get('list');
 
   model.destroy({
 
     success: function(model) {
-      RB.reset(list);
+      RB.reset(listname);
       RB.notify('Note deleted');
 
     },
     error: function(err) {
-      RB.reset(list);
+      RB.reset(listname);
       RB.notify('Removed');
 
     }
@@ -365,20 +365,25 @@ RB.Input = Backbone.View.extend({
   },
 
   createNote: function() {
-    var body = $('.note-input').val();
-    var list = $('.list-input').val();
+    var $noteInput = $('.note-input');
+    var $listInput = $('.list-input');
+    var $body = $noteInput.val();
+    var $list = $listInput.val();
 
-    if (body.trim() && list.trim() !== '') {
+    if ($body.trim() && $list.trim() !== '') {
       RB.post();
-      $('.note-input').val('').focus();
+      $noteInput.val('').focus();
     }
 
   },
 
   createList: function() {
+    var $noteInput = $('.note-input');
+    var $listInput = $('.list-input');
     var $notesContainer = $('.active-notes-container');
-    $('.note-input').val('');
-    $('.list-input').val('').focus();
+
+    $noteInput.val('');
+    $listInput.val('').focus();
     $notesContainer.empty();
   },
 

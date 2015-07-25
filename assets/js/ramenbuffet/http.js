@@ -46,17 +46,17 @@ RB.put = function(model) {
 };
 
 RB.destroy = function(model) {
-  var list = model.get('list');
+  var listname = model.get('list');
 
   model.destroy({
 
     success: function(model) {
-      RB.reset(list);
+      RB.reset(listname);
       RB.notify('Note deleted');
 
     },
     error: function(err) {
-      RB.reset(list);
+      RB.reset(listname);
       RB.notify('Removed');
 
     }
