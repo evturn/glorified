@@ -44,7 +44,6 @@ module.exports = {
 
   css: {
     src: [
-    'assets/css/bootstrap.css',
     'assets/css/font-awesome.css',
     'assets/css/animate.min.css'
     ],
