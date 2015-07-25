@@ -84,11 +84,12 @@ RB.setLists = function(collection, array) {
 
   for (var i = 0; i < lists.length; i++) {
     var listObjects = collection.where({list: lists[i]});
+    var total = collection.where({list: lists[i], done: false}).length;
     var inputs = new RB.Input();
 
     $listsContainer.append(template({
       name: lists[i],
-      length: listObjects.length}));
+      length: total}));
   }
 
 };
