@@ -133,15 +133,6 @@ RB.setNote = function(model) {
 
 RB.notify = function(notification) {
   var $loader = $('.kurt-loader');
-  var $notification = $('.notification');
-  var icon = '<i class="fa fa-bell-o"></i>';
-  var message = '<p class="notification thin-lg animated fadeIn">' + icon + ' ' + notification + '</p>';
-
-  $loader.html(message);
-  setTimeout(function() {
-    $notification.removeClass('animated fadeIn');
-    $notification.addClass('animated fadeOut');
-  }, 1200);
 
 };
 
