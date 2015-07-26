@@ -6,12 +6,14 @@ RB.Input = Backbone.View.extend({
 
   initialize: function() {
     this.render();
+    console.log('we initing');
   },
 
   events: {
-    'click .create-note-btn' : 'createNote',
-    'keyup .note-input'      : 'createOnEnter',
-    'keyup .active-input'    : 'validate'
+    'click .create-note-btn'   : 'createNote',
+    'keyup .note-input'        : 'createOnEnter',
+    'keyup .active-input'      : 'validate',
+    'click .garbage-container' : 'removeAllDone'
   },
 
   render: function() {
@@ -48,6 +50,37 @@ RB.Input = Backbone.View.extend({
 
     if ($body.trim() && $list.trim() !== '') {
       RB.post();
+    }
+
+  },
+
+  removeAllDone: function() {
+    var listname = $('.list-input').val();
+    var models = RB.collection.where({
+      list: listname,
+      done: true
+    });
+
+    console.log(models.length);
+
+    for (var i = 0; i < models.length; i++) {
+      RB.destroy(models[i]);
+    }
+
+    var remaining = RB.collection.where({
+      list: listname
+    });
+
+    console.log(remaining);
+    if (remaining) {
+      RB.setListValue(listname);
+
+    }
+    else {
+      $noteInput.val('');
+      $listInput.val('').focus();
+      $notesContainer.empty();
+
     }
 
   },

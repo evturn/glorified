@@ -9,12 +9,6 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true,
 });
-
-RB.List = Backbone.Collection.extend({
-  model: RB.Note,
-  url: '/notes',
-  merge: true,
-});
 RB.init = function() {
   RB.fixPath();
   var app = new RB.App();
@@ -31,8 +25,8 @@ RB.get = function() {
       RB.collection = collection;
       var lists = RB.getLists(RB.collection);
 
-      RB.setLists(RB.collection, lists);
-
+      RB.setLists(lists);
+      RB.input = new RB.Input();
     },
     error: function(err) {
       console.log(err);
@@ -60,10 +54,10 @@ RB.reset = function(listname) {
   });
 };
 
-RB.getLists = function(collection) {
+RB.getLists = function() {
   var arr = [];
 
-  collection.each(function(model) {
+  RB.collection.each(function(model) {
     var listname = model.get('list');
 
     if (arr.indexOf(listname) === -1) {
@@ -75,7 +69,7 @@ RB.getLists = function(collection) {
   return arr;
 };
 
-RB.setLists = function(collection, array) {
+RB.setLists = function(array) {
   var lists = array;
   var template = _.template($('#list-name-template').html());
   var $listsContainer = $('.lists-container');
@@ -83,10 +77,7 @@ RB.setLists = function(collection, array) {
   $listsContainer.empty();
 
   for (var i = 0; i < lists.length; i++) {
-    var listObjects = collection.where({list: lists[i]});
-    var total = collection.where({list: lists[i], done: false}).length;
-
-    var inputs = new RB.Input();
+    var total = RB.collection.where({list: lists[i], done: false}).length;
 
     $listsContainer.append(template({
       name: lists[i],
@@ -99,9 +90,6 @@ RB.setNotes = function(selector, models) {
   var $notesContainer = $('.active-notes-container');
   var $listInput = $('.active-input.list-input');
   var $noteInput = $('.active-input.note-input');
-  var $statContainer = $('.garbage-container .stat');
-  var $trashContainer = $('.garbage-container .edit');
-  var totalDone = 0;
 
   if (models.length > 0) {
     var listname = models[0].get('list');
@@ -112,26 +100,12 @@ RB.setNotes = function(selector, models) {
 
     for (var i = 0; i < models.length; i++) {
       var note = models[i];
-      if (note.get('done') === true) {
-        totalDone += 1;
-      }
       var view = new RB.NoteItem({model: note});
 
       $selector.append(view.render().el);
     }
 
     RB.resetActiveList(listname);
-
-    if (totalDone > 0) {
-      $statContainer.html('<span class="thin-sm badge">' +totalDone + ' Done</span>');
-      $trashContainer.html('<span class="remove-done-btn"><i class="fa fa-trash-o"></i></span>');
-
-    }
-    else {
-      $statContainer.empty();
-      $trashContainer.empty();
-
-    }
 
   }
   else {
@@ -149,7 +123,6 @@ RB.setNotes = function(selector, models) {
 };
 
 RB.setNote = function(model) {
-  console.log(model);
   var $notesContainer = $('.active-notes-container');
   var view = new RB.NoteItem({model: model});
   $notesContainer.append(view.render().el);
@@ -218,6 +191,13 @@ RB.resetActiveList = function(listname) {
 
   $element.addClass('active');
 };
+
+RB.setListValue = function(listname) {
+  var $listInput = $('.active-input.list-input');
+  var inputs = new RB.Input();
+
+  $listInput.val(listname);
+};
 RB.post = function() {
   var $noteInput = $('.note-input');
   var listname = $('.list-input').val();
@@ -254,12 +234,14 @@ RB.post = function() {
 
 RB.put = function(model) {
   var listname = model.get('list');
+  var id = model.get('_id');
 
   model.save(null, {
-
+    url: '/notes/' + id,
     success: function(data) {
+
+      console.log(data.attributes.done);
       RB.collection.set(data);
-      RB.reset(listname);
       RB.notify('Updated');
 
     }
@@ -269,31 +251,49 @@ RB.put = function(model) {
 
 RB.destroy = function(model) {
   var listname = model.get('list');
+  var id = model.get('_id');
 
-  model.destroy({
+  if (id !== null) {
 
-    success: function(model) {
-      RB.reset(listname);
-      RB.notify('Note deleted');
+    model.destroy({
+      wait: true,
+      url: '/notes/' + id,
+      dataType: 'text',
+      data: {_id: id},
+      success: function(model) {
 
-    },
-    error: function(err) {
-      RB.reset(listname);
-      RB.notify('Removed');
+        RB.notify('Note deleted');
+        console.log('success ', model);
 
-    }
+      },
+      error: function(err) {
+        RB.notify('Removed');
+        console.log('error ', err);
 
-  });
+      },
+    });
+
+  }
 };
 RB.e = {
 
   init: function() {
     RB.e.setActiveList();
     RB.e.deviceEnv(800);
+    RB.e.sunny();
 
     $(document).on('click', '.toggle-list-btn', function() {
       RB.e.toggleLists();
      });
+
+    $(document).on('listSelected', function() {
+      RB.e.garbageWatcher();
+    });
+
+    $(document).on('listChanged', function() {
+      RB.e.listWatcher();
+    });
+
   },
 
   deviceEnv: function(num) {
@@ -310,6 +310,7 @@ RB.e = {
 
       $listItem.removeClass('active');
       $(this).addClass('active');
+      $(document).trigger('listSelected');
     });
   },
 
@@ -325,6 +326,61 @@ RB.e = {
     var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     return device;
 
+  },
+
+  garbageWatcher: function() {
+    var activeList = document.getElementsByClassName('list-item active');
+    var listname = $(activeList).prop('dataset').id;
+    var number = RB.collection.where({list: listname, done: true}).length;
+
+    RB.e.appendDoneStats(number);
+
+  },
+
+  appendDoneStats: function(number) {
+    var $garbageContainer = $('.garbage-container');
+    var $statContainer = $('.garbage-container .stat');
+    var $trashContainer = $('.garbage-container .edit');
+    var garbageTemplate = _.template($('#garbage-watcher-template').html());
+    var sunnyTemplate = _.template($('#sunny-template').html());
+
+    console.log(number);
+    if (number !== 0) {
+      $garbageContainer.html(garbageTemplate({length: number}));
+
+    }
+    else {
+      $garbageContainer.html(sunnyTemplate());
+
+    }
+  },
+
+  listWatcher: function() {
+    var template = _.template($('#list-name-template').html());
+    var $listsContainer = $('.lists-container');
+    var activeList = document.getElementsByClassName('list-item active');
+    var listname = $(activeList).prop('dataset').id;
+    var number = RB.collection.where({list: listname, done: false}).length;
+
+    $(activeList).remove();
+
+    $listsContainer.append(template({
+        name: listname,
+        length: number}));
+
+  },
+
+  sunny: function() {
+    var counter = 0;
+
+    setInterval(function() {
+      $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-o-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'transform': 'rotate(' + counter + 'deg)'});
+      counter += 3;
+    }, 100);
   }
 
 };
@@ -342,7 +398,6 @@ RB.App = Backbone.View.extend({
     var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
-
     RB.e.deviceEnv(400);
 
   },
@@ -357,6 +412,8 @@ RB.App = Backbone.View.extend({
     $notesContainer.empty();
   },
 
+
+
 });
 RB.Input = Backbone.View.extend({
 
@@ -366,12 +423,14 @@ RB.Input = Backbone.View.extend({
 
   initialize: function() {
     this.render();
+    console.log('we initing');
   },
 
   events: {
-    'click .create-note-btn' : 'createNote',
-    'keyup .note-input'      : 'createOnEnter',
-    'keyup .active-input'    : 'validate'
+    'click .create-note-btn'   : 'createNote',
+    'keyup .note-input'        : 'createOnEnter',
+    'keyup .active-input'      : 'validate',
+    'click .garbage-container' : 'removeAllDone'
   },
 
   render: function() {
@@ -412,6 +471,37 @@ RB.Input = Backbone.View.extend({
 
   },
 
+  removeAllDone: function() {
+    var listname = $('.list-input').val();
+    var models = RB.collection.where({
+      list: listname,
+      done: true
+    });
+
+    console.log(models.length);
+
+    for (var i = 0; i < models.length; i++) {
+      RB.destroy(models[i]);
+    }
+
+    var remaining = RB.collection.where({
+      list: listname
+    });
+
+    console.log(remaining);
+    if (remaining) {
+      RB.setListValue(listname);
+
+    }
+    else {
+      $noteInput.val('');
+      $listInput.val('').focus();
+      $notesContainer.empty();
+
+    }
+
+  },
+
 });
 RB.NoteItem = Backbone.View.extend({
 
@@ -436,20 +526,31 @@ RB.NoteItem = Backbone.View.extend({
 
   destroyNote: function() {
     RB.destroy(this.model);
+    $(document).trigger('listSelected');
+    $(document).trigger('listChanged');
+    this.remove();
   },
 
   toggleDone: function() {
     var note = this.model;
     var isDone = note.get('done');
+    var self = this;
+    var parity = !isDone;
 
-    if (isDone) {
-      note.set({done: false});
-    }
-    else {
-      note.set({done: true});
-    }
-
-    RB.put(note);
+    var attr = {done: parity};
+    console.log(note);
+    note.save(attr, {
+      success: function(model, response) {
+        $(document).trigger('listSelected');
+        $(document).trigger('listChanged');
+        RB.collection.set(model);
+        self.render({model: model});
+        console.log(model, response);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   },
 
 });

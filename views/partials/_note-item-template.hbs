@@ -4,10 +4,11 @@
     <div class="timestamp">
       <p class="thin-sm"><%= timestamp %></p>
     </div>
-    <% var done = this.model.get('done') ? 'done' : '' %>
+
     <div class="note <%= done %>">
       <p class="note-text"><%= body %></p>
     </div>
+
     <div class="edit">
       <i class="fa fa-trash"></i>
       <i class="fa fa-check-square"></i>

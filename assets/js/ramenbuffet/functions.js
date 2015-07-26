@@ -14,8 +14,8 @@ RB.get = function() {
       RB.collection = collection;
       var lists = RB.getLists(RB.collection);
 
-      RB.setLists(RB.collection, lists);
-
+      RB.setLists(lists);
+      RB.input = new RB.Input();
     },
     error: function(err) {
       console.log(err);
@@ -43,10 +43,10 @@ RB.reset = function(listname) {
   });
 };
 
-RB.getLists = function(collection) {
+RB.getLists = function() {
   var arr = [];
 
-  collection.each(function(model) {
+  RB.collection.each(function(model) {
     var listname = model.get('list');
 
     if (arr.indexOf(listname) === -1) {
@@ -58,7 +58,7 @@ RB.getLists = function(collection) {
   return arr;
 };
 
-RB.setLists = function(collection, array) {
+RB.setLists = function(array) {
   var lists = array;
   var template = _.template($('#list-name-template').html());
   var $listsContainer = $('.lists-container');
@@ -66,10 +66,7 @@ RB.setLists = function(collection, array) {
   $listsContainer.empty();
 
   for (var i = 0; i < lists.length; i++) {
-    var listObjects = collection.where({list: lists[i]});
-    var total = collection.where({list: lists[i], done: false}).length;
-
-    var inputs = new RB.Input();
+    var total = RB.collection.where({list: lists[i], done: false}).length;
 
     $listsContainer.append(template({
       name: lists[i],
@@ -82,9 +79,6 @@ RB.setNotes = function(selector, models) {
   var $notesContainer = $('.active-notes-container');
   var $listInput = $('.active-input.list-input');
   var $noteInput = $('.active-input.note-input');
-  var $statContainer = $('.garbage-container .stat');
-  var $trashContainer = $('.garbage-container .edit');
-  var totalDone = 0;
 
   if (models.length > 0) {
     var listname = models[0].get('list');
@@ -95,26 +89,12 @@ RB.setNotes = function(selector, models) {
 
     for (var i = 0; i < models.length; i++) {
       var note = models[i];
-      if (note.get('done') === true) {
-        totalDone += 1;
-      }
       var view = new RB.NoteItem({model: note});
 
       $selector.append(view.render().el);
     }
 
     RB.resetActiveList(listname);
-
-    if (totalDone > 0) {
-      $statContainer.html('<span class="thin-sm badge">' +totalDone + ' Done</span>');
-      $trashContainer.html('<span class="remove-done-btn"><i class="fa fa-trash-o"></i></span>');
-
-    }
-    else {
-      $statContainer.empty();
-      $trashContainer.empty();
-
-    }
 
   }
   else {
@@ -132,7 +112,6 @@ RB.setNotes = function(selector, models) {
 };
 
 RB.setNote = function(model) {
-  console.log(model);
   var $notesContainer = $('.active-notes-container');
   var view = new RB.NoteItem({model: model});
   $notesContainer.append(view.render().el);
@@ -200,4 +179,11 @@ RB.resetActiveList = function(listname) {
   var $element = $('div').find("[data-id='" + listname + "']");
 
   $element.addClass('active');
+};
+
+RB.setListValue = function(listname) {
+  var $listInput = $('.active-input.list-input');
+  var inputs = new RB.Input();
+
+  $listInput.val(listname);
 };

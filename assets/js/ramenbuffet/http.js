@@ -34,12 +34,14 @@ RB.post = function() {
 
 RB.put = function(model) {
   var listname = model.get('list');
+  var id = model.get('_id');
 
   model.save(null, {
-
+    url: '/notes/' + id,
     success: function(data) {
+
+      console.log(data.attributes.done);
       RB.collection.set(data);
-      RB.reset(listname);
       RB.notify('Updated');
 
     }
@@ -49,19 +51,27 @@ RB.put = function(model) {
 
 RB.destroy = function(model) {
   var listname = model.get('list');
+  var id = model.get('_id');
 
-  model.destroy({
+  if (id !== null) {
 
-    success: function(model) {
-      RB.reset(listname);
-      RB.notify('Note deleted');
+    model.destroy({
+      wait: true,
+      url: '/notes/' + id,
+      dataType: 'text',
+      data: {_id: id},
+      success: function(model) {
 
-    },
-    error: function(err) {
-      RB.reset(listname);
-      RB.notify('Removed');
+        RB.notify('Note deleted');
+        console.log('success ', model);
 
-    }
+      },
+      error: function(err) {
+        RB.notify('Removed');
+        console.log('error ', err);
 
-  });
+      },
+    });
+
+  }
 };

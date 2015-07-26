@@ -21,20 +21,31 @@ RB.NoteItem = Backbone.View.extend({
 
   destroyNote: function() {
     RB.destroy(this.model);
+    $(document).trigger('listSelected');
+    $(document).trigger('listChanged');
+    this.remove();
   },
 
   toggleDone: function() {
     var note = this.model;
     var isDone = note.get('done');
+    var self = this;
+    var parity = !isDone;
 
-    if (isDone) {
-      note.set({done: false});
-    }
-    else {
-      note.set({done: true});
-    }
-
-    RB.put(note);
+    var attr = {done: parity};
+    console.log(note);
+    note.save(attr, {
+      success: function(model, response) {
+        $(document).trigger('listSelected');
+        $(document).trigger('listChanged');
+        RB.collection.set(model);
+        self.render({model: model});
+        console.log(model, response);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   },
 
 });

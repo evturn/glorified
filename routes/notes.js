@@ -18,8 +18,8 @@ notes.route('/:id')
   .delete(ensureAuthenticated, deleteNote);
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { 
-    return next(); 
+  if (req.isAuthenticated()) {
+    return next();
   }
   res.render('landing/index', {layout: 'landing'});
 };

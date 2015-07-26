@@ -12,7 +12,6 @@ RB.App = Backbone.View.extend({
     var notes = RB.collection.where({list: listname});
 
     RB.setNotes('.active-notes-container', notes);
-
     RB.e.deviceEnv(400);
 
   },
@@ -26,5 +25,7 @@ RB.App = Backbone.View.extend({
     $listInput.val('').focus();
     $notesContainer.empty();
   },
+
+
 
 });

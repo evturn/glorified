@@ -5,7 +5,7 @@ var User = require('../models/user');
 
 exports.getNotes = function(req, res) {
   var notes = req.user.notes;
-  res.send(notes);
+  res.json(notes);
 };
 
 exports.postNotes = function(req, res) {
@@ -38,7 +38,9 @@ exports.putNote = function(req, res) {
     if (err) {
       return res.send(err);
     }
-    res.send(note);
+    console.log(note);
+    console.log('Me saved it');
+    res.json(note);
   });
 };
 
@@ -49,10 +51,12 @@ exports.deleteNote = function(req, res) {
   var note = user.notes.id(id).remove();
   user.save(function(err) {
     if (err) {
-      return res.send(err);
+      res.send(err);
     }
-    console.log('Me deleted it');
-    res.send('Note successfully deleted');
+    else {
+      console.log('Me deleted it');
+      res.json(note);
+    }
   });
 
 };
