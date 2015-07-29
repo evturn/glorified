@@ -381,7 +381,23 @@ RB.e = {
                        .css({'transform': 'rotate(' + counter + 'deg)'});
       counter += 3;
     }, 100);
+  },
+
+  fixPath: function() {
+
+  if (window.location.hash && window.location.hash === "#_=_") {
+    var scroll = {
+      top: document.body.scrollTop,
+      left: document.body.scrollLeft
+    };
+
+    window.location.hash = "";
+    document.body.scrollTop = scroll.top;
+    document.body.scrollLeft = scroll.left;
+
   }
+
+},
 
 };
 RB.App = Backbone.View.extend({
