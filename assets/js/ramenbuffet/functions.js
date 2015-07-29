@@ -1,5 +1,7 @@
 _.extend(Backbone.View.prototype, {
+
   collection: null,
+
   get: function() {
     var self = this;
     var notes = new RB.Notes();
@@ -13,9 +15,9 @@ _.extend(Backbone.View.prototype, {
         }
 
         var lists = self.getLists(this.collection);
-
         self.setLists(lists);
-        RB.input = new RB.Input();
+        app.listenTo(self.collection, 'listSelected', self.garbageWatcher);
+        app.listenTo(self.collection, 'listChanged', self.listWatcher);
       },
       error: function(err) {
         console.log(err);
@@ -24,31 +26,17 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  post: function() {
+  post: function(model) {
     var self = this;
     var $noteInput = $('.note-input');
-    var listname = $('.list-input').val();
-    var date = Date.now();
-    var timestamp = this.convertDate(date);
+    var $notesContainer = $('.active-notes-container');
 
-    var note = {
-      body: $noteInput.val(),
-      list: listname,
-      created: date,
-      timestamp: timestamp,
-      done: false
-    };
+    this.collection.create(model, {
 
-    if (this.collection.findWhere({body: note.body}) && this.collection.findWhere({list: note.list})) {
-      return false;
-    }
-
-    this.collection.create(note, {
-
-      success: function(data) {
-        self.setNote(data);
-        self.reset(listname);
-        $noteInput.focus();
+      success: function(model, response) {
+        $noteInput.val('').focus();
+        var view = new RB.NoteItem({model: model});
+        $notesContainer.append(view.render().el);
 
       },
       error: function(err) {
@@ -72,7 +60,10 @@ _.extend(Backbone.View.prototype, {
         self.collection.set(data);
         self.notify('Updated');
 
-      }
+      },
+      error: function(err) {
+        console.log(err);
+      },
 
     });
   },
@@ -91,12 +82,12 @@ _.extend(Backbone.View.prototype, {
         data: {_id: id},
         success: function(model) {
 
-          this.notify('Note deleted');
+          self.notify('Note deleted');
           console.log('success ', model);
 
         },
         error: function(err) {
-          this.notify('Removed');
+          self.notify('Removed');
           console.log('error ', err);
 
         },
@@ -174,7 +165,7 @@ _.extend(Backbone.View.prototype, {
 
     }
 
-    if (!RB.e.isMobile()) {
+    if (!this.isMobile()) {
       $noteInput.focus();
     }
 
@@ -182,8 +173,6 @@ _.extend(Backbone.View.prototype, {
 
   setListValue: function(listname) {
     var $listInput = $('.active-input.list-input');
-    var inputs = new RB.Input();
-
     $listInput.val(listname);
   },
 
@@ -233,7 +222,116 @@ _.extend(Backbone.View.prototype, {
     var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
 
     return timestamp;
-  }
+  },
 
+  init: function() {
+    this.setActiveList();
+    this.deviceEnv(800);
+    this.sunny();
+    this.fixPath();
+  },
+
+  deviceEnv: function(num) {
+
+    if (this.isMobile()) {
+      setTimeout(this.toggleLists, num);
+    }
+
+  },
+
+  setActiveList: function() {
+    $(document).on('click', '.lists-container .list-item', function() {
+      var $listItem = $('.list-item');
+
+      $listItem.removeClass('active');
+      $(this).addClass('active');
+      $(document).trigger('listSelected');
+    });
+  },
+
+  toggleLists: function() {
+    var $listsContainer = $('.lists-container');
+    var $icon = $('.toggle-list-btn .fa');
+
+    $listsContainer.slideToggle('fast');
+    $icon.toggleClass('collapsed');
+  },
+
+  isMobile: function() {
+    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return device;
+
+  },
+
+  garbageWatcher: function() {
+    var activeList = document.getElementsByClassName('list-item active');
+    var listname = $(activeList).prop('dataset').id;
+    var number = this.collection.where({list: listname, done: true}).length;
+
+    this.appendDoneStats(number);
+
+  },
+
+  appendDoneStats: function(number) {
+    var $garbageContainer = $('.garbage-container');
+    var $statContainer = $('.garbage-container .stat');
+    var $trashContainer = $('.garbage-container .edit');
+    var garbageTemplate = _.template($('#garbage-watcher-template').html());
+    var sunnyTemplate = _.template($('#sunny-template').html());
+
+    console.log(number);
+    if (number !== 0) {
+      $garbageContainer.html(garbageTemplate({length: number}));
+
+    }
+    else {
+      $garbageContainer.html(sunnyTemplate());
+
+    }
+  },
+
+  listWatcher: function() {
+    var template = _.template($('#list-name-template').html());
+    var $listsContainer = $('.lists-container');
+    var activeList = document.getElementsByClassName('list-item active');
+    var listname = $(activeList).prop('dataset').id;
+    var number = this.collection.where({list: listname, done: false}).length;
+
+    $(activeList).remove();
+
+    $listsContainer.append(template({
+        name: listname,
+        length: number}));
+
+  },
+
+  sunny: function() {
+    var counter = 0;
+
+    setInterval(function() {
+      $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-o-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'transform': 'rotate(' + counter + 'deg)'});
+      counter += 3;
+    }, 100);
+  },
+
+  fixPath: function() {
+
+    if (window.location.hash && window.location.hash === "#_=_") {
+      var scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      };
+
+      window.location.hash = "";
+      document.body.scrollTop = scroll.top;
+      document.body.scrollLeft = scroll.left;
+
+    }
+
+  },
 
 });

@@ -20,7 +20,7 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   destroyNote: function() {
-    RB.destroy(this.model);
+    this.destroy(this.model);
     $(document).trigger('listSelected');
     $(document).trigger('listChanged');
     this.remove();
@@ -38,7 +38,7 @@ RB.NoteItem = Backbone.View.extend({
       success: function(model, response) {
         $(document).trigger('listSelected');
         $(document).trigger('listChanged');
-        RB.collection.set(model);
+        self.collection.set(model);
         self.render({model: model});
         console.log(model, response);
       },
