@@ -302,14 +302,20 @@ _.extend(Backbone.View.prototype, {
     var $listsContainer = $('.lists-container');
     var listname = $('.list-input').val();
     var activeList = this.resetActiveList(listname);
-    var number = app.collection.where({list: listname, done: false}).length;
+    var number = app.collection.where({
+      list: listname,
+      done: false
+    }).length;
 
     $(activeList).remove();
 
-    $listsContainer.append(template({
-      name: listname,
-      length: number
-    }));
+    if (number > 0) {
+      $listsContainer.append(template({
+        name: listname,
+        length: number
+      }));
+
+    }
 
     return this;
   },
