@@ -1,1 +1,1 @@
-RB.init();
+var app = new RB.App();

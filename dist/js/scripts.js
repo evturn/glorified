@@ -10,17 +10,21 @@ RB.Notes = Backbone.Collection.extend({
   merge: true,
 });
 _.extend(Backbone.View.prototype, {
-
+  collection: null,
   get: function() {
+    var self = this;
     var notes = new RB.Notes();
 
     notes.fetch({
 
       success: function(collection) {
-        RB.collection = collection;
-        var lists = RB.getLists(RB.collection);
 
-        RB.setLists(lists);
+        if (self.collection === null) {
+          self.collection = collection;
+        }
+        var lists = self.getLists(this.collection);
+
+        self.setLists(lists);
         RB.input = new RB.Input();
       },
       error: function(err) {
@@ -34,7 +38,7 @@ _.extend(Backbone.View.prototype, {
   getLists: function() {
     var arr = [];
 
-    RB.collection.each(function(model) {
+    this.collection.each(function(model) {
       var listname = model.get('list');
 
       if (arr.indexOf(listname) === -1) {
@@ -54,7 +58,7 @@ _.extend(Backbone.View.prototype, {
     $listsContainer.empty();
 
     for (var i = 0; i < lists.length; i++) {
-      var total = RB.collection.where({list: lists[i], done: false}).length;
+      var total = this.collection.where({list: lists[i], done: false}).length;
 
       $listsContainer.append(template({
         name: lists[i],
@@ -79,7 +83,7 @@ _.extend(Backbone.View.prototype, {
       var listname = models[0].get('list');
 
       $listInput.val(listname);
-      $selector = RB.tojquery(selector);
+      $selector = this.tojquery(selector);
       $selector.empty();
 
       for (var i = 0; i < models.length; i++) {
@@ -89,7 +93,7 @@ _.extend(Backbone.View.prototype, {
         $selector.append(view.render().el);
       }
 
-      RB.resetActiveList(listname);
+      this.resetActiveList(listname);
 
     }
     else {
@@ -370,7 +374,7 @@ RB.App = Backbone.View.extend({
   el: '.dmc',
 
   initialize: function() {
-    this.fixPath();
+    RB.e.fixPath();
     this.get();
     RB.e.init();
   },
@@ -541,4 +545,4 @@ RB.NoteItem = Backbone.View.extend({
   },
 
 });
-RB.init();
+var app = new RB.App();

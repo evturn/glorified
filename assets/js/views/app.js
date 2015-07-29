@@ -3,7 +3,7 @@ RB.App = Backbone.View.extend({
   el: '.dmc',
 
   initialize: function() {
-    this.fixPath();
+    RB.e.fixPath();
     this.get();
     RB.e.init();
   },
