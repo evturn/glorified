@@ -27,12 +27,13 @@ exports.postNotes = function(req, res) {
   });
 };
 
+
 exports.putNote = function(req, res) {
   var currentUser = req.user;
   var id = req.body._id;
   var note = currentUser.notes.id(id);
 
-  currentUser.notes.push(req.body)
+  currentUser.notes.push(req.body);
 
   currentUser.save(function(err) {
     if (err) {
@@ -41,7 +42,6 @@ exports.putNote = function(req, res) {
     console.log(note);
     console.log('Me saved it');
     res.json(note);
-    res.send(note);
   });
 };
 
