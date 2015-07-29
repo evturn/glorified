@@ -31,7 +31,6 @@ gulp.task('js', function() {
     .pipe($.plumber(options.plumber))
     .pipe($.concat('scripts.js'))
     .pipe(gulp.dest(paths.js.dest))
-    .pipe($.uglify())
     .pipe($.rename(paths.js.filename))
     .pipe(gulp.dest(paths.js.dest))
     .on('error', gutil.log);
