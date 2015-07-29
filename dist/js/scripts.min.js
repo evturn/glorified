@@ -114,11 +114,15 @@ _.extend(Backbone.View.prototype, {
     $listsContainer.empty();
 
     for (var i = 0; i < lists.length; i++) {
-      var total = this.collection.where({list: lists[i], done: false}).length;
+      var total = this.collection.where({
+        list: lists[i],
+        done: false
+      }).length;
 
       $listsContainer.append(template({
         name: lists[i],
-        length: total}));
+        length: total
+      }));
     }
 
   },
@@ -222,14 +226,13 @@ _.extend(Backbone.View.prototype, {
   },
 
   init: function() {
+    this.fixPath();
     this.setActiveList();
     this.deviceEnv(800);
     this.sunny();
-    this.fixPath();
   },
 
   deviceEnv: function(num) {
-
     if (this.isMobile()) {
       setTimeout(this.toggleLists, num);
     }
@@ -256,8 +259,8 @@ _.extend(Backbone.View.prototype, {
 
   isMobile: function() {
     var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    return device;
 
+    return device;
   },
 
   onChangeListeners: function() {
@@ -277,7 +280,6 @@ _.extend(Backbone.View.prototype, {
     var number = app.collection.where({list: listname, done: true}).length;
 
     return number;
-
   },
 
   appendDoneStats: function(number) {
