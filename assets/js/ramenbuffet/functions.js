@@ -41,6 +41,7 @@ _.extend(Backbone.View.prototype, {
         var view = new RB.NoteItem({model: model});
         $notesContainer.append(view.render().el);
         self.onChangeListeners();
+        self.notify('Created');
 
       },
       error: function(err) {
@@ -65,11 +66,10 @@ _.extend(Backbone.View.prototype, {
         data: {_id: id},
         success: function(model) {
           console.log('success ', model);
-          self.notify('Note deleted');
+          self.notify('Removed');
           self.onChangeListeners();
         },
         error: function(err) {
-          self.notify('Removed');
           console.log('error ', err);
 
         },
@@ -174,6 +174,13 @@ _.extend(Backbone.View.prototype, {
 
   notify: function(notification) {
     var $loader = $('.kurt-loader');
+    $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
+    var $text = $loader.find('.thin-sm');
+
+    setTimeout(function() {
+      $text.removeClass('animated fadeIn');
+      $text.addClass('animated fadeOut');
+    }, 1000);
 
   },
 

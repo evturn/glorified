@@ -29,10 +29,13 @@ RB.NoteItem = Backbone.View.extend({
     var id = this.model.get('_id');
     var isDone = this.model.get('done');
     var attributes = {done: !isDone};
+
     this.model.save(attributes, {
+
       url: '/notes/' + id,
       success: function(model, response) {
         console.log(model);
+        self.notify('Updated');
         self.onChangeListeners();
         self.render();
       },
