@@ -58,25 +58,11 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  put: function(model) {
+  put: function(model, attributes, view) {
     var self = this;
-    var listname = model.get('list');
-    var id = model.get('_id');
 
-    model.save(null, {
-      url: '/notes/' + id,
-      success: function(data) {
-
-        console.log(data.attributes.done);
-        self.collection.set(data);
-        self.notify('Updated');
-
-      },
-      error: function(err) {
-        console.log(err);
-      },
-
-    });
+    model.set(attributes);
+    view.render();
   },
 
   destroy: function(model) {
@@ -92,7 +78,6 @@ _.extend(Backbone.View.prototype, {
         dataType: 'text',
         data: {_id: id},
         success: function(model) {
-
           self.notify('Note deleted');
           console.log('success ', model);
 
@@ -106,6 +91,7 @@ _.extend(Backbone.View.prototype, {
 
     }
   },
+
 
   getLists: function() {
     var arr = [];
@@ -347,7 +333,6 @@ _.extend(Backbone.View.prototype, {
 
 });
 
-
 RB.App = Backbone.View.extend({
 
   el: '.dmc',
@@ -492,6 +477,7 @@ RB.NoteItem = Backbone.View.extend({
 
   initalize: function() {
     this.render();
+    this.listenTo(this.model, 'change', this.render);
   },
 
   events: {
@@ -513,25 +499,11 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   toggleDone: function() {
-    var note = this.model;
-    var isDone = note.get('done');
-    var self = this;
-    var parity = !isDone;
-
-    var attr = {done: parity};
-    console.log(note);
-    note.save(attr, {
-      success: function(model, response) {
-        $(document).trigger('listSelected');
-        $(document).trigger('listChanged');
-        self.collection.set(model);
-        self.render({model: model});
-        console.log(model, response);
-      },
-      error: function(err) {
-        console.log(err);
-      }
-    });
+    var isDone = this.model.get('done');
+    var attributes = {done: !isDone};
+    this.put(this.model, attributes, this);
+    var state = this.model.get('done');
+    console.log(state);
   },
 
 });

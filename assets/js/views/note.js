@@ -6,6 +6,7 @@ RB.NoteItem = Backbone.View.extend({
 
   initalize: function() {
     this.render();
+    this.listenTo(this.model, 'change', this.render);
   },
 
   events: {
@@ -27,25 +28,11 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   toggleDone: function() {
-    var note = this.model;
-    var isDone = note.get('done');
-    var self = this;
-    var parity = !isDone;
-
-    var attr = {done: parity};
-    console.log(note);
-    note.save(attr, {
-      success: function(model, response) {
-        $(document).trigger('listSelected');
-        $(document).trigger('listChanged');
-        self.collection.set(model);
-        self.render({model: model});
-        console.log(model, response);
-      },
-      error: function(err) {
-        console.log(err);
-      }
-    });
+    var isDone = this.model.get('done');
+    var attributes = {done: !isDone};
+    this.put(this.model, attributes, this);
+    var state = this.model.get('done');
+    console.log(state);
   },
 
 });

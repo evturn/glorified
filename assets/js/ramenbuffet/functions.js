@@ -47,25 +47,11 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  put: function(model) {
+  put: function(model, attributes, view) {
     var self = this;
-    var listname = model.get('list');
-    var id = model.get('_id');
 
-    model.save(null, {
-      url: '/notes/' + id,
-      success: function(data) {
-
-        console.log(data.attributes.done);
-        self.collection.set(data);
-        self.notify('Updated');
-
-      },
-      error: function(err) {
-        console.log(err);
-      },
-
-    });
+    model.set(attributes);
+    view.render();
   },
 
   destroy: function(model) {
@@ -81,7 +67,6 @@ _.extend(Backbone.View.prototype, {
         dataType: 'text',
         data: {_id: id},
         success: function(model) {
-
           self.notify('Note deleted');
           console.log('success ', model);
 
@@ -95,6 +80,7 @@ _.extend(Backbone.View.prototype, {
 
     }
   },
+
 
   getLists: function() {
     var arr = [];
