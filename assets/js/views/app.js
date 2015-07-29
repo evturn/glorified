@@ -27,6 +27,7 @@ RB.App = Backbone.View.extend({
 
     this.setNotes('.active-notes-container', notes);
     this.deviceEnv(400);
+    this.onChangeListeners();
 
   },
 
@@ -38,6 +39,7 @@ RB.App = Backbone.View.extend({
     $noteInput.val('');
     $listInput.val('').focus();
     $notesContainer.empty();
+    this.onChangeListeners();
   },
 
   renderInputFields: function() {
@@ -95,7 +97,6 @@ RB.App = Backbone.View.extend({
       }
 
       this.post(note);
-
     }
 
   },

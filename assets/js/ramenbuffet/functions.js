@@ -1,5 +1,8 @@
 _.extend(Backbone.View.prototype, {
 
+  garbageTemplate : _.template($('#garbage-watcher-template').html()),
+  allDoneTemplate : _.template($('#sunny-template').html()),
+
   collection: null,
 
   get: function() {
@@ -10,15 +13,13 @@ _.extend(Backbone.View.prototype, {
 
       success: function(collection) {
 
-        if (app.collection === null) {
+        if (self.collection === null) {
           app.collection = collection;
           console.log(app.collection);
         }
 
         var lists = self.getLists(app.collection);
         self.setLists(lists);
-        app.listenTo(app.collection, 'listSelected', self.garbageWatcher);
-        app.listenTo(app.collection, 'listChanged', self.listWatcher);
       },
       error: function(err) {
         console.log(err);
@@ -36,8 +37,10 @@ _.extend(Backbone.View.prototype, {
 
       success: function(model, response) {
         $noteInput.val('').focus();
+        app.validate();
         var view = new RB.NoteItem({model: model});
         $notesContainer.append(view.render().el);
+        self.onChangeListeners();
 
       },
       error: function(err) {
@@ -61,9 +64,9 @@ _.extend(Backbone.View.prototype, {
         dataType: 'text',
         data: {_id: id},
         success: function(model) {
-          self.notify('Note deleted');
           console.log('success ', model);
-
+          self.notify('Note deleted');
+          self.onChangeListeners();
         },
         error: function(err) {
           self.notify('Removed');
@@ -161,6 +164,8 @@ _.extend(Backbone.View.prototype, {
     var $element = $('div').find("[data-id='" + listname + "']");
 
     $element.addClass('active');
+
+    return $element;
   },
 
   notify: function(notification) {
@@ -244,12 +249,23 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  garbageWatcher: function() {
-    var activeList = document.getElementsByClassName('list-item active');
-    var listname = $(activeList).prop('dataset').id;
-    var number = this.collection.where({list: listname, done: true}).length;
+  onChangeListeners: function() {
+    var numberDone = this.garbageWatcher();
+    this.appendDoneStats(numberDone);
+    this.listWatcher();
+  },
 
-    this.appendDoneStats(number);
+  getCurrentList: function() {
+    var listname = $('.list-input').val();
+
+    return listname;
+  },
+
+  garbageWatcher: function() {
+    var listname = this.getCurrentList();
+    var number = app.collection.where({list: listname, done: true}).length;
+
+    return number;
 
   },
 
@@ -257,33 +273,34 @@ _.extend(Backbone.View.prototype, {
     var $garbageContainer = $('.garbage-container');
     var $statContainer = $('.garbage-container .stat');
     var $trashContainer = $('.garbage-container .edit');
-    var garbageTemplate = _.template($('#garbage-watcher-template').html());
-    var sunnyTemplate = _.template($('#sunny-template').html());
 
-    console.log(number);
     if (number !== 0) {
-      $garbageContainer.html(garbageTemplate({length: number}));
+      $garbageContainer.html(this.garbageTemplate({length: number}));
 
     }
     else {
-      $garbageContainer.html(sunnyTemplate());
+      $garbageContainer.html(this.allDoneTemplate());
 
     }
+
+    return this;
   },
 
   listWatcher: function() {
     var template = _.template($('#list-name-template').html());
     var $listsContainer = $('.lists-container');
-    var activeList = document.getElementsByClassName('list-item active');
-    var listname = $(activeList).prop('dataset').id;
-    var number = this.collection.where({list: listname, done: false}).length;
+    var listname = $('.list-input').val();
+    var activeList = this.resetActiveList(listname);
+    var number = app.collection.where({list: listname, done: false}).length;
 
     $(activeList).remove();
 
     $listsContainer.append(template({
-        name: listname,
-        length: number}));
+      name: listname,
+      length: number
+    }));
 
+    return this;
   },
 
   sunny: function() {
@@ -296,6 +313,7 @@ _.extend(Backbone.View.prototype, {
                        .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
                        .css({'transform': 'rotate(' + counter + 'deg)'});
       counter += 3;
+
     }, 100);
   },
 
