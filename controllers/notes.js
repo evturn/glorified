@@ -27,21 +27,20 @@ exports.postNotes = function(req, res) {
   });
 };
 
-
 exports.putNote = function(req, res) {
   var currentUser = req.user;
   var id = req.body._id;
   var note = currentUser.notes.id(id);
 
-  currentUser.notes.push(req.body);
+  var updated = note.set({"done": req.body.done});
 
   currentUser.save(function(err) {
     if (err) {
       return res.send(err);
     }
-    console.log(note);
+    console.log(updated);
     console.log('Me saved it');
-    res.json(note);
+    res.json(updated);
   });
 };
 

@@ -10,15 +10,15 @@ _.extend(Backbone.View.prototype, {
 
       success: function(collection) {
 
-        if (self.collection === null) {
-          self.collection = collection;
-          console.log(self.collection);
+        if (app.collection === null) {
+          app.collection = collection;
+          console.log(app.collection);
         }
 
-        var lists = self.getLists(self.collection);
+        var lists = self.getLists(app.collection);
         self.setLists(lists);
-        app.listenTo(self.collection, 'listSelected', self.garbageWatcher);
-        app.listenTo(self.collection, 'listChanged', self.listWatcher);
+        app.listenTo(app.collection, 'listSelected', self.garbageWatcher);
+        app.listenTo(app.collection, 'listChanged', self.listWatcher);
       },
       error: function(err) {
         console.log(err);
@@ -32,7 +32,7 @@ _.extend(Backbone.View.prototype, {
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
-    this.collection.create(model, {
+    app.collection.create(model, {
 
       success: function(model, response) {
         $noteInput.val('').focus();

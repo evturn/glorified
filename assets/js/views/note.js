@@ -27,11 +27,21 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   toggleDone: function() {
+    var self = this;
+    var id = this.model.get('_id');
     var isDone = this.model.get('done');
     var attributes = {done: !isDone};
-    this.model.set(attributes);
+    this.model.save(attributes, {
+      url: '/notes/' + id,
+      success: function(model, response) {
+        console.log(model);
+        self.render();
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
 
-    this.render();
   },
 
 });
