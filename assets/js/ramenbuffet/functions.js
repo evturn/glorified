@@ -12,9 +12,10 @@ _.extend(Backbone.View.prototype, {
 
         if (self.collection === null) {
           self.collection = collection;
+          console.log(self.collection);
         }
 
-        var lists = self.getLists(this.collection);
+        var lists = self.getLists(self.collection);
         self.setLists(lists);
         app.listenTo(self.collection, 'listSelected', self.garbageWatcher);
         app.listenTo(self.collection, 'listChanged', self.listWatcher);
@@ -45,13 +46,6 @@ _.extend(Backbone.View.prototype, {
 
     });
 
-  },
-
-  put: function(model, attributes, view) {
-    var self = this;
-
-    model.set(attributes);
-    view.render();
   },
 
   destroy: function(model) {

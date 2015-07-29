@@ -41,6 +41,7 @@ exports.putNote = function(req, res) {
     console.log(note);
     console.log('Me saved it');
     res.json(note);
+    res.send(note);
   });
 };
 
