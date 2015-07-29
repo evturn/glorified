@@ -108,7 +108,7 @@ _.extend(Backbone.View.prototype, {
     $element.addClass('active');
   },
 
-  notify = function(notification) {
+  notify: function(notification) {
     var $loader = $('.kurt-loader');
 
   },
@@ -151,4 +151,4 @@ _.extend(Backbone.View.prototype, {
   }
 
 
-};
+});

@@ -119,7 +119,7 @@ _.extend(Backbone.View.prototype, {
     $element.addClass('active');
   },
 
-  notify = function(notification) {
+  notify: function(notification) {
     var $loader = $('.kurt-loader');
 
   },
@@ -162,7 +162,7 @@ _.extend(Backbone.View.prototype, {
   }
 
 
-};
+});
 RB.post = function() {
   var $noteInput = $('.note-input');
   var listname = $('.list-input').val();
@@ -368,6 +368,12 @@ RB.e = {
 RB.App = Backbone.View.extend({
 
   el: '.dmc',
+
+  initialize: function() {
+    this.fixPath();
+    this.get();
+    RB.e.init();
+  },
 
   events: {
     'click .lists-container .list-item' : 'renderList',

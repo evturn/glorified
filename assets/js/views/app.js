@@ -2,6 +2,12 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
+  initialize: function() {
+    this.fixPath();
+    this.get();
+    RB.e.init();
+  },
+
   events: {
     'click .lists-container .list-item' : 'renderList',
     'click .create-list-btn' : 'createList'
