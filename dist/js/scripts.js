@@ -176,8 +176,10 @@ _.extend(Backbone.View.prototype, {
   },
 
   resetActiveList: function(listname) {
+    var $listItem = $('.list-item');
     var $element = $('div').find("[data-id='" + listname + "']");
 
+    $listItem.removeClass('active');
     $element.addClass('active');
 
     return $element;
@@ -237,6 +239,8 @@ _.extend(Backbone.View.prototype, {
     this.setActiveList();
     this.deviceEnv(800);
     this.sunny();
+    this.setFirstChildActive();
+    this.isListSelected();
   },
 
   deviceEnv: function(num) {
@@ -244,6 +248,23 @@ _.extend(Backbone.View.prototype, {
       setTimeout(this.toggleLists, num);
     }
 
+  },
+
+  isListSelected: function() {
+    var $notesContainer = $('.active-notes-container .list-item');
+
+    if ($notesContainer.length) {
+      var listname = this.getCurrentList();
+
+      this.resetActiveList(listname);
+    }
+
+  },
+
+  setFirstChildActive: function() {
+    var listItem = $('.lists-container').first();
+
+    listItem.addClass('active');
   },
 
   setActiveList: function() {
@@ -274,6 +295,7 @@ _.extend(Backbone.View.prototype, {
     var numberDone = this.garbageWatcher();
     this.appendDoneStats(numberDone);
     this.listWatcher();
+    this.isListSelected();
   },
 
   getCurrentList: function() {
@@ -319,7 +341,7 @@ _.extend(Backbone.View.prototype, {
     $(activeList).remove();
 
     if (number > 0) {
-      $listsContainer.append(template({
+      $listsContainer.prepend(template({
         name: listname,
         length: number
       }));
