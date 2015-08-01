@@ -52,6 +52,24 @@ _.extend(Backbone.View.prototype, {
 
   },
 
+  put: function(model, attributes, view) {
+    var self = this;
+    var id = model.get('_id');
+    model.save(attributes, {
+
+      url: '/notes/' + id,
+      success: function(model, response) {
+        console.log(model);
+        self.notify('Updated');
+        self.onChangeListeners();
+        view.render();
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  },
+
   destroy: function(model) {
     var self = this;
     var listname = model.get('list');
@@ -109,8 +127,7 @@ _.extend(Backbone.View.prototype, {
 
     for (var i = 0; i < lists.length; i++) {
       var total = this.collection.where({
-        list: lists[i],
-        done: false
+        list: lists[i]
       }).length;
 
       $listsContainer.append(template({
@@ -333,7 +350,6 @@ _.extend(Backbone.View.prototype, {
     var activeList = this.resetActiveList(listname);
     var number = app.collection.where({
       list: listname,
-      done: false
     }).length;
 
     $(activeList).remove();

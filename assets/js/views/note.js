@@ -12,7 +12,8 @@ RB.NoteItem = Backbone.View.extend({
   events: {
     'click .edit .fa-trash'        : 'destroyNote',
     'click .edit .fa-check-square' : 'toggleDone',
-    'click .note-text'             : 'positionCursor'
+    'click .note-text'             : 'positionCursor',
+    'blur .note-text'              : ''
   },
 
   render: function() {
@@ -41,25 +42,10 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   toggleDone: function() {
-    var self = this;
-    var id = this.model.get('_id');
     var isDone = this.model.get('done');
     var attributes = {done: !isDone};
-
-    this.model.save(attributes, {
-
-      url: '/notes/' + id,
-      success: function(model, response) {
-        console.log(model);
-        self.notify('Updated');
-        self.onChangeListeners();
-        self.render();
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
-
+    console.log(this.model);
+    this.put(this.model, attributes, this);
   },
 
 });
