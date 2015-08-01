@@ -49,7 +49,6 @@ RB.App = Backbone.View.extend({
   },
 
   compareListValue: function() {
-
     var typing = $('.list-input').val();
     var $activeNotes = $('.active-notes-container');
 
