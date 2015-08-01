@@ -55,6 +55,7 @@ _.extend(Backbone.View.prototype, {
   put: function(model, attributes, view) {
     var self = this;
     var id = model.get('_id');
+
     model.save(attributes, {
 
       url: '/notes/' + id,

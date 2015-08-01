@@ -66,6 +66,7 @@ _.extend(Backbone.View.prototype, {
   put: function(model, attributes, view) {
     var self = this;
     var id = model.get('_id');
+
     model.save(attributes, {
 
       url: '/notes/' + id,
@@ -604,7 +605,7 @@ RB.NoteItem = Backbone.View.extend({
     'click .edit .fa-trash'        : 'destroyNote',
     'click .edit .fa-check-square' : 'toggleDone',
     'click .note-text'             : 'positionCursor',
-    'blur .note-text'              : ''
+    'blur .note-text'              : 'updateNote'
   },
 
   render: function() {
@@ -635,7 +636,17 @@ RB.NoteItem = Backbone.View.extend({
   toggleDone: function() {
     var isDone = this.model.get('done');
     var attributes = {done: !isDone};
-    console.log(this.model);
+
+    this.put(this.model, attributes, this);
+  },
+
+  updateNote: function(e) {
+    var $input = $(e.currentTarget);
+    var content = $input.val().trim();
+    var attributes = {body: content};
+
+    console.log(attributes);
+    $input.removeClass('busy');
     this.put(this.model, attributes, this);
   },
 

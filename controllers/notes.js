@@ -33,6 +33,7 @@ exports.putNote = function(req, res) {
   var note = currentUser.notes.id(id);
 
   var updated = note.set({"done": req.body.done});
+  var updated = note.set({"body": req.body.body});
 
   currentUser.save(function(err) {
     if (err) {
