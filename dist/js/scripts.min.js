@@ -474,12 +474,6 @@ RB.App = Backbone.View.extend({
     }
   },
 
-  getNotesByListname: function(listname) {
-    var notes = this.collection.where({list: listname});
-
-    return notes;
-  },
-
   renderList: function(e) {
     var listname = $(e.currentTarget).data('id');
     var notes = this.collection.where({list: listname});
