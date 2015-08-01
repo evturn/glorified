@@ -55,12 +55,12 @@ _.extend(Backbone.View.prototype, {
   put: function(model, attributes, view) {
     var self = this;
     var id = model.get('_id');
+    var listname = model.get('list');
 
     model.save(attributes, {
 
       url: '/notes/' + id,
       success: function(model, response) {
-        console.log(model);
         self.notify('Updated');
         self.onChangeListeners();
         view.render();
@@ -193,6 +193,12 @@ _.extend(Backbone.View.prototype, {
 
     $listItem.removeClass('active');
     $element.addClass('active');
+
+    return $element;
+  },
+
+  getListnameContainer: function(listname) {
+    var $element = $('div').find("[data-id='" + listname + "']");
 
     return $element;
   },

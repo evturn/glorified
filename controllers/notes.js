@@ -11,11 +11,11 @@ exports.getNotes = function(req, res) {
 exports.postNotes = function(req, res) {
   var currentUser = req.user;
   var note = new Note({
-    position  : req.body.position,
-    list      : req.body.list,
-    body      : req.body.body,
-    timestamp : req.body.timestamp,
-    created   : req.body.created
+    position    : req.body.position,
+    list        : req.body.list,
+    body        : req.body.body,
+    timestamp   : req.body.timestamp,
+    created     : req.body.created
   });
   currentUser.notes.push(note);
   currentUser.save(function(err) {
@@ -32,8 +32,10 @@ exports.putNote = function(req, res) {
   var id = req.body._id;
   var note = currentUser.notes.id(id);
 
-  var updated = note.set({"done": req.body.done});
-  var updated = note.set({"body": req.body.body});
+  var updated = note.set({
+    "done": req.body.done,
+    "body": req.body.body,
+  });
 
   currentUser.save(function(err) {
     if (err) {

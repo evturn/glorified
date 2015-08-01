@@ -60,6 +60,7 @@ RB.NoteItem = Backbone.View.extend({
 
   updateNoteOnEnter: function(e) {
     var $input = $(e.currentTarget);
+
     if (e.keyCode === 13) {
       $input.blur();
     }
