@@ -246,6 +246,10 @@ _.extend(Backbone.View.prototype, {
       var listname = this.getCurrentList();
 
       this.resetActiveList(listname);
+      return true;
+    }
+    else {
+      return false;
     }
 
   },

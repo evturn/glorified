@@ -257,6 +257,10 @@ _.extend(Backbone.View.prototype, {
       var listname = this.getCurrentList();
 
       this.resetActiveList(listname);
+      return true;
+    }
+    else {
+      return false;
     }
 
   },
@@ -402,7 +406,43 @@ RB.App = Backbone.View.extend({
     'click .create-note-btn'   : 'createNote',
     'keyup .note-input'        : 'createOnEnter',
     'keyup .active-input'      : 'validate',
-    'click .garbage-container' : 'removeAllDone'
+    'click .garbage-container' : 'removeAllDone',
+    'focus .list-input'        : 'isMakingNewList',
+    'keyup .list-input'        : 'compareListValue'
+  },
+
+  grabValueSnapshot: function() {
+
+    if (this.isListSelected) {
+      var listname = $('.list-input').val();
+
+      return listname;
+    }
+
+  },
+
+  isMakingNewList: function() {
+    var listname = this.grabValueSnapshot();
+
+    if (listname) {
+      this.currentList = listname;
+    }
+    else {
+      return false;
+    }
+
+  },
+
+  compareListValue: function() {
+    var typing = $('.list-input').val();
+    var $activeNotes = $('.active-notes-container');
+
+    if (this.currentList !== typing) {
+      $activeNotes.hide();
+    }
+    else {
+      $activeNotes.show();
+    }
   },
 
   renderList: function(e) {
