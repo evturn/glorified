@@ -89,6 +89,12 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  getNotesByListname: function(listname) {
+    var notes = this.collection.where({list: listname});
+
+    return notes;
+  },
+
   getLists: function() {
     var self = this;
     var arr = [];
@@ -429,6 +435,7 @@ RB.App = Backbone.View.extend({
       this.allLists = listnamesArray;
     }
     else {
+
       return false;
     }
 
@@ -442,8 +449,10 @@ RB.App = Backbone.View.extend({
     if (typing !== this.currentList) {
       $activeNotes.hide();
       this.checkMatchingLists(typing);
+
     }
     else {
+
       $activeNotes.show();
     }
 
@@ -454,14 +463,15 @@ RB.App = Backbone.View.extend({
     var notes;
 
     for (var i = 0; i < this.allLists.length; i++) {
+
       if (string === this.allLists[i]) {
+
         notes = this.getNotesByListname(string);
         this.setNotes($notesContainer, notes);
         $notesContainer.show();
+
       }
     }
-
-
   },
 
   getNotesByListname: function(listname) {

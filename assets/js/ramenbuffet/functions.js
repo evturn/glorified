@@ -78,6 +78,12 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  getNotesByListname: function(listname) {
+    var notes = this.collection.where({list: listname});
+
+    return notes;
+  },
+
   getLists: function() {
     var self = this;
     var arr = [];
