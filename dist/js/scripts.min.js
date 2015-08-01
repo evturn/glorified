@@ -600,7 +600,14 @@ RB.NoteItem = Backbone.View.extend({
     var $input = $(e.currentTarget);
     var range = $input.val().length;
 
-    $input[0].setSelectionRange(range, range + 1);
+    if ($input.hasClass('busy')) {
+      return false;
+    }
+    else {
+      $input.addClass('busy');
+      $input[0].setSelectionRange(range, range + 1);
+    }
+
   },
 
   destroyNote: function() {
