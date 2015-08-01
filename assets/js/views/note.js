@@ -11,13 +11,21 @@ RB.NoteItem = Backbone.View.extend({
 
   events: {
     'click .edit .fa-trash'        : 'destroyNote',
-    'click .edit .fa-check-square' : 'toggleDone'
+    'click .edit .fa-check-square' : 'toggleDone',
+    'click .note-text'             : 'positionCursor'
   },
 
   render: function() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;
+  },
+
+  positionCursor: function(e) {
+    var $input = $(e.currentTarget);
+    var range = $input.val().length;
+
+    $input[0].setSelectionRange(range, range + 1);
   },
 
   destroyNote: function() {
