@@ -13,7 +13,8 @@ RB.NoteItem = Backbone.View.extend({
     'click .edit .fa-trash'        : 'destroyNote',
     'click .edit .fa-check-square' : 'toggleDone',
     'click .note-text'             : 'positionCursor',
-    'blur .note-text'              : 'updateNote'
+    'blur .note-text'              : 'updateNoteBody',
+    'keyup .note-text'             : 'updateNoteOnEnter'
   },
 
   render: function() {
@@ -48,14 +49,20 @@ RB.NoteItem = Backbone.View.extend({
     this.put(this.model, attributes, this);
   },
 
-  updateNote: function(e) {
+  updateNoteBody: function(e) {
     var $input = $(e.currentTarget);
     var content = $input.val().trim();
     var attributes = {body: content};
 
-    console.log(attributes);
     $input.removeClass('busy');
     this.put(this.model, attributes, this);
+  },
+
+  updateNoteOnEnter: function(e) {
+    var $input = $(e.currentTarget);
+    if (e.keyCode === 13) {
+      $input.blur();
+    }
   },
 
 });
