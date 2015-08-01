@@ -1,0 +1,23 @@
+.active-notes-container {
+
+  .list-item {
+
+    .note {
+      .transition(all 0.3s ease);
+      width: 70%;
+      display: inline-block;
+
+      .note-text {
+        width: 100%;
+        font-size: 14px;
+        outline: none;
+        border: none;
+
+        &:focus {
+          font-size: 16px;
+          color: @primarylight;
+        }
+      }
+    }
+  }
+}

@@ -554,32 +554,18 @@ RB.App = Backbone.View.extend({
   },
 
   removeAllDone: function() {
-    var listname = $('.list-input').val();
-    var models = this.collection.where({
-      list: listname,
-      done: true
-    });
 
-    console.log(models.length);
+    if (this.isListSelected()) {
+      var listname = $('.list-input').val();
+      var models = this.collection.where({
+        list: listname,
+        done: true
+      });
 
-    for (var i = 0; i < models.length; i++) {
-      this.destroy(models[i]);
-    }
+      console.log(models);
 
-    var remaining = this.collection.where({
-      list: listname
-    });
-
-    console.log(remaining);
-    if (remaining) {
-      this.setListValue(listname);
-
-    }
-    else {
-      $noteInput.val('');
-      $listInput.val('').focus();
-      $notesContainer.empty();
-
+      _.invoke(models, 'destroy');
+      return false;
     }
 
   },
@@ -594,6 +580,7 @@ RB.NoteItem = Backbone.View.extend({
   itemTemplate: _.template($('#note-item-template').html()),
 
   initalize: function() {
+    this.listenTo(this.model, 'destroy', this.remove);
     this.render();
   },
 
