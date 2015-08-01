@@ -89,7 +89,6 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-
   getLists: function() {
     var self = this;
     var arr = [];
@@ -401,14 +400,14 @@ RB.App = Backbone.View.extend({
 
   events: {
     'click .lists-container .list-item' : 'renderList',
-    'click .create-list-btn'   : 'createList',
-    'click .toggle-list-btn'   : 'toggleLists',
-    'click .create-note-btn'   : 'createNote',
-    'keyup .note-input'        : 'createOnEnter',
-    'keyup .active-input'      : 'validate',
-    'click .garbage-container' : 'removeAllDone',
-    'focus .list-input'        : 'isMakingNewList',
-    'keyup .list-input'        : 'compareListValue'
+    'click .create-list-btn'            : 'createList',
+    'click .toggle-list-btn'            : 'toggleLists',
+    'click .create-note-btn'            : 'createNote',
+    'keyup .note-input'                 : 'createOnEnter',
+    'keyup .active-input'               : 'validate',
+    'click .garbage-container'          : 'removeAllDone',
+    'focus .list-input'                 : 'isMakingNewList',
+    'keyup .list-input'                 : 'compareListValue'
   },
 
   grabValueSnapshot: function() {
@@ -422,10 +421,12 @@ RB.App = Backbone.View.extend({
   },
 
   isMakingNewList: function() {
+    var listnamesArray = this.getLists();
     var listname = this.grabValueSnapshot();
 
     if (listname) {
       this.currentList = listname;
+      this.allLists = listnamesArray;
     }
     else {
       return false;
@@ -434,15 +435,39 @@ RB.App = Backbone.View.extend({
   },
 
   compareListValue: function() {
+
     var typing = $('.list-input').val();
     var $activeNotes = $('.active-notes-container');
 
-    if (this.currentList !== typing) {
+    if (typing !== this.currentList) {
       $activeNotes.hide();
+      this.checkMatchingLists(typing);
     }
     else {
       $activeNotes.show();
     }
+
+  },
+
+  checkMatchingLists: function(string) {
+    var $notesContainer = $('.active-notes-container');
+    var notes;
+
+    for (var i = 0; i < this.allLists.length; i++) {
+      if (string === this.allLists[i]) {
+        notes = this.getNotesByListname(string);
+        this.setNotes($notesContainer, notes);
+        $notesContainer.show();
+      }
+    }
+
+
+  },
+
+  getNotesByListname: function(listname) {
+    var notes = this.collection.where({list: listname});
+
+    return notes;
   },
 
   renderList: function(e) {

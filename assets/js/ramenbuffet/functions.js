@@ -78,7 +78,6 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-
   getLists: function() {
     var self = this;
     var arr = [];
