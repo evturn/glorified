@@ -155,7 +155,7 @@ _.extend(Backbone.View.prototype, {
       var listname = models[0].get('list');
 
       $listInput.val(listname);
-      $selector = this.tojquery(selector);
+      var $selector = this.tojquery(selector);
       $selector.empty();
 
       for (var i = 0; i < models.length; i++) {
