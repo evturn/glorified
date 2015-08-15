@@ -9,10 +9,14 @@ var gulp = require('gulp'),
 
 module.exports = {
 
+  nodemon: {
+    script: 'server.js',
+    ignore: '*'
+  },
+
   browserSync: {
-      open: true,
-      port: 3000,
-      proxy: 'localhost:3000'
+    proxy: 'localhost:3000',
+    port: 3001
   },
 
   autoprefixer: {

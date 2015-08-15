@@ -6,7 +6,7 @@ var gulp = require('gulp'),
 var paths = require('./config/paths');
 var options = require('./config/gulp-options');
 
-gulp.task('default', ['less', 'js', 'lint', 'watch', 'browsersync']);
+gulp.task('default', ['nodemon', 'less', 'lint', 'watch', 'browsersync']);
 
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['less', 'reloader']);
@@ -64,6 +64,10 @@ gulp.task('lint', function() {
     .pipe($.plumber(options.plumber))
     .pipe($.jshint())
     .pipe($.notify(options.notify.jshint));
+});
+
+gulp.task('nodemon', function() {
+  $.nodemon(options.nodemon);
 });
 
 gulp.task('reloader', ['less'], function() {
