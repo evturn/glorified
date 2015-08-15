@@ -85,7 +85,7 @@ gulp.task('nodemon', function() {
   $.nodemon(options.nodemon);
 });
 
-gulp.task('reloader', ['babel' 'less'], function() {
+gulp.task('reloader', ['babel', 'less'], function() {
   browserSync.reload();
 });
 
