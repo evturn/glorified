@@ -1,7 +1,25 @@
 var mongoose = require('mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
+var bcrypt = require('bcrypt');
 
-exports.User = function() {
-  return new mongoose.Schema({
+var NoteSchema = new mongoose.Schema({
+    list       : {type : String},
+    created    : {type : Date},
+    body       : {type : String},
+    done       : {type : Boolean, default: false},
+    timestamp  : {type : String}
+});
+
+var ListSchema = new mongoose.Schema({
+  name: String,
+  notes: [NoteSchema],
+  created: {
+    type: Date,
+    default: Date.now
+    },
+});
+
+var UserSchema = new mongoose.Schema({
     username   : {type : String, sparse: true},
     email      : {type : String, sparse: true},
     name       : {type : String, sparse: true},
@@ -14,20 +32,38 @@ exports.User = function() {
     fbToken    : {type : String},
     fbEmail    : {type : String, sparse: true},
     fbName     : {type : String, sparse: true},
-    notes      : [noteSchema]
+    lists      : [ListSchema]
+});
+
+UserSchema.pre('save', function(next) {
+  var user = this;
+  if (!user.isModified('password')) {
+    return next();
+  }
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) {
+      return next(err);
+    }
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) {
+        return next(err);
+      }
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, isMatch);
   });
 };
 
-exports.Note = function() {
-  return new mongoose.Schema({
-    list       : {type : String},
-    position   : {type : Number},
-    created    : {type : Date},
-    body       : {type : String},
-    done       : {type : Boolean, default: false},
-    timestamp  : {type : String},
-    listOrder  : {type : Number}
-  });
-};
+UserSchema.plugin(passportLocalMongoose);
 
-var noteSchema = this.Note();
+
+module.exports = mongoose.model('User', UserSchema);

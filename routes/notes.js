@@ -7,10 +7,12 @@ var NotesCtrl = require('../controllers/notes'),
     putNote = NotesCtrl.putNote,
     deleteNote = NotesCtrl.deleteNote;
 
+var listsCtrl = require('../controllers/lists');
+
 var notes = express.Router();
 
 notes.route('/')
-  .get(ensureAuthenticated, getNotes)
+  .get(ensureAuthenticated, listsCtrl.getAll)
   .post(ensureAuthenticated, urlencoded, postNotes);
 
 notes.route('/:id')

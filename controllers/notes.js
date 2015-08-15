@@ -1,7 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var Note = require('../models/note');
-var User = require('../models/user');
+var User = require('../config/schema');
 
 exports.getNotes = function(req, res) {
   var notes = req.user.notes;
@@ -17,6 +16,9 @@ exports.postNotes = function(req, res) {
     timestamp   : req.body.timestamp,
     created     : req.body.created
   });
+
+  note.collection = req.body.list;
+
   currentUser.notes.push(note);
   currentUser.save(function(err) {
     if (err) {
