@@ -28,7 +28,7 @@ RB.Notes = Backbone.Collection.extend({
 });
 'use strict';
 
-_.extend(Backbone.View.prototype, {
+var _RB = {
 
   garbageTemplate: _.template($('#garbage-watcher-template').html()),
   allDoneTemplate: _.template($('#sunny-template').html()),
@@ -51,9 +51,8 @@ _.extend(Backbone.View.prototype, {
           self.collection = new RB.Lists(self.user.attributes.lists);
         }
 
-        console.log(self.collection);
-        // var lists = self.getLists(app.collection);
-        // self.setLists(lists);
+        var lists = self.getLists(self.collection);
+        self.setLists(lists);
       },
       error: function error(err) {
         console.log(err);
@@ -404,7 +403,9 @@ _.extend(Backbone.View.prototype, {
     }
   }
 
-});
+};
+
+_.extend(Backbone.View.prototype, _RB);
 'use strict';
 
 RB.App = Backbone.View.extend({

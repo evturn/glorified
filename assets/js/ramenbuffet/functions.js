@@ -1,4 +1,4 @@
-_.extend(Backbone.View.prototype, {
+const _RB = {
 
   garbageTemplate : _.template($('#garbage-watcher-template').html()),
   allDoneTemplate : _.template($('#sunny-template').html()),
@@ -12,7 +12,7 @@ _.extend(Backbone.View.prototype, {
 
     user.fetch({
 
-      success: function(model, response) {
+      success(model, response) {
         if (self.user === null) {
           self.user = model;
         }
@@ -21,11 +21,10 @@ _.extend(Backbone.View.prototype, {
           self.collection = new RB.Lists(self.user.attributes.lists);
         }
 
-        console.log(self.collection);
-        // var lists = self.getLists(app.collection);
-        // self.setLists(lists);
+        var lists = self.getLists(self.collection);
+        self.setLists(lists);
       },
-      error: function(err) {
+      error(err) {
         console.log(err);
       }
 
@@ -401,4 +400,6 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-});
+};
+
+_.extend(Backbone.View.prototype, _RB);
