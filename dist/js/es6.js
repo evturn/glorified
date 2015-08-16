@@ -55,7 +55,7 @@ var _RB = {
           self.collection = new RB.Lists(self.user.attributes.lists);
         }
 
-        var lists = self.getLists(self.collection);
+        var lists = self.getListNames(self.collection);
         self.setLists(lists);
       },
       error: function error(err) {
@@ -135,12 +135,12 @@ var _RB = {
   // ===================
 
   getNotesByListname: function getNotesByListname(listname) {
-    var notes = this.collection.where({ list: listname });
+    var notes = this.collection.where({ name: listname });
 
     return notes;
   },
 
-  getLists: function getLists() {
+  getListNames: function getListNames() {
     var self = this;
     var array = [];
 
@@ -151,23 +151,15 @@ var _RB = {
     return array;
   },
 
-  setLists: function setLists(array) {
-    var lists = array;
-    var template = _.template($('#list-name-template').html());
-    var $listsContainer = $('.lists-container');
+  setLists: function setLists() {
+    var $container = $('.lists-container');
+    $container.empty();
 
-    $listsContainer.empty();
+    this.collection.each(function (model) {
+      var view = new RB.ListItem({ model: model });
 
-    for (var i = 0; i < lists.length; i++) {
-      var total = this.collection.where({
-        list: lists[i]
-      }).length;
-
-      $listsContainer.append(template({
-        name: lists[i],
-        length: total
-      }));
-    }
+      $container.append(view.render().el);
+    });
   },
 
   setNote: function setNote(model) {
@@ -509,7 +501,7 @@ RB.App = Backbone.View.extend({
 
   renderList: function renderList(e) {
     var listname = $(e.currentTarget).data('id');
-    var notes = this.collection.where({ list: listname });
+    var notes = this.collection.where({ name: listname });
 
     this.setNotes('.active-notes-container', notes);
     this.deviceEnv(400);
@@ -600,9 +592,23 @@ RB.App = Backbone.View.extend({
   }
 
 });
-"use strict";
+'use strict';
 
-RB.ListItem = Backbone.View.extend({});
+RB.ListItem = Backbone.View.extend({
+
+  className: 'list-model',
+  itemTemplate: _.template($('#list-name-template').html()),
+
+  initialize: function initialize() {
+    this.render();
+  },
+
+  render: function render() {
+    this.$el.html(this.itemTemplate(this.model.toJSON()));
+
+    return this;
+  }
+});
 'use strict';
 
 RB.NoteItem = Backbone.View.extend({

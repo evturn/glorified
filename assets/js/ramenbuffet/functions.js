@@ -25,7 +25,7 @@ const _RB = {
           self.collection = new RB.Lists(self.user.attributes.lists);
         }
 
-        var lists = self.getLists(self.collection);
+        var lists = self.getListNames(self.collection);
         self.setLists(lists);
       },
       error(err) {
@@ -109,12 +109,12 @@ const _RB = {
 // ===================
 
   getNotesByListname: function(listname) {
-    var notes = this.collection.where({list: listname});
+    var notes = this.collection.where({name: listname});
 
     return notes;
   },
 
-  getLists() {
+  getListNames() {
     var self = this;
     var array = [];
 
@@ -125,23 +125,17 @@ const _RB = {
     return array;
   },
 
-  setLists: function(array) {
-    var lists = array;
-    var template = _.template($('#list-name-template').html());
-    var $listsContainer = $('.lists-container');
+  setLists: function() {
+    var $container = $('.lists-container');
+    $container.empty();
 
-    $listsContainer.empty();
+    this.collection.each(function(model) {
+      var view = new RB.ListItem({model: model});
 
-    for (var i = 0; i < lists.length; i++) {
-      var total = this.collection.where({
-        list: lists[i]
-      }).length;
+      $container.append(view.render().el);
+    });
 
-      $listsContainer.append(template({
-        name: lists[i],
-        length: total
-      }));
-    }
+
 
   },
 

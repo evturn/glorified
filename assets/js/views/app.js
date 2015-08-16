@@ -82,7 +82,7 @@ RB.App = Backbone.View.extend({
 
   renderList: function(e) {
     var listname = $(e.currentTarget).data('id');
-    var notes = this.collection.where({list: listname});
+    var notes = this.collection.where({name: listname});
 
     this.setNotes('.active-notes-container', notes);
     this.deviceEnv(400);
