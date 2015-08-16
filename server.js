@@ -13,6 +13,7 @@ var express         = require('express'),
     hbs             = require('./config/handlebars'),
     authRouter      = require('./routes/app');
     notesRouter     = require('./routes/notes');
+    usersRouter     = require('./routes/users');
     root            = __dirname + '/dist';
 
 var app = module.exports = express();
@@ -35,6 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);
 app.use('/notes', notesRouter);
+app.use('/users', usersRouter);
 
 
 var http = require('./config/http');
