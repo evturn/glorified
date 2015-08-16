@@ -58,9 +58,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   put: function(model, attributes, view) {
-    var self = this;
-    var id = model.get('_id');
-    var listname = model.get('list');
+    let self = this,
+        id = model.get('_id');
 
     model.save(attributes, {
 

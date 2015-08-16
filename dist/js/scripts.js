@@ -84,9 +84,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   put: function(model, attributes, view) {
-    var self = this;
-    var id = model.get('_id');
-    var listname = model.get('list');
+    let self = this,
+        id = model.get('_id');
 
     model.save(attributes, {
 
@@ -188,12 +187,26 @@ _.extend(Backbone.View.prototype, {
       let view = new RB.NoteItem({model: note});
 
       $container.append(view.render().el);
-      $container.attr('data-list', id);
     });
 
     app.notesCollection = notes;
     this.resetActiveList(listname);
     console.log(app.notesCollection);
+  },
+
+  getActiveListId() {
+    let id = app.activeListId;
+
+    return id;
+  },
+
+  setActiveListId(id) {
+    let $container = $('.active-notes-container');
+
+    $container.attr('data-list', id);
+    app.activeListId = id;
+
+    return this;
   },
 
   setListValue: function(listname) {
@@ -428,6 +441,7 @@ RB.App = Backbone.View.extend({
   user: null,
   listsCollection: null,
   notesCollection: null,
+  activeListId: null,
 
   initialize: function() {
     this.fixPath();
@@ -600,8 +614,8 @@ RB.ListItem = Backbone.View.extend({
   selected(e) {
     let listId = $(e.currentTarget).data('id');
 
-    console.log(listId);
     this.setNotes(listId);
+    this.setActiveListId(listId);
     this.deviceEnv(400);
   },
 
@@ -626,7 +640,9 @@ RB.NoteItem = Backbone.View.extend({
 
   render: function() {
     if (!this.model.get('timestamp')) {
-      this.model.set('timestamp', this.convertDate(Date.now()));
+      let created = this.model.get('created');
+
+      this.model.set('timestamp', this.convertDate(created));
     }
 
     if (!this.model.get('done')) {
@@ -660,7 +676,11 @@ RB.NoteItem = Backbone.View.extend({
 
   toggleDone: function() {
     var isDone = this.model.get('done');
-    var attributes = {done: !isDone};
+    var listId = this.getActiveListId();
+    var attributes = {
+      done: !isDone,
+      listId: listId
+    };
 
     this.put(this.model, attributes, this);
   },

@@ -18,8 +18,8 @@ RB.ListItem = Backbone.View.extend({
   selected(e) {
     let listId = $(e.currentTarget).data('id');
 
-    console.log(listId);
     this.setNotes(listId);
+    this.setActiveListId(listId);
     this.deviceEnv(400);
   },
 

@@ -85,9 +85,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   put: function put(model, attributes, view) {
-    var self = this;
-    var id = model.get('_id');
-    var listname = model.get('list');
+    var self = this,
+        id = model.get('_id');
 
     model.save(attributes, {
 
@@ -188,12 +187,26 @@ _.extend(Backbone.View.prototype, {
       var view = new RB.NoteItem({ model: note });
 
       $container.append(view.render().el);
-      $container.attr('data-list', id);
     });
 
     app.notesCollection = notes;
     this.resetActiveList(listname);
     console.log(app.notesCollection);
+  },
+
+  getActiveListId: function getActiveListId() {
+    var id = app.activeListId;
+
+    return id;
+  },
+
+  setActiveListId: function setActiveListId(id) {
+    var $container = $('.active-notes-container');
+
+    $container.attr('data-list', id);
+    app.activeListId = id;
+
+    return this;
   },
 
   setListValue: function setListValue(listname) {
@@ -419,6 +432,7 @@ RB.App = Backbone.View.extend({
   user: null,
   listsCollection: null,
   notesCollection: null,
+  activeListId: null,
 
   initialize: function initialize() {
     this.fixPath();
@@ -587,8 +601,8 @@ RB.ListItem = Backbone.View.extend({
   selected: function selected(e) {
     var listId = $(e.currentTarget).data('id');
 
-    console.log(listId);
     this.setNotes(listId);
+    this.setActiveListId(listId);
     this.deviceEnv(400);
   }
 
@@ -615,7 +629,9 @@ RB.NoteItem = Backbone.View.extend({
 
   render: function render() {
     if (!this.model.get('timestamp')) {
-      this.model.set('timestamp', this.convertDate(Date.now()));
+      var created = this.model.get('created');
+
+      this.model.set('timestamp', this.convertDate(created));
     }
 
     if (!this.model.get('done')) {
@@ -646,7 +662,11 @@ RB.NoteItem = Backbone.View.extend({
 
   toggleDone: function toggleDone() {
     var isDone = this.model.get('done');
-    var attributes = { done: !isDone };
+    var listId = this.getActiveListId();
+    var attributes = {
+      done: !isDone,
+      listId: listId
+    };
 
     this.put(this.model, attributes, this);
   },

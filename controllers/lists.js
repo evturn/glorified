@@ -15,16 +15,6 @@ exports.post = function(req, res, next) {
   var listsArray = user.lists.toObject();
   var counter = 0;
 
-  var saveUser = function(user, note) {
-    user.save(function(err, data) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log('We made it here ', data);
-      res.send(note);
-    });
-  };
-
   var newNote = new Note({
     list: data.list,
     body: data.body,
@@ -73,6 +63,32 @@ exports.post = function(req, res, next) {
     }
 
   }
-
 };
 
+exports.put = function(req, res, next) {
+  var user = req.user;
+  var data = req.body;
+  var listId = data.listId;
+  var noteId = data._id;
+  var list = user.lists.id(listId);
+  var note = list.notes.id(noteId);
+
+
+
+  var updated = note.set({
+    "done": req.body.done,
+    "body": req.body.body,
+  });
+
+  saveUser(user, updated);
+};
+
+var saveUser = function(user, note) {
+  user.save(function(err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log('We made it here ', data);
+    res.send(note);
+  });
+};

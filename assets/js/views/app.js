@@ -7,6 +7,7 @@ RB.App = Backbone.View.extend({
   user: null,
   listsCollection: null,
   notesCollection: null,
+  activeListId: null,
 
   initialize: function() {
     this.fixPath();

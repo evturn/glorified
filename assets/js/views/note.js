@@ -18,7 +18,9 @@ RB.NoteItem = Backbone.View.extend({
 
   render: function() {
     if (!this.model.get('timestamp')) {
-      this.model.set('timestamp', this.convertDate(Date.now()));
+      let created = this.model.get('created');
+
+      this.model.set('timestamp', this.convertDate(created));
     }
 
     if (!this.model.get('done')) {
@@ -52,7 +54,11 @@ RB.NoteItem = Backbone.View.extend({
 
   toggleDone: function() {
     var isDone = this.model.get('done');
-    var attributes = {done: !isDone};
+    var listId = this.getActiveListId();
+    var attributes = {
+      done: !isDone,
+      listId: listId
+    };
 
     this.put(this.model, attributes, this);
   },

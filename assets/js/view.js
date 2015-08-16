@@ -58,12 +58,26 @@ _.extend(Backbone.View.prototype, {
       let view = new RB.NoteItem({model: note});
 
       $container.append(view.render().el);
-      $container.attr('data-list', id);
     });
 
     app.notesCollection = notes;
     this.resetActiveList(listname);
     console.log(app.notesCollection);
+  },
+
+  getActiveListId() {
+    let id = app.activeListId;
+
+    return id;
+  },
+
+  setActiveListId(id) {
+    let $container = $('.active-notes-container');
+
+    $container.attr('data-list', id);
+    app.activeListId = id;
+
+    return this;
   },
 
   setListValue: function(listname) {
