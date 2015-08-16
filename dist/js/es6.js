@@ -674,7 +674,8 @@ RB.NoteItem = Backbone.View.extend({
   updateNoteBody: function updateNoteBody(e) {
     var $input = $(e.currentTarget);
     var content = $input.val().trim();
-    var attributes = { body: content };
+    var listId = this.getActiveListId();
+    var attributes = { body: content, listId: listId };
 
     $input.removeClass('busy');
     this.put(this.model, attributes, this);
