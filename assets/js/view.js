@@ -95,6 +95,26 @@ _.extend(Backbone.View.prototype, {
     return $element;
   },
 
+  appendActiveListStats() {
+    let number = app.notesCollection.length,
+        $garbageContainer = $('.garbage-container'),
+        $statContainer = $('.garbage-container .stat'),
+        $trashContainer = $('.garbage-container .edit');
+
+    $garbageContainer.empty();
+
+    if (number !== 0) {
+      $garbageContainer.html(this.garbageTemplate({length: number}));
+
+    }
+    else {
+      $garbageContainer.html(this.allDoneTemplate());
+
+    }
+
+    return this;
+  },
+
   getListnameContainer: function(listname) {
     var $element = $('div').find("[data-id='" + listname + "']");
 

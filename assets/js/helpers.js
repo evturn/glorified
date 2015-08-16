@@ -28,7 +28,7 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  tojquery: function(element) {
+  tojquery(element) {
 
     switch (typeof element) {
       case "object":
@@ -48,7 +48,7 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  convertDate: function(date) {
+  convertDate(date) {
     var d = new Date(date);
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
     var year = d.getFullYear();
@@ -90,35 +90,6 @@ _.extend(Backbone.View.prototype, {
       setTimeout(this.toggleLists, duration);
     }
 
-  },
-
-  onChangeListeners: function() {
-    var numberDone = this.garbageWatcher();
-    this.appendDoneStats(numberDone);
-  },
-
-  garbageWatcher() {
-    var number = app.listsCollection.length;
-    console.log(number);
-
-    return number;
-  },
-
-  appendDoneStats: function(number) {
-    var $garbageContainer = $('.garbage-container');
-    var $statContainer = $('.garbage-container .stat');
-    var $trashContainer = $('.garbage-container .edit');
-
-    if (number !== 0) {
-      $garbageContainer.html(this.garbageTemplate({length: number}));
-
-    }
-    else {
-      $garbageContainer.html(this.allDoneTemplate());
-
-    }
-
-    return this;
   },
 
   sunny: function() {

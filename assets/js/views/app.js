@@ -24,63 +24,6 @@ RB.App = Backbone.View.extend({
     // 'keyup .list-input'                 : 'compareListValue'
   },
 
-  // grabValueSnapshot: function() {
-
-  //   if (this.isListSelected) {
-  //     var listname = $('.list-input').val();
-
-  //     return listname;
-  //   }
-
-  // },
-
-  // isMakingNewList: function() {
-  //   var listnamesArray = this.getLists();
-  //   var listname = this.grabValueSnapshot();
-
-  //   if (listname) {
-  //     this.currentList = listname;
-  //     this.allLists = listnamesArray;
-  //   }
-  //   else {
-
-  //     return false;
-  //   }
-
-  // },
-
-  // compareListValue: function() {
-  //   var typing = $('.list-input').val();
-  //   var $activeNotes = $('.active-notes-container');
-
-  //   if (typing !== this.currentList) {
-  //     $activeNotes.hide();
-  //     this.checkMatchingLists(typing);
-
-  //   }
-  //   else {
-
-  //     $activeNotes.show();
-  //   }
-
-  // },
-
-  // checkMatchingLists: function(string) {
-  //   var $notesContainer = $('.active-notes-container');
-  //   var notes;
-
-  //   for (var i = 0; i < this.allLists.length; i++) {
-
-  //     if (string === this.allLists[i]) {
-
-  //       notes = this.getNotesByListname(string);
-  //       this.setNotes($notesContainer, notes);
-  //       $notesContainer.show();
-
-  //     }
-  //   }
-  // },
-
   createList: function() {
     var $noteInput = $('.note-input');
     var $listInput = $('.list-input');
@@ -147,5 +90,62 @@ RB.App = Backbone.View.extend({
     }
 
   },
+  // grabValueSnapshot: function() {
+
+  //   if (this.isListSelected) {
+  //     var listname = $('.list-input').val();
+
+  //     return listname;
+  //   }
+
+  // },
+
+  // isMakingNewList: function() {
+  //   var listnamesArray = this.getLists();
+  //   var listname = this.grabValueSnapshot();
+
+  //   if (listname) {
+  //     this.currentList = listname;
+  //     this.allLists = listnamesArray;
+  //   }
+  //   else {
+
+  //     return false;
+  //   }
+
+  // },
+
+  // compareListValue: function() {
+  //   var typing = $('.list-input').val();
+  //   var $activeNotes = $('.active-notes-container');
+
+  //   if (typing !== this.currentList) {
+  //     $activeNotes.hide();
+  //     this.checkMatchingLists(typing);
+
+  //   }
+  //   else {
+
+  //     $activeNotes.show();
+  //   }
+
+  // },
+
+  // checkMatchingLists: function(string) {
+  //   var $notesContainer = $('.active-notes-container');
+  //   var notes;
+
+  //   for (var i = 0; i < this.allLists.length; i++) {
+
+  //     if (string === this.allLists[i]) {
+
+  //       notes = this.getNotesByListname(string);
+  //       this.setNotes($notesContainer, notes);
+  //       $notesContainer.show();
+
+  //     }
+  //   }
+  // },
+
 
 });

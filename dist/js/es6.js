@@ -221,6 +221,23 @@ _.extend(Backbone.View.prototype, {
     return $element;
   },
 
+  appendActiveListStats: function appendActiveListStats() {
+    var number = app.notesCollection.length,
+        $garbageContainer = $('.garbage-container'),
+        $statContainer = $('.garbage-container .stat'),
+        $trashContainer = $('.garbage-container .edit');
+
+    $garbageContainer.empty();
+
+    if (number !== 0) {
+      $garbageContainer.html(this.garbageTemplate({ length: number }));
+    } else {
+      $garbageContainer.html(this.allDoneTemplate());
+    }
+
+    return this;
+  },
+
   getListnameContainer: function getListnameContainer(listname) {
     var $element = $('div').find("[data-id='" + listname + "']");
 
@@ -319,32 +336,6 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-  onChangeListeners: function onChangeListeners() {
-    var numberDone = this.garbageWatcher();
-    this.appendDoneStats(numberDone);
-  },
-
-  garbageWatcher: function garbageWatcher() {
-    var number = app.listsCollection.length;
-    console.log(number);
-
-    return number;
-  },
-
-  appendDoneStats: function appendDoneStats(number) {
-    var $garbageContainer = $('.garbage-container');
-    var $statContainer = $('.garbage-container .stat');
-    var $trashContainer = $('.garbage-container .edit');
-
-    if (number !== 0) {
-      $garbageContainer.html(this.garbageTemplate({ length: number }));
-    } else {
-      $garbageContainer.html(this.allDoneTemplate());
-    }
-
-    return this;
-  },
-
   sunny: function sunny() {
     var counter = 0;
 
@@ -396,63 +387,6 @@ RB.App = Backbone.View.extend({
     // 'focus .list-input'                 : 'isMakingNewList',
     // 'keyup .list-input'                 : 'compareListValue'
   },
-
-  // grabValueSnapshot: function() {
-
-  //   if (this.isListSelected) {
-  //     var listname = $('.list-input').val();
-
-  //     return listname;
-  //   }
-
-  // },
-
-  // isMakingNewList: function() {
-  //   var listnamesArray = this.getLists();
-  //   var listname = this.grabValueSnapshot();
-
-  //   if (listname) {
-  //     this.currentList = listname;
-  //     this.allLists = listnamesArray;
-  //   }
-  //   else {
-
-  //     return false;
-  //   }
-
-  // },
-
-  // compareListValue: function() {
-  //   var typing = $('.list-input').val();
-  //   var $activeNotes = $('.active-notes-container');
-
-  //   if (typing !== this.currentList) {
-  //     $activeNotes.hide();
-  //     this.checkMatchingLists(typing);
-
-  //   }
-  //   else {
-
-  //     $activeNotes.show();
-  //   }
-
-  // },
-
-  // checkMatchingLists: function(string) {
-  //   var $notesContainer = $('.active-notes-container');
-  //   var notes;
-
-  //   for (var i = 0; i < this.allLists.length; i++) {
-
-  //     if (string === this.allLists[i]) {
-
-  //       notes = this.getNotesByListname(string);
-  //       this.setNotes($notesContainer, notes);
-  //       $notesContainer.show();
-
-  //     }
-  //   }
-  // },
 
   createList: function createList() {
     var $noteInput = $('.note-input');
@@ -515,8 +449,63 @@ RB.App = Backbone.View.extend({
       this.post(note);
     }
   }
-
 });
+// grabValueSnapshot: function() {
+
+//   if (this.isListSelected) {
+//     var listname = $('.list-input').val();
+
+//     return listname;
+//   }
+
+// },
+
+// isMakingNewList: function() {
+//   var listnamesArray = this.getLists();
+//   var listname = this.grabValueSnapshot();
+
+//   if (listname) {
+//     this.currentList = listname;
+//     this.allLists = listnamesArray;
+//   }
+//   else {
+
+//     return false;
+//   }
+
+// },
+
+// compareListValue: function() {
+//   var typing = $('.list-input').val();
+//   var $activeNotes = $('.active-notes-container');
+
+//   if (typing !== this.currentList) {
+//     $activeNotes.hide();
+//     this.checkMatchingLists(typing);
+
+//   }
+//   else {
+
+//     $activeNotes.show();
+//   }
+
+// },
+
+// checkMatchingLists: function(string) {
+//   var $notesContainer = $('.active-notes-container');
+//   var notes;
+
+//   for (var i = 0; i < this.allLists.length; i++) {
+
+//     if (string === this.allLists[i]) {
+
+//       notes = this.getNotesByListname(string);
+//       this.setNotes($notesContainer, notes);
+//       $notesContainer.show();
+
+//     }
+//   }
+// },
 'use strict';
 
 RB.ListItem = Backbone.View.extend({
@@ -541,7 +530,8 @@ RB.ListItem = Backbone.View.extend({
 
     this.setNotes(listId);
     this.setActiveListId(listId);
-    this.deviceEnv(400);
+    this.appendActiveListStats();
+    this.isMobile(400);
   }
 
 });
