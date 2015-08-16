@@ -3,10 +3,9 @@ RB.NoteItem = Backbone.View.extend({
   className: 'list-item',
 
   itemTemplate: _.template($('#note-item-template').html()),
-
+  attributes: {},
   initalize: function() {
     this.listenTo(this.model, 'destroy', this.remove);
-    this.render();
   },
 
   events: {

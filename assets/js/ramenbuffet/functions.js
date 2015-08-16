@@ -11,22 +11,23 @@ const _RB = {
 // ===================
 
   get() {
-    var self = this;
     var user = new RB.User();
 
     user.fetch({
 
       success(model, response) {
-        if (self.user === null) {
-          self.user = model;
+        if (_RB.user === null) {
+          _RB.user = model;
         }
 
-        if (self.collection === null) {
-          self.collection = new RB.Lists(self.user.attributes.lists);
+        if (_RB.collection === null) {
+          _RB.collection = new RB.Lists(_RB.user.attributes.lists);
         }
 
-        var lists = self.getListNames(self.collection);
-        self.setLists(lists);
+        console.log(_RB.collection);
+
+        var lists = _RB.getListNames(_RB.collection);
+        _RB.setLists(lists);
       },
       error(err) {
         console.log(err);
@@ -135,8 +136,6 @@ const _RB = {
       $container.append(view.render().el);
     });
 
-
-
   },
 
   setNote: function(model) {
@@ -146,39 +145,41 @@ const _RB = {
     $notesContainer.append(view.render().el);
   },
 
-  setNotes: function(selector, models) {
-    var $notesContainer = $('.active-notes-container');
-    var $listInput = $('.active-input.list-input');
-    var $noteInput = $('.active-input.note-input');
+  setNotes: function(id) {
+    let list = _RB.collection.get(id),
+        notes = new RB.Notes(list.attributes.notes),
+        $notesContainer = $('.active-notes-container'),
+        $listInput = $('.active-input.list-input'),
+        $noteInput = $('.active-input.note-input');
 
-    if (models.length > 0) {
-      var listname = models[0].get('list');
+        console.log(notes);
+        let listname = list.attributes.name;
+        $listInput.val(listname);
 
-      $listInput.val(listname);
-      var $selector = this.tojquery(selector);
-      $selector.empty();
-
-      for (var i = 0; i < models.length; i++) {
-        var note = models[i];
-        var view = new RB.NoteItem({model: note});
-
-        $selector.append(view.render().el);
-      }
-
-      this.resetActiveList(listname);
-
-    }
-    else {
-      $listInput.val('');
-      $noteInput.val('');
-      $notesContainer.empty();
+    // if (list.length > 0) {
 
 
-    }
+    //   for (var i = 0; i < list.length; i++) {
+    //     var note = list[i];
+    //     var view = new RB.NoteItem({model: note});
 
-    if (!this.isMobile()) {
-      $noteInput.focus();
-    }
+    //     $selector.append(view.render().el);
+    //   }
+
+    //   this.resetActiveList(id);
+
+    // }
+    // else {
+    //   $listInput.val('');
+    //   $noteInput.val('');
+    //   $notesContainer.empty();
+
+
+    // }
+
+    // if (!this.isMobile()) {
+    //   $noteInput.focus();
+    // }
 
   },
 
@@ -269,7 +270,6 @@ const _RB = {
     this.setActiveList();
     this.deviceEnv(800);
     this.sunny();
-    this.setFirstChildActive();
     this.isListSelected();
   },
 
@@ -329,64 +329,64 @@ const _RB = {
     return device;
   },
 
-  onChangeListeners: function() {
-    var numberDone = this.garbageWatcher();
-    this.appendDoneStats(numberDone);
-    this.listWatcher();
-    this.isListSelected();
-  },
+  // onChangeListeners: function() {
+  //   var numberDone = this.garbageWatcher();
+  //   this.appendDoneStats(numberDone);
+  //   this.listWatcher();
+  //   this.isListSelected();
+  // },
 
-  getCurrentList: function() {
-    var listname = $('.list-input').val();
+  // getCurrentList: function() {
+  //   var listname = $('.list-input').val();
 
-    return listname;
-  },
+  //   return listname;
+  // },
 
-  garbageWatcher: function() {
-    var listname = this.getCurrentList();
-    var number = app.collection.where({list: listname, done: true}).length;
+  // garbageWatcher() {
+  //   var listname = this.getCurrentList();
+  //   var number = _RB.collection.where({name: name, done: true}).length;
 
-    return number;
-  },
+  //   return number;
+  // },
 
-  appendDoneStats: function(number) {
-    var $garbageContainer = $('.garbage-container');
-    var $statContainer = $('.garbage-container .stat');
-    var $trashContainer = $('.garbage-container .edit');
+  // appendDoneStats: function(number) {
+  //   var $garbageContainer = $('.garbage-container');
+  //   var $statContainer = $('.garbage-container .stat');
+  //   var $trashContainer = $('.garbage-container .edit');
 
-    if (number !== 0) {
-      $garbageContainer.html(this.garbageTemplate({length: number}));
+  //   if (number !== 0) {
+  //     $garbageContainer.html(this.garbageTemplate({length: number}));
 
-    }
-    else {
-      $garbageContainer.html(this.allDoneTemplate());
+  //   }
+  //   else {
+  //     $garbageContainer.html(this.allDoneTemplate());
 
-    }
+  //   }
 
-    return this;
-  },
+  //   return this;
+  // },
 
-  listWatcher: function() {
-    var template = _.template($('#list-name-template').html());
-    var $listsContainer = $('.lists-container');
-    var listname = $('.list-input').val();
-    var activeList = this.resetActiveList(listname);
-    var number = app.collection.where({
-      list: listname,
-    }).length;
+  // listWatcher: function() {
+  //   var template = _.template($('#list-name-template').html());
+  //   var $listsContainer = $('.lists-container');
+  //   var listname = $('.list-input').val();
+  //   var activeList = this.resetActiveList(listname);
+  //   var number = app.collection.where({
+  //     list: listname,
+  //   }).length;
 
-    $(activeList).remove();
+  //   $(activeList).remove();
 
-    if (number > 0) {
-      $listsContainer.prepend(template({
-        name: listname,
-        length: number
-      }));
+  //   if (number > 0) {
+  //     $listsContainer.prepend(template({
+  //       name: listname,
+  //       length: number
+  //     }));
 
-    }
+  //   }
 
-    return this;
-  },
+  //   return this;
+  // },
 
   sunny: function() {
     var counter = 0;

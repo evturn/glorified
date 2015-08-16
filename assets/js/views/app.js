@@ -12,7 +12,6 @@ RB.App = Backbone.View.extend({
   },
 
   events: {
-    'click .lists-container .list-item' : 'renderList',
     'click .create-list-btn'            : 'createList',
     'click .toggle-list-btn'            : 'toggleLists',
     'click .create-note-btn'            : 'createNote',
@@ -78,16 +77,6 @@ RB.App = Backbone.View.extend({
 
       }
     }
-  },
-
-  renderList: function(e) {
-    var listname = $(e.currentTarget).data('id');
-    var notes = this.collection.where({name: listname});
-
-    this.setNotes('.active-notes-container', notes);
-    this.deviceEnv(400);
-    this.onChangeListeners();
-
   },
 
   createList: function() {

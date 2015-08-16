@@ -41,22 +41,23 @@ var _RB = {
   // ===================
 
   get: function get() {
-    var self = this;
     var user = new RB.User();
 
     user.fetch({
 
       success: function success(model, response) {
-        if (self.user === null) {
-          self.user = model;
+        if (_RB.user === null) {
+          _RB.user = model;
         }
 
-        if (self.collection === null) {
-          self.collection = new RB.Lists(self.user.attributes.lists);
+        if (_RB.collection === null) {
+          _RB.collection = new RB.Lists(_RB.user.attributes.lists);
         }
 
-        var lists = self.getListNames(self.collection);
-        self.setLists(lists);
+        console.log(_RB.collection);
+
+        var lists = _RB.getListNames(_RB.collection);
+        _RB.setLists(lists);
       },
       error: function error(err) {
         console.log(err);
@@ -169,35 +170,39 @@ var _RB = {
     $notesContainer.append(view.render().el);
   },
 
-  setNotes: function setNotes(selector, models) {
-    var $notesContainer = $('.active-notes-container');
-    var $listInput = $('.active-input.list-input');
-    var $noteInput = $('.active-input.note-input');
+  setNotes: function setNotes(id) {
+    var list = _RB.collection.get(id),
+        notes = new RB.Notes(list.attributes.notes),
+        $notesContainer = $('.active-notes-container'),
+        $listInput = $('.active-input.list-input'),
+        $noteInput = $('.active-input.note-input');
 
-    if (models.length > 0) {
-      var listname = models[0].get('list');
+    console.log(notes);
+    var listname = list.attributes.name;
+    $listInput.val(listname);
 
-      $listInput.val(listname);
-      var $selector = this.tojquery(selector);
-      $selector.empty();
+    // if (list.length > 0) {
 
-      for (var i = 0; i < models.length; i++) {
-        var note = models[i];
-        var view = new RB.NoteItem({ model: note });
+    //   for (var i = 0; i < list.length; i++) {
+    //     var note = list[i];
+    //     var view = new RB.NoteItem({model: note});
 
-        $selector.append(view.render().el);
-      }
+    //     $selector.append(view.render().el);
+    //   }
 
-      this.resetActiveList(listname);
-    } else {
-      $listInput.val('');
-      $noteInput.val('');
-      $notesContainer.empty();
-    }
+    //   this.resetActiveList(id);
 
-    if (!this.isMobile()) {
-      $noteInput.focus();
-    }
+    // }
+    // else {
+    //   $listInput.val('');
+    //   $noteInput.val('');
+    //   $notesContainer.empty();
+
+    // }
+
+    // if (!this.isMobile()) {
+    //   $noteInput.focus();
+    // }
   },
 
   setListValue: function setListValue(listname) {
@@ -284,7 +289,6 @@ var _RB = {
     this.setActiveList();
     this.deviceEnv(800);
     this.sunny();
-    this.setFirstChildActive();
     this.isListSelected();
   },
 
@@ -341,60 +345,64 @@ var _RB = {
     return device;
   },
 
-  onChangeListeners: function onChangeListeners() {
-    var numberDone = this.garbageWatcher();
-    this.appendDoneStats(numberDone);
-    this.listWatcher();
-    this.isListSelected();
-  },
+  // onChangeListeners: function() {
+  //   var numberDone = this.garbageWatcher();
+  //   this.appendDoneStats(numberDone);
+  //   this.listWatcher();
+  //   this.isListSelected();
+  // },
 
-  getCurrentList: function getCurrentList() {
-    var listname = $('.list-input').val();
+  // getCurrentList: function() {
+  //   var listname = $('.list-input').val();
 
-    return listname;
-  },
+  //   return listname;
+  // },
 
-  garbageWatcher: function garbageWatcher() {
-    var listname = this.getCurrentList();
-    var number = app.collection.where({ list: listname, done: true }).length;
+  // garbageWatcher() {
+  //   var listname = this.getCurrentList();
+  //   var number = _RB.collection.where({name: name, done: true}).length;
 
-    return number;
-  },
+  //   return number;
+  // },
 
-  appendDoneStats: function appendDoneStats(number) {
-    var $garbageContainer = $('.garbage-container');
-    var $statContainer = $('.garbage-container .stat');
-    var $trashContainer = $('.garbage-container .edit');
+  // appendDoneStats: function(number) {
+  //   var $garbageContainer = $('.garbage-container');
+  //   var $statContainer = $('.garbage-container .stat');
+  //   var $trashContainer = $('.garbage-container .edit');
 
-    if (number !== 0) {
-      $garbageContainer.html(this.garbageTemplate({ length: number }));
-    } else {
-      $garbageContainer.html(this.allDoneTemplate());
-    }
+  //   if (number !== 0) {
+  //     $garbageContainer.html(this.garbageTemplate({length: number}));
 
-    return this;
-  },
+  //   }
+  //   else {
+  //     $garbageContainer.html(this.allDoneTemplate());
 
-  listWatcher: function listWatcher() {
-    var template = _.template($('#list-name-template').html());
-    var $listsContainer = $('.lists-container');
-    var listname = $('.list-input').val();
-    var activeList = this.resetActiveList(listname);
-    var number = app.collection.where({
-      list: listname
-    }).length;
+  //   }
 
-    $(activeList).remove();
+  //   return this;
+  // },
 
-    if (number > 0) {
-      $listsContainer.prepend(template({
-        name: listname,
-        length: number
-      }));
-    }
+  // listWatcher: function() {
+  //   var template = _.template($('#list-name-template').html());
+  //   var $listsContainer = $('.lists-container');
+  //   var listname = $('.list-input').val();
+  //   var activeList = this.resetActiveList(listname);
+  //   var number = app.collection.where({
+  //     list: listname,
+  //   }).length;
 
-    return this;
-  },
+  //   $(activeList).remove();
+
+  //   if (number > 0) {
+  //     $listsContainer.prepend(template({
+  //       name: listname,
+  //       length: number
+  //     }));
+
+  //   }
+
+  //   return this;
+  // },
 
   sunny: function sunny() {
     var counter = 0;
@@ -438,7 +446,6 @@ RB.App = Backbone.View.extend({
   },
 
   events: {
-    'click .lists-container .list-item': 'renderList',
     'click .create-list-btn': 'createList',
     'click .toggle-list-btn': 'toggleLists',
     'click .create-note-btn': 'createNote',
@@ -497,15 +504,6 @@ RB.App = Backbone.View.extend({
         $notesContainer.show();
       }
     }
-  },
-
-  renderList: function renderList(e) {
-    var listname = $(e.currentTarget).data('id');
-    var notes = this.collection.where({ name: listname });
-
-    this.setNotes('.active-notes-container', notes);
-    this.deviceEnv(400);
-    this.onChangeListeners();
   },
 
   createList: function createList() {
@@ -597,19 +595,28 @@ RB.App = Backbone.View.extend({
 RB.ListItem = Backbone.View.extend({
 
   className: 'list-item',
-  itemTemplate: _.template($('#list-name-template').html()),
-  attributes: {},
+  listTemplate: _.template($('#list-name-template').html()),
+  events: {
+    'click .inner-container': 'selected'
+  },
   initialize: function initialize() {
     this.render();
   },
 
   render: function render() {
-    this.$el.html(this.itemTemplate(this.model.toJSON()));
-    this.attributes['data-name'] = this.model.get('name');
-    this.attributes['data-id'] = this.model.get('_id');
+    this.$el.html(this.listTemplate(this.model.toJSON()));
 
     return this;
+  },
+
+  selected: function selected(e) {
+    var listId = $(e.currentTarget).data('id');
+
+    console.log(listId);
+    this.setNotes(listId);
+    this.deviceEnv(400);
   }
+
 });
 'use strict';
 
@@ -618,10 +625,9 @@ RB.NoteItem = Backbone.View.extend({
   className: 'list-item',
 
   itemTemplate: _.template($('#note-item-template').html()),
-
+  attributes: {},
   initalize: function initalize() {
     this.listenTo(this.model, 'destroy', this.remove);
-    this.render();
   },
 
   events: {

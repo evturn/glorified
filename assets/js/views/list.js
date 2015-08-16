@@ -1,17 +1,26 @@
 RB.ListItem = Backbone.View.extend({
 
   className: 'list-item',
-  itemTemplate: _.template($('#list-name-template').html()),
-  attributes: {},
+  listTemplate: _.template($('#list-name-template').html()),
+  events: {
+    'click .inner-container' : 'selected'
+  },
   initialize() {
     this.render();
   },
 
   render() {
-    this.$el.html(this.itemTemplate(this.model.toJSON()));
-    this.attributes['data-name'] = this.model.get('name');
-    this.attributes['data-id'] = this.model.get('_id');
+    this.$el.html(this.listTemplate(this.model.toJSON()));
 
     return this;
-  }
+  },
+
+  selected(e) {
+    let listId = $(e.currentTarget).data('id');
+
+    console.log(listId);
+    this.setNotes(listId);
+    this.deviceEnv(400);
+  },
+
 });
