@@ -9,6 +9,10 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true,
 });
+
+RB.User = Backbone.Model.extend({
+  idAttribute: '_id'
+});
 _.extend(Backbone.View.prototype, {
 
   garbageTemplate : _.template($('#garbage-watcher-template').html()),

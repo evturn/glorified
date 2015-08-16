@@ -9,3 +9,7 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true,
 });
+
+RB.User = Backbone.Model.extend({
+  idAttribute: '_id'
+});

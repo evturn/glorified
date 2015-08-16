@@ -5,7 +5,7 @@ var List = require('../models/List');
 var Note = require('../models/Note');
 
 exports.getAll = function(req, res, next) {
-  res.json(req.user);
+  res.json(req.user.lists);
 };
 
 exports.post = function(req, res, next) {
@@ -38,6 +38,7 @@ exports.post = function(req, res, next) {
     if (list.name === data.list) {
       console.log(list.name + ' matches ' + data.list);
       var userList = user.lists.id(list._id);
+
       userList.notes.push(newNote);
       saveUser(user);
     }
@@ -46,6 +47,7 @@ exports.post = function(req, res, next) {
       var newList = new List({
         name: data.list
       });
+
       newList.notes.push(newNote);
       user.lists.push(newList);
       saveUser(user);
