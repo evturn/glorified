@@ -73,14 +73,13 @@ exports.put = function(req, res, next) {
   var list = user.lists.id(listId);
   var note = list.notes.id(noteId);
 
-
-
-  var updated = note.set({
-    "done": req.body.done,
-    "body": req.body.body,
+  var updatedNote = note.set({
+    "done"    : req.body.done,
+    "body"    : req.body.body,
+    "updated" : Date.now()
   });
 
-  saveUser(user, updated);
+  saveUser(user, updatedNote);
 };
 
 var saveUser = function(user, note) {
@@ -89,6 +88,6 @@ var saveUser = function(user, note) {
       return console.log(err);
     }
     console.log('We made it here ', data);
-    res.send(note);
+    res.send(updateNote);
   });
 };
