@@ -31,13 +31,9 @@ exports.post = function(req, res, next) {
     done: data.done
   });
 
-  console.log(user);
-  console.log(data);
-
   for (var i = 0; i <= listsArray.length; i++) {
     counter += 1;
     var list = listsArray[i];
-    console.log(list);
 
     if (list === undefined) {
       console.log('First list created: ' + data.list)

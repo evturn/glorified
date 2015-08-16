@@ -25,7 +25,7 @@ RB.Notes = Backbone.Collection.extend({
   merge: true,
 });
 
-const _RB = {
+var _RB = {
 
   garbageTemplate : _.template($('#garbage-watcher-template').html()),
   allDoneTemplate : _.template($('#sunny-template').html()),

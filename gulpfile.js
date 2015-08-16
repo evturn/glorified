@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
     $ = require('gulp-load-plugins')();
 
-var paths = require('./config/paths');
+var paths = require('./config/gulp-paths');
 var options = require('./config/gulp-options');
 
 gulp.task('default', ['nodemon', 'less', 'lint', 'watch', 'browsersync']);
