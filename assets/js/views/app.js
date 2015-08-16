@@ -19,9 +19,6 @@ RB.App = Backbone.View.extend({
     'click .create-note-btn'            : 'createNote',
     'keyup .note-input'                 : 'createOnEnter',
     'keyup .active-input'               : 'validate'
-    // 'click .garbage-container'          : 'removeAllDone',
-    // 'focus .list-input'                 : 'isMakingNewList',
-    // 'keyup .list-input'                 : 'compareListValue'
   },
 
   createList: function() {
@@ -32,7 +29,6 @@ RB.App = Backbone.View.extend({
     $noteInput.val('');
     $listInput.val('').focus();
     $notesContainer.empty();
-    this.onChangeListeners();
   },
 
   renderInputFields: function() {
@@ -90,62 +86,5 @@ RB.App = Backbone.View.extend({
     }
 
   },
-  // grabValueSnapshot: function() {
-
-  //   if (this.isListSelected) {
-  //     var listname = $('.list-input').val();
-
-  //     return listname;
-  //   }
-
-  // },
-
-  // isMakingNewList: function() {
-  //   var listnamesArray = this.getLists();
-  //   var listname = this.grabValueSnapshot();
-
-  //   if (listname) {
-  //     this.currentList = listname;
-  //     this.allLists = listnamesArray;
-  //   }
-  //   else {
-
-  //     return false;
-  //   }
-
-  // },
-
-  // compareListValue: function() {
-  //   var typing = $('.list-input').val();
-  //   var $activeNotes = $('.active-notes-container');
-
-  //   if (typing !== this.currentList) {
-  //     $activeNotes.hide();
-  //     this.checkMatchingLists(typing);
-
-  //   }
-  //   else {
-
-  //     $activeNotes.show();
-  //   }
-
-  // },
-
-  // checkMatchingLists: function(string) {
-  //   var $notesContainer = $('.active-notes-container');
-  //   var notes;
-
-  //   for (var i = 0; i < this.allLists.length; i++) {
-
-  //     if (string === this.allLists[i]) {
-
-  //       notes = this.getNotesByListname(string);
-  //       this.setNotes($notesContainer, notes);
-  //       $notesContainer.show();
-
-  //     }
-  //   }
-  // },
-
 
 });

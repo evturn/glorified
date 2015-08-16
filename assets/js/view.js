@@ -7,23 +7,6 @@ _.extend(Backbone.View.prototype, {
   garbageTemplate : _.template($('#garbage-watcher-template').html()),
   allDoneTemplate : _.template($('#sunny-template').html()),
 
-  getNotesByListname: function(listname) {
-    var notes = app.listsCollection.where({name: listname});
-
-    return notes;
-  },
-
-  getListNames() {
-    var self = this;
-    var array = [];
-
-    app.listsCollection.each(function(model) {
-      array.push(model.get('name'));
-    });
-
-    return array;
-  },
-
   setLists() {
     var $container = $('.lists-container');
     $container.empty();
@@ -61,8 +44,8 @@ _.extend(Backbone.View.prototype, {
     });
 
     app.notesCollection = notes;
+    app.listenTo(app.notesCollection, 'change', this.updateListTotal);
     this.resetActiveList(listname);
-    console.log(app.notesCollection);
   },
 
   getActiveListId() {
@@ -80,14 +63,15 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
-  setListValue: function(listname) {
-    var $listInput = $('.active-input.list-input');
+  setListValue(listname) {
+    let $listInput = $('.active-input.list-input');
+
     $listInput.val(listname);
   },
 
-  resetActiveList: function(listname) {
-    var $listItem = $('.list-item');
-    var $element = $('div').find("[data-id='" + listname + "']");
+  resetActiveList(listname) {
+    let $listItem = $('.list-item'),
+        $element = $('div').find("[data-id='" + listname + "']");
 
     $listItem.removeClass('active');
     $element.addClass('active');
@@ -115,10 +99,10 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
-  getListnameContainer: function(listname) {
-    var $element = $('div').find("[data-id='" + listname + "']");
+  updateListTotal() {
+    let $container = $('.active-notes-container');
 
-    return $element;
+    console.log($container.children().length);
   },
 
 });

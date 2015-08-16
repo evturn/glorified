@@ -17,8 +17,7 @@ _.extend(Backbone.View.prototype, {
 
         if (app.listsCollection === null) {
           app.listsCollection = new RB.Lists(model.attributes.lists);
-          let lists = app.getListNames(app.listsCollection);
-          app.setLists(lists);
+          app.setLists();
         }
 
         return app.listsCollection;
@@ -32,8 +31,9 @@ _.extend(Backbone.View.prototype, {
   },
 
   post(model) {
-    var $noteInput = $('.note-input');
-    var $notesContainer = $('.active-notes-container');
+    let self = this,
+        $noteInput = $('.note-input'),
+        $notesContainer = $('.active-notes-container');
 
     $.ajax({
       url: '/notes/',
@@ -47,7 +47,7 @@ _.extend(Backbone.View.prototype, {
         let view = new RB.NoteItem({model: note});
         $notesContainer.append(view.render().el);
         view.notify('Created');
-
+        self.updateListTotal();
       },
       error(err) {
         console.log(err);
@@ -65,7 +65,6 @@ _.extend(Backbone.View.prototype, {
       url: '/notes/' + id,
       success(model, response) {
         self.notify('Updated');
-        self.onChangeListeners();
         view.render();
       },
       error(error) {
@@ -88,6 +87,7 @@ _.extend(Backbone.View.prototype, {
         success(model, response) {
           console.log('success ', model);
           self.notify('Removed');
+          self.updateListTotal();
         },
         error(err) {
           console.log('error ', err);

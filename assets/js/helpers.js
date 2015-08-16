@@ -11,7 +11,6 @@ _.extend(Backbone.View.prototype, {
       self.onClickSetActive();
       self.isMobile(800);
     }
-
   },
 
   notify(notification) {
@@ -115,9 +114,6 @@ _.extend(Backbone.View.prototype, {
       window.location.hash = "";
       document.body.scrollTop = scroll.top;
       document.body.scrollLeft = scroll.left;
-
     }
-
   },
-
 });
