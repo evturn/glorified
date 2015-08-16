@@ -20,7 +20,7 @@ _.extend(Backbone.View.prototype, {
 
   collection: null,
 
-  get: function() {
+  get() {
     var self = this;
     var notes = new RB.Notes();
 
@@ -118,20 +118,15 @@ _.extend(Backbone.View.prototype, {
     return notes;
   },
 
-  getLists: function() {
+  getLists() {
     var self = this;
-    var arr = [];
+    var array = [];
 
     this.collection.each(function(model) {
-      var listname = model.get('name');
-
-      if (arr.indexOf(listname) === -1) {
-        arr.push(listname);
-      }
-
+      array.push(model.get('name'));
     });
 
-    return arr;
+    return array;
   },
 
   setLists: function(array) {

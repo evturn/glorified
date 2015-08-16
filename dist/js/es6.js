@@ -120,17 +120,13 @@ _.extend(Backbone.View.prototype, {
 
   getLists: function getLists() {
     var self = this;
-    var arr = [];
+    var array = [];
 
     this.collection.each(function (model) {
-      var listname = model.get('name');
-
-      if (arr.indexOf(listname) === -1) {
-        arr.push(listname);
-      }
+      array.push(model.get('name'));
     });
 
-    return arr;
+    return array;
   },
 
   setLists: function setLists(array) {
