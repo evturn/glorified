@@ -72,6 +72,8 @@ exports.post = function(req, res, next) {
       console.log('-------- ', newNote);
       user.lists.push(newList);
       saveUser(user, newNote);
+
+      return false;
     }
 
   }
