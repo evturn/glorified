@@ -188,6 +188,7 @@ _.extend(Backbone.View.prototype, {
       var view = new RB.NoteItem({ model: note });
 
       $container.append(view.render().el);
+      $container.attr('data-list', id);
     });
 
     app.notesCollection = notes;
