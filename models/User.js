@@ -1,4 +1,5 @@
 var UserSchema = require('../config/schema').User();
+var ListSchema = require('../config/schema').List();
 var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 var bcrypt = require('bcrypt');
