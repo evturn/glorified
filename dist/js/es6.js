@@ -71,7 +71,9 @@ var _RB = {
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
-    app.collection.create(model, {
+    console.log(model);
+
+    _RB.collection.create(model, {
 
       success: function success(model, response) {
         $noteInput.val('').focus();
@@ -173,12 +175,12 @@ var _RB = {
   setNotes: function setNotes(id) {
     var list = _RB.collection.get(id),
         notes = new RB.Notes(list.attributes.notes),
+        listname = list.attributes.name,
         $container = $('.active-notes-container'),
         $listInput = $('.active-input.list-input'),
         $noteInput = $('.active-input.note-input');
 
-    console.log(notes);
-    var listname = list.attributes.name;
+    $container.empty();
     $listInput.val(listname);
 
     notes.each(function (note) {
@@ -188,17 +190,6 @@ var _RB = {
     });
 
     this.resetActiveList(listname);
-
-    // else {
-    //   $listInput.val('');
-    //   $noteInput.val('');
-    //   $notesContainer.empty();
-
-    // }
-
-    // if (!this.isMobile()) {
-    //   $noteInput.focus();
-    // }
   },
 
   setListValue: function setListValue(listname) {
@@ -446,61 +437,68 @@ RB.App = Backbone.View.extend({
     'click .toggle-list-btn': 'toggleLists',
     'click .create-note-btn': 'createNote',
     'keyup .note-input': 'createOnEnter',
-    'keyup .active-input': 'validate',
-    'click .garbage-container': 'removeAllDone',
-    'focus .list-input': 'isMakingNewList',
-    'keyup .list-input': 'compareListValue'
+    'keyup .active-input': 'validate'
+    // 'click .garbage-container'          : 'removeAllDone',
+    // 'focus .list-input'                 : 'isMakingNewList',
+    // 'keyup .list-input'                 : 'compareListValue'
   },
 
-  grabValueSnapshot: function grabValueSnapshot() {
+  // grabValueSnapshot: function() {
 
-    if (this.isListSelected) {
-      var listname = $('.list-input').val();
+  //   if (this.isListSelected) {
+  //     var listname = $('.list-input').val();
 
-      return listname;
-    }
-  },
+  //     return listname;
+  //   }
 
-  isMakingNewList: function isMakingNewList() {
-    var listnamesArray = this.getLists();
-    var listname = this.grabValueSnapshot();
+  // },
 
-    if (listname) {
-      this.currentList = listname;
-      this.allLists = listnamesArray;
-    } else {
+  // isMakingNewList: function() {
+  //   var listnamesArray = this.getLists();
+  //   var listname = this.grabValueSnapshot();
 
-      return false;
-    }
-  },
+  //   if (listname) {
+  //     this.currentList = listname;
+  //     this.allLists = listnamesArray;
+  //   }
+  //   else {
 
-  compareListValue: function compareListValue() {
-    var typing = $('.list-input').val();
-    var $activeNotes = $('.active-notes-container');
+  //     return false;
+  //   }
 
-    if (typing !== this.currentList) {
-      $activeNotes.hide();
-      this.checkMatchingLists(typing);
-    } else {
+  // },
 
-      $activeNotes.show();
-    }
-  },
+  // compareListValue: function() {
+  //   var typing = $('.list-input').val();
+  //   var $activeNotes = $('.active-notes-container');
 
-  checkMatchingLists: function checkMatchingLists(string) {
-    var $notesContainer = $('.active-notes-container');
-    var notes;
+  //   if (typing !== this.currentList) {
+  //     $activeNotes.hide();
+  //     this.checkMatchingLists(typing);
 
-    for (var i = 0; i < this.allLists.length; i++) {
+  //   }
+  //   else {
 
-      if (string === this.allLists[i]) {
+  //     $activeNotes.show();
+  //   }
 
-        notes = this.getNotesByListname(string);
-        this.setNotes($notesContainer, notes);
-        $notesContainer.show();
-      }
-    }
-  },
+  // },
+
+  // checkMatchingLists: function(string) {
+  //   var $notesContainer = $('.active-notes-container');
+  //   var notes;
+
+  //   for (var i = 0; i < this.allLists.length; i++) {
+
+  //     if (string === this.allLists[i]) {
+
+  //       notes = this.getNotesByListname(string);
+  //       this.setNotes($notesContainer, notes);
+  //       $notesContainer.show();
+
+  //     }
+  //   }
+  // },
 
   createList: function createList() {
     var $noteInput = $('.note-input');
@@ -543,14 +541,12 @@ RB.App = Backbone.View.extend({
 
     if ($body.trim() && $list.trim() !== '') {
       var date = Date.now();
-      var timestamp = this.convertDate(date);
 
       var note = {
 
         body: $body,
         list: $list,
         created: date,
-        timestamp: timestamp,
         done: false
 
       };

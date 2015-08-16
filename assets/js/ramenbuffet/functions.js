@@ -41,7 +41,9 @@ const _RB = {
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
-    app.collection.create(model, {
+    console.log(model);
+
+    _RB.collection.create(model, {
 
       success: function(model, response) {
         $noteInput.val('').focus();
@@ -148,41 +150,21 @@ const _RB = {
   setNotes: function(id) {
     let list = _RB.collection.get(id),
         notes = new RB.Notes(list.attributes.notes),
+        listname = list.attributes.name,
         $container = $('.active-notes-container'),
         $listInput = $('.active-input.list-input'),
         $noteInput = $('.active-input.note-input');
 
-        console.log(notes);
-        let listname = list.attributes.name;
-        $listInput.val(listname);
+    $container.empty();
+    $listInput.val(listname);
 
+    notes.each(function(note) {
+      let view = new RB.NoteItem({model: note});
 
-        notes.each(function(note) {
-          let view = new RB.NoteItem({model: note});
+      $container.append(view.render().el);
+    });
 
-          $container.append(view.render().el);
-        });
-
-
-
-
-
-      this.resetActiveList(listname);
-
-
-
-
-    // else {
-    //   $listInput.val('');
-    //   $noteInput.val('');
-    //   $notesContainer.empty();
-
-
-    // }
-
-    // if (!this.isMobile()) {
-    //   $noteInput.focus();
-    // }
+    this.resetActiveList(listname);
 
   },
 
