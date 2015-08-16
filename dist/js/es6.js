@@ -114,7 +114,7 @@ _.extend(Backbone.View.prototype, {
 
       model.destroy({
         url: '/notes/' + id + '?listId=' + listId,
-        success: function success(model, reponse) {
+        success: function success(model, response) {
           console.log('success ', model);
           self.notify('Removed');
           self.onChangeListeners();

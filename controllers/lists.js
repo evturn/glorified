@@ -89,7 +89,7 @@ exports.put = function(req, res, next) {
   });
 
   var saved = saveUser(user, updatedNote);
-  res.send(saved);
+  res.send(data);
 };
 
 exports.delete = function(req, res, next) {
@@ -99,29 +99,25 @@ exports.delete = function(req, res, next) {
   var list = user.lists.id(listId);
   var note = list.notes.id(noteId);
 
-  console.log('--------list------ ', list);
-  console.log('--------note------ ', note);
+  var removedNote = note.remove();
 
-  var removed = note.remove();
-  user.save(function(err, data) {
-    if (err) {
-      res.send(err);
-    }
-    else {
-      console.log('----------Destroyed--------- ', data);
-      res.json(removed);
-    }
-  });
+  if (list.notes.length === 0) {
+    list.remove();
+  }
+
+  var saved = saveUser(user, removedNote);
+  res.send(removedNote);
 
 };
 
 var saveUser = function(user, note) {
   user.save(function(err, data) {
     if (err) {
-      return console.log(err);
+      console.log(err)
+      return err;
     }
     else {
-      console.log('----------Saved--------- ', data);
+      console.log('----------Success---------');
       return note;
     }
   });
