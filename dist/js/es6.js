@@ -173,7 +173,7 @@ var _RB = {
   setNotes: function setNotes(id) {
     var list = _RB.collection.get(id),
         notes = new RB.Notes(list.attributes.notes),
-        $notesContainer = $('.active-notes-container'),
+        $container = $('.active-notes-container'),
         $listInput = $('.active-input.list-input'),
         $noteInput = $('.active-input.note-input');
 
@@ -181,18 +181,14 @@ var _RB = {
     var listname = list.attributes.name;
     $listInput.val(listname);
 
-    // if (list.length > 0) {
+    notes.each(function (note) {
+      var view = new RB.NoteItem({ model: note });
 
-    //   for (var i = 0; i < list.length; i++) {
-    //     var note = list[i];
-    //     var view = new RB.NoteItem({model: note});
+      $container.append(view.render().el);
+    });
 
-    //     $selector.append(view.render().el);
-    //   }
+    this.resetActiveList(listname);
 
-    //   this.resetActiveList(id);
-
-    // }
     // else {
     //   $listInput.val('');
     //   $noteInput.val('');
@@ -639,6 +635,9 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   render: function render() {
+    if (!this.model.get('created')) {
+      this.model.set('created', this.convertDate(Date.now()));
+    }
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;
