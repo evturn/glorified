@@ -17,9 +17,15 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   render: function() {
-    if (!this.model.get('created')) {
-      this.model.set('created', this.convertDate(Date.now()));
+    if (!this.model.get('timestamp')) {
+      this.model.set('timestamp', this.convertDate(Date.now()));
     }
+
+    if (!this.model.get('done')) {
+      this.model.set('done', false);
+    }
+
+
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;

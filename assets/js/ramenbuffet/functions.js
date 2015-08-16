@@ -21,13 +21,14 @@ const _RB = {
         }
 
         if (_RB.collection === null) {
-          _RB.collection = new RB.Lists(_RB.user.attributes.lists);
+          _RB.collection = new RB.Lists(model.attributes.lists);
+          let lists = _RB.getListNames(_RB.collection);
+          _RB.setLists(lists);
         }
 
         console.log(_RB.collection);
+        return _RB.collection;
 
-        var lists = _RB.getListNames(_RB.collection);
-        _RB.setLists(lists);
       },
       error(err) {
         console.log(err);
@@ -36,18 +37,20 @@ const _RB = {
     });
   },
 
-  post: function(model) {
+  post(model) {
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
-    console.log(model);
-
-    _RB.collection.create(model, {
-
+    $.ajax({
+      url: '/notes/',
+      method: 'POST',
+      data: model,
       success: function(model, response) {
+        console.log(model);
         $noteInput.val('').focus();
         app.validate();
-        var view = new RB.NoteItem({model: model});
+        let note = new RB.Note(model);
+        let view = new RB.NoteItem({model: note});
         $notesContainer.append(view.render().el);
         _RB.notify('Created');
 
@@ -55,7 +58,6 @@ const _RB = {
       error: function(err) {
         console.log(err);
       }
-
     });
 
   },

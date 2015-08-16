@@ -15,13 +15,13 @@ exports.post = function(req, res, next) {
   var listsArray = user.lists.toObject();
   var counter = 0;
 
-  var saveUser = function(user) {
+  var saveUser = function(user, note) {
     user.save(function(err, data) {
       if (err) {
         return console.log(err);
       }
       console.log('We made it here ', data);
-      res.send(data);
+      res.send(note);
     });
   };
 
@@ -31,16 +31,36 @@ exports.post = function(req, res, next) {
     done: data.done
   });
 
-  for (var i = 0; i < listsArray.length; i++) {
+  console.log(user);
+  console.log(data);
+
+  for (var i = 0; i <= listsArray.length; i++) {
     counter += 1;
     var list = listsArray[i];
+    console.log(list);
 
-    if (list.name === data.list) {
+    if (list === undefined) {
+      console.log('First list created: ' + data.list)
+      var newList = new List({
+        name: data.list
+      });
+
+      newList.notes.push(newNote);
+      console.log('-------- ', newNote);
+      user.lists.push(newList);
+      saveUser(user, newNote);
+
+      return false;
+    }
+    else if (list.name === data.list) {
       console.log(list.name + ' matches ' + data.list);
       var userList = user.lists.id(list._id);
 
       userList.notes.push(newNote);
-      saveUser(user);
+      console.log('-------- ', newNote);
+      saveUser(user, newNote);
+
+      return false;
     }
     else if (list.name !== data.list && counter === listsArray.length) {
       console.log('New list created: ' + data.list);
@@ -49,9 +69,11 @@ exports.post = function(req, res, next) {
       });
 
       newList.notes.push(newNote);
+      console.log('-------- ', newNote);
       user.lists.push(newList);
-      saveUser(user);
+      saveUser(user, newNote);
     }
+
   }
 
 };

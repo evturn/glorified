@@ -128,21 +128,26 @@ RB.App = Backbone.View.extend({
         done: false
       };
 
-      var currentList = _RB.collection.findWhere({
-        name: list,
-      });
 
-      console.log(currentList);
+      if (_RB.collection.models > 0) {
+        var currentList = _RB.collection.findWhere({
+          name: list,
+        });
 
-      for (let i = 0; i < currentList.attributes.notes.length; i++) {
-        let inMemory = currentList.attributes.notes[i].body;
+        console.log(currentList);
 
-        if (note.body === inMemory) {
-          return false;
+        for (let i = 0; i < currentList.attributes.notes.length; i++) {
+          let inMemory = currentList.attributes.notes[i].body;
+
+          if (note.body === inMemory) {
+            return false;
+          }
         }
+
       }
 
-      this.post(note);
+    this.post(note);
+
     }
 
   },

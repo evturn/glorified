@@ -48,13 +48,14 @@ const _RB = {
         }
 
         if (_RB.collection === null) {
-          _RB.collection = new RB.Lists(_RB.user.attributes.lists);
+          _RB.collection = new RB.Lists(model.attributes.lists);
+          let lists = _RB.getListNames(_RB.collection);
+          _RB.setLists(lists);
         }
 
         console.log(_RB.collection);
+        return _RB.collection;
 
-        var lists = _RB.getListNames(_RB.collection);
-        _RB.setLists(lists);
       },
       error(err) {
         console.log(err);
@@ -63,18 +64,20 @@ const _RB = {
     });
   },
 
-  post: function(model) {
+  post(model) {
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
-    console.log(model);
-
-    _RB.collection.create(model, {
-
+    $.ajax({
+      url: '/notes/',
+      method: 'POST',
+      data: model,
       success: function(model, response) {
+        console.log(model);
         $noteInput.val('').focus();
         app.validate();
-        var view = new RB.NoteItem({model: model});
+        let note = new RB.Note(model);
+        let view = new RB.NoteItem({model: note});
         $notesContainer.append(view.render().el);
         _RB.notify('Created');
 
@@ -82,7 +85,6 @@ const _RB = {
       error: function(err) {
         console.log(err);
       }
-
     });
 
   },
@@ -561,21 +563,26 @@ RB.App = Backbone.View.extend({
         done: false
       };
 
-      var currentList = _RB.collection.findWhere({
-        name: list,
-      });
 
-      console.log(currentList);
+      if (_RB.collection.models > 0) {
+        var currentList = _RB.collection.findWhere({
+          name: list,
+        });
 
-      for (let i = 0; i < currentList.attributes.notes.length; i++) {
-        let inMemory = currentList.attributes.notes[i].body;
+        console.log(currentList);
 
-        if (note.body === inMemory) {
-          return false;
+        for (let i = 0; i < currentList.attributes.notes.length; i++) {
+          let inMemory = currentList.attributes.notes[i].body;
+
+          if (note.body === inMemory) {
+            return false;
+          }
         }
+
       }
 
-      this.post(note);
+    this.post(note);
+
     }
 
   },
@@ -645,9 +652,15 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   render: function() {
-    if (!this.model.get('created')) {
-      this.model.set('created', this.convertDate(Date.now()));
+    if (!this.model.get('timestamp')) {
+      this.model.set('timestamp', this.convertDate(Date.now()));
     }
+
+    if (!this.model.get('done')) {
+      this.model.set('done', false);
+    }
+
+
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
     return this;
