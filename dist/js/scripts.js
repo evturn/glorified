@@ -9,12 +9,14 @@ RB.Note = Backbone.Model.extend({
   idAttribute: '_id',
 });
 
-RB.List = Backbone.Collection.extend({
+RB.List = Backbone.Model.extend({
   idAttribute: '_id',
-  model: RB.Notes,
-  url: '/notes',
 });
 
+RB.Lists = Backbone.Collection.extend({
+  model: RB.List,
+  url: '/notes',
+});
 
 // Should be converted to User?
 RB.Notes = Backbone.Collection.extend({
@@ -28,23 +30,27 @@ _.extend(Backbone.View.prototype, {
   garbageTemplate : _.template($('#garbage-watcher-template').html()),
   allDoneTemplate : _.template($('#sunny-template').html()),
 
+  user: null,
   collection: null,
 
   get() {
     var self = this;
-    var notes = new RB.Notes();
+    var user = new RB.User();
 
-    notes.fetch({
+    user.fetch({
 
-      success: function(collection) {
-
-        if (self.collection === null) {
-          app.collection = collection;
-          console.log(app.collection);
+      success: function(model, response) {
+        if (self.user === null) {
+          self.user = model;
         }
 
-        var lists = self.getLists(app.collection);
-        self.setLists(lists);
+        if (self.collection === null) {
+          self.collection = new RB.Lists(self.user.attributes.lists);
+        }
+
+        console.log(self.collection);
+        // var lists = self.getLists(app.collection);
+        // self.setLists(lists);
       },
       error: function(err) {
         console.log(err);

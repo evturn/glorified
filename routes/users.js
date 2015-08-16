@@ -5,7 +5,7 @@ var fbConfig = require('../config/passport-facebook');
 
 var users = express.Router();
 
-users.route('/', ensureAuthenticated, function(req, res, next) {
+users.get('/', ensureAuthenticated, function(req, res, next) {
   res.json(req.user);
 });
 

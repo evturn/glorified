@@ -9,12 +9,14 @@ RB.Note = Backbone.Model.extend({
   idAttribute: '_id',
 });
 
-RB.List = Backbone.Collection.extend({
+RB.List = Backbone.Model.extend({
   idAttribute: '_id',
-  model: RB.Notes,
-  url: '/notes',
 });
 
+RB.Lists = Backbone.Collection.extend({
+  model: RB.List,
+  url: '/notes',
+});
 
 // Should be converted to User?
 RB.Notes = Backbone.Collection.extend({
