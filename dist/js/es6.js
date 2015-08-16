@@ -76,7 +76,7 @@ _.extend(Backbone.View.prototype, {
         var note = new RB.Note(model);
         var view = new RB.NoteItem({ model: note });
         $notesContainer.append(view.render().el);
-        _RB.notify('Created');
+        view.notify('Created');
       },
       error: function error(err) {
         console.log(err);
@@ -544,8 +544,8 @@ RB.App = Backbone.View.extend({
         done: false
       };
 
-      if (_RB.collection.models > 0) {
-        var currentList = _RB.collection.findWhere({
+      if (app.listsCollection.models > 0) {
+        var currentList = app.listsCollection.findWhere({
           name: list
         });
 
@@ -561,22 +561,6 @@ RB.App = Backbone.View.extend({
       }
 
       this.post(note);
-    }
-  },
-
-  removeAllDone: function removeAllDone() {
-
-    if (this.isListSelected()) {
-      var listname = $('.list-input').val();
-      var models = this.collection.where({
-        list: listname,
-        done: true
-      });
-
-      console.log(models);
-
-      _.invoke(models, 'destroy');
-      return false;
     }
   }
 

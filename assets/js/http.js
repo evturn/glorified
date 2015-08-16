@@ -47,7 +47,7 @@ _.extend(Backbone.View.prototype, {
         let note = new RB.Note(model);
         let view = new RB.NoteItem({model: note});
         $notesContainer.append(view.render().el);
-        _RB.notify('Created');
+        view.notify('Created');
 
       },
       error: function(err) {
