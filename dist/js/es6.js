@@ -222,7 +222,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendActiveListStats: function appendActiveListStats() {
-    var number = app.notesCollection.length,
+    var number = app.notesCollection.where({ done: true }).length,
         $garbageContainer = $('.garbage-container'),
         $statContainer = $('.garbage-container .stat'),
         $trashContainer = $('.garbage-container .edit');
@@ -267,6 +267,7 @@ _.extend(Backbone.View.prototype, {
     var $loader = $('.kurt-loader');
 
     $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
+
     var $paragraphTag = $loader.find('.thin-sm');
 
     setTimeout(function () {
@@ -294,16 +295,17 @@ _.extend(Backbone.View.prototype, {
   },
 
   convertDate: function convertDate(date) {
-    var d = new Date(date);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var min = minutes > 10 ? minutes : '0' + minutes;
-    var meridiem = hours >= 12 ? 'PM' : 'AM';
-    var hour = hours > 12 ? hours - 12 : hours;
+    var d = new Date(date),
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+        year = d.getFullYear(),
+        month = d.getMonth(),
+        day = d.getDate(),
+        hours = d.getHours(),
+        minutes = d.getMinutes(),
+        min = minutes > 10 ? minutes : '0' + minutes,
+        meridiem = hours >= 12 ? 'PM' : 'AM',
+        hour = hours > 12 ? hours - 12 : hours;
+
     month = ('' + (month + 1)).slice(-2);
     var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
 
@@ -316,13 +318,12 @@ _.extend(Backbone.View.prototype, {
 
       $listItem.removeClass('active');
       $(this).addClass('active');
-      $(document).trigger('listSelected');
     });
   },
 
   toggleLists: function toggleLists() {
-    var $listsContainer = $('.lists-container');
-    var $icon = $('.toggle-list-btn .fa');
+    var $listsContainer = $('.lists-container'),
+        $icon = $('.toggle-list-btn .fa');
 
     $listsContainer.slideToggle('fast');
     $icon.toggleClass('collapsed');
@@ -348,14 +349,14 @@ _.extend(Backbone.View.prototype, {
   fixPath: function fixPath() {
 
     if (window.location.hash && window.location.hash === "#_=_") {
-      var scroll = {
+      var _scroll = {
         top: document.body.scrollTop,
         left: document.body.scrollLeft
       };
 
       window.location.hash = "";
-      document.body.scrollTop = scroll.top;
-      document.body.scrollLeft = scroll.left;
+      document.body.scrollTop = _scroll.top;
+      document.body.scrollLeft = _scroll.left;
     }
   }
 

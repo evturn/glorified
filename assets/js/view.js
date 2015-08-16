@@ -96,7 +96,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendActiveListStats() {
-    let number = app.notesCollection.length,
+    let number = app.notesCollection.where({done: true}).length,
         $garbageContainer = $('.garbage-container'),
         $statContainer = $('.garbage-container .stat'),
         $trashContainer = $('.garbage-container .edit');

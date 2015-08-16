@@ -4,7 +4,6 @@
 
 _.extend(Backbone.View.prototype, {
 
-
   helpers: {
 
     init(self) {
@@ -15,17 +14,17 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  notify: function(notification) {
+  notify(notification) {
     let $loader = $('.kurt-loader');
 
     $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
+
     let $paragraphTag = $loader.find('.thin-sm');
 
     setTimeout(function() {
       $paragraphTag.removeClass('animated fadeIn');
       $paragraphTag.addClass('animated fadeOut');
     }, 1000);
-
   },
 
   tojquery(element) {
@@ -45,39 +44,38 @@ _.extend(Backbone.View.prototype, {
           return $(document.getElementsByClassName(element));
         }
     }
-
   },
 
   convertDate(date) {
-    var d = new Date(date);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    var year = d.getFullYear();
-    var month = d.getMonth();
-    var day = d.getDate();
-    var hours = d.getHours();
-    var minutes = d.getMinutes();
-    var min = minutes > 10 ? minutes : ('0' + minutes);
-    var meridiem = hours >= 12 ? 'PM' : 'AM';
-    var hour = hours > 12 ? hours - 12 : hours;
-    month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+    let d = new Date(date),
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+        year = d.getFullYear(),
+        month = d.getMonth(),
+        day = d.getDate(),
+        hours = d.getHours(),
+        minutes = d.getMinutes(),
+        min = minutes > 10 ? minutes : ('0' + minutes),
+        meridiem = hours >= 12 ? 'PM' : 'AM',
+        hour = hours > 12 ? hours - 12 : hours;
+
+        month = ('' + (month + 1)).slice(-2);
+    let timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
 
     return timestamp;
   },
 
-  onClickSetActive: function() {
+  onClickSetActive() {
     $(document).on('click', '.lists-container .list-item', function() {
-      var $listItem = $('.list-item');
+      let $listItem = $('.list-item');
 
       $listItem.removeClass('active');
       $(this).addClass('active');
-      $(document).trigger('listSelected');
     });
   },
 
-  toggleLists: function() {
-    var $listsContainer = $('.lists-container');
-    var $icon = $('.toggle-list-btn .fa');
+  toggleLists() {
+    let $listsContainer = $('.lists-container'),
+        $icon = $('.toggle-list-btn .fa');
 
     $listsContainer.slideToggle('fast');
     $icon.toggleClass('collapsed');
@@ -92,8 +90,8 @@ _.extend(Backbone.View.prototype, {
 
   },
 
-  sunny: function() {
-    var counter = 0;
+  sunny() {
+    let counter = 0;
 
     setInterval(function() {
       $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
@@ -106,10 +104,10 @@ _.extend(Backbone.View.prototype, {
     }, 100);
   },
 
-  fixPath: function() {
+  fixPath() {
 
     if (window.location.hash && window.location.hash === "#_=_") {
-      var scroll = {
+      let scroll = {
         top: document.body.scrollTop,
         left: document.body.scrollLeft
       };
