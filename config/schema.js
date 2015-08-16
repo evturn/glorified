@@ -21,10 +21,11 @@ exports.User = function() {
 exports.Note = function() {
   return new mongoose.Schema({
     list       : {type : String},
-    created    : {type : Date,    default: Date.now()},
+    created    : {type : Date,    default: new Date()},
     body       : {type : String},
     done       : {type : Boolean, default: false},
-    timestamp  : {type : String}
+    timestamp  : {type : String},
+    updated    : {type : Date}
   });
 };
 

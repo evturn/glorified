@@ -79,7 +79,8 @@ exports.put = function(req, res, next) {
 
   var updatedNote = note.set({
     "done"    : req.body.done,
-    "body"    : req.body.body
+    "body"    : req.body.body,
+    "updated" : Date.now()
   });
 
   var saved = saveUser(user, updatedNote);
