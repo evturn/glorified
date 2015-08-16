@@ -224,9 +224,13 @@ _.extend(Backbone.View.prototype, {
   },
 
   updateListTotal: function updateListTotal() {
-    var $container = $('.active-notes-container');
+    var $container = $('.active-notes-container'),
+        length = $container.children().length,
+        id = $container.attr('data-list'),
+        $element = $('div').find("[data-id='" + id + "']"),
+        $span = $element.find('.badge');
 
-    console.log($container.children().length);
+    $span.text(length);
   }
 
 });
