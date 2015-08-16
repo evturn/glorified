@@ -1,0 +1,88 @@
+// ===================
+// View Helpers
+// ===================
+
+_.extend(Backbone.View.prototype, {
+
+  garbageTemplate : _.template($('#garbage-watcher-template').html()),
+  allDoneTemplate : _.template($('#sunny-template').html()),
+
+  getNotesByListname: function(listname) {
+    var notes = app.listsCollection.where({name: listname});
+
+    return notes;
+  },
+
+  getListNames() {
+    var self = this;
+    var array = [];
+
+    app.listsCollection.each(function(model) {
+      array.push(model.get('name'));
+    });
+
+    return array;
+  },
+
+  setLists() {
+    var $container = $('.lists-container');
+    $container.empty();
+
+    app.listsCollection.each(function(model) {
+      var view = new RB.ListItem({model: model});
+
+      $container.append(view.render().el);
+    });
+
+  },
+
+  setNote(model) {
+    var $notesContainer = $('.active-notes-container');
+    var view = new RB.NoteItem({model: model});
+
+    $notesContainer.append(view.render().el);
+  },
+
+  setNotes(id) {
+    let list = app.listsCollection.get(id),
+        notes = new RB.Notes(list.attributes.notes),
+        listname = list.attributes.name,
+        $container = $('.active-notes-container'),
+        $listInput = $('.active-input.list-input'),
+        $noteInput = $('.active-input.note-input');
+
+    $container.empty();
+    $listInput.val(listname);
+
+    notes.each(function(note) {
+      let view = new RB.NoteItem({model: note});
+
+      $container.append(view.render().el);
+    });
+
+    this.resetActiveList(listname);
+
+  },
+
+  setListValue: function(listname) {
+    var $listInput = $('.active-input.list-input');
+    $listInput.val(listname);
+  },
+
+  resetActiveList: function(listname) {
+    var $listItem = $('.list-item');
+    var $element = $('div').find("[data-id='" + listname + "']");
+
+    $listItem.removeClass('active');
+    $element.addClass('active');
+
+    return $element;
+  },
+
+  getListnameContainer: function(listname) {
+    var $element = $('div').find("[data-id='" + listname + "']");
+
+    return $element;
+  },
+
+});

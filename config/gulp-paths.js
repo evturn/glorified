@@ -59,7 +59,9 @@ module.exports = {
   js: {
     src: [
       'assets/js/models.js',
-      'assets/js/functions.js',
+      'assets/js/http.js',
+      'assets/js/view.js',
+      'assets/js/helpers.js',
       'assets/js/views/**/*.js',
       'assets/js/main.js'
     ],

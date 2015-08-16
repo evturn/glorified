@@ -1,1 +1,2 @@
-var app = new RB.App();
+let app = new RB.App();
+app.start();

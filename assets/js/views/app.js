@@ -4,10 +4,15 @@ RB.App = Backbone.View.extend({
 
   inputTemplate: _.template($('#input-template').html()),
 
+  user: null,
+  listsCollection: null,
+
   initialize: function() {
     this.fixPath();
-    this.get();
-    this.init();
+    this.setActiveList();
+    this.deviceEnv(800);
+    this.sunny();
+    this.isListSelected();
     this.renderInputFields();
   },
 

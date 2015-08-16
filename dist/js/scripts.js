@@ -24,37 +24,31 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true,
 });
-
-var _RB = {
-
-  garbageTemplate : _.template($('#garbage-watcher-template').html()),
-  allDoneTemplate : _.template($('#sunny-template').html()),
-
-  user: null,
-  collection: null,
-
 // ===================
 // HTTP
 // ===================
 
-  get() {
-    var user = new RB.User();
+_.extend(Backbone.View.prototype, {
+
+    start() {
+    let user = new RB.User();
 
     user.fetch({
 
       success(model, response) {
-        if (_RB.user === null) {
-          _RB.user = model;
+        if (app.user === null) {
+          app.user = model;
         }
 
-        if (_RB.collection === null) {
-          _RB.collection = new RB.Lists(model.attributes.lists);
-          let lists = _RB.getListNames(_RB.collection);
-          _RB.setLists(lists);
+        if (app.listsCollection === null) {
+          app.listsCollection = new RB.Lists(model.attributes.lists);
+          let lists = app.getListNames(app.listsCollection);
+          app.setLists(lists);
         }
 
-        console.log(_RB.collection);
-        return _RB.collection;
+        console.log(app.listsCollection);
+
+        return app.listsCollection;
 
       },
       error(err) {
@@ -133,13 +127,18 @@ var _RB = {
 
     }
   },
+});
+// ===================
+// View Helpers
+// ===================
 
-// ===================
-// List Helpers
-// ===================
+_.extend(Backbone.View.prototype, {
+
+  garbageTemplate : _.template($('#garbage-watcher-template').html()),
+  allDoneTemplate : _.template($('#sunny-template').html()),
 
   getNotesByListname: function(listname) {
-    var notes = this.collection.where({name: listname});
+    var notes = app.listsCollection.where({name: listname});
 
     return notes;
   },
@@ -148,7 +147,7 @@ var _RB = {
     var self = this;
     var array = [];
 
-    this.collection.each(function(model) {
+    app.listsCollection.each(function(model) {
       array.push(model.get('name'));
     });
 
@@ -159,7 +158,7 @@ var _RB = {
     var $container = $('.lists-container');
     $container.empty();
 
-    this.collection.each(function(model) {
+    app.listsCollection.each(function(model) {
       var view = new RB.ListItem({model: model});
 
       $container.append(view.render().el);
@@ -175,7 +174,7 @@ var _RB = {
   },
 
   setNotes(id) {
-    let list = _RB.collection.get(id),
+    let list = app.listsCollection.get(id),
         notes = new RB.Notes(list.attributes.notes),
         listname = list.attributes.name,
         $container = $('.active-notes-container'),
@@ -216,9 +215,8 @@ var _RB = {
     return $element;
   },
 
-// ===================
-// Notification Helpers
-// ===================
+});
+_.extend(Backbone.View.prototype, {
 
   notify: function(notification) {
     var $loader = $('.kurt-loader');
@@ -271,18 +269,6 @@ var _RB = {
     var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
 
     return timestamp;
-  },
-
-// ===================
-// Initialize App
-// ===================
-
-  init: function() {
-    this.fixPath();
-    this.setActiveList();
-    this.deviceEnv(800);
-    this.sunny();
-    this.isListSelected();
   },
 
 // ===================
@@ -430,19 +416,22 @@ var _RB = {
 
   },
 
-};
-
-_.extend(Backbone.View.prototype, _RB);
+});
 RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
   inputTemplate: _.template($('#input-template').html()),
 
+  user: null,
+  listsCollection: null,
+
   initialize: function() {
     this.fixPath();
-    this.get();
-    this.init();
+    this.setActiveList();
+    this.deviceEnv(800);
+    this.sunny();
+    this.isListSelected();
     this.renderInputFields();
   },
 
@@ -710,4 +699,5 @@ RB.NoteItem = Backbone.View.extend({
   },
 
 });
-var app = new RB.App();
+let app = new RB.App();
+app.start();
