@@ -92,6 +92,29 @@ exports.put = function(req, res, next) {
   res.send(saved);
 };
 
+exports.delete = function(req, res, next) {
+  var user = req.user;
+  var listId = req.query.listId;
+  var noteId = req.params.id;
+  var list = user.lists.id(listId);
+  var note = list.notes.id(noteId);
+
+  console.log('--------list------ ', list);
+  console.log('--------note------ ', note);
+
+  var removed = note.remove();
+  user.save(function(err, data) {
+    if (err) {
+      res.send(err);
+    }
+    else {
+      console.log('----------Destroyed--------- ', data);
+      res.json(removed);
+    }
+  });
+
+};
+
 var saveUser = function(user, note) {
   user.save(function(err, data) {
     if (err) {

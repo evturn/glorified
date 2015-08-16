@@ -66,6 +66,10 @@ gulp.task('lint', function() {
     .pipe($.notify(options.notify.jshint));
 });
 
+gulp.task('babel:watch', function() {
+  gulp.watch(paths.js.watch, ['babel']);
+});
+
 gulp.task('babel', function () {
   return gulp.src(paths.js.src)
     .pipe($.plumber(options.plumber))

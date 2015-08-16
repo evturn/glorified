@@ -103,18 +103,18 @@ _.extend(Backbone.View.prototype, {
   },
 
   destroy: function destroy(model) {
-    var self = this;
-    var listname = model.get('list');
-    var id = model.get('_id');
+    var self = this,
+        id = model.get('_id'),
+        listId = self.getActiveListId();
 
+    model.set('listId', listId);
+
+    console.log(model.attributes);
     if (id !== null) {
 
       model.destroy({
-        wait: true,
-        url: '/notes/' + id,
-        dataType: 'text',
-        data: { _id: id },
-        success: function success(model) {
+        url: '/notes/' + id + '?listId=' + listId,
+        success: function success(model, reponse) {
           console.log('success ', model);
           self.notify('Removed');
           self.onChangeListeners();
