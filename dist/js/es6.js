@@ -596,15 +596,17 @@ RB.App = Backbone.View.extend({
 
 RB.ListItem = Backbone.View.extend({
 
-  className: 'list-model',
+  className: 'list-item',
   itemTemplate: _.template($('#list-name-template').html()),
-
+  attributes: {},
   initialize: function initialize() {
     this.render();
   },
 
   render: function render() {
     this.$el.html(this.itemTemplate(this.model.toJSON()));
+    this.attributes['data-name'] = this.model.get('name');
+    this.attributes['data-id'] = this.model.get('_id');
 
     return this;
   }
