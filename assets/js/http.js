@@ -5,9 +5,8 @@
 _.extend(Backbone.View.prototype, {
 
   start() {
-    this.helpers.init(this);
-
     let user = new RB.User();
+    this.helpers.init(this);
 
     user.fetch({
 

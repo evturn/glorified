@@ -6,21 +6,24 @@ _.extend(Backbone.View.prototype, {
 
 
   helpers: {
+
     init(self) {
       self.fixPath();
       self.onClickSetActive();
-      self.deviceEnv(800);
+      self.isMobile(800);
     }
+
   },
 
   notify: function(notification) {
-    var $loader = $('.kurt-loader');
+    let $loader = $('.kurt-loader');
+
     $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
-    var $text = $loader.find('.thin-sm');
+    let $paragraphTag = $loader.find('.thin-sm');
 
     setTimeout(function() {
-      $text.removeClass('animated fadeIn');
-      $text.addClass('animated fadeOut');
+      $paragraphTag.removeClass('animated fadeIn');
+      $paragraphTag.addClass('animated fadeOut');
     }, 1000);
 
   },
@@ -62,23 +65,6 @@ _.extend(Backbone.View.prototype, {
     return timestamp;
   },
 
-// ===================
-// DOM & Device Helpers
-// ===================
-
-  deviceEnv: function(num) {
-    if (this.isMobile()) {
-      setTimeout(this.toggleLists, num);
-    }
-
-  },
-
-  setFirstChildActive: function() {
-    var listItem = $('.lists-container').first();
-
-    listItem.addClass('active');
-  },
-
   onClickSetActive: function() {
     $(document).on('click', '.lists-container .list-item', function() {
       var $listItem = $('.list-item');
@@ -97,10 +83,13 @@ _.extend(Backbone.View.prototype, {
     $icon.toggleClass('collapsed');
   },
 
-  isMobile: function() {
-    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  isMobile(duration) {
+    let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    return device;
+    if (device) {
+      setTimeout(this.toggleLists, duration);
+    }
+
   },
 
   onChangeListeners: function() {
