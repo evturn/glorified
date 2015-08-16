@@ -16,17 +16,19 @@ RB.NoteItem = Backbone.View.extend({
     'keyup .note-text'             : 'updateNoteOnEnter'
   },
 
-  render: function() {
-    if (!this.model.get('timestamp')) {
+  render() {
+    if (!this.model.get('timestamp') && this.model.get('created')) {
       let created = this.model.get('created');
 
       this.model.set('timestamp', this.convertDate(created));
+    }
+    else if (!this.model.get('timestamp') && !this.model.get('created')) {
+      this.model.set('timestamp', this.convertDate(new Date()));
     }
 
     if (!this.model.get('done')) {
       this.model.set('done', false);
     }
-
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 

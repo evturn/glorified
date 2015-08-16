@@ -14,11 +14,15 @@ exports.post = function(req, res, next) {
   var lists = user.lists;
   var listsArray = user.lists.toObject();
   var counter = 0;
+  var dateObject = new Date();
+  var dateString = convertDate(dateObject);
 
   var newNote = new Note({
-    list: data.list,
-    body: data.body,
-    done: data.done
+    list      : data.list,
+    body      : data.body,
+    done      : data.done,
+    created   : dateObject,
+    timestamp : dateString
   });
 
   for (var i = 0; i <= listsArray.length; i++) {
@@ -76,11 +80,12 @@ exports.put = function(req, res, next) {
   var noteId = data._id;
   var list = user.lists.id(listId);
   var note = list.notes.id(noteId);
+  var updated = convertDate(Date.now());
 
   var updatedNote = note.set({
     "done"    : req.body.done,
     "body"    : req.body.body,
-    "updated" : Date.now()
+    "updated" : updated
   });
 
   var saved = saveUser(user, updatedNote);
@@ -97,4 +102,21 @@ var saveUser = function(user, note) {
       return note;
     }
   });
+};
+
+var convertDate = function convertDate(date) {
+  var d = new Date(date);
+  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  var year = d.getFullYear();
+  var month = d.getMonth();
+  var day = d.getDate();
+  var hours = d.getHours();
+  var minutes = d.getMinutes();
+  var min = minutes > 10 ? minutes : ('0' + minutes);
+  var meridiem = hours >= 12 ? 'PM' : 'AM';
+  var hour = hours > 12 ? hours - 12 : hours;
+  month = ('' + (month + 1)).slice(-2);
+  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+
+  return timestamp;
 };

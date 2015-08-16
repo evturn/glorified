@@ -583,10 +583,12 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   render: function render() {
-    if (!this.model.get('timestamp')) {
+    if (!this.model.get('timestamp') && this.model.get('created')) {
       var created = this.model.get('created');
 
       this.model.set('timestamp', this.convertDate(created));
+    } else if (!this.model.get('timestamp') && !this.model.get('created')) {
+      this.model.set('timestamp', this.convertDate(new Date()));
     }
 
     if (!this.model.get('done')) {

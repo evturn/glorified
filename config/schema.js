@@ -25,7 +25,7 @@ exports.Note = function() {
     body       : {type : String},
     done       : {type : Boolean, default: false},
     timestamp  : {type : String},
-    updated    : {type : Date}
+    updated    : {type : String}
   });
 };
 
