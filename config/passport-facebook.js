@@ -2,7 +2,7 @@ var passport        = require('passport'),
     FacebookStrategy = require('passport-facebook');
 
 
-var User = require('./schema');
+var User = require('../models/User');
 
 passport.serializeUser(function(user, done) {
   done(null, user._id);

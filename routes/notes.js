@@ -13,7 +13,7 @@ var notes = express.Router();
 
 notes.route('/')
   .get(ensureAuthenticated, listsCtrl.getAll)
-  .post(ensureAuthenticated, urlencoded, postNotes);
+  .post(ensureAuthenticated, urlencoded, listsCtrl.post);
 
 notes.route('/:id')
   .put(ensureAuthenticated, putNote)
