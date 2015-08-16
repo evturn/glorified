@@ -97,7 +97,7 @@ _.extend(Backbone.View.prototype, {
         view.render();
       },
       error: function error(_error) {
-        console.log(_error);
+        console.log('error ', _error);
       }
     });
   },
@@ -109,7 +109,6 @@ _.extend(Backbone.View.prototype, {
 
     model.set('listId', listId);
 
-    console.log(model.attributes);
     if (id !== null) {
 
       model.destroy({
@@ -117,7 +116,6 @@ _.extend(Backbone.View.prototype, {
         success: function success(model, response) {
           console.log('success ', model);
           self.notify('Removed');
-          self.onChangeListeners();
         },
         error: function error(err) {
           console.log('error ', err);
@@ -325,48 +323,40 @@ _.extend(Backbone.View.prototype, {
     return device;
   },
 
-  // onChangeListeners: function() {
-  //   var numberDone = this.garbageWatcher();
-  //   this.appendDoneStats(numberDone);
-  // },
+  onChangeListeners: function onChangeListeners() {
+    var numberDone = this.garbageWatcher();
+    this.appendDoneStats(numberDone);
+  },
 
-  // garbageWatcher() {
-  //   var number = app.listsCollection.length;
-  //   console.log(number);
+  garbageWatcher: function garbageWatcher() {
+    var number = app.listsCollection.length;
+    console.log(number);
 
-  //   return number;
-  // },
+    return number;
+  },
 
-  // appendDoneStats: function(number) {
-  //   var $garbageContainer = $('.garbage-container');
-  //   var $statContainer = $('.garbage-container .stat');
-  //   var $trashContainer = $('.garbage-container .edit');
+  appendDoneStats: function appendDoneStats(number) {
+    var $garbageContainer = $('.garbage-container');
+    var $statContainer = $('.garbage-container .stat');
+    var $trashContainer = $('.garbage-container .edit');
 
-  //   if (number !== 0) {
-  //     $garbageContainer.html(this.garbageTemplate({length: number}));
+    if (number !== 0) {
+      $garbageContainer.html(this.garbageTemplate({ length: number }));
+    } else {
+      $garbageContainer.html(this.allDoneTemplate());
+    }
 
-  //   }
-  //   else {
-  //     $garbageContainer.html(this.allDoneTemplate());
+    return this;
+  },
 
-  //   }
+  sunny: function sunny() {
+    var counter = 0;
 
-  //   return this;
-  // },
-
-  // sunny: function() {
-  //   var counter = 0;
-
-  //   setInterval(function() {
-  //     $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-o-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'transform': 'rotate(' + counter + 'deg)'});
-  //     counter += 3;
-
-  //   }, 100);
-  // },
+    setInterval(function () {
+      $('.fa.fa-certificate').css({ '-ms-transform': 'rotate(' + counter + 'deg)' }).css({ '-moz-transform': 'rotate(' + counter + 'deg)' }).css({ '-o-transform': 'rotate(' + counter + 'deg)' }).css({ '-webkit-transform': 'rotate(' + counter + 'deg)' }).css({ 'transform': 'rotate(' + counter + 'deg)' });
+      counter += 3;
+    }, 100);
+  },
 
   fixPath: function fixPath() {
 

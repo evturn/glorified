@@ -40,7 +40,7 @@ _.extend(Backbone.View.prototype, {
       url: '/notes/',
       method: 'POST',
       data: model,
-      success: function(model, response) {
+      success(model, response) {
         console.log(model);
         $noteInput.val('').focus();
         app.validate();
@@ -50,49 +50,47 @@ _.extend(Backbone.View.prototype, {
         view.notify('Created');
 
       },
-      error: function(err) {
+      error(err) {
         console.log(err);
       }
     });
 
   },
 
-  put: function(model, attributes, view) {
+  put(model, attributes, view) {
     let self = this,
         id = model.get('_id');
 
     model.save(attributes, {
 
       url: '/notes/' + id,
-      success: function(model, response) {
+      success(model, response) {
         self.notify('Updated');
         self.onChangeListeners();
         view.render();
       },
-      error: function(error) {
-        console.log(error);
+      error(error) {
+        console.log('error ', error);
       }
     });
   },
 
-  destroy: function(model) {
+  destroy(model) {
     let self = this,
       id = model.get('_id'),
       listId = self.getActiveListId();
 
     model.set('listId', listId);
 
-    console.log(model.attributes);
     if (id !== null) {
 
       model.destroy({
         url: '/notes/' + id + '?listId=' + listId,
-        success: function(model, response) {
+        success(model, response) {
           console.log('success ', model);
           self.notify('Removed');
-          self.onChangeListeners();
         },
-        error: function(err) {
+        error(err) {
           console.log('error ', err);
 
         },

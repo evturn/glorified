@@ -94,48 +94,48 @@ _.extend(Backbone.View.prototype, {
     return device;
   },
 
-  // onChangeListeners: function() {
-  //   var numberDone = this.garbageWatcher();
-  //   this.appendDoneStats(numberDone);
-  // },
+  onChangeListeners: function() {
+    var numberDone = this.garbageWatcher();
+    this.appendDoneStats(numberDone);
+  },
 
-  // garbageWatcher() {
-  //   var number = app.listsCollection.length;
-  //   console.log(number);
+  garbageWatcher() {
+    var number = app.listsCollection.length;
+    console.log(number);
 
-  //   return number;
-  // },
+    return number;
+  },
 
-  // appendDoneStats: function(number) {
-  //   var $garbageContainer = $('.garbage-container');
-  //   var $statContainer = $('.garbage-container .stat');
-  //   var $trashContainer = $('.garbage-container .edit');
+  appendDoneStats: function(number) {
+    var $garbageContainer = $('.garbage-container');
+    var $statContainer = $('.garbage-container .stat');
+    var $trashContainer = $('.garbage-container .edit');
 
-  //   if (number !== 0) {
-  //     $garbageContainer.html(this.garbageTemplate({length: number}));
+    if (number !== 0) {
+      $garbageContainer.html(this.garbageTemplate({length: number}));
 
-  //   }
-  //   else {
-  //     $garbageContainer.html(this.allDoneTemplate());
+    }
+    else {
+      $garbageContainer.html(this.allDoneTemplate());
 
-  //   }
+    }
 
-  //   return this;
-  // },
+    return this;
+  },
 
-  // sunny: function() {
-  //   var counter = 0;
+  sunny: function() {
+    var counter = 0;
 
-  //   setInterval(function() {
-  //     $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-o-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
-  //                      .css({'transform': 'rotate(' + counter + 'deg)'});
-  //     counter += 3;
+    setInterval(function() {
+      $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-o-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
+                       .css({'transform': 'rotate(' + counter + 'deg)'});
+      counter += 3;
 
-  //   }, 100);
-  // },
+    }, 100);
+  },
 
   fixPath: function() {
 
