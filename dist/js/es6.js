@@ -123,7 +123,7 @@ _.extend(Backbone.View.prototype, {
     var arr = [];
 
     this.collection.each(function (model) {
-      var listname = model.get('list');
+      var listname = model.get('name');
 
       if (arr.indexOf(listname) === -1) {
         arr.push(listname);
