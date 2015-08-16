@@ -13,8 +13,6 @@ RB.App = Backbone.View.extend({
     this.fixPath();
     this.setActiveList();
     this.deviceEnv(800);
-    this.sunny();
-    this.isListSelected();
     this.renderInputFields();
   },
 
@@ -124,27 +122,21 @@ RB.App = Backbone.View.extend({
   },
 
   createNote: function() {
-    var body = $('.note-input').val();
-    var list = $('.list-input').val();
+    let body = $('.note-input').val(),
+        list = $('.list-input').val();
 
     if (body.trim() && list.trim() !== '') {
 
-      var note = {
+      let note = {
         body: body,
         list: list,
         done: false
       };
 
+      if (app.listsCollection.length > 0) {
 
-      if (app.listsCollection.models > 0) {
-        var currentList = app.listsCollection.findWhere({
-          name: list,
-        });
-
-        console.log(currentList);
-
-        for (let i = 0; i < currentList.attributes.notes.length; i++) {
-          let inMemory = currentList.attributes.notes[i].body;
+        for (let i = 0; i < app.listsCollection.length; i++) {
+          let inMemory = app.listsCollection.models[i].body;
 
           if (note.body === inMemory) {
             return false;

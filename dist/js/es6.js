@@ -295,19 +295,6 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-  isListSelected: function isListSelected() {
-    var $notesContainer = $('.active-notes-container .list-item');
-
-    if ($notesContainer.length) {
-      var listname = this.getCurrentList();
-
-      this.resetActiveList(listname);
-      return true;
-    } else {
-      return false;
-    }
-  },
-
   setFirstChildActive: function setFirstChildActive() {
     var listItem = $('.lists-container').first();
 
@@ -341,19 +328,11 @@ _.extend(Backbone.View.prototype, {
   // onChangeListeners: function() {
   //   var numberDone = this.garbageWatcher();
   //   this.appendDoneStats(numberDone);
-  //   this.listWatcher();
-  //   this.isListSelected();
-  // },
-
-  // getCurrentList: function() {
-  //   var listname = $('.list-input').val();
-
-  //   return listname;
   // },
 
   // garbageWatcher() {
-  //   var listname = this.getCurrentList();
-  //   var number = _RB.collection.where({name: name, done: true}).length;
+  //   var number = app.listsCollection.length;
+  //   console.log(number);
 
   //   return number;
   // },
@@ -375,36 +354,19 @@ _.extend(Backbone.View.prototype, {
   //   return this;
   // },
 
-  // listWatcher: function() {
-  //   var template = _.template($('#list-name-template').html());
-  //   var $listsContainer = $('.lists-container');
-  //   var listname = $('.list-input').val();
-  //   var activeList = this.resetActiveList(listname);
-  //   var number = app.collection.where({
-  //     list: listname,
-  //   }).length;
+  // sunny: function() {
+  //   var counter = 0;
 
-  //   $(activeList).remove();
+  //   setInterval(function() {
+  //     $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
+  //                      .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
+  //                      .css({'-o-transform': 'rotate(' + counter + 'deg)'})
+  //                      .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
+  //                      .css({'transform': 'rotate(' + counter + 'deg)'});
+  //     counter += 3;
 
-  //   if (number > 0) {
-  //     $listsContainer.prepend(template({
-  //       name: listname,
-  //       length: number
-  //     }));
-
-  //   }
-
-  //   return this;
+  //   }, 100);
   // },
-
-  sunny: function sunny() {
-    var counter = 0;
-
-    setInterval(function () {
-      $('.fa.fa-certificate').css({ '-ms-transform': 'rotate(' + counter + 'deg)' }).css({ '-moz-transform': 'rotate(' + counter + 'deg)' }).css({ '-o-transform': 'rotate(' + counter + 'deg)' }).css({ '-webkit-transform': 'rotate(' + counter + 'deg)' }).css({ 'transform': 'rotate(' + counter + 'deg)' });
-      counter += 3;
-    }, 100);
-  },
 
   fixPath: function fixPath() {
 
@@ -438,8 +400,6 @@ RB.App = Backbone.View.extend({
     this.fixPath();
     this.setActiveList();
     this.deviceEnv(800);
-    this.sunny();
-    this.isListSelected();
     this.renderInputFields();
   },
 
@@ -547,8 +507,8 @@ RB.App = Backbone.View.extend({
   },
 
   createNote: function createNote() {
-    var body = $('.note-input').val();
-    var list = $('.list-input').val();
+    var body = $('.note-input').val(),
+        list = $('.list-input').val();
 
     if (body.trim() && list.trim() !== '') {
 
@@ -558,15 +518,10 @@ RB.App = Backbone.View.extend({
         done: false
       };
 
-      if (app.listsCollection.models > 0) {
-        var currentList = app.listsCollection.findWhere({
-          name: list
-        });
+      if (app.listsCollection.length > 0) {
 
-        console.log(currentList);
-
-        for (var i = 0; i < currentList.attributes.notes.length; i++) {
-          var inMemory = currentList.attributes.notes[i].body;
+        for (var i = 0; i < app.listsCollection.length; i++) {
+          var inMemory = app.listsCollection.models[i].body;
 
           if (note.body === inMemory) {
             return false;

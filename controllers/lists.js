@@ -34,7 +34,8 @@ exports.post = function(req, res, next) {
       newList.notes.push(newNote);
       console.log('-------- ', newNote);
       user.lists.push(newList);
-      saveUser(user, newNote);
+      var saved = saveUser(user, newNote);
+      res.send(data);
 
       return false;
     }
@@ -44,7 +45,8 @@ exports.post = function(req, res, next) {
 
       userList.notes.push(newNote);
       console.log('-------- ', newNote);
-      saveUser(user, newNote);
+      var saved = saveUser(user, newNote);
+      res.send(data);
 
       return false;
     }
@@ -57,12 +59,14 @@ exports.post = function(req, res, next) {
       newList.notes.push(newNote);
       console.log('-------- ', newNote);
       user.lists.push(newList);
-      saveUser(user, newNote);
+      var saved = saveUser(user, newNote);
+      res.send(data);
 
       return false;
     }
 
   }
+
 };
 
 exports.put = function(req, res, next) {
@@ -75,11 +79,11 @@ exports.put = function(req, res, next) {
 
   var updatedNote = note.set({
     "done"    : req.body.done,
-    "body"    : req.body.body,
-    "updated" : Date.now()
+    "body"    : req.body.body
   });
 
-  saveUser(user, updatedNote);
+  var saved = saveUser(user, updatedNote);
+  res.send(saved);
 };
 
 var saveUser = function(user, note) {
@@ -87,7 +91,9 @@ var saveUser = function(user, note) {
     if (err) {
       return console.log(err);
     }
-    console.log('We made it here ', data);
-    res.send(updateNote);
+    else {
+      console.log('----------Saved--------- ', data);
+      return note;
+    }
   });
 };
