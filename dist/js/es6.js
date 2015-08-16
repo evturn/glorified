@@ -67,7 +67,6 @@ var _RB = {
   },
 
   post: function post(model) {
-    var self = this;
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
@@ -80,8 +79,7 @@ var _RB = {
         app.validate();
         var view = new RB.NoteItem({ model: model });
         $notesContainer.append(view.render().el);
-        self.onChangeListeners();
-        self.notify('Created');
+        _RB.notify('Created');
       },
       error: function error(err) {
         console.log(err);
@@ -536,29 +534,29 @@ RB.App = Backbone.View.extend({
   },
 
   createNote: function createNote() {
-    var $body = $('.note-input').val();
-    var $list = $('.list-input').val();
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
 
-    if ($body.trim() && $list.trim() !== '') {
-      var date = Date.now();
+    if (body.trim() && list.trim() !== '') {
 
       var note = {
-
-        body: $body,
-        list: $list,
-        created: date,
+        body: body,
+        list: list,
         done: false
-
       };
 
-      var alreadyExists = this.collection.findWhere({
-        body: note.body,
-        list: note.list
+      var currentList = _RB.collection.findWhere({
+        name: list
       });
 
-      if (alreadyExists) {
+      console.log(currentList);
 
-        return false;
+      for (var i = 0; i < currentList.attributes.notes.length; i++) {
+        var inMemory = currentList.attributes.notes[i].body;
+
+        if (note.body === inMemory) {
+          return false;
+        }
       }
 
       this.post(note);

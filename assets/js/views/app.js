@@ -117,29 +117,29 @@ RB.App = Backbone.View.extend({
   },
 
   createNote: function() {
-    var $body = $('.note-input').val();
-    var $list = $('.list-input').val();
+    var body = $('.note-input').val();
+    var list = $('.list-input').val();
 
-    if ($body.trim() && $list.trim() !== '') {
-      var date = Date.now();
+    if (body.trim() && list.trim() !== '') {
 
       var note = {
-
-        body: $body,
-        list: $list,
-        created: date,
+        body: body,
+        list: list,
         done: false
-
       };
 
-      var alreadyExists = this.collection.findWhere({
-        body: note.body,
-        list: note.list
+      var currentList = _RB.collection.findWhere({
+        name: list,
       });
 
-      if (alreadyExists) {
+      console.log(currentList);
 
-        return false;
+      for (let i = 0; i < currentList.attributes.notes.length; i++) {
+        let inMemory = currentList.attributes.notes[i].body;
+
+        if (note.body === inMemory) {
+          return false;
+        }
       }
 
       this.post(note);

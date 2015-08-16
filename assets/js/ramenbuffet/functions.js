@@ -37,7 +37,6 @@ const _RB = {
   },
 
   post: function(model) {
-    var self = this;
     var $noteInput = $('.note-input');
     var $notesContainer = $('.active-notes-container');
 
@@ -50,8 +49,7 @@ const _RB = {
         app.validate();
         var view = new RB.NoteItem({model: model});
         $notesContainer.append(view.render().el);
-        self.onChangeListeners();
-        self.notify('Created');
+        _RB.notify('Created');
 
       },
       error: function(err) {
@@ -128,7 +126,7 @@ const _RB = {
     return array;
   },
 
-  setLists: function() {
+  setLists() {
     var $container = $('.lists-container');
     $container.empty();
 
@@ -140,14 +138,14 @@ const _RB = {
 
   },
 
-  setNote: function(model) {
+  setNote(model) {
     var $notesContainer = $('.active-notes-container');
     var view = new RB.NoteItem({model: model});
 
     $notesContainer.append(view.render().el);
   },
 
-  setNotes: function(id) {
+  setNotes(id) {
     let list = _RB.collection.get(id),
         notes = new RB.Notes(list.attributes.notes),
         listname = list.attributes.name,
