@@ -6,6 +6,10 @@ const _RB = {
   user: null,
   collection: null,
 
+// ===================
+// HTTP
+// ===================
+
   get() {
     var self = this;
     var user = new RB.User();
@@ -99,6 +103,10 @@ const _RB = {
 
     }
   },
+
+// ===================
+// List Helpers
+// ===================
 
   getNotesByListname: function(listname) {
     var notes = this.collection.where({list: listname});
@@ -201,6 +209,10 @@ const _RB = {
     return $element;
   },
 
+// ===================
+// Notification Helpers
+// ===================
+
   notify: function(notification) {
     var $loader = $('.kurt-loader');
     $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
@@ -212,6 +224,10 @@ const _RB = {
     }, 1000);
 
   },
+
+// ===================
+// Type Conversion Helpers
+// ===================
 
   tojquery: function(element) {
 
@@ -250,6 +266,10 @@ const _RB = {
     return timestamp;
   },
 
+// ===================
+// Initialize App
+// ===================
+
   init: function() {
     this.fixPath();
     this.setActiveList();
@@ -258,6 +278,10 @@ const _RB = {
     this.setFirstChildActive();
     this.isListSelected();
   },
+
+// ===================
+// DOM & Device Helpers
+// ===================
 
   deviceEnv: function(num) {
     if (this.isMobile()) {

@@ -36,6 +36,10 @@ var _RB = {
   user: null,
   collection: null,
 
+  // ===================
+  // HTTP
+  // ===================
+
   get: function get() {
     var self = this;
     var user = new RB.User();
@@ -125,6 +129,10 @@ var _RB = {
       });
     }
   },
+
+  // ===================
+  // List Helpers
+  // ===================
 
   getNotesByListname: function getNotesByListname(listname) {
     var notes = this.collection.where({ list: listname });
@@ -221,6 +229,10 @@ var _RB = {
     return $element;
   },
 
+  // ===================
+  // Notification Helpers
+  // ===================
+
   notify: function notify(notification) {
     var $loader = $('.kurt-loader');
     $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
@@ -231,6 +243,10 @@ var _RB = {
       $text.addClass('animated fadeOut');
     }, 1000);
   },
+
+  // ===================
+  // Type Conversion Helpers
+  // ===================
 
   tojquery: function tojquery(element) {
 
@@ -267,6 +283,10 @@ var _RB = {
     return timestamp;
   },
 
+  // ===================
+  // Initialize App
+  // ===================
+
   init: function init() {
     this.fixPath();
     this.setActiveList();
@@ -275,6 +295,10 @@ var _RB = {
     this.setFirstChildActive();
     this.isListSelected();
   },
+
+  // ===================
+  // DOM & Device Helpers
+  // ===================
 
   deviceEnv: function deviceEnv(num) {
     if (this.isMobile()) {
