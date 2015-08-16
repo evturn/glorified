@@ -4,7 +4,9 @@
 
 _.extend(Backbone.View.prototype, {
 
-    start() {
+  start() {
+    this.helpers.init(this);
+
     let user = new RB.User();
 
     user.fetch({
@@ -19,8 +21,6 @@ _.extend(Backbone.View.prototype, {
           let lists = app.getListNames(app.listsCollection);
           app.setLists(lists);
         }
-
-        console.log(app.listsCollection);
 
         return app.listsCollection;
 

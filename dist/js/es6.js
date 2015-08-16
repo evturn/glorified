@@ -35,6 +35,8 @@ RB.Notes = Backbone.Collection.extend({
 _.extend(Backbone.View.prototype, {
 
   start: function start() {
+    this.helpers.init(this);
+
     var user = new RB.User();
 
     user.fetch({
@@ -49,8 +51,6 @@ _.extend(Backbone.View.prototype, {
           var lists = app.getListNames(app.listsCollection);
           app.setLists(lists);
         }
-
-        console.log(app.listsCollection);
 
         return app.listsCollection;
       },
@@ -229,9 +229,21 @@ _.extend(Backbone.View.prototype, {
   }
 
 });
+// ===================
+// Helpers
+// ===================
+
 'use strict';
 
 _.extend(Backbone.View.prototype, {
+
+  helpers: {
+    init: function init(self) {
+      self.fixPath();
+      self.onClickSetActive();
+      self.deviceEnv(800);
+    }
+  },
 
   notify: function notify(notification) {
     var $loader = $('.kurt-loader');
@@ -243,10 +255,6 @@ _.extend(Backbone.View.prototype, {
       $text.addClass('animated fadeOut');
     }, 1000);
   },
-
-  // ===================
-  // Type Conversion Helpers
-  // ===================
 
   tojquery: function tojquery(element) {
 
@@ -299,7 +307,7 @@ _.extend(Backbone.View.prototype, {
     listItem.addClass('active');
   },
 
-  setActiveList: function setActiveList() {
+  onClickSetActive: function onClickSetActive() {
     $(document).on('click', '.lists-container .list-item', function () {
       var $listItem = $('.list-item');
 
@@ -387,9 +395,6 @@ RB.App = Backbone.View.extend({
   activeListId: null,
 
   initialize: function initialize() {
-    this.fixPath();
-    this.setActiveList();
-    this.deviceEnv(800);
     this.renderInputFields();
   },
 

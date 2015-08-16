@@ -1,4 +1,17 @@
+// ===================
+// Helpers
+// ===================
+
 _.extend(Backbone.View.prototype, {
+
+
+  helpers: {
+    init(self) {
+      self.fixPath();
+      self.onClickSetActive();
+      self.deviceEnv(800);
+    }
+  },
 
   notify: function(notification) {
     var $loader = $('.kurt-loader');
@@ -11,10 +24,6 @@ _.extend(Backbone.View.prototype, {
     }, 1000);
 
   },
-
-// ===================
-// Type Conversion Helpers
-// ===================
 
   tojquery: function(element) {
 
@@ -70,7 +79,7 @@ _.extend(Backbone.View.prototype, {
     listItem.addClass('active');
   },
 
-  setActiveList: function() {
+  onClickSetActive: function() {
     $(document).on('click', '.lists-container .list-item', function() {
       var $listItem = $('.list-item');
 

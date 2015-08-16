@@ -10,9 +10,6 @@ RB.App = Backbone.View.extend({
   activeListId: null,
 
   initialize: function() {
-    this.fixPath();
-    this.setActiveList();
-    this.deviceEnv(800);
     this.renderInputFields();
   },
 
