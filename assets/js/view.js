@@ -60,8 +60,9 @@ _.extend(Backbone.View.prototype, {
       $container.append(view.render().el);
     });
 
+    app.notesCollection = notes;
     this.resetActiveList(listname);
-
+    console.log(app.notesCollection);
   },
 
   setListValue: function(listname) {

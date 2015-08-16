@@ -190,8 +190,9 @@ _.extend(Backbone.View.prototype, {
       $container.append(view.render().el);
     });
 
+    app.notesCollection = notes;
     this.resetActiveList(listname);
-
+    console.log(app.notesCollection);
   },
 
   setListValue: function(listname) {
@@ -425,6 +426,7 @@ RB.App = Backbone.View.extend({
 
   user: null,
   listsCollection: null,
+  notesCollection: null,
 
   initialize: function() {
     this.fixPath();
