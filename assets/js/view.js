@@ -63,6 +63,12 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
+  getListContainerById(id) {
+    let $listItem = $('.list-item .inner-container');
+
+    return $listItem.find("[data-id='" + id + "']");
+  },
+
   setListValue(listname) {
     let $listInput = $('.active-input.list-input');
 

@@ -5,10 +5,10 @@
 _.extend(Backbone.View.prototype, {
 
   start() {
-    let user = new RB.User();
-    this.helpers.init();
+    app.user = new RB.User();
+    app.helpers.init();
 
-    user.fetch({
+    app.user.fetch({
 
       success(model, response) {
         if (app.user === null) {

@@ -7,8 +7,8 @@
       <p class="list-text badge"><%= notes.length %></p>
     </div>
     <div class="progress-bar-container">
-      <div class="not-done"></div>
-      <div class="done"></div>
+      <div class="not-done" data-notDone="<%= _id %>"></div>
+      <div class="done" data-done="<%= _id %>"></div>
     </div>
   </div>
 </script>

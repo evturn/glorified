@@ -5,7 +5,6 @@
 _.extend(Backbone.View.prototype, {
 
   helpers: {
-
     init() {
       app.fixPath();
       app.onClickSetActive();
@@ -13,26 +12,54 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  get() {
+    app.user.fetch({
+      success(model, response) {
+        app.listsCollection.stopListening();
+        app.listsCollection = new RB.Lists(model.attributes.lists);
+        app.setProgressBars();
+      },
+      error(err) {
+        console.log(err);
+      }
+    });
+  },
+
   setProgressBars() {
     let listData = [],
-        i = 0;
+        i        = 0;
+
     app.listsCollection.each(function(list) {
       let _id            = list.id,
           name           = list.attributes.name,
           listCollection = new RB.Notes(list.attributes.notes),
           length         = listCollection.length,
           notDone        = listCollection.where({done: false}).length,
+          done = length - notDone,
+          notDonePct = ((notDone / length) * 100) + '%',
+          donePct = ((done / length) * 100) + '%',
           data = {
-          name   : name,
-          _id    : _id,
-          length : length,
-          notDone: notDone,
-          done: length - notDone
-      };
+            name,
+            _id,
+            length,
+            notDone,
+            notDonePct,
+            done,
+            donePct
+          };
+
       listData.push(data);
       listCollection.stopListening();
       i++;
     });
+    listData.forEach(function(list) {
+      let $done = $('div').find("[data-done='" + list._id + "']"),
+          $notDone = $('div').find("[data-notDone='" + list._id + "']");
+
+      $done.css({'width': list.donePct});
+      $notDone.css({'width': list.notDonePct});
+    });
+
   },
 
   notify(notification) {

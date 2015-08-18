@@ -35,10 +35,10 @@ RB.Notes = Backbone.Collection.extend({
 _.extend(Backbone.View.prototype, {
 
   start: function start() {
-    var user = new RB.User();
-    this.helpers.init();
+    app.user = new RB.User();
+    app.helpers.init();
 
-    user.fetch({
+    app.user.fetch({
 
       success: function success(model, response) {
         if (app.user === null) {
@@ -191,6 +191,12 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
+  getListContainerById: function getListContainerById(id) {
+    var $listItem = $('.list-item .inner-container');
+
+    return $listItem.find("[data-id='" + id + "']");
+  },
+
   setListValue: function setListValue(listname) {
     var $listInput = $('.active-input.list-input');
 
@@ -244,7 +250,6 @@ _.extend(Backbone.View.prototype, {
 _.extend(Backbone.View.prototype, {
 
   helpers: {
-
     init: function init() {
       app.fixPath();
       app.onClickSetActive();
@@ -252,25 +257,52 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  get: function get() {
+    app.user.fetch({
+      success: function success(model, response) {
+        app.listsCollection.stopListening();
+        app.listsCollection = new RB.Lists(model.attributes.lists);
+        app.setProgressBars();
+      },
+      error: function error(err) {
+        console.log(err);
+      }
+    });
+  },
+
   setProgressBars: function setProgressBars() {
     var listData = [],
         i = 0;
+
     app.listsCollection.each(function (list) {
       var _id = list.id,
           name = list.attributes.name,
           listCollection = new RB.Notes(list.attributes.notes),
           length = listCollection.length,
           notDone = listCollection.where({ done: false }).length,
+          done = length - notDone,
+          notDonePct = notDone / length * 100 + '%',
+          donePct = done / length * 100 + '%',
           data = {
         name: name,
         _id: _id,
         length: length,
         notDone: notDone,
-        done: length - notDone
+        notDonePct: notDonePct,
+        done: done,
+        donePct: donePct
       };
+
       listData.push(data);
       listCollection.stopListening();
       i++;
+    });
+    listData.forEach(function (list) {
+      var $done = $('div').find("[data-done='" + list._id + "']"),
+          $notDone = $('div').find("[data-notDone='" + list._id + "']");
+
+      $done.css({ 'width': list.donePct });
+      $notDone.css({ 'width': list.notDonePct });
     });
   },
 
