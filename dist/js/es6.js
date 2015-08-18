@@ -238,6 +238,43 @@ _.extend(Backbone.View.prototype, {
         $span = $element.find('.badge');
 
     $span.text(length);
+  },
+
+  setProgressBars: function setProgressBars() {
+    var listData = [],
+        i = 0;
+
+    app.listsCollection.each(function (list) {
+      var _id = list.id,
+          name = list.attributes.name,
+          collection = new RB.Notes(list.attributes.notes),
+          length = collection.length,
+          notDone = collection.where({ done: false }).length,
+          done = length - notDone,
+          notDonePct = notDone / length * 100 + '%',
+          donePct = done / length * 100 + '%',
+          data = {
+        name: name,
+        _id: _id,
+        length: length,
+        notDone: notDone,
+        notDonePct: notDonePct,
+        done: done,
+        donePct: donePct
+      };
+
+      listData.push(data);
+      collection.stopListening();
+      i++;
+    });
+
+    listData.forEach(function (list) {
+      var $done = $('div').find("[data-done='" + list._id + "']"),
+          $notDone = $('div').find("[data-notDone='" + list._id + "']");
+
+      $done.css({ 'width': list.donePct });
+      $notDone.css({ 'width': list.notDonePct });
+    });
   }
 
 });
@@ -270,42 +307,6 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  setProgressBars: function setProgressBars() {
-    var listData = [],
-        i = 0;
-
-    app.listsCollection.each(function (list) {
-      var _id = list.id,
-          name = list.attributes.name,
-          listCollection = new RB.Notes(list.attributes.notes),
-          length = listCollection.length,
-          notDone = listCollection.where({ done: false }).length,
-          done = length - notDone,
-          notDonePct = notDone / length * 100 + '%',
-          donePct = done / length * 100 + '%',
-          data = {
-        name: name,
-        _id: _id,
-        length: length,
-        notDone: notDone,
-        notDonePct: notDonePct,
-        done: done,
-        donePct: donePct
-      };
-
-      listData.push(data);
-      listCollection.stopListening();
-      i++;
-    });
-    listData.forEach(function (list) {
-      var $done = $('div').find("[data-done='" + list._id + "']"),
-          $notDone = $('div').find("[data-notDone='" + list._id + "']");
-
-      $done.css({ 'width': list.donePct });
-      $notDone.css({ 'width': list.notDonePct });
-    });
-  },
-
   notify: function notify(notification) {
     var $loader = $('.kurt-loader');
 
@@ -320,20 +321,19 @@ _.extend(Backbone.View.prototype, {
   },
 
   tojquery: function tojquery(element) {
-
     switch (typeof element) {
       case "object":
         if (element instanceof jQuery) {
           return element;
         }
         break;
-
       case "string":
         if (element.charAt(0) === '.') {
           return $(element);
         } else {
           return $(document.getElementsByClassName(element));
         }
+        break;
     }
   },
 
@@ -341,16 +341,15 @@ _.extend(Backbone.View.prototype, {
     var d = new Date(date),
         days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
         year = d.getFullYear(),
-        month = d.getMonth(),
+        _month = d.getMonth(),
+        month = ('' + (_month + 1)).slice(-2),
         day = d.getDate(),
         hours = d.getHours(),
-        minutes = d.getMinutes(),
-        min = minutes > 10 ? minutes : '0' + minutes,
+        _minutes = d.getMinutes(),
+        minutes = _minutes > 10 ? _minutes : '0' + _minutes,
         meridiem = hours >= 12 ? 'PM' : 'AM',
-        hour = hours > 12 ? hours - 12 : hours;
-
-    month = ('' + (month + 1)).slice(-2);
-    var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+        hour = hours > 12 ? hours - 12 : hours,
+        timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
 
     return timestamp;
   },
@@ -378,6 +377,8 @@ _.extend(Backbone.View.prototype, {
     if (device) {
       setTimeout(this.toggleLists, duration);
     }
+
+    return;
   },
 
   sunny: function sunny() {
@@ -390,7 +391,6 @@ _.extend(Backbone.View.prototype, {
   },
 
   fixPath: function fixPath() {
-
     if (window.location.hash && window.location.hash === "#_=_") {
       var _scroll = {
         top: document.body.scrollTop,

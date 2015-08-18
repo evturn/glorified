@@ -115,4 +115,41 @@ _.extend(Backbone.View.prototype, {
     $span.text(length);
   },
 
+  setProgressBars() {
+    let listData = [],
+        i        = 0;
+
+    app.listsCollection.each(function(list) {
+      let _id        = list.id,
+          name       = list.attributes.name,
+          collection = new RB.Notes(list.attributes.notes),
+          length     = collection.length,
+          notDone    = collection.where({done: false}).length,
+          done       = length - notDone,
+          notDonePct = ((notDone / length) * 100) + '%',
+          donePct    = ((done / length) * 100) + '%',
+          data = {
+            name,
+            _id,
+            length,
+            notDone,
+            notDonePct,
+            done,
+            donePct
+          };
+
+      listData.push(data);
+      collection.stopListening();
+      i++;
+    });
+
+    listData.forEach(function(list) {
+      let $done    = $('div').find("[data-done='" + list._id + "']"),
+          $notDone = $('div').find("[data-notDone='" + list._id + "']");
+
+      $done.css({'width': list.donePct});
+      $notDone.css({'width': list.notDonePct});
+    });
+  },
+
 });

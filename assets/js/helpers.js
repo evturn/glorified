@@ -25,43 +25,6 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  setProgressBars() {
-    let listData = [],
-        i        = 0;
-
-    app.listsCollection.each(function(list) {
-      let _id            = list.id,
-          name           = list.attributes.name,
-          listCollection = new RB.Notes(list.attributes.notes),
-          length         = listCollection.length,
-          notDone        = listCollection.where({done: false}).length,
-          done = length - notDone,
-          notDonePct = ((notDone / length) * 100) + '%',
-          donePct = ((done / length) * 100) + '%',
-          data = {
-            name,
-            _id,
-            length,
-            notDone,
-            notDonePct,
-            done,
-            donePct
-          };
-
-      listData.push(data);
-      listCollection.stopListening();
-      i++;
-    });
-    listData.forEach(function(list) {
-      let $done = $('div').find("[data-done='" + list._id + "']"),
-          $notDone = $('div').find("[data-notDone='" + list._id + "']");
-
-      $done.css({'width': list.donePct});
-      $notDone.css({'width': list.notDonePct});
-    });
-
-  },
-
   notify(notification) {
     let $loader = $('.kurt-loader');
 
@@ -76,14 +39,12 @@ _.extend(Backbone.View.prototype, {
   },
 
   tojquery(element) {
-
     switch (typeof element) {
       case "object":
         if (element instanceof jQuery) {
           return element;
         }
-      break;
-
+        break;
       case "string":
         if (element.charAt(0) === '.') {
           return $(element);
@@ -91,23 +52,23 @@ _.extend(Backbone.View.prototype, {
         else {
           return $(document.getElementsByClassName(element));
         }
+        break;
     }
   },
 
   convertDate(date) {
     let d = new Date(date),
-        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-        year = d.getFullYear(),
-        month = d.getMonth(),
-        day = d.getDate(),
-        hours = d.getHours(),
-        minutes = d.getMinutes(),
-        min = minutes > 10 ? minutes : ('0' + minutes),
-        meridiem = hours >= 12 ? 'PM' : 'AM',
-        hour = hours > 12 ? hours - 12 : hours;
-
-        month = ('' + (month + 1)).slice(-2);
-    let timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+        days      = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+        year      = d.getFullYear(),
+        _month    = d.getMonth(),
+        month     = ('' + (_month + 1)).slice(-2),
+        day       = d.getDate(),
+        hours     = d.getHours(),
+        _minutes  = d.getMinutes(),
+        minutes   = _minutes > 10 ? _minutes : ('0' + _minutes),
+        meridiem  = hours >= 12 ? 'PM' : 'AM',
+        hour      = hours > 12 ? hours - 12 : hours,
+        timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
 
     return timestamp;
   },
@@ -136,6 +97,7 @@ _.extend(Backbone.View.prototype, {
       setTimeout(this.toggleLists, duration);
     }
 
+    return;
   },
 
   sunny() {
@@ -153,7 +115,6 @@ _.extend(Backbone.View.prototype, {
   },
 
   fixPath() {
-
     if (window.location.hash && window.location.hash === "#_=_") {
       let scroll = {
         top: document.body.scrollTop,
