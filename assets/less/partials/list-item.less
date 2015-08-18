@@ -6,13 +6,10 @@
     margin-bottom: 0;
   }
 
-  &:hover {
+  &.active .inner-container {
     background-color: @primarylight;
     color: @white;
-  }
-
-  &.active {
-    background-color: @primarylight;
+    opacity: 0.8;
 
     .list-text {
       color: @white;
@@ -30,6 +27,11 @@
     position: relative;
     text-align: right;
     padding-top: 5px;
+
+    &:hover {
+      background-color: @primarylight;
+      color: @white;
+    }
   }
 
   .name-container {
