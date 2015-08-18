@@ -123,19 +123,20 @@ var saveUser = function(user, note) {
   });
 };
 
-var convertDate = function convertDate(date) {
-  var d = new Date(date);
-  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-  var year = d.getFullYear();
-  var month = d.getMonth();
-  var day = d.getDate();
-  var hours = d.getHours();
-  var minutes = d.getMinutes();
-  var min = minutes > 10 ? minutes : ('0' + minutes);
-  var meridiem = hours >= 12 ? 'PM' : 'AM';
-  var hour = hours > 12 ? hours - 12 : hours;
-  month = ('' + (month + 1)).slice(-2);
-  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + min + meridiem;
+var convertDate = function(date) {
+  var d         = new Date(date);
+  var days      = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  var year      = d.getFullYear();
+  var _month    = d.getMonth();
+  var month     = ('' + (_month + 1)).slice(-2);
+  var day       = d.getDate();
+  var hours     = d.getHours();
+  var _minutes  = d.getMinutes();
+  var minutes   = _minutes > 10 ? _minutes : ('0' + _minutes);
+  var meridiem  = hours >= 12 ? 'PM' : 'AM';
+  var _hour     = hours > 12 ? hours - 12 : hours;
+  var hour      = _hour === 0 ? 12 : _hour;
+  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
 
   return timestamp;
 };

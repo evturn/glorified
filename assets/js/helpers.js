@@ -54,7 +54,8 @@ _.extend(Backbone.View.prototype, {
         _minutes  = d.getMinutes(),
         minutes   = _minutes > 10 ? _minutes : ('0' + _minutes),
         meridiem  = hours >= 12 ? 'PM' : 'AM',
-        hour      = hours > 12 ? hours - 12 : hours,
+        _hour     = hours > 12 ? hours - 12 : hours,
+        hour      = _hour === 0 ? 12 : _hour,
         timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
 
     return timestamp;
