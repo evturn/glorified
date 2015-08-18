@@ -1,66 +1,83 @@
-.lists-wrapper {
+.lists-wrapper .list-item {
+  border-bottom: 1px solid @grey;
+  cursor: pointer;
+  position: relative;
 
-  .list-item {
-    overflow: auto;
-    border-bottom: 1px solid @grey;
-    cursor: pointer;
-    position: relative;
-    overflow: auto;
+  &:hover {
+    background-color: @primarylight;
+    color: @white;
+  }
 
-    &:hover {
-      background-color: @primarylight;
-      color: @white;
-    }
-
-    &.active {
-      background-color: @primarylighthover;
-      border-bottom: 1px solid @primarylighthover;
-
-      .list-text {
-        color: @white;
-      }
-
-      .badge {
-        font-weight: 600;
-        border-radius: 2px;
-        background-color: @white;
-        color: @primarylight;
-      }
-    }
-
-    .inner-container {
-      position: relative;
-      padding: 5px 10px;
-      text-align: right;
-    }
-
-    .name-container {
-      display: inline-block;
-    }
-
-    .length-container {
-      display: inline-block;
-      border-radius: 2px;
-      background-color: @darkgrey;
-      color: @white;
-      height: 30px;
-      width: 30px;
-      line-height: 30px;
-    }
+  &.active {
+    background-color: @primarylighthover;
+    border-bottom: 1px solid @primarylighthover;
 
     .list-text {
+      color: @white;
+    }
+
+    .badge {
+      font-weight: 600;
+      border-radius: 2px;
+      background-color: @white;
+      color: @primarylight;
+    }
+  }
+
+  .inner-container {
+    position: relative;
+    text-align: right;
+  }
+
+  .name-container {
+    display: inline-block;
+  }
+
+  .length-container {
+    display: inline-block;
+    border-radius: 2px;
+    background-color: @darkgrey;
+    color: @white;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    margin: 0 5px;
+  }
+
+  .list-text {
+    font-size: 16px;
+    margin-bottom: 0;
+    text-align: right;
+
+    &.badge {
       font-size: 16px;
-      margin-bottom: 0;
-      text-align: right;
+      text-align: center;
+    }
 
-      &.badge {
-        font-size: 16px;
-        text-align: center;
-      }
+    @media (min-width: @sm) {
+      font-size: 20px;
+    }
+  }
 
-      @media (min-width: @sm) {
-        font-size: 20px;
-      }
+  .progress-bar-container {
+    margin-top: 2px;
+    width: 100%;
+    height: 5px;
+
+    .not-done {
+      background-color: @primarydark;
+      display: inline-block;
+      width: 60%;
+      height: 100%;
+      float: left;
+    }
+
+    .done {
+      background-color: yellow;
+      width: 40%;
+      display: inline-block;
+      height: 100%;
+      float: right;
     }
   }
 }
