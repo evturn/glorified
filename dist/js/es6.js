@@ -39,7 +39,6 @@ _.extend(Backbone.View.prototype, {
     app.helpers.init();
 
     app.user.fetch({
-
       success: function success(model, response) {
         if (app.user === null) {
           app.user = model;
@@ -56,7 +55,19 @@ _.extend(Backbone.View.prototype, {
       error: function error(err) {
         console.log(err);
       }
+    });
+  },
 
+  get: function get() {
+    app.user.fetch({
+      success: function success(model, response) {
+        app.listsCollection.stopListening();
+        app.listsCollection = new RB.Lists(model.attributes.lists);
+        app.setProgressBars();
+      },
+      error: function error(err) {
+        console.log(err);
+      }
     });
   },
 
@@ -70,13 +81,13 @@ _.extend(Backbone.View.prototype, {
       method: 'POST',
       data: model,
       success: function success(model, response) {
-        console.log(model);
+        var note = new RB.Note(model),
+            view = new RB.NoteItem({ model: note });
+
+        $notesContainer.append(view.render().el);
         $noteInput.val('').focus();
         app.validate();
-        var note = new RB.Note(model);
-        var view = new RB.NoteItem({ model: note });
-        $notesContainer.append(view.render().el);
-        view.notify('Created');
+        app.notify('Created');
         app.updateListTotal();
       },
       error: function error(err) {
@@ -86,14 +97,12 @@ _.extend(Backbone.View.prototype, {
   },
 
   put: function put(model, attributes, view) {
-    var self = this,
-        id = model.get('_id');
+    var id = model.get('_id');
 
     model.save(attributes, {
-
       url: '/notes/' + id,
       success: function success(model, response) {
-        self.notify('Updated');
+        app.notify('Updated');
         view.render();
       },
       error: function error(_error) {
@@ -103,20 +112,18 @@ _.extend(Backbone.View.prototype, {
   },
 
   destroy: function destroy(model) {
-    var self = this,
-        id = model.get('_id'),
-        listId = self.getActiveListId();
+    var id = model.get('_id'),
+        listId = app.getActiveListId();
 
     model.set('listId', listId);
 
     if (id !== null) {
-
       model.destroy({
         url: '/notes/' + id + '?listId=' + listId,
         success: function success(model, response) {
           console.log('success ', model);
-          self.notify('Removed');
-          self.updateListTotal();
+          app.notify('Removed');
+          app.updateListTotal();
         },
         error: function error(err) {
           console.log('error ', err);
@@ -138,6 +145,7 @@ _.extend(Backbone.View.prototype, {
 
   setLists: function setLists() {
     var $container = $('.lists-container');
+
     $container.empty();
 
     app.listsCollection.each(function (model) {
@@ -148,8 +156,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   setNote: function setNote(model) {
-    var $notesContainer = $('.active-notes-container');
-    var view = new RB.NoteItem({ model: model });
+    var $notesContainer = $('.active-notes-container'),
+        view = new RB.NoteItem({ model: model });
 
     $notesContainer.append(view.render().el);
   },
@@ -173,7 +181,7 @@ _.extend(Backbone.View.prototype, {
 
     app.notesCollection = notes;
     app.listenTo(app.notesCollection, 'change', this.updateListTotal);
-    this.resetActiveList(listname);
+    app.resetActiveList(listname);
   },
 
   getActiveListId: function getActiveListId() {
@@ -292,19 +300,6 @@ _.extend(Backbone.View.prototype, {
       app.onClickSetActive();
       app.isMobile(800);
     }
-  },
-
-  get: function get() {
-    app.user.fetch({
-      success: function success(model, response) {
-        app.listsCollection.stopListening();
-        app.listsCollection = new RB.Lists(model.attributes.lists);
-        app.setProgressBars();
-      },
-      error: function error(err) {
-        console.log(err);
-      }
-    });
   },
 
   notify: function notify(notification) {
@@ -464,18 +459,13 @@ RB.App = Backbone.View.extend({
 
   createNote: function createNote() {
     var body = $('.note-input').val(),
-        list = $('.list-input').val();
+        list = $('.list-input').val(),
+        done = false;
 
     if (body.trim() && list.trim() !== '') {
-
-      var note = {
-        body: body,
-        list: list,
-        done: false
-      };
+      var note = { body: body, list: list, done: done };
 
       if (app.listsCollection.length > 0) {
-
         for (var i = 0; i < app.listsCollection.length; i++) {
           var inMemory = app.listsCollection.models[i].body;
 
@@ -485,10 +475,11 @@ RB.App = Backbone.View.extend({
         }
       }
 
-      this.post(note);
+      app.post(note);
     }
-  }
 
+    return;
+  }
 });
 'use strict';
 

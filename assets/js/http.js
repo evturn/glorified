@@ -9,7 +9,6 @@ _.extend(Backbone.View.prototype, {
     app.helpers.init();
 
     app.user.fetch({
-
       success(model, response) {
         if (app.user === null) {
           app.user = model;
@@ -22,12 +21,23 @@ _.extend(Backbone.View.prototype, {
         }
 
         return app.listsCollection;
-
       },
       error(err) {
         console.log(err);
       }
+    });
+  },
 
+  get() {
+    app.user.fetch({
+      success(model, response) {
+        app.listsCollection.stopListening();
+        app.listsCollection = new RB.Lists(model.attributes.lists);
+        app.setProgressBars();
+      },
+      error(err) {
+        console.log(err);
+      }
     });
   },
 
@@ -41,13 +51,13 @@ _.extend(Backbone.View.prototype, {
       method: 'POST',
       data: model,
       success(model, response) {
-        console.log(model);
+        let note = new RB.Note(model),
+            view = new RB.NoteItem({model: note});
+
+        $notesContainer.append(view.render().el);
         $noteInput.val('').focus();
         app.validate();
-        let note = new RB.Note(model);
-        let view = new RB.NoteItem({model: note});
-        $notesContainer.append(view.render().el);
-        view.notify('Created');
+        app.notify('Created');
         app.updateListTotal();
       },
       error(err) {
@@ -57,14 +67,12 @@ _.extend(Backbone.View.prototype, {
   },
 
   put(model, attributes, view) {
-    let self = this,
-        id = model.get('_id');
+    let id = model.get('_id');
 
     model.save(attributes, {
-
       url: '/notes/' + id,
       success(model, response) {
-        self.notify('Updated');
+        app.notify('Updated');
         view.render();
       },
       error(error) {
@@ -74,20 +82,18 @@ _.extend(Backbone.View.prototype, {
   },
 
   destroy(model) {
-    let self = this,
-      id = model.get('_id'),
-      listId = self.getActiveListId();
+    let id = model.get('_id'),
+        listId = app.getActiveListId();
 
     model.set('listId', listId);
 
     if (id !== null) {
-
       model.destroy({
         url: '/notes/' + id + '?listId=' + listId,
         success(model, response) {
           console.log('success ', model);
-          self.notify('Removed');
-          self.updateListTotal();
+          app.notify('Removed');
+          app.updateListTotal();
         },
         error(err) {
           console.log('error ', err);

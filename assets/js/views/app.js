@@ -54,23 +54,17 @@ RB.App = Backbone.View.extend({
     else {
       $check.removeClass('ready');
     }
-
   },
 
-  createNote: function() {
+  createNote() {
     let body = $('.note-input').val(),
-        list = $('.list-input').val();
+        list = $('.list-input').val(),
+        done = false;
 
     if (body.trim() && list.trim() !== '') {
-
-      let note = {
-        body: body,
-        list: list,
-        done: false
-      };
+      let note = {body, list, done};
 
       if (app.listsCollection.length > 0) {
-
         for (let i = 0; i < app.listsCollection.length; i++) {
           let inMemory = app.listsCollection.models[i].body;
 
@@ -78,13 +72,11 @@ RB.App = Backbone.View.extend({
             return false;
           }
         }
-
       }
 
-    this.post(note);
-
+      app.post(note);
     }
 
+    return;
   },
-
 });

@@ -12,19 +12,6 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-  get() {
-    app.user.fetch({
-      success(model, response) {
-        app.listsCollection.stopListening();
-        app.listsCollection = new RB.Lists(model.attributes.lists);
-        app.setProgressBars();
-      },
-      error(err) {
-        console.log(err);
-      }
-    });
-  },
-
   notify(notification) {
     let $loader = $('.kurt-loader');
 

@@ -8,11 +8,12 @@ _.extend(Backbone.View.prototype, {
   allDoneTemplate : _.template($('#sunny-template').html()),
 
   setLists() {
-    var $container = $('.lists-container');
+    let $container = $('.lists-container');
+
     $container.empty();
 
     app.listsCollection.each(function(model) {
-      var view = new RB.ListItem({model: model});
+      let view = new RB.ListItem({model: model});
 
       $container.append(view.render().el);
     });
@@ -20,8 +21,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   setNote(model) {
-    var $notesContainer = $('.active-notes-container');
-    var view = new RB.NoteItem({model: model});
+    let $notesContainer = $('.active-notes-container'),
+        view = new RB.NoteItem({model: model});
 
     $notesContainer.append(view.render().el);
   },
@@ -45,7 +46,7 @@ _.extend(Backbone.View.prototype, {
 
     app.notesCollection = notes;
     app.listenTo(app.notesCollection, 'change', this.updateListTotal);
-    this.resetActiveList(listname);
+    app.resetActiveList(listname);
   },
 
   getActiveListId() {
@@ -95,11 +96,9 @@ _.extend(Backbone.View.prototype, {
 
     if (number !== 0) {
       $garbageContainer.html(this.garbageTemplate({length: number}));
-
     }
     else {
       $garbageContainer.html(this.allDoneTemplate());
-
     }
 
     return this;
@@ -117,17 +116,17 @@ _.extend(Backbone.View.prototype, {
 
   setProgressBars() {
     let listData = [],
-        i        = 0;
+        i = 0;
 
     app.listsCollection.each(function(list) {
-      let _id        = list.id,
-          name       = list.attributes.name,
+      let _id = list.id,
+          name = list.attributes.name,
           collection = new RB.Notes(list.attributes.notes),
-          length     = collection.length,
-          notDone    = collection.where({done: false}).length,
-          done       = length - notDone,
+          length = collection.length,
+          notDone = collection.where({done: false}).length,
+          done = length - notDone,
           notDonePct = ((notDone / length) * 100) + '%',
-          donePct    = ((done / length) * 100) + '%',
+          donePct = ((done / length) * 100) + '%',
           data = {
             name,
             _id,
@@ -144,7 +143,7 @@ _.extend(Backbone.View.prototype, {
     });
 
     listData.forEach(function(list) {
-      let $done    = $('div').find("[data-done='" + list._id + "']"),
+      let $done = $('div').find("[data-done='" + list._id + "']"),
           $notDone = $('div').find("[data-notDone='" + list._id + "']");
 
       $done.css({'width': list.donePct});
