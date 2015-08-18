@@ -1,8 +1,10 @@
 <script type="text/template" id="list-name-template">
   <div class="inner-container" data-id="<%= _id %>">
-    <p class="list-text">
-    <span class="badge"><%= notes.length %></span>
-    <span class="list-name"><%= name %></p></span>
-    </p>
+    <div class="name-container">
+      <p class="list-text"><%= name %></p>
+    </div>
+    <div class="length-container">
+      <p class="list-text badge"><%= notes.length %></p>
+    </div>
   </div>
 </script>

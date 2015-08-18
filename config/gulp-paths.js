@@ -13,6 +13,10 @@ module.exports = {
     dest: 'dist/js'
   },
 
+  views: {
+    src: 'views/**/*.hbs'
+  },
+
   jshint: {
     src: [
       'assets/js/**/*.js',

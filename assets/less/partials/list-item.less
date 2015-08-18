@@ -2,24 +2,10 @@
 
   .list-item {
     overflow: auto;
-    padding: 7.5px 10px;
     border-bottom: 1px solid @grey;
     cursor: pointer;
     position: relative;
     overflow: auto;
-
-    span.list-data {
-      height: 100%;
-      width: 100%;
-    }
-
-    .inner-container {
-      position: relative;
-    }
-
-    @media (min-width: @sm) {
-      padding: 7.5px 10px;
-    }
 
     &:hover {
       background-color: @primarylight;
@@ -32,13 +18,34 @@
 
       .list-text {
         color: @white;
-
-        span.badge {
-          font-weight: 600;
-          background-color: @white;
-          color: @primarylight;
-        }
       }
+
+      .badge {
+        font-weight: 600;
+        border-radius: 2px;
+        background-color: @white;
+        color: @primarylight;
+      }
+    }
+
+    .inner-container {
+      position: relative;
+      padding: 5px 10px;
+      text-align: right;
+    }
+
+    .name-container {
+      display: inline-block;
+    }
+
+    .length-container {
+      display: inline-block;
+      border-radius: 2px;
+      background-color: @darkgrey;
+      color: @white;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
     }
 
     .list-text {
@@ -46,18 +53,13 @@
       margin-bottom: 0;
       text-align: right;
 
-      @media (min-width: @sm) {
-        font-size: 20px;
+      &.badge {
+        font-size: 16px;
+        text-align: center;
       }
 
-      span.badge {
-        font-size: 12px;
-        border-radius: 2px;
-        background-color: @darkgrey;
-        color: @white;
-        float: left;
-        margin-right: 15px;
-        padding: 5px 9px;
+      @media (min-width: @sm) {
+        font-size: 20px;
       }
     }
   }

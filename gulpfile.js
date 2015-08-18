@@ -6,13 +6,15 @@ var gulp = require('gulp'),
 var paths = require('./config/gulp-paths');
 var options = require('./config/gulp-options');
 
-gulp.task('default', ['nodemon', 'less', 'lint', 'watch', 'browsersync']);
+gulp.task('default', ['watch', 'nodemon', 'less', 'lint'], function() {
+  browserSync.init(options.browserSync);
+});
 
 gulp.task('watch', function() {
-  gulp.watch(paths.less.watch, ['less', 'reloader']);
+  gulp.watch(paths.less.watch, ['reloader']);
   gulp.watch(paths.jshint.watch, ['lint']);
-  gulp.watch(paths.js.watch, ['js', 'reloader']);
-  gulp.watch('./**/*.hbs').on('change', browserSync.reload);
+  gulp.watch(paths.js.watch, ['reloader']);
+  gulp.watch(paths.views.src, ['reloader']);
 });
 
 gulp.task('less', function() {
@@ -85,12 +87,12 @@ gulp.task('babel', function () {
     .on('error', gutil.log);
 });
 
-gulp.task('nodemon', function() {
-  $.nodemon(options.nodemon);
-});
-
 gulp.task('reloader', ['babel', 'less'], function() {
   browserSync.reload();
+});
+
+gulp.task('nodemon', function() {
+  $.nodemon(options.nodemon);
 });
 
 gulp.task('browsersync', function() {
