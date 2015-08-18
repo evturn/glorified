@@ -34,6 +34,10 @@ _.extend(Backbone.View.prototype, {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
         app.setProgressBars();
+        if (app.activeListId) {
+          app.setNotes(app.activeListId);
+        }
+        console.log(app.listsCollection);
       },
       error(err) {
         console.log(err);
@@ -58,7 +62,7 @@ _.extend(Backbone.View.prototype, {
         $noteInput.val('').focus();
         app.validate();
         app.notify('Created');
-        app.updateListTotal();
+        app.get();
       },
       error(err) {
         console.log(err);
@@ -73,7 +77,7 @@ _.extend(Backbone.View.prototype, {
       url: '/notes/' + id,
       success(model, response) {
         app.notify('Updated');
-        view.render();
+        app.get();
       },
       error(error) {
         console.log('error ', error);
@@ -94,6 +98,7 @@ _.extend(Backbone.View.prototype, {
           console.log('success ', model);
           app.notify('Removed');
           app.updateListTotal();
+          app.get();
         },
         error(err) {
           console.log('error ', err);

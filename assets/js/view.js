@@ -45,7 +45,6 @@ _.extend(Backbone.View.prototype, {
     });
 
     app.notesCollection = notes;
-    app.listenTo(app.notesCollection, 'change', this.updateListTotal);
     app.resetActiveList(listname);
   },
 

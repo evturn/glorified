@@ -14,17 +14,17 @@ RB.App = Backbone.View.extend({
   },
 
   events: {
-    'click .create-list-btn'            : 'createList',
-    'click .toggle-list-btn'            : 'toggleLists',
-    'click .create-note-btn'            : 'createNote',
-    'keyup .note-input'                 : 'createOnEnter',
-    'keyup .active-input'               : 'validate'
+    'click .create-list-btn' : 'createList',
+    'click .toggle-list-btn' : 'toggleLists',
+    'click .create-note-btn' : 'createNote',
+    'keyup .note-input'      : 'createOnEnter',
+    'keyup .active-input'    : 'validate'
   },
 
-  createList: function() {
-    var $noteInput = $('.note-input');
-    var $listInput = $('.list-input');
-    var $notesContainer = $('.active-notes-container');
+  createList() {
+    let $noteInput = $('.note-input'),
+        $listInput = $('.list-input'),
+        $notesContainer = $('.active-notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();
@@ -37,18 +37,18 @@ RB.App = Backbone.View.extend({
     return this;
   },
 
-  createOnEnter: function(e) {
+  createOnEnter(e) {
     if (e.keyCode === 13) {
-      this.createNote();
+      app.createNote();
     }
   },
 
-  validate: function() {
-    var $body = $('.note-input').val();
-    var $list = $('.list-input').val();
-    var $check = $('.create-note-btn .fa');
+  validate() {
+    let body = $('.note-input').val(),
+        list = $('.list-input').val(),
+        $check = $('.create-note-btn .fa');
 
-    if ($body.trim() && $list.trim() !== '') {
+    if (body.trim() && list.trim() !== '') {
       $check.addClass('ready');
     }
     else {
@@ -67,7 +67,6 @@ RB.App = Backbone.View.extend({
       if (app.listsCollection.length > 0) {
         for (let i = 0; i < app.listsCollection.length; i++) {
           let inMemory = app.listsCollection.models[i].body;
-
           if (note.body === inMemory) {
             return false;
           }
@@ -77,6 +76,6 @@ RB.App = Backbone.View.extend({
       app.post(note);
     }
 
-    return;
+    return this;
   },
 });

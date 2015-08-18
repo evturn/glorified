@@ -64,6 +64,10 @@ _.extend(Backbone.View.prototype, {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
         app.setProgressBars();
+        if (app.activeListId) {
+          app.setNotes(app.activeListId);
+        }
+        console.log(app.listsCollection);
       },
       error: function error(err) {
         console.log(err);
@@ -88,7 +92,7 @@ _.extend(Backbone.View.prototype, {
         $noteInput.val('').focus();
         app.validate();
         app.notify('Created');
-        app.updateListTotal();
+        app.get();
       },
       error: function error(err) {
         console.log(err);
@@ -103,7 +107,7 @@ _.extend(Backbone.View.prototype, {
       url: '/notes/' + id,
       success: function success(model, response) {
         app.notify('Updated');
-        view.render();
+        app.get();
       },
       error: function error(_error) {
         console.log('error ', _error);
@@ -124,6 +128,7 @@ _.extend(Backbone.View.prototype, {
           console.log('success ', model);
           app.notify('Removed');
           app.updateListTotal();
+          app.get();
         },
         error: function error(err) {
           console.log('error ', err);
@@ -180,7 +185,6 @@ _.extend(Backbone.View.prototype, {
     });
 
     app.notesCollection = notes;
-    app.listenTo(app.notesCollection, 'change', this.updateListTotal);
     app.resetActiveList(listname);
   },
 
@@ -424,9 +428,9 @@ RB.App = Backbone.View.extend({
   },
 
   createList: function createList() {
-    var $noteInput = $('.note-input');
-    var $listInput = $('.list-input');
-    var $notesContainer = $('.active-notes-container');
+    var $noteInput = $('.note-input'),
+        $listInput = $('.list-input'),
+        $notesContainer = $('.active-notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();
@@ -441,16 +445,16 @@ RB.App = Backbone.View.extend({
 
   createOnEnter: function createOnEnter(e) {
     if (e.keyCode === 13) {
-      this.createNote();
+      app.createNote();
     }
   },
 
   validate: function validate() {
-    var $body = $('.note-input').val();
-    var $list = $('.list-input').val();
-    var $check = $('.create-note-btn .fa');
+    var body = $('.note-input').val(),
+        list = $('.list-input').val(),
+        $check = $('.create-note-btn .fa');
 
-    if ($body.trim() && $list.trim() !== '') {
+    if (body.trim() && list.trim() !== '') {
       $check.addClass('ready');
     } else {
       $check.removeClass('ready');
@@ -468,7 +472,6 @@ RB.App = Backbone.View.extend({
       if (app.listsCollection.length > 0) {
         for (var i = 0; i < app.listsCollection.length; i++) {
           var inMemory = app.listsCollection.models[i].body;
-
           if (note.body === inMemory) {
             return false;
           }
@@ -478,7 +481,7 @@ RB.App = Backbone.View.extend({
       app.post(note);
     }
 
-    return;
+    return this;
   }
 });
 'use strict';
