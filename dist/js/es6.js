@@ -36,7 +36,7 @@ _.extend(Backbone.View.prototype, {
 
   start: function start() {
     var user = new RB.User();
-    this.helpers.init(this);
+    this.helpers.init();
 
     user.fetch({
 
@@ -245,10 +245,10 @@ _.extend(Backbone.View.prototype, {
 
   helpers: {
 
-    init: function init(self) {
-      self.fixPath();
-      self.onClickSetActive();
-      self.isMobile(800);
+    init: function init() {
+      app.fixPath();
+      app.onClickSetActive();
+      app.isMobile(800);
     }
   },
 

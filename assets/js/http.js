@@ -6,7 +6,7 @@ _.extend(Backbone.View.prototype, {
 
   start() {
     let user = new RB.User();
-    this.helpers.init(this);
+    this.helpers.init();
 
     user.fetch({
 
@@ -54,7 +54,6 @@ _.extend(Backbone.View.prototype, {
         console.log(err);
       }
     });
-
   },
 
   put(model, attributes, view) {

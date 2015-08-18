@@ -6,10 +6,10 @@ _.extend(Backbone.View.prototype, {
 
   helpers: {
 
-    init(self) {
-      self.fixPath();
-      self.onClickSetActive();
-      self.isMobile(800);
+    init() {
+      app.fixPath();
+      app.onClickSetActive();
+      app.isMobile(800);
     }
   },
 
