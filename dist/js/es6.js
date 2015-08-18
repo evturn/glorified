@@ -127,7 +127,6 @@ _.extend(Backbone.View.prototype, {
         success: function success(model, response) {
           console.log('success ', model);
           app.notify('Removed');
-          app.updateListTotal();
           app.get();
         },
         error: function error(err) {
@@ -242,16 +241,6 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
-  updateListTotal: function updateListTotal() {
-    var $container = $('.active-notes-container'),
-        length = $container.children().length,
-        id = $container.attr('data-list'),
-        $element = $('div').find("[data-id='" + id + "']"),
-        $span = $element.find('.badge');
-
-    $span.text(length);
-  },
-
   setProgressBars: function setProgressBars() {
     var listData = [],
         i = 0;
@@ -286,7 +275,26 @@ _.extend(Backbone.View.prototype, {
 
       $done.css({ 'width': list.donePct });
       $notDone.css({ 'width': list.notDonePct });
+
+      if (app.activeListId && app.activeListId === list._id) {
+        app.animateListTotal(list);
+      }
     });
+  },
+
+  animateListTotal: function animateListTotal(list) {
+
+    var $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function () {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+    }, 300);
   }
 
 });

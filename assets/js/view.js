@@ -103,16 +103,6 @@ _.extend(Backbone.View.prototype, {
     return this;
   },
 
-  updateListTotal() {
-    let $container = $('.active-notes-container'),
-        length = $container.children().length,
-        id = $container.attr('data-list'),
-        $element = $('div').find("[data-id='" + id + "']"),
-        $span = $element.find('.badge');
-
-    $span.text(length);
-  },
-
   setProgressBars() {
     let listData = [],
         i = 0;
@@ -147,7 +137,27 @@ _.extend(Backbone.View.prototype, {
 
       $done.css({'width': list.donePct});
       $notDone.css({'width': list.notDonePct});
+
+      if (app.activeListId && app.activeListId === list._id) {
+        app.animateListTotal(list);
+      }
     });
+  },
+
+  animateListTotal(list) {
+
+    let $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function() {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+
+    }, 300);
   },
 
 });

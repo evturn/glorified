@@ -97,7 +97,6 @@ _.extend(Backbone.View.prototype, {
         success(model, response) {
           console.log('success ', model);
           app.notify('Removed');
-          app.updateListTotal();
           app.get();
         },
         error(err) {
