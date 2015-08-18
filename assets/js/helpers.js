@@ -13,6 +13,13 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  setProgressBars() {
+    let list = [];
+    app.listsCollection.each(function(list) {
+      console.log(list);
+    });
+  },
+
   notify(notification) {
     let $loader = $('.kurt-loader');
 

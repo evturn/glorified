@@ -48,6 +48,7 @@ _.extend(Backbone.View.prototype, {
         if (app.listsCollection === null) {
           app.listsCollection = new RB.Lists(model.attributes.lists);
           app.setLists();
+          app.setProgressBars();
         }
 
         return app.listsCollection;
@@ -76,7 +77,7 @@ _.extend(Backbone.View.prototype, {
         var view = new RB.NoteItem({ model: note });
         $notesContainer.append(view.render().el);
         view.notify('Created');
-        self.updateListTotal();
+        app.updateListTotal();
       },
       error: function error(err) {
         console.log(err);
@@ -249,6 +250,13 @@ _.extend(Backbone.View.prototype, {
       self.onClickSetActive();
       self.isMobile(800);
     }
+  },
+
+  setProgressBars: function setProgressBars() {
+    var list = [];
+    app.listsCollection.each(function (list) {
+      console.log(list);
+    });
   },
 
   notify: function notify(notification) {

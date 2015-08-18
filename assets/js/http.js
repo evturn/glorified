@@ -18,6 +18,7 @@ _.extend(Backbone.View.prototype, {
         if (app.listsCollection === null) {
           app.listsCollection = new RB.Lists(model.attributes.lists);
           app.setLists();
+          app.setProgressBars();
         }
 
         return app.listsCollection;
@@ -47,7 +48,7 @@ _.extend(Backbone.View.prototype, {
         let view = new RB.NoteItem({model: note});
         $notesContainer.append(view.render().el);
         view.notify('Created');
-        self.updateListTotal();
+        app.updateListTotal();
       },
       error(err) {
         console.log(err);
