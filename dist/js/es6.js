@@ -63,10 +63,10 @@ _.extend(Backbone.View.prototype, {
       success: function success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
-        app.setProgressBars();
         if (app.activeListId) {
           app.setNotes(app.activeListId);
         }
+        app.setProgressBars();
         console.log(app.listsCollection);
       },
       error: function error(err) {
@@ -183,6 +183,10 @@ _.extend(Backbone.View.prototype, {
       $container.append(view.render().el);
     });
 
+    if (app.activeListLength === null) {
+      app.activeListLength = notes.length;
+    }
+
     app.notesCollection = notes;
     app.resetActiveList(listname);
   },
@@ -277,13 +281,12 @@ _.extend(Backbone.View.prototype, {
       $notDone.css({ 'width': list.notDonePct });
 
       if (app.activeListId && app.activeListId === list._id) {
-        app.animateListTotal(list);
+        app.hasLengthChanged(list);
       }
     });
   },
 
   animateListTotal: function animateListTotal(list) {
-
     var $length = $('div').find("[data-length='" + list._id + "']");
 
     $length.removeClass('fadeInUp');
@@ -295,6 +298,16 @@ _.extend(Backbone.View.prototype, {
       $length.addClass('fadeInUp');
       $length.show();
     }, 300);
+  },
+
+  hasLengthChanged: function hasLengthChanged(list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    } else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+      return true;
+    }
   }
 
 });
@@ -422,6 +435,7 @@ RB.App = Backbone.View.extend({
   listsCollection: null,
   notesCollection: null,
   activeListId: null,
+  activeListLength: null,
 
   initialize: function initialize() {
     this.renderInputFields();

@@ -8,6 +8,7 @@ RB.App = Backbone.View.extend({
   listsCollection: null,
   notesCollection: null,
   activeListId: null,
+  activeListLength: null,
 
   initialize: function() {
     this.renderInputFields();

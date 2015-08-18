@@ -33,10 +33,10 @@ _.extend(Backbone.View.prototype, {
       success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
-        app.setProgressBars();
         if (app.activeListId) {
           app.setNotes(app.activeListId);
         }
+        app.setProgressBars();
         console.log(app.listsCollection);
       },
       error(err) {

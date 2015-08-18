@@ -44,6 +44,10 @@ _.extend(Backbone.View.prototype, {
       $container.append(view.render().el);
     });
 
+    if (app.activeListLength === null) {
+      app.activeListLength = notes.length;
+    }
+
     app.notesCollection = notes;
     app.resetActiveList(listname);
   },
@@ -139,13 +143,12 @@ _.extend(Backbone.View.prototype, {
       $notDone.css({'width': list.notDonePct});
 
       if (app.activeListId && app.activeListId === list._id) {
-        app.animateListTotal(list);
+        app.hasLengthChanged(list);
       }
     });
   },
 
   animateListTotal(list) {
-
     let $length = $('div').find("[data-length='" + list._id + "']");
 
     $length.removeClass('fadeInUp');
@@ -158,6 +161,17 @@ _.extend(Backbone.View.prototype, {
       $length.show();
 
     }, 300);
+  },
+
+  hasLengthChanged(list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    }
+    else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+      return true;
+    }
   },
 
 });
