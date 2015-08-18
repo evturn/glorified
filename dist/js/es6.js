@@ -253,9 +253,24 @@ _.extend(Backbone.View.prototype, {
   },
 
   setProgressBars: function setProgressBars() {
-    var list = [];
+    var listData = [],
+        i = 0;
     app.listsCollection.each(function (list) {
-      console.log(list);
+      var _id = list.id,
+          name = list.attributes.name,
+          listCollection = new RB.Notes(list.attributes.notes),
+          length = listCollection.length,
+          notDone = listCollection.where({ done: false }).length,
+          data = {
+        name: name,
+        _id: _id,
+        length: length,
+        notDone: notDone,
+        done: length - notDone
+      };
+      listData.push(data);
+      listCollection.stopListening();
+      i++;
     });
   },
 
