@@ -19,7 +19,12 @@ _.extend(Backbone.View.prototype, {
       app.onClickSetActive();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
+      app.listeners.init();
+    }
+  },
 
+  listeners: {
+    init() {
       $('.toggle-list-btn').on('click', function() {
         app.toggleLists();
       });
