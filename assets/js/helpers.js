@@ -10,6 +10,7 @@ _.extend(Backbone.View.prototype, {
       app.onClickSetActive();
       app.isMobile(800);
       autosize(document.querySelectorAll('textarea'));
+      setTimeout(app.toggleLists, 800);
     }
   },
 
@@ -53,10 +54,10 @@ _.extend(Backbone.View.prototype, {
         hours     = d.getHours(),
         _minutes  = d.getMinutes(),
         minutes   = _minutes > 10 ? _minutes : ('0' + _minutes),
-        meridiem  = hours >= 12 ? 'PM' : 'AM',
+        meridiem  = hours >= 12 ? 'pm' : 'am',
         _hour     = hours > 12 ? hours - 12 : hours,
         hour      = _hour === 0 ? 12 : _hour,
-        timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
+        timestamp =  month + '/' + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
     return timestamp;
   },
@@ -71,11 +72,21 @@ _.extend(Backbone.View.prototype, {
   },
 
   toggleLists() {
-    let $listsContainer = $('.lists-container'),
-        $icon = $('.toggle-list-btn .fa');
+    $('.toggle-list-btn').on('click', function() {
+      let $listsContainer = $('.lists-container'),
+          $icon = $('.toggle-list-btn .fa');
+          $icon.toggleClass('collapsed');
 
-    $listsContainer.slideToggle('fast');
-    $icon.toggleClass('collapsed');
+      if ($icon.hasClass('collapsed')) {
+        $listsContainer.removeClass('animated slideInLeft');
+        $listsContainer.addClass('animated slideOutLeft');
+      }
+      else {
+        $listsContainer.removeClass('animated slideOutLeft');
+        $listsContainer.addClass('animated slideInLeft');
+      }
+
+    });
   },
 
   isMobile(duration) {

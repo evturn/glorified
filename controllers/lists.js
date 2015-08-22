@@ -143,10 +143,10 @@ var convertDate = function(date) {
   var hours     = d.getHours();
   var _minutes  = d.getMinutes();
   var minutes   = _minutes > 10 ? _minutes : ('0' + _minutes);
-  var meridiem  = hours >= 12 ? 'PM' : 'AM';
+  var meridiem  = hours >= 12 ? 'pm' : 'am';
   var _hour     = hours > 12 ? hours - 12 : hours;
   var hour      = _hour === 0 ? 12 : _hour;
-  var timestamp = days[d.getDay()] + ' ' + month + '/' + day + ' ' + hour + ':' + minutes + meridiem;
+  var timestamp =  month + '/' + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
   return timestamp;
 };
