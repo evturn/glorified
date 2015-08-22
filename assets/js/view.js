@@ -17,7 +17,6 @@ _.extend(Backbone.View.prototype, {
 
       $container.append(view.render().el);
     });
-
   },
 
   setNote(model) {

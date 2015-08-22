@@ -8,9 +8,10 @@
 }
 
 .input-container {
-  margin-left: 10px;
+  padding-left: 10px;
   font-family: @sans;
   position: relative;
+  border-bottom: 1px solid @lightgrey;
 }
 
 .note-input,
@@ -38,4 +39,19 @@
   position: absolute;
   right: 10px;
   top: 10px;
+
+  .kurt-loader {
+    .animation-delay(0.9s);
+  }
+
+  .fa {
+    font-size: 1em;
+    color: @lightgrey;
+    .transition(all 0.2s ease);
+
+    &.ready {
+      font-size: 1.1em;
+      color: @primarylight;
+    }
+  }
 }
