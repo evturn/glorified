@@ -112,6 +112,12 @@ exports.delete = function(req, res, next) {
 
 exports.deleteList = function(req, res, next) {
   var user = req.user;
+  var listId = req.params.id;
+  var list = user.lists.id(listId);
+
+  var removedList = list.remove();
+  var saved = saveUser(user, removedList);
+  res.send(removedList);
 };
 
 var saveUser = function(user, note) {
