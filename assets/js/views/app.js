@@ -10,7 +10,7 @@ RB.App = Backbone.View.extend({
   activeListId: null,
   activeListLength: null,
 
-  initialize: function() {
+  initialize() {
     this.renderInputFields();
   },
 

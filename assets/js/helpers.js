@@ -85,7 +85,7 @@ _.extend(Backbone.View.prototype, {
       setTimeout(this.toggleLists, duration);
     }
 
-    return;
+    return device;
   },
 
   fixPath() {

@@ -42,6 +42,9 @@ RB.NoteItem = Backbone.View.extend({
     if ($input.hasClass('busy')) {
       return false;
     }
+    else if (app.isMobile) {
+      return false;
+    }
     else {
       $input.addClass('busy');
       $input[0].setSelectionRange(range, range + 1);

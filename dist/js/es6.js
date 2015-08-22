@@ -418,7 +418,7 @@ _.extend(Backbone.View.prototype, {
       setTimeout(this.toggleLists, duration);
     }
 
-    return;
+    return device;
   },
 
   fixPath: function fixPath() {
@@ -588,6 +588,8 @@ RB.NoteItem = Backbone.View.extend({
     var range = $input.val().length;
 
     if ($input.hasClass('busy')) {
+      return false;
+    } else if (app.isMobile) {
       return false;
     } else {
       $input.addClass('busy');
