@@ -11,7 +11,7 @@ RB.NoteItem = Backbone.View.extend({
   events: {
     'click .edit .fa-trash'        : 'destroyNote',
     'click .edit .fa-check-square' : 'toggleDone',
-    'focus .note-text'             : 'positionCursor',
+    'click .note-text'             : 'positionCursor',
     'blur .note-text'              : 'updateNoteBody',
     'keyup .note-text'             : 'updateNoteOnEnter'
   },
@@ -36,12 +36,21 @@ RB.NoteItem = Backbone.View.extend({
     return this;
   },
 
-  positionCursor(e) {
-    let $input = $(e.currentTarget);
+  positionCursor: function(e) {
+    var $input = $(e.currentTarget);
+    var range = $input.val().length;
 
-    if (!($input.hasClass('busy'))) {
-      $input.addClass('busy');
+    if (app.isMobile) {
+      return false;
     }
+    else if ($input.hasClass('busy')) {
+      return false;
+    }
+    else {
+      $input.addClass('busy');
+      $input[0].setSelectionRange(range, range + 1);
+    }
+
   },
 
   destroyNote() {
