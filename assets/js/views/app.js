@@ -29,7 +29,9 @@ RB.App = Backbone.View.extend({
 
     $noteInput.val('');
     $listInput.val('').focus();
+    app.activeListId = null;
     $notesContainer.empty();
+    $notesContainer.attr('data-list', '');
   },
 
   renderInputFields: function() {

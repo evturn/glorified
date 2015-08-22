@@ -39,7 +39,7 @@ exports.post = function(req, res, next) {
       console.log('-------- ', newNote);
       user.lists.push(newList);
       var saved = saveUser(user, newNote);
-      res.send(saved);
+      res.send(newList);
 
       return false;
     }

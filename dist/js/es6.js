@@ -65,18 +65,19 @@ _.extend(Backbone.View.prototype, {
       success: function success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
-        if (app.activeListId && options.render) {
-          app.setNotes(app.activeListId);
-        } else if (options._id) {
+
+        if (options._id) {
           app.activeListId = options._id;
           app.setActiveListId(app.activeListId);
           app.setLists();
-          app.setNotes(app.activeListId);
-        } else {
+        } else if (options.render === false) {
           app.setLists();
+          app.setProgressBars();
+
+          return false;
         }
+        app.setNotes(app.activeListId);
         app.setProgressBars();
-        console.log('GET: ', app.listsCollection);
       },
       error: function error(err) {
         console.log(err);
@@ -99,7 +100,7 @@ _.extend(Backbone.View.prototype, {
         $noteInput.val('').focus();
         app.validate();
         app.notify(response);
-        app.get({ _id: model._id });
+        app.get({ _id: model._id, render: true });
       },
       error: function error(err) {
         console.log(err);
@@ -467,7 +468,9 @@ RB.App = Backbone.View.extend({
 
     $noteInput.val('');
     $listInput.val('').focus();
+    app.activeListId = null;
     $notesContainer.empty();
+    $notesContainer.attr('data-list', '');
   },
 
   renderInputFields: function renderInputFields() {
