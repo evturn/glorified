@@ -1,0 +1,35 @@
+.lists {
+  width: 32.5%;
+  display: inline-block;
+
+  @media (min-width: @sm) {
+    width: 18%;
+  }
+}
+
+.lists.expanded {
+  margin-left: inherit;
+}
+
+.lists.collapsed {
+  margin-left: -25%;
+  display: inline-block;
+}
+
+.notes {
+  width: 90%;
+  display: inline-block;
+
+  @media (min-width: @sm) {
+    width: 80%;
+  }
+}
+
+.notes.expanded {
+  margin-right: inherit;
+}
+
+.notes.collapsed {
+  margin-right: -25%;
+  display: inline-block;
+}

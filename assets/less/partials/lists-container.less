@@ -1,0 +1,56 @@
+.lists {
+  .box-shadow(0px 0px 8px -4px rgba(0,0,0,0.75););
+
+  .lists-container {
+    background-color: @white;
+  }
+
+
+  .header-container {
+    margin-top: 5px;
+    padding: 5px;
+    background-color: @white;
+    text-align: right;
+
+    @media (min-width: @sm) {
+      padding: 5px 10px;
+      border-bottom: 2px solid @lightgrey;
+      overflow: auto;
+    }
+
+    .toggle-list-btn {
+      display: block;
+      @media (min-width: @sm) {
+        float: right;
+        position: inline-block;
+      }
+    }
+
+    .create-list-btn {
+      display: block;
+      @media (min-width: @sm) {
+        float: left;
+        position: inline-block;
+      }
+    }
+
+    .toggle-list-btn .fa,
+    .create-list-btn .fa {
+      .transition(0.3s);
+      color: @primarylight;
+      font-size: 2em;
+      cursor: pointer;
+
+      &:hover {
+        color: @primarylighthover;
+
+      }
+    }
+  }
+}
+
+
+.spin {
+  .transform-rotate(720deg);
+}
+

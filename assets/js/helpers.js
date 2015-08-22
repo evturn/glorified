@@ -4,14 +4,66 @@
 
 _.extend(Backbone.View.prototype, {
 
+  windowWidth: $(window).width(),
+  mobile: null,
+  tablet: null,
+  desktop: null,
+  $lists: $('.lists'),
+  $notes: $('.notes'),
+
   helpers: {
     init() {
       app.fixPath();
+      app.readClient();
+      app.setClient();
       app.onClickSetActive();
       app.isMobile(800);
       autosize(document.querySelectorAll('textarea'));
-      setTimeout(app.toggleLists, 800);
+      $('.toggle-list-btn').on('click', function() {
+        app.toggleLists();
+      });
     }
+  },
+
+  readClient() {
+    if (app.isMobile()) {
+      app.mobile = true;
+    }
+    else {
+      app.mobile = false;
+    }
+
+    if (app.windowWidth < 800 && app.windowWidth > 600) {
+      app.tablet = true;
+      app.desktop = false;
+    }
+     else if (app.windoWidth >= 800) {
+      app.tablet = false;
+      app.desktop = true;
+    }
+  },
+
+  setClient() {
+    if (app.windowWidth > 800) {
+      return false;
+    }
+    app.$notes.addClass('expanded');
+    app.$lists.addClass('collapsed');
+  },
+
+  toggleLists() {
+    let $listsContainer = $('.lists-container'),
+        $icon = $('.toggle-list-btn .fa'),
+        $headerContainer = $('.header-container'),
+        windowWidth = $(window).width(),
+        headerHeight = $headerContainer.outerHeight();
+
+    app.$lists.toggleClass('collapsed');
+    app.$lists.toggleClass('expanded');
+    app.$notes.toggleClass('expanded');
+    app.$notes.toggleClass('collapsed');
+
+
   },
 
   notify(notification) {
@@ -71,30 +123,9 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  toggleLists() {
-    $('.toggle-list-btn').on('click', function() {
-      let $listsContainer = $('.lists-container'),
-          $icon = $('.toggle-list-btn .fa');
-          $icon.toggleClass('collapsed');
 
-      if ($icon.hasClass('collapsed')) {
-        $listsContainer.removeClass('animated slideInLeft');
-        $listsContainer.addClass('animated slideOutLeft');
-      }
-      else {
-        $listsContainer.removeClass('animated slideOutLeft');
-        $listsContainer.addClass('animated slideInLeft');
-      }
-
-    });
-  },
-
-  isMobile(duration) {
+  isMobile() {
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (device) {
-      setTimeout(this.toggleLists, duration);
-    }
 
     return device;
   },
