@@ -29,7 +29,8 @@ _.extend(Backbone.View.prototype, {
 
   setNotes(id) {
     let list = app.listsCollection.get(id),
-        notes = new RB.Notes(list.attributes.notes),
+        sorted = app.sortNotes(list.attributes.notes),
+        notes = new RB.Notes(sorted),
         listname = list.attributes.name,
         $container = $('.notes-container'),
         $listInput = $('.list-input'),
@@ -51,6 +52,12 @@ _.extend(Backbone.View.prototype, {
     app.notesCollection = notes;
     app.resetActiveList(listname);
     app.renderActiveProgressBar(id);
+  },
+
+  sortNotes(list) {
+    let sorted = _.sortBy(list, 'done');
+
+   return sorted;
   },
 
   getActiveListId() {
