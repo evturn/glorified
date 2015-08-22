@@ -36,6 +36,7 @@ RB.App = Backbone.View.extend({
 
   renderInputFields: function() {
     $('.inputs-container').html(this.inputTemplate());
+    autosize($('textarea'));
 
     return this;
   },

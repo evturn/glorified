@@ -18,7 +18,7 @@ _.extend(Backbone.View.prototype, {
 
     $loader.html('<p class="thin-md animated fadeIn">' + notification + '</p>');
 
-    let $paragraphTag = $loader.find('.thin-sm');
+    let $paragraphTag = $loader.find('.thin-md');
 
     setTimeout(function() {
       $paragraphTag.removeClass('animated fadeIn');

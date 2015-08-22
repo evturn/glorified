@@ -351,7 +351,7 @@ _.extend(Backbone.View.prototype, {
 
     $loader.html('<p class="thin-md animated fadeIn">' + notification + '</p>');
 
-    var $paragraphTag = $loader.find('.thin-sm');
+    var $paragraphTag = $loader.find('.thin-md');
 
     setTimeout(function () {
       $paragraphTag.removeClass('animated fadeIn');
@@ -474,6 +474,7 @@ RB.App = Backbone.View.extend({
 
   renderInputFields: function renderInputFields() {
     $('.inputs-container').html(this.inputTemplate());
+    autosize($('textarea'));
 
     return this;
   },
@@ -582,6 +583,7 @@ RB.NoteItem = Backbone.View.extend({
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
     autosize($('textarea'));
+    $('textarea').css({ 'resize': 'none' });
     return this;
   },
 
