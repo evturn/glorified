@@ -347,15 +347,14 @@ _.extend(Backbone.View.prototype, {
   },
 
   notify: function notify(notification) {
-    var $loader = $('.kurt-loader');
+    var $loader = $('.kurt-loader .message');
 
-    $loader.html('<p class="thin-md animated fadeIn">' + notification + '</p>');
-
-    var $paragraphTag = $loader.find('.thin-md');
+    $loader.html(notification);
+    $loader.addClass('animated fadeIn');
 
     setTimeout(function () {
-      $paragraphTag.removeClass('animated fadeIn');
-      $paragraphTag.addClass('animated fadeOut');
+      $loader.removeClass('animated fadeIn');
+      $loader.addClass('animated fadeOut');
     }, 1000);
   },
 
