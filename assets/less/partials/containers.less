@@ -1,13 +1,35 @@
-.lists {
+.dmc {
+ padding-top: 40px;
+ max-width: @md;
+}
 
+.lists {
   .no-scrollbar;
+  .transition(0.3s);
   vertical-align: top;
   border-radius: 2px;
+  width: 32.5%;
+  display: inline-block;
+  margin: inherit;
+
+  @media (min-width: @sm) {
+    width: 30%;
+  }
 }
 
 .notes {
+  .transition(0.3s);
+  max-width: @sm;
   border-radius: 2px;
   float: right;
+  width: 90%;
+  display: inline-block;
+  margin: inherit;
+
+  @media (min-width: @sm) {
+    .transition(0.3s);
+    width: 68%;
+  }
 }
 
 

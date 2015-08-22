@@ -1,3 +1,21 @@
+.lists {
+  .length-container {
+    display: inline-block;
+    border-radius: 2px;
+    background-color: @darkgrey;
+    color: @white;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 5px;
+  }
+
+  .name-container {
+    display: inline-block;
+  }
+}
+
 .list-item {
   cursor: pointer;
   position: relative;
@@ -31,36 +49,6 @@
     &:hover {
       background-color: @primarylight;
       color: @white;
-    }
-  }
-
-  .name-container {
-    display: inline-block;
-  }
-
-  .length-container {
-    display: inline-block;
-    border-radius: 2px;
-    background-color: @darkgrey;
-    color: @white;
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-    margin: 0 5px;
-  }
-
-  .list-text {
-    margin-bottom: 0;
-    text-align: right;
-    font-size: 11px;
-
-    @media (min-width: @sm) {
-      font-size: 16px;
-    }
-
-    &.badge {
-      font-size: 16px;
-      text-align: center;
     }
   }
 }

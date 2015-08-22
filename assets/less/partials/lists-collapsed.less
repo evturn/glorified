@@ -1,16 +1,21 @@
-.lists {
-  .transition(0.3s);
-  width: 32.5%;
-  display: inline-block;
-  margin: inherit;
-
-  @media (min-width: @sm) {
-    width: 23%;
-  }
-}
-
 .lists.expanded {
   margin-left: inherit;
+
+  .lists-text {
+    margin-bottom: 0;
+    text-align: right;
+    font-size: 11px;
+    display: inline-block;
+
+    @media (min-width: @sm) {
+      font-size: 16px;
+    }
+
+    &.badge {
+      font-size: 16px;
+      text-align: center;
+    }
+  }
 }
 
 .lists.collapsed {
@@ -24,17 +29,9 @@
       display: none;
     }
   }
-}
 
-.notes {
-  .transition(0.3s);
-  width: 90%;
-  display: inline-block;
-  margin: inherit;
-
-  @media (min-width: @sm) {
-    .transition(0.3s);
-    width: 75%;
+  .name-container {
+    display: none;
   }
 }
 
