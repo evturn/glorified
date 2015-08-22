@@ -409,7 +409,6 @@ _.extend(Backbone.View.prototype, {
 
       $(window).resize(function () {
         app.windowWidth = $(window).width();
-        console.log(app.windowWidth);
         app.setClient();
       });
 
@@ -722,10 +721,8 @@ RB.NoteItem = Backbone.View.extend({
     var $input = $(e.currentTarget);
     var range = $input.val().length;
 
-    if (app.isMobile) {
-      return false;
-    } else if ($input.hasClass('busy')) {
-      return false;
+    if ($input.hasClass('busy')) {
+      return true;
     } else {
       $input.addClass('busy');
       $input[0].setSelectionRange(range, range + 1);
