@@ -1,10 +1,36 @@
 .active-progress {
+  cursor: pointer;
+
   .progress-bar-container {
     height: 15px;
-    margin-top: 0;
+    margin-top: 10px;
     margin-bottom: 0;
     border-radius: 1px;
+
+    .not-done-text,
+    .done-text {
+      margin-top: 4px;
+      display: none;
+      text-align: center;
+      color: @white;
+      font-weight: 600;
+      font-size: 14px;
+    }
   }
+
+  &.show-details {
+
+    .progress-bar-container {
+      margin-top: 0;
+      height: 25px;
+
+      .not-done-text,
+      .done-text {
+        display: block;
+      }
+    }
+  }
+
 }
 
 .progress-bar-container {

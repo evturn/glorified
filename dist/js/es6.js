@@ -273,15 +273,19 @@ _.extend(Backbone.View.prototype, {
         notDone = collection.where({ done: false }).length,
         done = length - notDone,
         notDonePct = notDone / length * 100 + '%',
+        notDoneText = parseInt(notDonePct).toFixed(0) + '%',
         donePct = done / length * 100 + '%',
+        doneText = parseInt(donePct).toFixed(0) + '%',
         data = {
       name: name,
       _id: _id,
       length: length,
       notDone: notDone,
       notDonePct: notDonePct,
+      notDoneText: notDoneText,
       done: done,
-      donePct: donePct
+      donePct: donePct,
+      doneText: doneText
     };
 
     if ($barContainer.children().length === 0) {
@@ -289,10 +293,14 @@ _.extend(Backbone.View.prototype, {
     }
 
     var $done = $('#list-progress').find("[data-done='" + data._id + "']"),
-        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']");
+        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']"),
+        $notDoneText = $('.not-done-text'),
+        $doneText = $('.done-text');
 
     $done.css({ 'width': data.donePct });
     $notDone.css({ 'width': data.notDonePct });
+    $doneText.html(data.doneText);
+    $notDoneText.html(data.notDoneText);
 
     if (app.activeListId && app.activeListId === data._id) {
       app.hasLengthChanged(data);
@@ -396,6 +404,10 @@ _.extend(Backbone.View.prototype, {
         app.windowWidth = $(window).width();
         console.log(app.windowWidth);
         app.setClient();
+      });
+
+      $('.active-progress').on('click', function () {
+        $(this).toggleClass('show-details');
       });
     }
   },

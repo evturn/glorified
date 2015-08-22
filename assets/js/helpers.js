@@ -28,6 +28,10 @@ _.extend(Backbone.View.prototype, {
         console.log(app.windowWidth);
         app.setClient();
       });
+
+      $('.active-progress').on('click', function() {
+        $(this).toggleClass('show-details');
+      });
     }
   },
 

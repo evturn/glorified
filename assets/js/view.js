@@ -86,7 +86,6 @@ _.extend(Backbone.View.prototype, {
     $listInput.val(listname);
   },
 
-
   resetActiveList(listname) {
     let $listItem = $('.list-item'),
         $element = $('div').find("[data-id='" + listname + "']");
@@ -105,15 +104,19 @@ _.extend(Backbone.View.prototype, {
         notDone = collection.where({done: false}).length,
         done = length - notDone,
         notDonePct = ((notDone / length) * 100) + '%',
+        notDoneText = (parseInt(notDonePct).toFixed(0)) + '%',
         donePct = ((done / length) * 100) + '%',
+        doneText = (parseInt(donePct).toFixed(0)) + '%',
         data = {
           name,
           _id,
           length,
           notDone,
           notDonePct,
+          notDoneText,
           done,
-          donePct
+          donePct,
+          doneText
         };
 
     if ($barContainer.children().length === 0) {
@@ -121,10 +124,14 @@ _.extend(Backbone.View.prototype, {
     }
 
     let $done = $('#list-progress').find("[data-done='" + data._id + "']"),
-        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']");
+        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']"),
+        $notDoneText = $('.not-done-text'),
+        $doneText = $('.done-text');
 
     $done.css({'width': data.donePct});
     $notDone.css({'width': data.notDonePct});
+    $doneText.html(data.doneText);
+    $notDoneText.html(data.notDoneText);
 
     if (app.activeListId && app.activeListId === data._id) {
       app.hasLengthChanged(data);
