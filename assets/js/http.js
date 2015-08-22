@@ -28,16 +28,19 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  get() {
+  get(options={render:true}) {
     app.user.fetch({
       success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
-        if (app.activeListId) {
+        if (app.activeListId && options.render) {
           app.setNotes(app.activeListId);
         }
+        else {
+          app.setLists();
+        }
         app.setProgressBars();
-        console.log(app.listsCollection);
+        console.log('GET: ', app.listsCollection);
       },
       error(err) {
         console.log(err);
@@ -116,8 +119,9 @@ _.extend(Backbone.View.prototype, {
           url: '/lists/' + id,
           success(model, response) {
             console.log('success ', model);
+            app.removeListItemById(id);
             app.notify('Removed');
-            app.get();
+            app.get({render: false});
           },
           error(err) {
             console.log('error ', err);

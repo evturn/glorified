@@ -73,11 +73,18 @@ _.extend(Backbone.View.prototype, {
     return $listItem.find("[data-id='" + id + "']");
   },
 
+  removeListItemById(id) {
+    let $container = app.getListContainerById(id);
+
+    $container.parent().remove();
+  },
+
   setListValue(listname) {
     let $listInput = $('.list-input');
 
     $listInput.val(listname);
   },
+
 
   resetActiveList(listname) {
     let $listItem = $('.list-item'),

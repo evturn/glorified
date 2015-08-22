@@ -59,15 +59,19 @@ _.extend(Backbone.View.prototype, {
   },
 
   get: function get() {
+    var options = arguments.length <= 0 || arguments[0] === undefined ? { render: true } : arguments[0];
+
     app.user.fetch({
       success: function success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
-        if (app.activeListId) {
+        if (app.activeListId && options.render) {
           app.setNotes(app.activeListId);
+        } else {
+          app.setLists();
         }
         app.setProgressBars();
-        console.log(app.listsCollection);
+        console.log('GET: ', app.listsCollection);
       },
       error: function error(err) {
         console.log(err);
@@ -144,8 +148,9 @@ _.extend(Backbone.View.prototype, {
           url: '/lists/' + id,
           success: function success(model, response) {
             console.log('success ', model);
+            app.removeListItemById(id);
             app.notify('Removed');
-            app.get();
+            app.get({ render: false });
           },
           error: function error(err) {
             console.log('error ', err);
@@ -231,6 +236,12 @@ _.extend(Backbone.View.prototype, {
     var $listItem = $('.list-item .inner-container');
 
     return $listItem.find("[data-id='" + id + "']");
+  },
+
+  removeListItemById: function removeListItemById(id) {
+    var $container = app.getListContainerById(id);
+
+    $container.parent().remove();
   },
 
   setListValue: function setListValue(listname) {
