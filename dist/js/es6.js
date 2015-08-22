@@ -445,6 +445,7 @@ _.extend(Backbone.View.prototype, {
     var $loader = $('.kurt-loader .message');
 
     $loader.html(notification);
+    $loader.removeClass('animated fadeOut');
     $loader.addClass('animated fadeIn');
 
     setTimeout(function () {
