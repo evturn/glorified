@@ -7,30 +7,28 @@
   }
 }
 
-.active-form .list-item {
-  padding: 5px 15px;
+.input-container {
+  margin-left: 10px;
   font-family: @sans;
+  position: relative;
 }
 
-.active-input {
+.note-input,
+.list-input {
+  .placeholder(@grey);
   width: 100%;
   border: 0;
+  font-size: 16px;
+  color: @black;
+  margin: 5px 0 5px;
 
   &:focus {
     outline: none;
   }
+}
 
-  &.list-input {
-    .placeholder(@grey);
-    height: 35px;
-    font-size: 18px;
-    color: @black;
-  }
-
-  &.note-input {
-    .placeholder(@grey);
-    height: 35px;
-    font-size: 16px;
-    color: @black;
-  }
+.validation-container {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

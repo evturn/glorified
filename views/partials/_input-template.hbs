@@ -1,22 +1,18 @@
 <script type="text/template" id="input-template">
   <form class="active-form">
 
-    <div class="list-item form-list">
       <div class="input-container">
-        <input type="text" class="active-input list-input" name="list" placeholder="List">
+        <input type="text" class="list-input" name="list" placeholder="List">
+        <div class="validation-container">
+          <span class="create-note-btn">
+            <i class="fa fa-check-circle"></i>
+          </span>
+        </div>
       </div>
-    </div>
-
-    <div class="list-item form-note">
       <div class="input-container">
-        <input type="text" class="active-input note-input" name="body" placeholder="New note...">
+        <input type="text" class="note-input" name="body" placeholder="New note...">
       </div>
 
-      <div class="validation-container">
-        <span class="kurt-loader"></span>
-        <span class="create-note-btn"><i class="fa fa-check-circle"></i></span>
-      </div>
-    </div>
 
   </form>
 </script>

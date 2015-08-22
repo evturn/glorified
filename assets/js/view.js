@@ -32,8 +32,8 @@ _.extend(Backbone.View.prototype, {
         notes = new RB.Notes(list.attributes.notes),
         listname = list.attributes.name,
         $container = $('.notes-container'),
-        $listInput = $('.active-input.list-input'),
-        $noteInput = $('.active-input.note-input');
+        $listInput = $('.list-input'),
+        $noteInput = $('.note-input');
 
     $container.empty();
     $listInput.val(listname);
@@ -74,7 +74,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setListValue(listname) {
-    let $listInput = $('.active-input.list-input');
+    let $listInput = $('.list-input');
 
     $listInput.val(listname);
   },
