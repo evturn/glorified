@@ -461,7 +461,7 @@ RB.App = Backbone.View.extend({
   },
 
   renderInputFields: function renderInputFields() {
-    $('.active-list-container').html(this.inputTemplate());
+    $('.inputs-container').html(this.inputTemplate());
 
     return this;
   },
