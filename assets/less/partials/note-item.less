@@ -10,12 +10,6 @@
   border-bottom: 1px solid @grey;
  .transition(all 0.6s ease);
 
-  @media (min-width: @sm) {
-    &:hover .fa {
-      display: inline-block;
-    }
-  }
-
   .timestamp {
     margin-right: 10px;
     display: block;
@@ -59,30 +53,21 @@
   }
 
   .fa {
-    .transition(all 0.3s ease);
-    color: @lightgrey;
+    color: @primarylighthover;
+    opacity: 0.7;
     cursor: pointer;
-    margin-left: 10px;
-    text-align: center;
+    margin-left: 5px;
     font-size: 2em;
-    height: 32px;
-    width: 32px;
-    line-height: 32px;
-    border-radius: 8px;
-
-    &:hover {
-      background-color: @primarylighthover;
-    }
+    .transition(all 0.3s ease);
 
     @media (min-width: @sm) {
-      color: @white;
-      background-color: @grey;
-      display: none;
+      color: @grey;
       margin-left: 5px;
       font-size: 1.5em;
-      height: 27px;
-      width: 27px;
-      line-height: 27px;
+
+      &:hover {
+        color: @primarylighthover;
+      }
     }
   }
 }
