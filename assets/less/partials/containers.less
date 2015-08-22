@@ -3,14 +3,21 @@
  max-width: @md;
 }
 
-.lists {
-  .no-scrollbar;
+.lists,
+.notes {
+  border-top: 5px solid @primarylight;
+  margin-bottom: 15px;
+  .border-top-radius(4px);
   .transition(0.3s);
+}
+
+.lists {
   vertical-align: top;
   border-radius: 2px;
-  width: 32.5%;
+  width: 50%;
   display: inline-block;
   margin: inherit;
+  .no-scrollbar;
 
   @media (min-width: @sm) {
     width: 30%;
@@ -18,7 +25,6 @@
 }
 
 .notes {
-  .transition(0.3s);
   max-width: @sm;
   border-radius: 2px;
   float: right;
@@ -30,12 +36,4 @@
     .transition(0.3s);
     width: 68%;
   }
-}
-
-
-.lists,
-.notes {
-  border-top: 5px solid @primarylight;
-  margin-bottom: 15px;
-  .border-top-radius(4px);
 }

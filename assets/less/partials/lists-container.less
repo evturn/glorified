@@ -6,8 +6,7 @@
   }
 
   .header-container {
-    margin-top: 5px;
-    padding: 5px;
+    padding: 5px 5px 0 5px;
     background-color: @white;
     text-align: right;
 
@@ -19,6 +18,7 @@
 
     .toggle-list-btn {
       display: block;
+
       @media (min-width: @sm) {
         float: right;
         position: inline-block;
@@ -27,6 +27,7 @@
 
     .create-list-btn {
       display: block;
+
       @media (min-width: @sm) {
         float: left;
         position: inline-block;
@@ -35,21 +36,14 @@
 
     .toggle-list-btn .fa,
     .create-list-btn .fa {
-      .transition(0.3s);
       color: @primarylight;
       font-size: 2em;
       cursor: pointer;
+      .transition(0.3s);
 
       &:hover {
         color: @primarylighthover;
-
       }
     }
   }
 }
-
-
-.spin {
-  .transform-rotate(720deg);
-}
-
