@@ -12,6 +12,8 @@
     margin: 0 5px;
   }
 
+
+
   .name-container {
     display: inline-block;
   }
@@ -34,10 +36,19 @@
       color: @white;
     }
 
+    .length-container,
+    .length-container:before,
+    .length-container:after {
+      background-color: @white;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     .badge {
       font-weight: 600;
       border-radius: 2px;
-      background-color: @white;
       color: @primarylight;
     }
   }
