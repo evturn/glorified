@@ -40,14 +40,10 @@ RB.NoteItem = Backbone.View.extend({
     var $input = $(e.currentTarget);
     var range = $input.val().length;
 
-    if ($input.hasClass('busy')) {
-      return true;
-    }
-    else {
+    if (!($input.hasClass('busy'))) {
       $input.addClass('busy');
       $input[0].setSelectionRange(range, range + 1);
     }
-
   },
 
   destroyNote() {
