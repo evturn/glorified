@@ -22,6 +22,12 @@ _.extend(Backbone.View.prototype, {
       $('.toggle-list-btn').on('click', function() {
         app.toggleLists();
       });
+
+      $(window).resize(function() {
+        app.windowWidth = $(window).width();
+        console.log(app.windowWidth);
+        app.setClient();
+      });
     }
   },
 
@@ -67,8 +73,6 @@ _.extend(Backbone.View.prototype, {
     app.$lists.toggleClass('expanded');
     app.$notes.toggleClass('expanded');
     app.$notes.toggleClass('collapsed');
-
-
   },
 
   notify(notification) {

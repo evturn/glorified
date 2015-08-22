@@ -6,6 +6,7 @@ _.extend(Backbone.View.prototype, {
 
   garbageTemplate : _.template($('#garbage-watcher-template').html()),
   allDoneTemplate : _.template($('#sunny-template').html()),
+  progressBarTemplate : _.template($('#progress-bar-template').html()),
 
   setLists() {
     let $container = $('.lists-container');
@@ -49,6 +50,7 @@ _.extend(Backbone.View.prototype, {
 
     app.notesCollection = notes;
     app.resetActiveList(listname);
+    app.renderActiveProgressBar(id);
   },
 
   getActiveListId() {
@@ -93,6 +95,42 @@ _.extend(Backbone.View.prototype, {
     $element.addClass('active');
 
     return $element;
+  },
+
+  renderActiveProgressBar(id) {
+    let collection = app.notesCollection,
+        $barContainer = $('.active-progress'),
+        _id = id,
+        length = collection.length,
+        notDone = collection.where({done: false}).length,
+        done = length - notDone,
+        notDonePct = ((notDone / length) * 100) + '%',
+        donePct = ((done / length) * 100) + '%',
+        data = {
+          name,
+          _id,
+          length,
+          notDone,
+          notDonePct,
+          done,
+          donePct
+        };
+
+    if ($barContainer.children().length === 0) {
+      $barContainer.html(app.progressBarTemplate(data));
+    }
+
+    let $done = $('#list-progress').find("[data-done='" + data._id + "']"),
+        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']");
+
+    $done.css({'width': data.donePct});
+    $notDone.css({'width': data.notDonePct});
+
+    if (app.activeListId && app.activeListId === data._id) {
+      app.hasLengthChanged(data);
+    }
+
+
   },
 
   setProgressBars() {

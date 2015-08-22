@@ -175,6 +175,7 @@ _.extend(Backbone.View.prototype, {
 
   garbageTemplate: _.template($('#garbage-watcher-template').html()),
   allDoneTemplate: _.template($('#sunny-template').html()),
+  progressBarTemplate: _.template($('#progress-bar-template').html()),
 
   setLists: function setLists() {
     var $container = $('.lists-container');
@@ -218,6 +219,7 @@ _.extend(Backbone.View.prototype, {
 
     app.notesCollection = notes;
     app.resetActiveList(listname);
+    app.renderActiveProgressBar(id);
   },
 
   getActiveListId: function getActiveListId() {
@@ -261,6 +263,40 @@ _.extend(Backbone.View.prototype, {
     $element.addClass('active');
 
     return $element;
+  },
+
+  renderActiveProgressBar: function renderActiveProgressBar(id) {
+    var collection = app.notesCollection,
+        $barContainer = $('.active-progress'),
+        _id = id,
+        length = collection.length,
+        notDone = collection.where({ done: false }).length,
+        done = length - notDone,
+        notDonePct = notDone / length * 100 + '%',
+        donePct = done / length * 100 + '%',
+        data = {
+      name: name,
+      _id: _id,
+      length: length,
+      notDone: notDone,
+      notDonePct: notDonePct,
+      done: done,
+      donePct: donePct
+    };
+
+    if ($barContainer.children().length === 0) {
+      $barContainer.html(app.progressBarTemplate(data));
+    }
+
+    var $done = $('#list-progress').find("[data-done='" + data._id + "']"),
+        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']");
+
+    $done.css({ 'width': data.donePct });
+    $notDone.css({ 'width': data.notDonePct });
+
+    if (app.activeListId && app.activeListId === data._id) {
+      app.hasLengthChanged(data);
+    }
   },
 
   setProgressBars: function setProgressBars() {
@@ -354,6 +390,12 @@ _.extend(Backbone.View.prototype, {
       autosize(document.querySelectorAll('textarea'));
       $('.toggle-list-btn').on('click', function () {
         app.toggleLists();
+      });
+
+      $(window).resize(function () {
+        app.windowWidth = $(window).width();
+        console.log(app.windowWidth);
+        app.setClient();
       });
     }
   },
@@ -502,12 +544,14 @@ RB.App = Backbone.View.extend({
   createList: function createList() {
     var $noteInput = $('.note-input'),
         $listInput = $('.list-input'),
+        $barContainer = $('.active-progress'),
         $notesContainer = $('.notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();
     app.activeListId = null;
     $notesContainer.empty();
+    $barContainer.empty();
     $notesContainer.attr('data-list', '');
   },
 
@@ -565,6 +609,7 @@ RB.ListItem = Backbone.View.extend({
 
   className: 'list-item',
   listTemplate: _.template($('#list-name-template').html()),
+
   events: {
     'click .inner-container': 'selected'
   },
@@ -579,8 +624,10 @@ RB.ListItem = Backbone.View.extend({
   },
 
   selected: function selected(e) {
-    var listId = $(e.currentTarget).data('id');
+    var listId = $(e.currentTarget).data('id'),
+        $barContainer = $('.active-progress');
 
+    $barContainer.empty();
     this.setNotes(listId);
     this.setActiveListId(listId);
     this.isMobile(400);
@@ -688,9 +735,3 @@ RB.NoteItem = Backbone.View.extend({
 
 var app = new RB.App();
 app.start();
-
-$(window).resize(function () {
-  app.windowWidth = $(window).width();
-  console.log(app.windowWidth);
-  app.setClient();
-});

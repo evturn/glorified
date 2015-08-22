@@ -2,6 +2,7 @@ RB.ListItem = Backbone.View.extend({
 
   className: 'list-item',
   listTemplate: _.template($('#list-name-template').html()),
+
   events: {
     'click .inner-container' : 'selected'
   },
@@ -16,8 +17,10 @@ RB.ListItem = Backbone.View.extend({
   },
 
   selected(e) {
-    let listId = $(e.currentTarget).data('id');
+    let listId = $(e.currentTarget).data('id'),
+        $barContainer = $('.active-progress');
 
+    $barContainer.empty();
     this.setNotes(listId);
     this.setActiveListId(listId);
     this.isMobile(400);

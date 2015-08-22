@@ -24,12 +24,14 @@ RB.App = Backbone.View.extend({
   createList() {
     let $noteInput = $('.note-input'),
         $listInput = $('.list-input'),
+        $barContainer = $('.active-progress'),
         $notesContainer = $('.notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();
     app.activeListId = null;
     $notesContainer.empty();
+    $barContainer.empty();
     $notesContainer.attr('data-list', '');
   },
 
