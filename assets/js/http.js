@@ -58,10 +58,6 @@ _.extend(Backbone.View.prototype, {
       method: 'POST',
       data: model,
       success(model, response) {
-        let note = new RB.Note(model),
-            view = new RB.NoteItem({model: note});
-
-        $notesContainer.append(view.render().el);
         $noteInput.val('').focus();
         app.validate();
         app.notify('Created');
