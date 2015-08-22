@@ -45,7 +45,6 @@ _.extend(Backbone.View.prototype, {
 
     if (app.activeListLength === null) {
       app.activeListLength = notes.length;
-      console.log(app.activeListLength);
     }
 
     app.notesCollection = notes;

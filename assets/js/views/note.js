@@ -52,38 +52,41 @@ RB.NoteItem = Backbone.View.extend({
 
   },
 
-  destroyNote: function() {
-    console.log(app.activeListLength);
+  destroyNote() {
     if (app.activeListLength === 1) {
       app.list.destroy(this.model, app.activeListId);
+
       return false;
     }
     else {
-      this.destroy(this.model);
+      app.destroy(this.model);
       this.remove();
     }
 
   },
 
-  toggleDone: function() {
-    var isDone = this.model.get('done');
-    var listId = this.getActiveListId();
-    var attributes = {
-      done: !isDone,
-      listId: listId
-    };
+  toggleDone() {
+    let isDone = this.model.get('done'),
+        listId = this.getActiveListId(),
+        attributes = {
+          done   : !isDone,
+          listId : listId
+        };
 
-    this.put(this.model, attributes, this);
+    app.put(this.model, attributes, this);
   },
 
-  updateNoteBody: function(e) {
-    var $input = $(e.currentTarget);
-    var content = $input.val().trim();
-    var listId = this.getActiveListId();
-    var attributes = {body: content, listId: listId};
+  updateNoteBody(e) {
+    let $input = $(e.currentTarget),
+        content = $input.val().trim(),
+        listId = this.getActiveListId(),
+        attributes = {
+          body   : content,
+          listId : listId
+        };
 
     $input.removeClass('busy');
-    this.put(this.model, attributes, this);
+    app.put(this.model, attributes, this);
   },
 
   updateNoteOnEnter: function(e) {

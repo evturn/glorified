@@ -215,7 +215,6 @@ _.extend(Backbone.View.prototype, {
 
     if (app.activeListLength === null) {
       app.activeListLength = notes.length;
-      console.log(app.activeListLength);
     }
 
     app.notesCollection = notes;
@@ -601,35 +600,38 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   destroyNote: function destroyNote() {
-    console.log(app.activeListLength);
     if (app.activeListLength === 1) {
       app.list.destroy(this.model, app.activeListId);
+
       return false;
     } else {
-      this.destroy(this.model);
+      app.destroy(this.model);
       this.remove();
     }
   },
 
   toggleDone: function toggleDone() {
-    var isDone = this.model.get('done');
-    var listId = this.getActiveListId();
-    var attributes = {
+    var isDone = this.model.get('done'),
+        listId = this.getActiveListId(),
+        attributes = {
       done: !isDone,
       listId: listId
     };
 
-    this.put(this.model, attributes, this);
+    app.put(this.model, attributes, this);
   },
 
   updateNoteBody: function updateNoteBody(e) {
-    var $input = $(e.currentTarget);
-    var content = $input.val().trim();
-    var listId = this.getActiveListId();
-    var attributes = { body: content, listId: listId };
+    var $input = $(e.currentTarget),
+        content = $input.val().trim(),
+        listId = this.getActiveListId(),
+        attributes = {
+      body: content,
+      listId: listId
+    };
 
     $input.removeClass('busy');
-    this.put(this.model, attributes, this);
+    app.put(this.model, attributes, this);
   },
 
   updateNoteOnEnter: function updateNoteOnEnter(e) {
