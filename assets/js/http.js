@@ -28,12 +28,18 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  get(options={render:true}) {
+  get(options={render:true, _id:false}) {
     app.user.fetch({
       success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
         if (app.activeListId && options.render) {
+          app.setNotes(app.activeListId);
+        }
+        else if (options._id) {
+          app.activeListId = options._id;
+          app.setActiveListId(app.activeListId)
+          app.setLists();
           app.setNotes(app.activeListId);
         }
         else {
@@ -58,10 +64,12 @@ _.extend(Backbone.View.prototype, {
       method: 'POST',
       data: model,
       success(model, response) {
+        console.log('model ', model);
+        console.log('response ', response);
         $noteInput.val('').focus();
         app.validate();
-        app.notify('Created');
-        app.get();
+        app.notify(response);
+        app.get({_id: model._id});
       },
       error(err) {
         console.log(err);
@@ -118,6 +126,7 @@ _.extend(Backbone.View.prototype, {
             app.removeListItemById(id);
             app.notify('Removed');
             app.get({render: false});
+            app.createList();
           },
           error(err) {
             console.log('error ', err);
