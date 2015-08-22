@@ -163,7 +163,6 @@ _.extend(Backbone.View.prototype, {
         });
       }
     }
-
   }
 });
 // ===================
@@ -343,13 +342,14 @@ _.extend(Backbone.View.prototype, {
       app.fixPath();
       app.onClickSetActive();
       app.isMobile(800);
+      autosize(document.querySelectorAll('textarea'));
     }
   },
 
   notify: function notify(notification) {
     var $loader = $('.kurt-loader');
 
-    $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
+    $loader.html('<p class="thin-md animated fadeIn">' + notification + '</p>');
 
     var $paragraphTag = $loader.find('.thin-sm');
 
@@ -581,7 +581,7 @@ RB.NoteItem = Backbone.View.extend({
     }
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
-
+    autosize($('textarea'));
     return this;
   },
 

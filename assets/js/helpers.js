@@ -9,13 +9,14 @@ _.extend(Backbone.View.prototype, {
       app.fixPath();
       app.onClickSetActive();
       app.isMobile(800);
+      autosize(document.querySelectorAll('textarea'));
     }
   },
 
   notify(notification) {
     let $loader = $('.kurt-loader');
 
-    $loader.html('<p class="thin-sm animated fadeIn">' + notification + '</p>');
+    $loader.html('<p class="thin-md animated fadeIn">' + notification + '</p>');
 
     let $paragraphTag = $loader.find('.thin-sm');
 

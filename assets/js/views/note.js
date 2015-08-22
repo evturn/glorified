@@ -31,7 +31,7 @@ RB.NoteItem = Backbone.View.extend({
     }
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
-
+    autosize($('textarea'));
     return this;
   },
 

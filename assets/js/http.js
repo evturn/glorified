@@ -36,7 +36,7 @@ _.extend(Backbone.View.prototype, {
 
         if (options._id) {
           app.activeListId = options._id;
-          app.setActiveListId(app.activeListId)
+          app.setActiveListId(app.activeListId);
           app.setLists();
         }
         else if (options.render === false) {
@@ -108,10 +108,8 @@ _.extend(Backbone.View.prototype, {
         },
         error(err) {
           console.log('error ', err);
-
         },
       });
-
     }
   },
 
@@ -130,12 +128,9 @@ _.extend(Backbone.View.prototype, {
           },
           error(err) {
             console.log('error ', err);
-
           },
         });
-
       }
     }
-
   }
 });

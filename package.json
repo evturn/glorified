@@ -52,6 +52,7 @@
     "watchify": "^3.2.3"
   },
   "dependencies": {
+    "autosize": "^3.0.8",
     "backbone": "^1.2.1",
     "bcrypt": "^0.8.3",
     "body-parser": "^1.13.1",

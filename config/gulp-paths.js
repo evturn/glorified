@@ -81,7 +81,7 @@ module.exports = {
         'assets/js/vendor/underscore.js',
         'assets/js/vendor/backbone.js',
         'assets/js/vendor/bootstrap.js',
-        'assets/js/vendor/wow.js'
+        'assets/js/vendor/autosize.js',
       ],
       dest: 'dist/js',
       filename: 'vendor.js'

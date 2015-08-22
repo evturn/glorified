@@ -38,7 +38,7 @@ gulp.task('js', function() {
     .on('error', gutil.log);
 });
 
-gulp.task('jslib', function() {
+gulp.task('js:vendor', function() {
   return gulp.src(paths.js.vendor.src)
     .pipe($.plumber(options.plumber))
     .pipe($.concat(paths.js.vendor.filename))
