@@ -587,9 +587,9 @@ RB.NoteItem = Backbone.View.extend({
     var $input = $(e.currentTarget);
     var range = $input.val().length;
 
-    if ($input.hasClass('busy')) {
+    if (app.isMobile) {
       return false;
-    } else if (app.isMobile) {
+    } else if ($input.hasClass('busy')) {
       return false;
     } else {
       $input.addClass('busy');
