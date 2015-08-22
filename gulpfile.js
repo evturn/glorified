@@ -47,15 +47,6 @@ gulp.task('jslib', function() {
     .pipe(gulp.dest(paths.js.vendor.dest));
 });
 
-gulp.task('css', function() {
-  return gulp.src(paths.css.src)
-    .pipe($.plumber(options.plumber))
-    .pipe($.concat(paths.css.filename))
-    .pipe($.cssmin())
-    .pipe($.rename(paths.css.filename))
-    .pipe(gulp.dest(paths.css.dest));
-});
-
 gulp.task('fonts', function() {
   return gulp.src(paths.font.src)
     .pipe(gulp.dest(paths.font.dest));
