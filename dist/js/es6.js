@@ -678,20 +678,18 @@ RB.ListItem = Backbone.View.extend({
         $barContainer = $('.active-progress');
 
     $barContainer.empty();
-    this.setNotes(listId);
-    this.setActiveListId(listId);
-    this.isMobile(400);
+    app.setNotes(listId);
+    app.setActiveListId(listId);
   }
-
 });
 'use strict';
 
 RB.NoteItem = Backbone.View.extend({
 
   className: 'note-item',
-
   itemTemplate: _.template($('#note-item-template').html()),
   attributes: {},
+
   initalize: function initalize() {
     this.listenTo(this.model, 'destroy', this.remove);
   },
@@ -720,12 +718,13 @@ RB.NoteItem = Backbone.View.extend({
     this.$el.html(this.itemTemplate(this.model.toJSON()));
     autosize($('textarea'));
     $('textarea').css({ 'resize': 'none' });
+
     return this;
   },
 
   positionCursor: function positionCursor(e) {
-    var $input = $(e.currentTarget);
-    var range = $input.val().length;
+    var $input = $(e.currentTarget),
+        range = $input.val().length;
 
     if (app.isMobile) {
       return false;

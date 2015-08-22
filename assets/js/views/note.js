@@ -1,9 +1,9 @@
 RB.NoteItem = Backbone.View.extend({
 
   className: 'note-item',
-
   itemTemplate: _.template($('#note-item-template').html()),
   attributes: {},
+
   initalize: function() {
     this.listenTo(this.model, 'destroy', this.remove);
   },
@@ -33,12 +33,13 @@ RB.NoteItem = Backbone.View.extend({
     this.$el.html(this.itemTemplate(this.model.toJSON()));
     autosize($('textarea'));
     $('textarea').css({'resize': 'none'});
+
     return this;
   },
 
-  positionCursor: function(e) {
-    var $input = $(e.currentTarget);
-    var range = $input.val().length;
+  positionCursor(e) {
+    let $input = $(e.currentTarget),
+        range = $input.val().length;
 
     if (app.isMobile) {
       return false;
@@ -90,8 +91,8 @@ RB.NoteItem = Backbone.View.extend({
     app.put(this.model, attributes, this);
   },
 
-  updateNoteOnEnter: function(e) {
-    var $input = $(e.currentTarget);
+  updateNoteOnEnter(e) {
+    let $input = $(e.currentTarget);
 
     if (e.keyCode === 13) {
       $input.blur();

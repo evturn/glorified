@@ -21,9 +21,7 @@ RB.ListItem = Backbone.View.extend({
         $barContainer = $('.active-progress');
 
     $barContainer.empty();
-    this.setNotes(listId);
-    this.setActiveListId(listId);
-    this.isMobile(400);
+    app.setNotes(listId);
+    app.setActiveListId(listId);
   },
-
 });
