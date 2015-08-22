@@ -19,7 +19,7 @@ RB.App = Backbone.View.extend({
     'click .toggle-list-btn' : 'toggleLists',
     'click .create-note-btn' : 'createNote',
     'keyup .note-input'      : 'createOnEnter',
-    'keyup .active-input'    : 'validate'
+    'keyup .activeInput'     : 'validate'
   },
 
   createList() {
