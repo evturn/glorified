@@ -228,23 +228,6 @@ _.extend(Backbone.View.prototype, {
     return $element;
   },
 
-  appendActiveListStats: function appendActiveListStats() {
-    var number = app.notesCollection.where({ done: true }).length,
-        $garbageContainer = $('.garbage-container'),
-        $statContainer = $('.garbage-container .stat'),
-        $trashContainer = $('.garbage-container .edit');
-
-    $garbageContainer.empty();
-
-    if (number !== 0) {
-      $garbageContainer.html(this.garbageTemplate({ length: number }));
-    } else {
-      $garbageContainer.html(this.allDoneTemplate());
-    }
-
-    return this;
-  },
-
   setProgressBars: function setProgressBars() {
     var listData = [],
         i = 0;
@@ -402,15 +385,6 @@ _.extend(Backbone.View.prototype, {
     return;
   },
 
-  sunny: function sunny() {
-    var counter = 0;
-
-    setInterval(function () {
-      $('.fa.fa-certificate').css({ '-ms-transform': 'rotate(' + counter + 'deg)' }).css({ '-moz-transform': 'rotate(' + counter + 'deg)' }).css({ '-o-transform': 'rotate(' + counter + 'deg)' }).css({ '-webkit-transform': 'rotate(' + counter + 'deg)' }).css({ 'transform': 'rotate(' + counter + 'deg)' });
-      counter += 3;
-    }, 100);
-  },
-
   fixPath: function fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       var _scroll = {
@@ -531,7 +505,6 @@ RB.ListItem = Backbone.View.extend({
 
     this.setNotes(listId);
     this.setActiveListId(listId);
-    this.appendActiveListStats();
     this.isMobile(400);
   }
 

@@ -88,20 +88,6 @@ _.extend(Backbone.View.prototype, {
     return;
   },
 
-  sunny() {
-    let counter = 0;
-
-    setInterval(function() {
-      $('.fa.fa-certificate').css({'-ms-transform': 'rotate(' + counter + 'deg)'})
-                       .css({'-moz-transform': 'rotate(' + counter + 'deg)'})
-                       .css({'-o-transform': 'rotate(' + counter + 'deg)'})
-                       .css({'-webkit-transform': 'rotate(' + counter + 'deg)'})
-                       .css({'transform': 'rotate(' + counter + 'deg)'});
-      counter += 3;
-
-    }, 100);
-  },
-
   fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       let scroll = {

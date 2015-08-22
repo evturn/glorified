@@ -20,7 +20,6 @@ RB.ListItem = Backbone.View.extend({
 
     this.setNotes(listId);
     this.setActiveListId(listId);
-    this.appendActiveListStats();
     this.isMobile(400);
   },
 
