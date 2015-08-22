@@ -50,8 +50,16 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   destroyNote: function() {
-    this.destroy(this.model);
-    this.remove();
+    console.log(app.activeListLength);
+    if (app.activeListLength === 1) {
+      app.list.destroy(this.model, app.activeListId);
+      return false;
+    }
+    else {
+      this.destroy(this.model);
+      this.remove();
+    }
+
   },
 
   toggleDone: function() {

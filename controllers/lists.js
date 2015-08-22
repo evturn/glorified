@@ -110,6 +110,10 @@ exports.delete = function(req, res, next) {
 
 };
 
+exports.deleteList = function(req, res, next) {
+  var user = req.user;
+};
+
 var saveUser = function(user, note) {
   user.save(function(err, data) {
     if (err) {

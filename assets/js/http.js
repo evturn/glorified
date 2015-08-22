@@ -107,4 +107,26 @@ _.extend(Backbone.View.prototype, {
 
     }
   },
+
+  list: {
+
+    destroy(model, id) {
+      if (id !== null) {
+        model.destroy({
+          url: '/lists/' + id,
+          success(model, response) {
+            console.log('success ', model);
+            app.notify('Removed');
+            app.get();
+          },
+          error(err) {
+            console.log('error ', err);
+
+          },
+        });
+
+      }
+    }
+
+  }
 });

@@ -134,6 +134,26 @@ _.extend(Backbone.View.prototype, {
         }
       });
     }
+  },
+
+  list: {
+
+    destroy: function destroy(model, id) {
+      if (id !== null) {
+        model.destroy({
+          url: '/lists/' + id,
+          success: function success(model, response) {
+            console.log('success ', model);
+            app.notify('Removed');
+            app.get();
+          },
+          error: function error(err) {
+            console.log('error ', err);
+          }
+        });
+      }
+    }
+
   }
 });
 // ===================
@@ -185,6 +205,7 @@ _.extend(Backbone.View.prototype, {
 
     if (app.activeListLength === null) {
       app.activeListLength = notes.length;
+      console.log(app.activeListLength);
     }
 
     app.notesCollection = notes;
@@ -560,8 +581,14 @@ RB.NoteItem = Backbone.View.extend({
   },
 
   destroyNote: function destroyNote() {
-    this.destroy(this.model);
-    this.remove();
+    console.log(app.activeListLength);
+    if (app.activeListLength === 1) {
+      app.list.destroy(this.model, app.activeListId);
+      return false;
+    } else {
+      this.destroy(this.model);
+      this.remove();
+    }
   },
 
   toggleDone: function toggleDone() {
