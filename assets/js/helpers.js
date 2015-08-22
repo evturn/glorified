@@ -45,10 +45,15 @@ _.extend(Backbone.View.prototype, {
 
   setClient() {
     if (app.windowWidth > 800) {
-      return false;
+      app.$notes.removeClass('expanded');
+      app.$notes.removeClass('collapsed');
+      app.$lists.removeClass('expanded');
+      app.$lists.removeClass('collapsed');
     }
-    app.$notes.addClass('expanded');
-    app.$lists.addClass('collapsed');
+    else {
+      app.$notes.addClass('expanded');
+      app.$lists.addClass('collapsed');
+    }
   },
 
   toggleLists() {

@@ -1,9 +1,11 @@
 .lists {
+  .transition(0.3s);
   width: 32.5%;
   display: inline-block;
+  margin: inherit;
 
   @media (min-width: @sm) {
-    width: 18%;
+    width: 23%;
   }
 }
 
@@ -14,14 +16,21 @@
 .lists.collapsed {
   margin-left: -25%;
   display: inline-block;
+
+  @media (min-width: @sm) {
+    margin-left: inherit;
+  }
 }
 
 .notes {
+  .transition(0.3s);
   width: 90%;
   display: inline-block;
+  margin: inherit;
 
   @media (min-width: @sm) {
-    width: 80%;
+    .transition(0.3s);
+    width: 75%;
   }
 }
 
@@ -32,4 +41,8 @@
 .notes.collapsed {
   margin-right: -25%;
   display: inline-block;
+
+  @media (min-width: @sm) {
+    margin-right: inherit;
+  }
 }

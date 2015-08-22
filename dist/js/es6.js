@@ -376,10 +376,14 @@ _.extend(Backbone.View.prototype, {
 
   setClient: function setClient() {
     if (app.windowWidth > 800) {
-      return false;
+      app.$notes.removeClass('expanded');
+      app.$notes.removeClass('collapsed');
+      app.$lists.removeClass('expanded');
+      app.$lists.removeClass('collapsed');
+    } else {
+      app.$notes.addClass('expanded');
+      app.$lists.addClass('collapsed');
     }
-    app.$notes.addClass('expanded');
-    app.$lists.addClass('collapsed');
   },
 
   toggleLists: function toggleLists() {
@@ -684,3 +688,9 @@ RB.NoteItem = Backbone.View.extend({
 
 var app = new RB.App();
 app.start();
+
+$(window).resize(function () {
+  app.windowWidth = $(window).width();
+  console.log(app.windowWidth);
+  app.setClient();
+});
