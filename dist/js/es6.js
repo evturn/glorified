@@ -78,7 +78,7 @@ _.extend(Backbone.View.prototype, {
   post: function post(model) {
     var self = this,
         $noteInput = $('.note-input'),
-        $notesContainer = $('.active-notes-container');
+        $notesContainer = $('.notes-container');
 
     $.ajax({
       url: '/notes/',
@@ -160,7 +160,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setNote: function setNote(model) {
-    var $notesContainer = $('.active-notes-container'),
+    var $notesContainer = $('.notes-container'),
         view = new RB.NoteItem({ model: model });
 
     $notesContainer.append(view.render().el);
@@ -170,7 +170,7 @@ _.extend(Backbone.View.prototype, {
     var list = app.listsCollection.get(id),
         notes = new RB.Notes(list.attributes.notes),
         listname = list.attributes.name,
-        $container = $('.active-notes-container'),
+        $container = $('.notes-container'),
         $listInput = $('.active-input.list-input'),
         $noteInput = $('.active-input.note-input');
 
@@ -198,7 +198,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setActiveListId: function setActiveListId(id) {
-    var $container = $('.active-notes-container');
+    var $container = $('.notes-container');
 
     $container.attr('data-list', id);
     app.activeListId = id;
@@ -453,7 +453,7 @@ RB.App = Backbone.View.extend({
   createList: function createList() {
     var $noteInput = $('.note-input'),
         $listInput = $('.list-input'),
-        $notesContainer = $('.active-notes-container');
+        $notesContainer = $('.notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();

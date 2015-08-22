@@ -25,7 +25,7 @@ RB.App = Backbone.View.extend({
   createList() {
     let $noteInput = $('.note-input'),
         $listInput = $('.list-input'),
-        $notesContainer = $('.active-notes-container');
+        $notesContainer = $('.notes-container');
 
     $noteInput.val('');
     $listInput.val('').focus();

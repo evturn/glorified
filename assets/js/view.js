@@ -21,7 +21,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setNote(model) {
-    let $notesContainer = $('.active-notes-container'),
+    let $notesContainer = $('.notes-container'),
         view = new RB.NoteItem({model: model});
 
     $notesContainer.append(view.render().el);
@@ -31,7 +31,7 @@ _.extend(Backbone.View.prototype, {
     let list = app.listsCollection.get(id),
         notes = new RB.Notes(list.attributes.notes),
         listname = list.attributes.name,
-        $container = $('.active-notes-container'),
+        $container = $('.notes-container'),
         $listInput = $('.active-input.list-input'),
         $noteInput = $('.active-input.note-input');
 
@@ -59,7 +59,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setActiveListId(id) {
-    let $container = $('.active-notes-container');
+    let $container = $('.notes-container');
 
     $container.attr('data-list', id);
     app.activeListId = id;

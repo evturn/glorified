@@ -48,7 +48,7 @@ _.extend(Backbone.View.prototype, {
   post(model) {
     let self = this,
         $noteInput = $('.note-input'),
-        $notesContainer = $('.active-notes-container');
+        $notesContainer = $('.notes-container');
 
     $.ajax({
       url: '/notes/',
