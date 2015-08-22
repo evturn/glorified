@@ -54,19 +54,21 @@ _.extend(Backbone.View.prototype, {
   },
 
   setClient() {
-    if (app.windowWidth > 800) {
+    if (app.windowWidth > 600) {
       app.$notes.removeClass('expanded');
       app.$notes.removeClass('collapsed');
       app.$lists.removeClass('expanded');
       app.$lists.removeClass('collapsed');
+      app.stopAnimation();
     }
     else {
       app.$notes.addClass('expanded');
       app.$lists.addClass('collapsed');
+      app.animateContainers();
     }
   },
 
-  toggleLists() {
+  toggleLists(options={reset:false}) {
     let $listsContainer = $('.lists-container'),
         $icon = $('.toggle-list-btn .fa'),
         $headerContainer = $('.header-container'),
@@ -77,6 +79,29 @@ _.extend(Backbone.View.prototype, {
     app.$lists.toggleClass('expanded');
     app.$notes.toggleClass('expanded');
     app.$notes.toggleClass('collapsed');
+
+    if (app.windowWidth < 600) {
+      app.animateContainers();
+    }
+    else {
+      app.stopAnimation();
+    }
+  },
+
+  animateContainers() {
+    if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
+      app.$lists.animate({'marginLeft': '-45%'}, 200);
+      app.$notes.animate({'marginRight': '0%'}, 200);
+    }
+    else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
+      app.$notes.animate({'marginRight': '-45%'}, 200);
+      app.$lists.animate({'marginLeft': '0%'}, 200);
+    }
+  },
+
+  stopAnimation() {
+    app.$notes.animate({'marginRight': '0%'}, 30);
+    app.$lists.animate({'marginLeft': '0%'}, 30);
   },
 
   notify(notification) {

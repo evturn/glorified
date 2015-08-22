@@ -1,6 +1,14 @@
+.lists,
+.notes,
+.lists.expanded,
+.lists.collapsed,
+.notes.expanded,
+.notes.collapsed {
+
+}
+
 .lists.expanded {
   margin-left: inherit;
-  .transition(all 0.3s ease);
 
   .lists-text {
     margin-bottom: 0;
@@ -20,9 +28,7 @@
 }
 
 .lists.collapsed {
-  margin-left: -43%;
   display: inline-block;
-  .transition(all 0.3s ease);
 
   @media (min-width: @sm) {
     margin-left: inherit;
@@ -39,13 +45,10 @@
 
 .notes.expanded {
   margin-right: inherit;
-  .transition(all 0.3s ease);
 }
 
 .notes.collapsed {
-  margin-right: -45%;
   display: inline-block;
-  .transition(all 0.3s ease);
 
   @media (min-width: @sm) {
     margin-right: inherit;
