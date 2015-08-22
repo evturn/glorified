@@ -17,8 +17,9 @@ _.extend(Backbone.View.prototype, {
       app.readClient();
       app.setClient();
       app.onClickSetActive();
-      app.isMobile(800);
+      app.isMobile();
       autosize(document.querySelectorAll('textarea'));
+
       $('.toggle-list-btn').on('click', function() {
         app.toggleLists();
       });
