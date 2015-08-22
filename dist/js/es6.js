@@ -540,7 +540,7 @@ RB.ListItem = Backbone.View.extend({
 
 RB.NoteItem = Backbone.View.extend({
 
-  className: 'list-item',
+  className: 'note-item',
 
   itemTemplate: _.template($('#note-item-template').html()),
   attributes: {},
