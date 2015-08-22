@@ -11,7 +11,7 @@ RB.NoteItem = Backbone.View.extend({
   events: {
     'click .edit .fa-trash'        : 'destroyNote',
     'click .edit .fa-check-square' : 'toggleDone',
-    'click .note-text'             : 'positionCursor',
+    'focus .note-text'             : 'positionCursor',
     'blur .note-text'              : 'updateNoteBody',
     'keyup .note-text'             : 'updateNoteOnEnter'
   },
