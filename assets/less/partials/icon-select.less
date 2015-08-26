@@ -1,14 +1,30 @@
-.icon-container {
+.input-container {
   position: relative;
 
+  .icon-arrow,
   .icon-select {
     display: none;
+  }
 
-    &.open {
+  .icon-dropdown.open {
+
+    .icon-arrow {
       position: absolute;
-      padding: 5px;
-      top: 50px;
-      left: 0;
+      z-index: 2;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 15px solid @primarylighthover;
+      top: 45px;
+      left: 11px;
+      display: block;
+      .box-shadow(0 0 77px -9px rgba(0,0,0,.75));
+    }
+
+    .icon-select {
+      position: absolute;
+      padding: 15px 5px;
+      top: 55px;
+      left: 10px;
       z-index: 1;
       overflow: scroll;
       background-color: @primarylighthover;
@@ -19,7 +35,7 @@
 
       @media (min-width: @sm) {
         display: block;
-        width: 300px;
+        max-width: 90%;
         height: 300px;
         overflow: scroll;
       }
@@ -29,12 +45,14 @@
       }
 
       .fa {
+        border: 2px solid @primarydark;
+        border-radius: 25%;
         cursor: pointer;
         width: 50px;
         height: 50px;
         line-height: 50px;
-        font-size: 2em;
-        .transition(0.3s);
+        font-size: 1.75em;
+        .transition(0.2s);
 
         &:hover {
           color: @white;

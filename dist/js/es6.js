@@ -427,7 +427,7 @@ _.extend(Backbone.View.prototype, {
       });
 
       $(document).on('click', '.icon-container .list-icon', function () {
-        $('.icon-select').toggleClass('open');
+        $('.icon-dropdown').toggleClass('open');
       });
     }
   },
