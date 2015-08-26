@@ -1,0 +1,15 @@
+.icon-container .icon-select {
+  display: none;
+
+  &.open {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+
+    @media (min-width: @sm) {
+      width: 500px;
+      height: 500px;
+    }
+  }
+}

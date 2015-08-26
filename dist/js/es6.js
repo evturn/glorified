@@ -586,13 +586,13 @@ RB.App = Backbone.View.extend({
 
   createList: function createList() {
     var $barContainer = $('.active-progress'),
-        $listIcon = $('.list-icon');
+        $iconContainer = $('.icon-container');
 
     app.$noteInput.val('');
     app.$listInput.val('').focus();
     app.activeListId = null;
     app.$notesContainer.empty();
-    $listIcon.html(this.iconPlaceholderTemplate());
+    $iconContainer.html(this.iconPlaceholderTemplate());
     $barContainer.empty();
     app.$notesContainer.attr('data-list', '');
   },
@@ -636,13 +636,13 @@ RB.App = Backbone.View.extend({
         sorted = app.sortNotes(list.attributes.notes),
         notes = new RB.Notes(sorted),
         listname = list.attributes.name,
-        $listIcon = $('.list-icon'),
+        $iconContainer = $('.icon-container'),
         icon = list.attributes.icon ? { icon: list.attributes.icon } : { icon: 'fa fa-tasks' };
 
     app.$notesContainer.empty();
     app.$listInput.val(listname);
-    $listIcon.empty();
-    $listIcon.append(app.iconTemplate(icon));
+    $iconContainer.empty();
+    $iconContainer.append(app.iconTemplate(icon));
 
     notes.each(function (note) {
       var view = new RB.NoteItem({ model: note });
