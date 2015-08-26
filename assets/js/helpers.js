@@ -4,17 +4,12 @@
 
 _.extend(Backbone.View.prototype, {
 
-  helpers: {
+  listeners: {
     init() {
       app.fixPath();
       app.readClient();
       app.setClient();
       app.isMobile();
-    }
-  },
-
-  listeners: {
-    init() {
       autosize(document.querySelectorAll('textarea'));
 
       $(window).resize(function() {

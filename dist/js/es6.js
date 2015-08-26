@@ -51,7 +51,6 @@ _.extend(Backbone.View.prototype, {
     app.$noteInput = $('.note-input');
     app.$notesContainer = $('.notes-container');
     app.$listsContainer = $('.lists-container');
-    app.helpers.init();
     app.listeners.init();
 
     app.user.fetch({
@@ -385,17 +384,12 @@ _.extend(Backbone.View.prototype, {
 
 _.extend(Backbone.View.prototype, {
 
-  helpers: {
+  listeners: {
     init: function init() {
       app.fixPath();
       app.readClient();
       app.setClient();
       app.isMobile();
-    }
-  },
-
-  listeners: {
-    init: function init() {
       autosize(document.querySelectorAll('textarea'));
 
       $(window).resize(function () {

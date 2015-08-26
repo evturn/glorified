@@ -21,7 +21,6 @@ _.extend(Backbone.View.prototype, {
     app.$noteInput           = $('.note-input');
     app.$notesContainer      = $('.notes-container');
     app.$listsContainer      = $('.lists-container');
-    app.helpers.init();
     app.listeners.init();
 
     app.user.fetch({
