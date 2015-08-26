@@ -17,10 +17,11 @@ RB.App = Backbone.View.extend({
   createNote() {
     let body = app.$noteInput.val(),
         list = app.$listInput.val(),
+        icon = 'fa fa-terminal',
         done = false;
 
     if (body.trim() && list.trim() !== '') {
-      let note = {body, list, done};
+      let note = {body, list, icon, done};
 
       if (app.listsCollection.length > 0) {
         for (let i = 0; i < app.listsCollection.length; i++) {
@@ -89,7 +90,7 @@ RB.App = Backbone.View.extend({
         notes = new RB.Notes(sorted),
         listname = list.attributes.name,
         $listIcon = $('.list-icon'),
-        icon = list.attributes.icon ? {icon: list.attributes.icon} : {icon: 'fa fa-list'};
+        icon = list.attributes.icon ? {icon: list.attributes.icon} : {icon: 'fa fa-tasks'};
 
 
     app.$notesContainer.empty();

@@ -32,7 +32,8 @@ exports.post = function(req, res, next) {
     if (list === undefined) {
       console.log('First list created: ' + data.list)
       var newList = new List({
-        name: data.list
+        name: data.list,
+        icon: data.icon
       });
 
       newList.notes.push(newNote);
@@ -57,7 +58,8 @@ exports.post = function(req, res, next) {
     else if (list.name !== data.list && counter === listsArray.length) {
       console.log('New list created: ' + data.list);
       var newList = new List({
-        name: data.list
+        name: data.list,
+        icon: data.icon
       });
 
       newList.notes.push(newNote);

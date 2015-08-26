@@ -31,12 +31,10 @@ exports.Note = function() {
 
 exports.List = function() {
   return new mongoose.Schema({
-    name: String,
-    notes: [NoteSchema],
-    created: {
-      type: Date,
-      default: Date.now
-    },
+    name       : {type : String},
+    icon       : {type : String,  default: 'fa fa-tasks'},
+    created    : {type : Date,    default: new Date()},
+    notes      : [NoteSchema],
   });
 };
 
