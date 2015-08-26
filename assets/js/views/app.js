@@ -5,22 +5,6 @@ RB.App = Backbone.View.extend({
   inputTemplate       : _.template($('#input-template').html()),
   progressBarTemplate : _.template($('#progress-bar-template').html()),
 
-  user                       : null,
-  listsCollection            : null,
-  notesCollection            : null,
-  activeListId               : null,
-  activeListLength           : null,
-  mobileClient               : null,
-  tabletClient               : null,
-  desktopClient              : null,
-  windowWidth                : $(window).width(),
-  $lists                     : $('.lists'),
-  $notes                     : $('.notes'),
-
-  initialize() {
-    this.renderForms();
-  },
-
   events: {
     'click .create-list-btn' : 'createList',
     'click .create-note-btn' : 'createNote',
@@ -28,51 +12,9 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput'     : 'validate'
   },
 
-  createList() {
-    let $noteInput = $('.note-input'),
-        $listInput = $('.list-input'),
-        $barContainer = $('.active-progress'),
-        $notesContainer = $('.notes-container');
-
-    $noteInput.val('');
-    $listInput.val('').focus();
-    app.activeListId = null;
-    $notesContainer.empty();
-    $barContainer.empty();
-    $notesContainer.attr('data-list', '');
-  },
-
-  renderForms() {
-    let $inputs = $('.inputs-container');
-
-    $inputs.html(this.inputTemplate());
-    autosize($('textarea'));
-
-    return this;
-  },
-
-  createOnEnter(e) {
-    if (e.keyCode === 13) {
-      app.createNote();
-    }
-  },
-
-  validate() {
-    let body = $('.note-input').val(),
-        list = $('.list-input').val(),
-        $check = $('.create-note-btn .fa');
-
-    if (body.trim() && list.trim() !== '') {
-      $check.addClass('ready');
-    }
-    else {
-      $check.removeClass('ready');
-    }
-  },
-
   createNote() {
-    let body = $('.note-input').val(),
-        list = $('.list-input').val(),
+    let body = app.$noteInput.val(),
+        list = app.$listInput.val(),
         done = false;
 
     if (body.trim() && list.trim() !== '') {
@@ -92,4 +34,88 @@ RB.App = Backbone.View.extend({
 
     return this;
   },
+
+  createList() {
+    let $barContainer = $('.active-progress'),
+        $notesContainer = $('.notes-container');
+
+    app.$noteInput.val('');
+    app.$listInput.val('').focus();
+    app.activeListId = null;
+    $notesContainer.empty();
+    $barContainer.empty();
+    $notesContainer.attr('data-list', '');
+  },
+
+  createOnEnter(e) {
+    if (e.keyCode === 13) {
+      app.createNote();
+    }
+  },
+
+  validate() {
+    let body = app.$noteInput.val(),
+        list = app.$listInput.val(),
+        $check = $('.create-note-btn .fa');
+
+    if (body.trim() && list.trim() !== '') {
+      $check.addClass('ready');
+    }
+    else {
+      $check.removeClass('ready');
+    }
+  },
+
+  setLists() {
+    let $container = $('.lists-container');
+
+    $container.empty();
+
+    app.listsCollection.each(function(model) {
+      let view = new RB.ListItem({model: model});
+
+      $container.append(view.render().el);
+    });
+  },
+
+  setNote(model) {
+    let $notesContainer = $('.notes-container'),
+        view = new RB.NoteItem({model: model});
+
+    $notesContainer.append(view.render().el);
+  },
+
+  setNotes(id) {
+    let list = app.listsCollection.get(id),
+        sorted = app.sortNotes(list.attributes.notes),
+        notes = new RB.Notes(sorted),
+        listname = list.attributes.name,
+        $container = $('.notes-container'),
+        $listInput = $('.list-input'),
+        $noteInput = $('.note-input');
+
+    $container.empty();
+    $listInput.val(listname);
+
+    notes.each(function(note) {
+      let view = new RB.NoteItem({model: note});
+
+      $container.append(view.render().el);
+    });
+
+    if (app.activeListLength === null) {
+      app.activeListLength = notes.length;
+    }
+
+    app.notesCollection = notes;
+    app.resetActiveList(listname);
+    app.renderActiveProgressBar(id);
+  },
+
+  sortNotes(list) {
+    let sorted = _.sortBy(list, 'done');
+
+   return sorted;
+  },
+
 });

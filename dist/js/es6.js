@@ -36,6 +36,19 @@ _.extend(Backbone.View.prototype, {
 
   start: function start() {
     app.user = new RB.User();
+    app.listsCollection = null;
+    app.notesCollection = null;
+    app.activeListId = null;
+    app.activeListLength = null;
+    app.mobileClient = null;
+    app.tabletClient = null;
+    app.desktopClient = null;
+    app.renderForms();
+    app.windowWidth = $(window).width();
+    app.$lists = $('.lists');
+    app.$notes = $('.notes');
+    app.$listInput = $('.list-input');
+    app.$noteInput = $('.note-input');
     app.helpers.init();
     app.listeners.init();
 
@@ -174,58 +187,6 @@ _.extend(Backbone.View.prototype, {
 
 _.extend(Backbone.View.prototype, {
 
-  setLists: function setLists() {
-    var $container = $('.lists-container');
-
-    $container.empty();
-
-    app.listsCollection.each(function (model) {
-      var view = new RB.ListItem({ model: model });
-
-      $container.append(view.render().el);
-    });
-  },
-
-  setNote: function setNote(model) {
-    var $notesContainer = $('.notes-container'),
-        view = new RB.NoteItem({ model: model });
-
-    $notesContainer.append(view.render().el);
-  },
-
-  setNotes: function setNotes(id) {
-    var list = app.listsCollection.get(id),
-        sorted = app.sortNotes(list.attributes.notes),
-        notes = new RB.Notes(sorted),
-        listname = list.attributes.name,
-        $container = $('.notes-container'),
-        $listInput = $('.list-input'),
-        $noteInput = $('.note-input');
-
-    $container.empty();
-    $listInput.val(listname);
-
-    notes.each(function (note) {
-      var view = new RB.NoteItem({ model: note });
-
-      $container.append(view.render().el);
-    });
-
-    if (app.activeListLength === null) {
-      app.activeListLength = notes.length;
-    }
-
-    app.notesCollection = notes;
-    app.resetActiveList(listname);
-    app.renderActiveProgressBar(id);
-  },
-
-  sortNotes: function sortNotes(list) {
-    var sorted = _.sortBy(list, 'done');
-
-    return sorted;
-  },
-
   getActiveListId: function getActiveListId() {
     var id = app.activeListId;
 
@@ -267,6 +228,15 @@ _.extend(Backbone.View.prototype, {
     $element.addClass('active');
 
     return $element;
+  },
+
+  renderForms: function renderForms() {
+    var $inputs = $('.inputs-container');
+
+    $inputs.html(this.inputTemplate());
+    autosize($('textarea'));
+
+    return this;
   },
 
   renderActiveProgressBar: function renderActiveProgressBar(id) {
@@ -352,30 +322,40 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  animateListTotal: function animateListTotal(list) {
-    var $length = $('div').find("[data-length='" + list._id + "']");
-
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
-
-    setTimeout(function () {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-    }, 300);
+  tojquery: function tojquery(element) {
+    switch (typeof element) {
+      case "object":
+        if (element instanceof jQuery) {
+          return element;
+        }
+        break;
+      case "string":
+        if (element.charAt(0) === '.') {
+          return $(element);
+        } else {
+          return $(document.getElementsByClassName(element));
+        }
+        break;
+    }
   },
 
-  hasLengthChanged: function hasLengthChanged(list) {
-    if (app.activeListLength === list.length) {
-      return false;
-    } else {
-      app.activeListLength = list.length;
-      app.animateListTotal(list);
-      return true;
-    }
-  }
+  convertDate: function convertDate(date) {
+    var d = new Date(date),
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+        year = d.getFullYear(),
+        _month = d.getMonth(),
+        month = ('' + (_month + 1)).slice(-2),
+        day = d.getDate(),
+        hours = d.getHours(),
+        _minutes = d.getMinutes(),
+        minutes = _minutes > 10 ? _minutes : '0' + _minutes,
+        meridiem = hours >= 12 ? 'pm' : 'am',
+        _hour = hours > 12 ? hours - 12 : hours,
+        hour = _hour === 0 ? 12 : _hour,
+        timestamp = month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
+    return timestamp;
+  }
 });
 // ===================
 // Mobile
@@ -390,6 +370,12 @@ _.extend(Backbone.View.prototype, {
     init: function init() {
       app.setMobile();
     }
+  },
+
+  isMobile: function isMobile() {
+    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    return device;
   },
 
   setMobile: function setMobile() {
@@ -412,7 +398,6 @@ _.extend(Backbone.View.prototype, {
       app.fixPath();
       app.readClient();
       app.setClient();
-      app.onClickSetActive();
       app.isMobile();
     }
   },
@@ -420,6 +405,13 @@ _.extend(Backbone.View.prototype, {
   listeners: {
     init: function init() {
       autosize(document.querySelectorAll('textarea'));
+
+      $(document).on('click', '.lists-container .list-item', function () {
+        var $listItem = $('.list-item');
+
+        $listItem.removeClass('active');
+        $(this).addClass('active');
+      });
 
       $('.toggle-list-btn').on('click', function () {
         app.toggleLists();
@@ -516,56 +508,6 @@ _.extend(Backbone.View.prototype, {
     }, 1000);
   },
 
-  tojquery: function tojquery(element) {
-    switch (typeof element) {
-      case "object":
-        if (element instanceof jQuery) {
-          return element;
-        }
-        break;
-      case "string":
-        if (element.charAt(0) === '.') {
-          return $(element);
-        } else {
-          return $(document.getElementsByClassName(element));
-        }
-        break;
-    }
-  },
-
-  convertDate: function convertDate(date) {
-    var d = new Date(date),
-        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-        year = d.getFullYear(),
-        _month = d.getMonth(),
-        month = ('' + (_month + 1)).slice(-2),
-        day = d.getDate(),
-        hours = d.getHours(),
-        _minutes = d.getMinutes(),
-        minutes = _minutes > 10 ? _minutes : '0' + _minutes,
-        meridiem = hours >= 12 ? 'pm' : 'am',
-        _hour = hours > 12 ? hours - 12 : hours,
-        hour = _hour === 0 ? 12 : _hour,
-        timestamp = month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
-
-    return timestamp;
-  },
-
-  onClickSetActive: function onClickSetActive() {
-    $(document).on('click', '.lists-container .list-item', function () {
-      var $listItem = $('.list-item');
-
-      $listItem.removeClass('active');
-      $(this).addClass('active');
-    });
-  },
-
-  isMobile: function isMobile() {
-    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    return device;
-  },
-
   fixPath: function fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       var _scroll = {
@@ -576,6 +518,30 @@ _.extend(Backbone.View.prototype, {
       window.location.hash = "";
       document.body.scrollTop = _scroll.top;
       document.body.scrollLeft = _scroll.left;
+    }
+  },
+
+  animateListTotal: function animateListTotal(list) {
+    var $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function () {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+    }, 300);
+  },
+
+  hasLengthChanged: function hasLengthChanged(list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    } else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+      return true;
     }
   }
 });
@@ -588,22 +554,6 @@ RB.App = Backbone.View.extend({
   inputTemplate: _.template($('#input-template').html()),
   progressBarTemplate: _.template($('#progress-bar-template').html()),
 
-  user: null,
-  listsCollection: null,
-  notesCollection: null,
-  activeListId: null,
-  activeListLength: null,
-  mobileClient: null,
-  tabletClient: null,
-  desktopClient: null,
-  windowWidth: $(window).width(),
-  $lists: $('.lists'),
-  $notes: $('.notes'),
-
-  initialize: function initialize() {
-    this.renderForms();
-  },
-
   events: {
     'click .create-list-btn': 'createList',
     'click .create-note-btn': 'createNote',
@@ -611,50 +561,9 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput': 'validate'
   },
 
-  createList: function createList() {
-    var $noteInput = $('.note-input'),
-        $listInput = $('.list-input'),
-        $barContainer = $('.active-progress'),
-        $notesContainer = $('.notes-container');
-
-    $noteInput.val('');
-    $listInput.val('').focus();
-    app.activeListId = null;
-    $notesContainer.empty();
-    $barContainer.empty();
-    $notesContainer.attr('data-list', '');
-  },
-
-  renderForms: function renderForms() {
-    var $inputs = $('.inputs-container');
-
-    $inputs.html(this.inputTemplate());
-    autosize($('textarea'));
-
-    return this;
-  },
-
-  createOnEnter: function createOnEnter(e) {
-    if (e.keyCode === 13) {
-      app.createNote();
-    }
-  },
-
-  validate: function validate() {
-    var body = $('.note-input').val(),
-        list = $('.list-input').val(),
-        $check = $('.create-note-btn .fa');
-
-    if (body.trim() && list.trim() !== '') {
-      $check.addClass('ready');
-    } else {
-      $check.removeClass('ready');
-    }
-  },
-
   createNote: function createNote() {
-    var body = $('.note-input').val(),
-        list = $('.list-input').val(),
+    var body = app.$noteInput.val(),
+        list = app.$listInput.val(),
         done = false;
 
     if (body.trim() && list.trim() !== '') {
@@ -673,7 +582,90 @@ RB.App = Backbone.View.extend({
     }
 
     return this;
+  },
+
+  createList: function createList() {
+    var $barContainer = $('.active-progress'),
+        $notesContainer = $('.notes-container');
+
+    app.$noteInput.val('');
+    app.$listInput.val('').focus();
+    app.activeListId = null;
+    $notesContainer.empty();
+    $barContainer.empty();
+    $notesContainer.attr('data-list', '');
+  },
+
+  createOnEnter: function createOnEnter(e) {
+    if (e.keyCode === 13) {
+      app.createNote();
+    }
+  },
+
+  validate: function validate() {
+    var body = app.$noteInput.val(),
+        list = app.$listInput.val(),
+        $check = $('.create-note-btn .fa');
+
+    if (body.trim() && list.trim() !== '') {
+      $check.addClass('ready');
+    } else {
+      $check.removeClass('ready');
+    }
+  },
+
+  setLists: function setLists() {
+    var $container = $('.lists-container');
+
+    $container.empty();
+
+    app.listsCollection.each(function (model) {
+      var view = new RB.ListItem({ model: model });
+
+      $container.append(view.render().el);
+    });
+  },
+
+  setNote: function setNote(model) {
+    var $notesContainer = $('.notes-container'),
+        view = new RB.NoteItem({ model: model });
+
+    $notesContainer.append(view.render().el);
+  },
+
+  setNotes: function setNotes(id) {
+    var list = app.listsCollection.get(id),
+        sorted = app.sortNotes(list.attributes.notes),
+        notes = new RB.Notes(sorted),
+        listname = list.attributes.name,
+        $container = $('.notes-container'),
+        $listInput = $('.list-input'),
+        $noteInput = $('.note-input');
+
+    $container.empty();
+    $listInput.val(listname);
+
+    notes.each(function (note) {
+      var view = new RB.NoteItem({ model: note });
+
+      $container.append(view.render().el);
+    });
+
+    if (app.activeListLength === null) {
+      app.activeListLength = notes.length;
+    }
+
+    app.notesCollection = notes;
+    app.resetActiveList(listname);
+    app.renderActiveProgressBar(id);
+  },
+
+  sortNotes: function sortNotes(list) {
+    var sorted = _.sortBy(list, 'done');
+
+    return sorted;
   }
+
 });
 'use strict';
 

@@ -5,7 +5,20 @@
 _.extend(Backbone.View.prototype, {
 
   start() {
-    app.user = new RB.User();
+    app.user                 = new RB.User();
+    app.listsCollection      = null;
+    app.notesCollection      = null;
+    app.activeListId         = null;
+    app.activeListLength     = null;
+    app.mobileClient         = null;
+    app.tabletClient         = null;
+    app.desktopClient        = null;
+    app.renderForms();
+    app.windowWidth          = $(window).width();
+    app.$lists               = $('.lists');
+    app.$notes               = $('.notes');
+    app.$listInput           = $('.list-input');
+    app.$noteInput           = $('.note-input');
     app.helpers.init();
     app.listeners.init();
 

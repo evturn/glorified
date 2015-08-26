@@ -9,7 +9,6 @@ _.extend(Backbone.View.prototype, {
       app.fixPath();
       app.readClient();
       app.setClient();
-      app.onClickSetActive();
       app.isMobile();
     }
   },
@@ -17,6 +16,13 @@ _.extend(Backbone.View.prototype, {
   listeners: {
     init() {
       autosize(document.querySelectorAll('textarea'));
+
+      $(document).on('click', '.lists-container .list-item', function() {
+        let $listItem = $('.list-item');
+
+        $listItem.removeClass('active');
+        $(this).addClass('active');
+      });
 
       $('.toggle-list-btn').on('click', function() {
         app.toggleLists();
@@ -116,58 +122,6 @@ _.extend(Backbone.View.prototype, {
     }, 1000);
   },
 
-  tojquery(element) {
-    switch (typeof element) {
-      case "object":
-        if (element instanceof jQuery) {
-          return element;
-        }
-        break;
-      case "string":
-        if (element.charAt(0) === '.') {
-          return $(element);
-        }
-        else {
-          return $(document.getElementsByClassName(element));
-        }
-        break;
-    }
-  },
-
-  convertDate(date) {
-    let d = new Date(date),
-        days      = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
-        year      = d.getFullYear(),
-        _month    = d.getMonth(),
-        month     = ('' + (_month + 1)).slice(-2),
-        day       = d.getDate(),
-        hours     = d.getHours(),
-        _minutes  = d.getMinutes(),
-        minutes   = _minutes > 10 ? _minutes : ('0' + _minutes),
-        meridiem  = hours >= 12 ? 'pm' : 'am',
-        _hour     = hours > 12 ? hours - 12 : hours,
-        hour      = _hour === 0 ? 12 : _hour,
-        timestamp =  month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
-
-    return timestamp;
-  },
-
-  onClickSetActive() {
-    $(document).on('click', '.lists-container .list-item', function() {
-      let $listItem = $('.list-item');
-
-      $listItem.removeClass('active');
-      $(this).addClass('active');
-    });
-  },
-
-
-  isMobile() {
-    let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    return device;
-  },
-
   fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       let scroll = {
@@ -178,6 +132,32 @@ _.extend(Backbone.View.prototype, {
       window.location.hash = "";
       document.body.scrollTop = scroll.top;
       document.body.scrollLeft = scroll.left;
+    }
+  },
+
+  animateListTotal(list) {
+    let $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function() {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+
+    }, 300);
+  },
+
+  hasLengthChanged(list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    }
+    else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+      return true;
     }
   },
 });

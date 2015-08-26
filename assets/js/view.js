@@ -4,58 +4,6 @@
 
 _.extend(Backbone.View.prototype, {
 
-  setLists() {
-    let $container = $('.lists-container');
-
-    $container.empty();
-
-    app.listsCollection.each(function(model) {
-      let view = new RB.ListItem({model: model});
-
-      $container.append(view.render().el);
-    });
-  },
-
-  setNote(model) {
-    let $notesContainer = $('.notes-container'),
-        view = new RB.NoteItem({model: model});
-
-    $notesContainer.append(view.render().el);
-  },
-
-  setNotes(id) {
-    let list = app.listsCollection.get(id),
-        sorted = app.sortNotes(list.attributes.notes),
-        notes = new RB.Notes(sorted),
-        listname = list.attributes.name,
-        $container = $('.notes-container'),
-        $listInput = $('.list-input'),
-        $noteInput = $('.note-input');
-
-    $container.empty();
-    $listInput.val(listname);
-
-    notes.each(function(note) {
-      let view = new RB.NoteItem({model: note});
-
-      $container.append(view.render().el);
-    });
-
-    if (app.activeListLength === null) {
-      app.activeListLength = notes.length;
-    }
-
-    app.notesCollection = notes;
-    app.resetActiveList(listname);
-    app.renderActiveProgressBar(id);
-  },
-
-  sortNotes(list) {
-    let sorted = _.sortBy(list, 'done');
-
-   return sorted;
-  },
-
   getActiveListId() {
     let id = app.activeListId;
 
@@ -99,6 +47,15 @@ _.extend(Backbone.View.prototype, {
     return $element;
   },
 
+  renderForms() {
+    let $inputs = $('.inputs-container');
+
+    $inputs.html(this.inputTemplate());
+    autosize($('textarea'));
+
+    return this;
+  },
+
   renderActiveProgressBar(id) {
     let collection = app.notesCollection,
         $barContainer = $('.active-progress'),
@@ -139,8 +96,6 @@ _.extend(Backbone.View.prototype, {
     if (app.activeListId && app.activeListId === data._id) {
       app.hasLengthChanged(data);
     }
-
-
   },
 
   setProgressBars() {
@@ -184,30 +139,39 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  animateListTotal(list) {
-    let $length = $('div').find("[data-length='" + list._id + "']");
-
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
-
-    setTimeout(function() {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-
-    }, 300);
-  },
-
-  hasLengthChanged(list) {
-    if (app.activeListLength === list.length) {
-      return false;
-    }
-    else {
-      app.activeListLength = list.length;
-      app.animateListTotal(list);
-      return true;
+  tojquery(element) {
+    switch (typeof element) {
+      case "object":
+        if (element instanceof jQuery) {
+          return element;
+        }
+        break;
+      case "string":
+        if (element.charAt(0) === '.') {
+          return $(element);
+        }
+        else {
+          return $(document.getElementsByClassName(element));
+        }
+        break;
     }
   },
 
+  convertDate(date) {
+    let d = new Date(date),
+        days      = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+        year      = d.getFullYear(),
+        _month    = d.getMonth(),
+        month     = ('' + (_month + 1)).slice(-2),
+        day       = d.getDate(),
+        hours     = d.getHours(),
+        _minutes  = d.getMinutes(),
+        minutes   = _minutes > 10 ? _minutes : ('0' + _minutes),
+        meridiem  = hours >= 12 ? 'pm' : 'am',
+        _hour     = hours > 12 ? hours - 12 : hours,
+        hour      = _hour === 0 ? 12 : _hour,
+        timestamp =  month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
+
+    return timestamp;
+  }
 });

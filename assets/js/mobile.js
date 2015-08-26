@@ -11,6 +11,12 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
+  isMobile() {
+    let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    return device;
+  },
+
   setMobile() {
     let $body = $('body');
 
