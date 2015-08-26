@@ -5,6 +5,7 @@
 _.extend(Backbone.View.prototype, {
 
   start() {
+    app.renderForms();
     app.user                 = new RB.User();
     app.listsCollection      = null;
     app.notesCollection      = null;
@@ -13,12 +14,13 @@ _.extend(Backbone.View.prototype, {
     app.mobileClient         = null;
     app.tabletClient         = null;
     app.desktopClient        = null;
-    app.renderForms();
     app.windowWidth          = $(window).width();
     app.$lists               = $('.lists');
     app.$notes               = $('.notes');
     app.$listInput           = $('.list-input');
     app.$noteInput           = $('.note-input');
+    app.$notesContainer      = $('.notes-container');
+    app.$listsContainer      = $('.lists-container');
     app.helpers.init();
     app.listeners.init();
 
@@ -69,18 +71,12 @@ _.extend(Backbone.View.prototype, {
   },
 
   post(model) {
-    let self = this,
-        $noteInput = $('.note-input'),
-        $notesContainer = $('.notes-container');
-
     $.ajax({
       url: '/notes/',
       method: 'POST',
       data: model,
       success(model, response) {
-        console.log('model ', model);
-        console.log('response ', response);
-        $noteInput.val('').focus();
+        app.$noteInput.val('').focus();
         app.validate();
         app.notify(response);
         app.get({_id: model._id, render: true});

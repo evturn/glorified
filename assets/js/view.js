@@ -11,9 +11,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setActiveListId(id) {
-    let $container = $('.notes-container');
-
-    $container.attr('data-list', id);
+    app.$notesContainer.attr('data-list', id);
     app.activeListId = id;
 
     return this;
@@ -32,9 +30,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setListValue(listname) {
-    let $listInput = $('.list-input');
-
-    $listInput.val(listname);
+    app.$listInput.val(listname);
   },
 
   resetActiveList(listname) {

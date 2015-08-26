@@ -36,15 +36,14 @@ RB.App = Backbone.View.extend({
   },
 
   createList() {
-    let $barContainer = $('.active-progress'),
-        $notesContainer = $('.notes-container');
+    let $barContainer = $('.active-progress');
 
     app.$noteInput.val('');
     app.$listInput.val('').focus();
     app.activeListId = null;
-    $notesContainer.empty();
+    app.$notesContainer.empty();
     $barContainer.empty();
-    $notesContainer.attr('data-list', '');
+    app.$notesContainer.attr('data-list', '');
   },
 
   createOnEnter(e) {
@@ -67,40 +66,34 @@ RB.App = Backbone.View.extend({
   },
 
   setLists() {
-    let $container = $('.lists-container');
-
-    $container.empty();
+    app.$listsContainer.empty();
 
     app.listsCollection.each(function(model) {
       let view = new RB.ListItem({model: model});
 
-      $container.append(view.render().el);
+      app.$listsContainer.append(view.render().el);
     });
   },
 
   setNote(model) {
-    let $notesContainer = $('.notes-container'),
-        view = new RB.NoteItem({model: model});
+    let view = new RB.NoteItem({model: model});
 
-    $notesContainer.append(view.render().el);
+    app.$notesContainer.append(view.render().el);
   },
 
   setNotes(id) {
     let list = app.listsCollection.get(id),
         sorted = app.sortNotes(list.attributes.notes),
         notes = new RB.Notes(sorted),
-        listname = list.attributes.name,
-        $container = $('.notes-container'),
-        $listInput = $('.list-input'),
-        $noteInput = $('.note-input');
+        listname = list.attributes.name;
 
-    $container.empty();
-    $listInput.val(listname);
+    app.$notesContainer.empty();
+    app.$listInput.val(listname);
 
     notes.each(function(note) {
       let view = new RB.NoteItem({model: note});
 
-      $container.append(view.render().el);
+      app.$notesContainer.append(view.render().el);
     });
 
     if (app.activeListLength === null) {

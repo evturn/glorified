@@ -74,12 +74,6 @@ _.extend(Backbone.View.prototype, {
   },
 
   toggleLists(options={reset:false}) {
-    let $listsContainer = $('.lists-container'),
-        $icon = $('.toggle-list-btn .fa'),
-        $headerContainer = $('.header-container'),
-        windowWidth = $(window).width(),
-        headerHeight = $headerContainer.outerHeight();
-
     app.$lists.toggleClass('collapsed');
     app.$lists.toggleClass('expanded');
     app.$notes.toggleClass('expanded');
@@ -157,6 +151,7 @@ _.extend(Backbone.View.prototype, {
     else {
       app.activeListLength = list.length;
       app.animateListTotal(list);
+
       return true;
     }
   },
