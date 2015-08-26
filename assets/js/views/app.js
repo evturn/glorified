@@ -15,6 +15,15 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput'     : 'validate'
   },
 
+  updateListIcon(icon) {
+    let _id = app.getActiveListId(),
+      notes = app.listsCollection.models,
+      attributes = {icon, _id, notes},
+      listModel = new RB.List(attributes);
+
+    app.list.put(listModel, attributes);
+  },
+
   createNote() {
     let body = app.$noteInput.val(),
         list = app.$listInput.val(),

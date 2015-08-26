@@ -448,17 +448,10 @@ _.extend(Backbone.View.prototype, {
 
       $(document).on('click', '.icon-select .icon-option', function () {
         var icon = $(this).attr('data-icon'),
-            _id = app.getActiveListId(),
-            notes = app.listsCollection.models,
-            attributes = {
-          icon: icon,
-          _id: _id,
-          notes: notes
-        },
-            listModel = new RB.List(attributes);
+            $dropdown = $('.icon-dropdown');
 
-        app.list.put(listModel, attributes);
-        $('.icon-dropdown').removeClass('open');
+        $dropdown.removeClass('open');
+        app.updateListIcon(icon);
       });
     }
   },
@@ -592,6 +585,15 @@ RB.App = Backbone.View.extend({
     'click .create-note-btn': 'createNote',
     'keyup .note-input': 'createOnEnter',
     'keyup .activeInput': 'validate'
+  },
+
+  updateListIcon: function updateListIcon(icon) {
+    var _id = app.getActiveListId(),
+        notes = app.listsCollection.models,
+        attributes = { icon: icon, _id: _id, notes: notes },
+        listModel = new RB.List(attributes);
+
+    app.list.put(listModel, attributes);
   },
 
   createNote: function createNote() {
