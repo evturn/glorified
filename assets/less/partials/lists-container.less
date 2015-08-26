@@ -6,12 +6,10 @@
   }
 
   .header-container {
-    padding: 5px 5px 0 5px;
     background-color: @white;
     text-align: right;
 
     @media (min-width: @sm) {
-      padding: 5px 10px;
       border-bottom: 2px solid @lightgrey;
       overflow: auto;
     }
@@ -40,8 +38,10 @@
 
     .toggle-list-btn,
     .create-list-btn {
-      padding-top: 5px;
-      padding-bottom: 5px;
+      @media (min-width: @sm) {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
     }
 
     .toggle-list-btn .fa,
@@ -49,6 +49,10 @@
       color: @primarylight;
       font-size: 2em;
       cursor: pointer;
+      height: 45px;
+      width: 45px;
+      line-height: 45px;
+      text-align: center;
       .transition(0.3s);
 
       &:hover {

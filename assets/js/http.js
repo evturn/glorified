@@ -6,7 +6,6 @@ _.extend(Backbone.View.prototype, {
 
   start() {
     app.renderForms();
-    app.appendIcons();
     app.user                 = new RB.User();
     app.listsCollection      = null;
     app.notesCollection      = null;
@@ -23,6 +22,7 @@ _.extend(Backbone.View.prototype, {
     app.$notesContainer      = $('.notes-container');
     app.$listsContainer      = $('.lists-container');
     app.listeners.init();
+    app.appendIcons();
 
     app.user.fetch({
       success(model, response) {

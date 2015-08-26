@@ -98,7 +98,7 @@ _.extend(Backbone.View.prototype, {
 
   animateContainers() {
     if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
-      app.$lists.animate({'marginLeft': '-42%'}, 200);
+      app.$lists.animate({'marginLeft': '-39%'}, 200);
       app.$notes.animate({'marginRight': '0%'}, 200);
     }
     else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {

@@ -37,7 +37,6 @@ _.extend(Backbone.View.prototype, {
 
   start: function start() {
     app.renderForms();
-    app.appendIcons();
     app.user = new RB.User();
     app.listsCollection = null;
     app.notesCollection = null;
@@ -54,6 +53,7 @@ _.extend(Backbone.View.prototype, {
     app.$notesContainer = $('.notes-container');
     app.$listsContainer = $('.lists-container');
     app.listeners.init();
+    app.appendIcons();
 
     app.user.fetch({
       success: function success(model, response) {
@@ -385,6 +385,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendIcons: function appendIcons() {
+    console.log('i am running');
     app.icons.forEach(function (icon) {
       app.appendIconSelect(icon);
     });
@@ -520,7 +521,7 @@ _.extend(Backbone.View.prototype, {
 
   animateContainers: function animateContainers() {
     if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
-      app.$lists.animate({ 'marginLeft': '-42%' }, 200);
+      app.$lists.animate({ 'marginLeft': '-39%' }, 200);
       app.$notes.animate({ 'marginRight': '0%' }, 200);
     } else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
       app.$notes.animate({ 'marginRight': '-45%' }, 200);

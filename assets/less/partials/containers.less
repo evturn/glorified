@@ -1,7 +1,10 @@
 .dmc {
- padding-top: 40px;
+ padding: 40px 0 40px 0;
+
+ @media (min-width: @sm) {
+  padding: 40px 15px 40px 15px;
+ }
  max-width: @md;
- padding-bottom: 40px;
 }
 
 .lists,
@@ -27,7 +30,7 @@
 .notes {
   max-width: @sm;
   border-radius: 2px;
-  width: 90%;
+  width: 87%;
   display: inline-block;
   margin: inherit;
 

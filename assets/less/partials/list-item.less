@@ -1,23 +1,36 @@
 .lists {
 
+  .icon-container,
+  .length-container,
   .name-container {
     display: inline-block;
   }
 
-  .icon-container,
+
   .length-container {
     display: inline-block;
     border-radius: 2px;
     background-color: @darkgrey;
     color: @white;
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
+    height: 45px;
+    width: 45px;
+    line-height: 45px;
     text-align: center;
+    margin-left: 1px;
+    float: left;
+    vertical-align: bottom;
   }
 
-  .icon-container {
-    margin: 0 5px;
+
+  .icon-container .fa {
+    height: 45px;
+    width: 45px;
+    line-height: 45px;
+    background-color: @white;
+    color: @primarylighthover;
+    text-align: center;
+    font-size: 1.75em;
+    border-radius: 2px;
   }
 
 }
@@ -31,18 +44,12 @@
   }
 
   &.active .inner-container {
-    .icon-container,
-    .length-container,
-    .length-container:before,
-    .length-container:after {
+
+    .fa {
+      color: @white;
       background-color: @primarylighthover;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -webkit-tap-highlight-color: transparent;
     }
 
-    .fa,
     .badge {
       font-weight: 600;
       border-radius: 2px;
@@ -51,13 +58,8 @@
   }
 
   .inner-container {
+    vertical-align: bottom;
     position: relative;
     text-align: right;
-    padding-top: 5px;
-
-    &:hover {
-      background-color: @primarylight;
-      color: @white;
-    }
   }
 }
