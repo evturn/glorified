@@ -4,6 +4,7 @@
     display: inline-block;
   }
 
+  .icon-container,
   .length-container {
     display: inline-block;
     border-radius: 2px;
@@ -16,14 +17,7 @@
   }
 
   .icon-container {
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-    text-align: center;
     margin: 0 5px;
-    background-color: @darkgrey;
-    color: @white;
-    display: inline-block;
   }
 
 }
@@ -37,28 +31,22 @@
   }
 
   &.active .inner-container {
-    background-color: @primarylight;
-    color: @white;
-    opacity: 0.8;
-
-    .list-text {
-      color: @white;
-    }
-
+    .icon-container,
     .length-container,
     .length-container:before,
     .length-container:after {
-      background-color: @white;
+      background-color: @primarylighthover;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
+    .fa,
     .badge {
       font-weight: 600;
       border-radius: 2px;
-      color: @primarylight;
+      color: @white;
     }
   }
 
