@@ -43,25 +43,33 @@ _.extend(Backbone.View.prototype, {
     });
   },
 
-  get(options={render:true, _id:false}) {
+  get(options = {listDestroyed: false, _id: false}) {
+    // listDestroyed : true  DELETE REQUEST (LIST)
+    // _id           : true  POST REQUEST   (ALL)
+
     app.user.fetch({
       success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
 
-        if (options._id) {
-          app.activeListId = options._id;
-          app.setActiveListId(app.activeListId);
-          app.setLists();
-        }
-        else if (options.render === false) {
+        if (options.listDestroyed) {
+          // LIST DESTROYED, no notes to render
           app.setLists();
           app.setProgressBars();
-
-          return false;
         }
-        app.setNotes(app.activeListId);
-        app.setProgressBars();
+        else if (options._id) {
+          // NOTE CREATED, render all and render notes
+          app.activeListId = options._id;
+          app.setActiveListId(options._id);
+          app.setLists();
+          app.setNotes(options._id);
+          app.setProgressBars();
+        }
+        else {
+          // NOTE UPDATED
+          app.setNotes(app.activeListId);
+          app.setProgressBars();
+        }
       },
       error(err) {
         console.log(err);
@@ -78,7 +86,7 @@ _.extend(Backbone.View.prototype, {
         app.$noteInput.val('').focus();
         app.validate();
         app.notify(response);
-        app.get({_id: model._id, render: true});
+        app.get({_id: model._id});
       },
       error(err) {
         console.log(err);
@@ -102,14 +110,14 @@ _.extend(Backbone.View.prototype, {
   },
 
   destroy(model) {
-    let id = model.get('_id'),
-        listId = app.getActiveListId();
+    let id = model.get('_id');
 
-    model.set('listId', listId);
+    model.set('listId', app.activeListId);
 
     if (id !== null) {
       model.destroy({
-        url: '/notes/' + id + '?listId=' + listId,
+        // Change route to '/lists/:id/notes/:id'
+        url: '/notes/' + id + '?listId=' + app.activeListId,
         success(model, response) {
           console.log('success ', model);
           app.notify('Removed');
@@ -147,7 +155,7 @@ _.extend(Backbone.View.prototype, {
             console.log('success ', model);
             app.removeListItemById(id);
             app.notify('Removed');
-            app.get({render: false});
+            app.get({listDestroyed: true});
             app.createList();
           },
           error(err) {

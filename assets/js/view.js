@@ -11,6 +11,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setActiveListId(id) {
+    // Too small of a utility and possibly redundant
     app.$notesContainer.attr('data-list', id);
     app.activeListId = id;
 
@@ -21,6 +22,10 @@ _.extend(Backbone.View.prototype, {
     let $listItem = $('.list-item .inner-container');
 
     return $listItem.find("[data-id='" + id + "']");
+  },
+
+  getListItemIconById(id) {
+    return $('div').find("[data-list-item-icon='" + id + "']");
   },
 
   removeListItemById(id) {

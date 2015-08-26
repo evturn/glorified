@@ -38,10 +38,12 @@ _.extend(Backbone.View.prototype, {
 
       $(document).on('click', '.icon-select .icon-option', function() {
         let icon = $(this).attr('data-icon'),
-            $dropdown = $('.icon-dropdown');
+            $dropdown = $('.icon-dropdown'),
+            $listItemIcon = app.getListItemIconById(app.activeListId);
 
         $dropdown.removeClass('open');
         app.updateListIcon(icon);
+        $listItemIcon.addClass('bounce');
       });
     }
   },

@@ -6,6 +6,7 @@ RB.App = Backbone.View.extend({
   progressBarTemplate : _.template($('#progress-bar-template').html()),
   iconSelectTemplate  : _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate        : _.template($('#icon-placeholder-template').html()),
+  iconListItemTemplate        : _.template($('#icon-list-item-template').html()),
   iconTemplate        : _.template($('#icon-template').html()),
 
   events: {
@@ -16,12 +17,16 @@ RB.App = Backbone.View.extend({
   },
 
   updateListIcon(icon) {
-    let _id = app.getActiveListId(),
-      notes = app.listsCollection.models,
-      attributes = {icon, _id, notes},
-      listModel = new RB.List(attributes);
+    let _id = app.activeListId,
+        $listItemIcon = app.getListItemIconById(_id),
+        notes = app.listsCollection.models,
+        length = notes.length,
+        attributes = {icon, _id, notes},
+        listModel = new RB.List(attributes);
 
     app.list.put(listModel, attributes);
+    attributes.length = length;
+    $listItemIcon.html(this.iconListItemTemplate(attributes));
   },
 
   createNote() {
@@ -30,26 +35,24 @@ RB.App = Backbone.View.extend({
         done = false;
 
     if (body.trim() && list.trim() !== '') {
-      let note = {body, list, icon, done};
+      let data = {body, list, done};
 
       if (app.listsCollection.length > 0) {
         for (let i = 0; i < app.listsCollection.length; i++) {
           let inMemory = app.listsCollection.models[i].body;
-          if (note.body === inMemory) {
+
+          if (data.body === inMemory) {
             return false;
           }
         }
       }
-
-      app.post(note);
+      app.post(data);
     }
-
-    return this;
   },
 
   createList() {
     let $barContainer = $('.active-progress'),
-        $iconContainer = $('.icon-container');
+        $iconContainer = $('.input-container .icon-container');
 
     app.$noteInput.val('');
     app.$listInput.val('').focus();
@@ -100,7 +103,7 @@ RB.App = Backbone.View.extend({
         sorted = app.sortNotes(list.attributes.notes),
         notes = new RB.Notes(sorted),
         listname = list.attributes.name,
-        $iconContainer = $('.icon-container'),
+        $iconContainer = $('.input-container .icon-container'),
         icon = list.attributes.icon ? {icon: list.attributes.icon} : {icon: 'fa fa-tasks'};
 
 

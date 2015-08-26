@@ -75,25 +75,32 @@ _.extend(Backbone.View.prototype, {
   },
 
   get: function get() {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? { render: true, _id: false } : arguments[0];
+    var options = arguments.length <= 0 || arguments[0] === undefined ? { listDestroyed: false, _id: false } : arguments[0];
+
+    // listDestroyed : true  DELETE REQUEST (LIST)
+    // _id           : true  POST REQUEST   (ALL)
 
     app.user.fetch({
       success: function success(model, response) {
         app.listsCollection.stopListening();
         app.listsCollection = new RB.Lists(model.attributes.lists);
 
-        if (options._id) {
-          app.activeListId = options._id;
-          app.setActiveListId(app.activeListId);
-          app.setLists();
-        } else if (options.render === false) {
+        if (options.listDestroyed) {
+          // LIST DESTROYED, no notes to render
           app.setLists();
           app.setProgressBars();
-
-          return false;
+        } else if (options._id) {
+          // NOTE CREATED, render all and render notes
+          app.activeListId = options._id;
+          app.setActiveListId(options._id);
+          app.setLists();
+          app.setNotes(options._id);
+          app.setProgressBars();
+        } else {
+          // NOTE UPDATED
+          app.setNotes(app.activeListId);
+          app.setProgressBars();
         }
-        app.setNotes(app.activeListId);
-        app.setProgressBars();
       },
       error: function error(err) {
         console.log(err);
@@ -110,7 +117,7 @@ _.extend(Backbone.View.prototype, {
         app.$noteInput.val('').focus();
         app.validate();
         app.notify(response);
-        app.get({ _id: model._id, render: true });
+        app.get({ _id: model._id });
       },
       error: function error(err) {
         console.log(err);
@@ -134,14 +141,14 @@ _.extend(Backbone.View.prototype, {
   },
 
   destroy: function destroy(model) {
-    var id = model.get('_id'),
-        listId = app.getActiveListId();
+    var id = model.get('_id');
 
-    model.set('listId', listId);
+    model.set('listId', app.activeListId);
 
     if (id !== null) {
       model.destroy({
-        url: '/notes/' + id + '?listId=' + listId,
+        // Change route to '/lists/:id/notes/:id'
+        url: '/notes/' + id + '?listId=' + app.activeListId,
         success: function success(model, response) {
           console.log('success ', model);
           app.notify('Removed');
@@ -179,7 +186,7 @@ _.extend(Backbone.View.prototype, {
             console.log('success ', model);
             app.removeListItemById(id);
             app.notify('Removed');
-            app.get({ render: false });
+            app.get({ listDestroyed: true });
             app.createList();
           },
           error: function error(err) {
@@ -205,6 +212,7 @@ _.extend(Backbone.View.prototype, {
   },
 
   setActiveListId: function setActiveListId(id) {
+    // Too small of a utility and possibly redundant
     app.$notesContainer.attr('data-list', id);
     app.activeListId = id;
 
@@ -215,6 +223,10 @@ _.extend(Backbone.View.prototype, {
     var $listItem = $('.list-item .inner-container');
 
     return $listItem.find("[data-id='" + id + "']");
+  },
+
+  getListItemIconById: function getListItemIconById(id) {
+    return $('div').find("[data-list-item-icon='" + id + "']");
   },
 
   removeListItemById: function removeListItemById(id) {
@@ -448,10 +460,12 @@ _.extend(Backbone.View.prototype, {
 
       $(document).on('click', '.icon-select .icon-option', function () {
         var icon = $(this).attr('data-icon'),
-            $dropdown = $('.icon-dropdown');
+            $dropdown = $('.icon-dropdown'),
+            $listItemIcon = app.getListItemIconById(app.activeListId);
 
         $dropdown.removeClass('open');
         app.updateListIcon(icon);
+        $listItemIcon.addClass('bounce');
       });
     }
   },
@@ -578,6 +592,7 @@ RB.App = Backbone.View.extend({
   progressBarTemplate: _.template($('#progress-bar-template').html()),
   iconSelectTemplate: _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
+  iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
 
   events: {
@@ -588,12 +603,16 @@ RB.App = Backbone.View.extend({
   },
 
   updateListIcon: function updateListIcon(icon) {
-    var _id = app.getActiveListId(),
+    var _id = app.activeListId,
+        $listItemIcon = app.getListItemIconById(_id),
         notes = app.listsCollection.models,
+        length = notes.length,
         attributes = { icon: icon, _id: _id, notes: notes },
         listModel = new RB.List(attributes);
 
     app.list.put(listModel, attributes);
+    attributes.length = length;
+    $listItemIcon.html(this.iconListItemTemplate(attributes));
   },
 
   createNote: function createNote() {
@@ -602,26 +621,24 @@ RB.App = Backbone.View.extend({
         done = false;
 
     if (body.trim() && list.trim() !== '') {
-      var note = { body: body, list: list, icon: icon, done: done };
+      var data = { body: body, list: list, done: done };
 
       if (app.listsCollection.length > 0) {
         for (var i = 0; i < app.listsCollection.length; i++) {
           var inMemory = app.listsCollection.models[i].body;
-          if (note.body === inMemory) {
+
+          if (data.body === inMemory) {
             return false;
           }
         }
       }
-
-      app.post(note);
+      app.post(data);
     }
-
-    return this;
   },
 
   createList: function createList() {
     var $barContainer = $('.active-progress'),
-        $iconContainer = $('.icon-container');
+        $iconContainer = $('.input-container .icon-container');
 
     app.$noteInput.val('');
     app.$listInput.val('').focus();
@@ -671,7 +688,7 @@ RB.App = Backbone.View.extend({
         sorted = app.sortNotes(list.attributes.notes),
         notes = new RB.Notes(sorted),
         listname = list.attributes.name,
-        $iconContainer = $('.icon-container'),
+        $iconContainer = $('.input-container .icon-container'),
         icon = list.attributes.icon ? { icon: list.attributes.icon } : { icon: 'fa fa-tasks' };
 
     app.$notesContainer.empty();
