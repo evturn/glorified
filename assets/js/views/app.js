@@ -4,6 +4,7 @@ RB.App = Backbone.View.extend({
 
   inputTemplate       : _.template($('#input-template').html()),
   progressBarTemplate : _.template($('#progress-bar-template').html()),
+  iconSelectTemplate  : _.template($('#icon-select-template').html()),
 
   events: {
     'click .create-list-btn' : 'createList',
