@@ -4,13 +4,6 @@
 
 _.extend(Backbone.View.prototype, {
 
-  windowWidth: $(window).width(),
-  mobileClient: null,
-  tabletClient: null,
-  desktopClient: null,
-  $lists: $('.lists'),
-  $notes: $('.notes'),
-
   helpers: {
     init() {
       app.fixPath();
@@ -18,13 +11,13 @@ _.extend(Backbone.View.prototype, {
       app.setClient();
       app.onClickSetActive();
       app.isMobile();
-      autosize(document.querySelectorAll('textarea'));
-      app.listeners.init();
     }
   },
 
   listeners: {
     init() {
+      autosize(document.querySelectorAll('textarea'));
+
       $('.toggle-list-btn').on('click', function() {
         app.toggleLists();
       });
@@ -154,7 +147,7 @@ _.extend(Backbone.View.prototype, {
         meridiem  = hours >= 12 ? 'pm' : 'am',
         _hour     = hours > 12 ? hours - 12 : hours,
         hour      = _hour === 0 ? 12 : _hour,
-        timestamp =  month + '/' + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
+        timestamp =  month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
     return timestamp;
   },

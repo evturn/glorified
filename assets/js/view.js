@@ -4,8 +4,6 @@
 
 _.extend(Backbone.View.prototype, {
 
-  progressBarTemplate : _.template($('#progress-bar-template').html()),
-
   setLists() {
     let $container = $('.lists-container');
 

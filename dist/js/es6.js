@@ -37,6 +37,7 @@ _.extend(Backbone.View.prototype, {
   start: function start() {
     app.user = new RB.User();
     app.helpers.init();
+    app.listeners.init();
 
     app.user.fetch({
       success: function success(model, response) {
@@ -172,8 +173,6 @@ _.extend(Backbone.View.prototype, {
 'use strict';
 
 _.extend(Backbone.View.prototype, {
-
-  progressBarTemplate: _.template($('#progress-bar-template').html()),
 
   setLists: function setLists() {
     var $container = $('.lists-container');
@@ -408,13 +407,6 @@ _.extend(Backbone.View.prototype, {
 
 _.extend(Backbone.View.prototype, {
 
-  windowWidth: $(window).width(),
-  mobileClient: null,
-  tabletClient: null,
-  desktopClient: null,
-  $lists: $('.lists'),
-  $notes: $('.notes'),
-
   helpers: {
     init: function init() {
       app.fixPath();
@@ -422,13 +414,13 @@ _.extend(Backbone.View.prototype, {
       app.setClient();
       app.onClickSetActive();
       app.isMobile();
-      autosize(document.querySelectorAll('textarea'));
-      app.listeners.init();
     }
   },
 
   listeners: {
     init: function init() {
+      autosize(document.querySelectorAll('textarea'));
+
       $('.toggle-list-btn').on('click', function () {
         app.toggleLists();
       });
@@ -554,7 +546,7 @@ _.extend(Backbone.View.prototype, {
         meridiem = hours >= 12 ? 'pm' : 'am',
         _hour = hours > 12 ? hours - 12 : hours,
         hour = _hour === 0 ? 12 : _hour,
-        timestamp = month + '/' + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
+        timestamp = month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
     return timestamp;
   },
@@ -594,15 +586,22 @@ RB.App = Backbone.View.extend({
   el: '.dmc',
 
   inputTemplate: _.template($('#input-template').html()),
+  progressBarTemplate: _.template($('#progress-bar-template').html()),
 
   user: null,
   listsCollection: null,
   notesCollection: null,
   activeListId: null,
   activeListLength: null,
+  windowWidth: $(window).width(),
+  mobileClient: null,
+  tabletClient: null,
+  desktopClient: null,
+  $lists: $('.lists'),
+  $notes: $('.notes'),
 
   initialize: function initialize() {
-    this.renderInputFields();
+    this.renderForms();
   },
 
   events: {
@@ -626,7 +625,7 @@ RB.App = Backbone.View.extend({
     $notesContainer.attr('data-list', '');
   },
 
-  renderInputFields: function renderInputFields() {
+  renderForms: function renderForms() {
     $('.inputs-container').html(this.inputTemplate());
     autosize($('textarea'));
 

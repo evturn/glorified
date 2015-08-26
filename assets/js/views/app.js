@@ -2,16 +2,23 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
-  inputTemplate: _.template($('#input-template').html()),
+  inputTemplate       : _.template($('#input-template').html()),
+  progressBarTemplate : _.template($('#progress-bar-template').html()),
 
   user: null,
   listsCollection: null,
   notesCollection: null,
   activeListId: null,
   activeListLength: null,
+  windowWidth: $(window).width(),
+  mobileClient: null,
+  tabletClient: null,
+  desktopClient: null,
+  $lists: $('.lists'),
+  $notes: $('.notes'),
 
   initialize() {
-    this.renderInputFields();
+    this.renderForms();
   },
 
   events: {
@@ -35,7 +42,7 @@ RB.App = Backbone.View.extend({
     $notesContainer.attr('data-list', '');
   },
 
-  renderInputFields: function() {
+  renderForms() {
     $('.inputs-container').html(this.inputTemplate());
     autosize($('textarea'));
 

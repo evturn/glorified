@@ -7,6 +7,7 @@ _.extend(Backbone.View.prototype, {
   start() {
     app.user = new RB.User();
     app.helpers.init();
+    app.listeners.init();
 
     app.user.fetch({
       success(model, response) {
