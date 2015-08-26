@@ -550,6 +550,7 @@ RB.App = Backbone.View.extend({
   inputTemplate: _.template($('#input-template').html()),
   progressBarTemplate: _.template($('#progress-bar-template').html()),
   iconSelectTemplate: _.template($('#icon-select-template').html()),
+  iconTemplate: _.template($('#icon-template').html()),
 
   events: {
     'click .create-list-btn': 'createList',
@@ -630,10 +631,14 @@ RB.App = Backbone.View.extend({
     var list = app.listsCollection.get(id),
         sorted = app.sortNotes(list.attributes.notes),
         notes = new RB.Notes(sorted),
-        listname = list.attributes.name;
+        listname = list.attributes.name,
+        $listIcon = $('.list-icon'),
+        icon = list.attributes.icon ? { icon: list.attributes.icon } : { icon: 'fa fa-list' };
 
     app.$notesContainer.empty();
     app.$listInput.val(listname);
+    $listIcon.empty();
+    $listIcon.append(app.iconTemplate(icon));
 
     notes.each(function (note) {
       var view = new RB.NoteItem({ model: note });
