@@ -4,8 +4,6 @@
 
 _.extend(Backbone.View.prototype, {
 
-  garbageTemplate : _.template($('#garbage-watcher-template').html()),
-  allDoneTemplate : _.template($('#sunny-template').html()),
   progressBarTemplate : _.template($('#progress-bar-template').html()),
 
   setLists() {
