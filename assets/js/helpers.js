@@ -35,6 +35,21 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.icon-container .list-icon', function() {
         $('.icon-dropdown').toggleClass('open');
       });
+
+      $(document).on('click', '.icon-select .icon-option', function() {
+        let icon = $(this).attr('data-icon'),
+            _id = app.getActiveListId(),
+            notes = app.listsCollection.models,
+            attributes = {
+              icon,
+              _id,
+              notes
+            },
+            listModel = new RB.List(attributes);
+
+        app.list.put(listModel, attributes);
+        $('.icon-dropdown').removeClass('open');
+      });
     }
   },
 

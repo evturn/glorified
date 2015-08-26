@@ -12,7 +12,8 @@ RB.Note = Backbone.Model.extend({
 });
 
 RB.List = Backbone.Model.extend({
-  idAttribute: '_id'
+  idAttribute: '_id',
+  url: '/lists'
 });
 
 RB.Lists = Backbone.Collection.extend({
@@ -154,6 +155,21 @@ _.extend(Backbone.View.prototype, {
   },
 
   list: {
+
+    put: function put(model, attributes) {
+      var id = model.get('_id');
+
+      model.save(attributes, {
+        url: '/lists/' + id,
+        success: function success(model, response) {
+          app.notify('Updated');
+          app.get();
+        },
+        error: function error(_error2) {
+          console.log('error ', _error2);
+        }
+      });
+    },
 
     destroy: function destroy(model, id) {
       if (id !== null) {
@@ -429,6 +445,21 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.icon-container .list-icon', function () {
         $('.icon-dropdown').toggleClass('open');
       });
+
+      $(document).on('click', '.icon-select .icon-option', function () {
+        var icon = $(this).attr('data-icon'),
+            _id = app.getActiveListId(),
+            notes = app.listsCollection.models,
+            attributes = {
+          icon: icon,
+          _id: _id,
+          notes: notes
+        },
+            listModel = new RB.List(attributes);
+
+        app.list.put(listModel, attributes);
+        $('.icon-dropdown').removeClass('open');
+      });
     }
   },
 
@@ -566,7 +597,6 @@ RB.App = Backbone.View.extend({
   createNote: function createNote() {
     var body = app.$noteInput.val(),
         list = app.$listInput.val(),
-        icon = 'fa fa-terminal',
         done = false;
 
     if (body.trim() && list.trim() !== '') {

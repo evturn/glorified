@@ -18,7 +18,6 @@ RB.App = Backbone.View.extend({
   createNote() {
     let body = app.$noteInput.val(),
         list = app.$listInput.val(),
-        icon = 'fa fa-terminal',
         done = false;
 
     if (body.trim() && list.trim() !== '') {

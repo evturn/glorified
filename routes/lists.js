@@ -6,6 +6,7 @@ var listsCtrl = require('../controllers/lists');
 var lists = express.Router();
 
 lists.route('/:id')
+  .put(ensureAuthenticated, urlencoded, listsCtrl.putList)
   .delete(ensureAuthenticated, urlencoded, listsCtrl.deleteList);
 
 function ensureAuthenticated(req, res, next) {

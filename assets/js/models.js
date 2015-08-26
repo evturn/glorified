@@ -11,6 +11,7 @@ RB.Note = Backbone.Model.extend({
 
 RB.List = Backbone.Model.extend({
   idAttribute: '_id',
+  url: '/lists'
 });
 
 RB.Lists = Backbone.Collection.extend({

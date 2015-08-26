@@ -112,6 +112,20 @@ exports.delete = function(req, res, next) {
 
 };
 
+exports.putList = function(req, res, next) {
+  var user = req.user;
+  var listId = req.body._id;
+  var icon = req.body.icon;
+  var list = user.lists.id(listId);
+
+  var updatedList = list.set({
+    "icon": icon
+  });
+
+  var saved = saveUser(user, updatedList);
+  res.send(updatedList);
+};
+
 exports.deleteList = function(req, res, next) {
   var user = req.user;
   var listId = req.params.id;

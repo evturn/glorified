@@ -124,6 +124,21 @@ _.extend(Backbone.View.prototype, {
 
   list: {
 
+    put(model, attributes) {
+      let id = model.get('_id');
+
+      model.save(attributes, {
+        url: '/lists/' + id,
+        success(model, response) {
+          app.notify('Updated');
+          app.get();
+        },
+        error(error) {
+          console.log('error ', error);
+        }
+      });
+    },
+
     destroy(model, id) {
       if (id !== null) {
         model.destroy({
