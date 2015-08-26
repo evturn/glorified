@@ -593,10 +593,10 @@ RB.App = Backbone.View.extend({
   notesCollection: null,
   activeListId: null,
   activeListLength: null,
-  windowWidth: $(window).width(),
   mobileClient: null,
   tabletClient: null,
   desktopClient: null,
+  windowWidth: $(window).width(),
   $lists: $('.lists'),
   $notes: $('.notes'),
 
@@ -626,7 +626,9 @@ RB.App = Backbone.View.extend({
   },
 
   renderForms: function renderForms() {
-    $('.inputs-container').html(this.inputTemplate());
+    var $inputs = $('.inputs-container');
+
+    $inputs.html(this.inputTemplate());
     autosize($('textarea'));
 
     return this;

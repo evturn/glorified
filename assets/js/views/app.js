@@ -5,17 +5,17 @@ RB.App = Backbone.View.extend({
   inputTemplate       : _.template($('#input-template').html()),
   progressBarTemplate : _.template($('#progress-bar-template').html()),
 
-  user: null,
-  listsCollection: null,
-  notesCollection: null,
-  activeListId: null,
-  activeListLength: null,
-  windowWidth: $(window).width(),
-  mobileClient: null,
-  tabletClient: null,
-  desktopClient: null,
-  $lists: $('.lists'),
-  $notes: $('.notes'),
+  user                       : null,
+  listsCollection            : null,
+  notesCollection            : null,
+  activeListId               : null,
+  activeListLength           : null,
+  mobileClient               : null,
+  tabletClient               : null,
+  desktopClient              : null,
+  windowWidth                : $(window).width(),
+  $lists                     : $('.lists'),
+  $notes                     : $('.notes'),
 
   initialize() {
     this.renderForms();
@@ -43,7 +43,9 @@ RB.App = Backbone.View.extend({
   },
 
   renderForms() {
-    $('.inputs-container').html(this.inputTemplate());
+    let $inputs = $('.inputs-container');
+
+    $inputs.html(this.inputTemplate());
     autosize($('textarea'));
 
     return this;
