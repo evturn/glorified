@@ -6,31 +6,47 @@
 
     &.open {
       position: absolute;
+      padding: 5px;
       top: 50px;
       left: 0;
       z-index: 1;
-
-      .icon-select {
-        z-index: 1;
-        height: 20px;
-        top: 7.5px;
-        right: 30px;
-        overflow: scroll;
-        display: inline-block;
-        position: absolute;
-      }
+      overflow: scroll;
+      background-color: @primarylighthover;
+      color: @black;
+      text-align: center;
+      border-radius: 10px;
+      .box-shadow(0 0 77px -9px rgba(0,0,0,.75));
 
       @media (min-width: @sm) {
         display: block;
         width: 300px;
         height: 300px;
+        overflow: scroll;
       }
 
       .icon-option {
         display: inline-block;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
+      }
+
+      .fa {
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 2em;
+        .transition(0.3s);
+
+        &:hover {
+          color: @white;
+        }
+      }
+
+      .caption {
+        font-size: 11px;
+        white-space: nowrap;
+        width: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
