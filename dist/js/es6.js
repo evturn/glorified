@@ -406,6 +406,11 @@ _.extend(Backbone.View.prototype, {
     init: function init() {
       autosize(document.querySelectorAll('textarea'));
 
+      $(window).resize(function () {
+        app.windowWidth = $(window).width();
+        app.setClient();
+      });
+
       $(document).on('click', '.lists-container .list-item', function () {
         var $listItem = $('.list-item');
 
@@ -413,17 +418,12 @@ _.extend(Backbone.View.prototype, {
         $(this).addClass('active');
       });
 
-      $('.toggle-list-btn').on('click', function () {
+      $(document).on('click', '.toggle-list-btn', function () {
         app.toggleLists();
       });
 
-      $(window).resize(function () {
-        app.windowWidth = $(window).width();
-        app.setClient();
-      });
-
-      $('.active-progress').on('click', function () {
-        $(this).toggleClass('show-details');
+      $(document).on('click', '.active-progress', function () {
+        $('.active-progress').toggleClass('show-details');
       });
     }
   },
