@@ -6,7 +6,6 @@ _.extend(Backbone.View.prototype, {
 
   start() {
     app.renderForms();
-    app.appendIcons();
     app.user                 = new RB.User();
     app.listsCollection      = null;
     app.notesCollection      = null;

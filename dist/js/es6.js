@@ -36,7 +36,6 @@ _.extend(Backbone.View.prototype, {
 
   start: function start() {
     app.renderForms();
-    app.appendIcons();
     app.user = new RB.User();
     app.listsCollection = null;
     app.notesCollection = null;
@@ -426,6 +425,10 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.active-progress', function () {
         $('.active-progress').toggleClass('show-details');
       });
+
+      $(document).on('click', '.icon-container .list-icon', function () {
+        $('.icon-select').toggleClass('open');
+      });
     }
   },
 
@@ -643,6 +646,7 @@ RB.App = Backbone.View.extend({
     app.$listInput.val(listname);
     $iconContainer.empty();
     $iconContainer.append(app.iconTemplate(icon));
+    app.appendIcons();
 
     notes.each(function (note) {
       var view = new RB.NoteItem({ model: note });

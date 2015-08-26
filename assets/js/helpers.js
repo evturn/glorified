@@ -31,6 +31,10 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.active-progress', function() {
         $('.active-progress').toggleClass('show-details');
       });
+
+      $(document).on('click', '.icon-container .list-icon', function() {
+        $('.icon-select').toggleClass('open');
+      });
     }
   },
 

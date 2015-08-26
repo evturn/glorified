@@ -100,6 +100,7 @@ RB.App = Backbone.View.extend({
     app.$listInput.val(listname);
     $iconContainer.empty();
     $iconContainer.append(app.iconTemplate(icon));
+    app.appendIcons();
 
     notes.each(function(note) {
       let view = new RB.NoteItem({model: note});

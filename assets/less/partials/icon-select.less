@@ -1,15 +1,37 @@
-.icon-container .icon-select {
-  display: none;
+.icon-container {
+  position: relative;
 
-  &.open {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
+  .icon-select {
+    display: none;
 
-    @media (min-width: @sm) {
-      width: 500px;
-      height: 500px;
+    &.open {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      z-index: 1;
+
+      .icon-select {
+        z-index: 1;
+        height: 20px;
+        top: 7.5px;
+        right: 30px;
+        overflow: scroll;
+        display: inline-block;
+        position: absolute;
+      }
+
+      @media (min-width: @sm) {
+        display: block;
+        width: 300px;
+        height: 300px;
+      }
+
+      .icon-option {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+      }
     }
   }
 }
