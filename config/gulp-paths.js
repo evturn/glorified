@@ -65,6 +65,7 @@ module.exports = {
       'assets/js/models.js',
       'assets/js/http.js',
       'assets/js/view.js',
+      'assets/js/mobile.js',
       'assets/js/helpers.js',
       'assets/js/views/**/*.js',
       'assets/js/main.js'

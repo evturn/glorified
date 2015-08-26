@@ -379,6 +379,28 @@ _.extend(Backbone.View.prototype, {
 
 });
 // ===================
+// Mobile
+// ===================
+
+'use strict';
+
+_.extend(Backbone.View.prototype, {
+
+  mobile: {
+
+    init: function init() {
+      app.setMobile();
+    }
+  },
+
+  setMobile: function setMobile() {
+    var $body = $('body');
+
+    $body.addClass('mobile');
+  }
+
+});
+// ===================
 // Helpers
 // ===================
 
@@ -387,9 +409,9 @@ _.extend(Backbone.View.prototype, {
 _.extend(Backbone.View.prototype, {
 
   windowWidth: $(window).width(),
-  mobile: null,
-  tablet: null,
-  desktop: null,
+  mobileClient: null,
+  tabletClient: null,
+  desktopClient: null,
   $lists: $('.lists'),
   $notes: $('.notes'),
 
@@ -424,17 +446,18 @@ _.extend(Backbone.View.prototype, {
 
   readClient: function readClient() {
     if (app.isMobile()) {
-      app.mobile = true;
+      app.mobileClient = true;
+      app.mobile.init();
     } else {
-      app.mobile = false;
+      app.mobileClient = false;
     }
 
     if (app.windowWidth < 800 && app.windowWidth > 600) {
-      app.tablet = true;
-      app.desktop = false;
+      app.tabletClient = true;
+      app.desktopClient = false;
     } else if (app.windoWidth >= 800) {
-      app.tablet = false;
-      app.desktop = true;
+      app.tabletClient = false;
+      app.desktopClient = true;
     }
   },
 
