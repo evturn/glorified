@@ -550,6 +550,7 @@ RB.App = Backbone.View.extend({
   inputTemplate: _.template($('#input-template').html()),
   progressBarTemplate: _.template($('#progress-bar-template').html()),
   iconSelectTemplate: _.template($('#icon-select-template').html()),
+  iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
 
   events: {
@@ -584,12 +585,14 @@ RB.App = Backbone.View.extend({
   },
 
   createList: function createList() {
-    var $barContainer = $('.active-progress');
+    var $barContainer = $('.active-progress'),
+        $listIcon = $('.list-icon');
 
     app.$noteInput.val('');
     app.$listInput.val('').focus();
     app.activeListId = null;
     app.$notesContainer.empty();
+    $listIcon.html(this.iconPlaceholderTemplate());
     $barContainer.empty();
     app.$notesContainer.attr('data-list', '');
   },

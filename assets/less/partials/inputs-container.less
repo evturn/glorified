@@ -4,12 +4,28 @@
 
   .list-icon {
     display: inline-block;
+    height: 52px;
+    width: 30px;
+
+    .icon-placeholder .fa {
+      color: @whitesmoke;
+      font-size: 1.75em;
+      line-height: 52px;
+
+      &:hover {
+        color: @whitesmoke;
+      }
+    }
 
     .fa {
-      font-size: 1.5em;
-      width: 30px;
-      height: 40px;
-      line-height: 40px;
+      font-size: 1.75em;
+      line-height: 52px;
+      color: @primarylight;
+      pointer: cursor;
+
+      &:hover {
+        color: @primarylighthover;
+      }
     }
   }
 
