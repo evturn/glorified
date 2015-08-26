@@ -37,6 +37,7 @@ _.extend(Backbone.View.prototype, {
 
   start: function start() {
     app.renderForms();
+    app.appendIcons();
     app.user = new RB.User();
     app.listsCollection = null;
     app.notesCollection = null;
@@ -696,7 +697,6 @@ RB.App = Backbone.View.extend({
     app.$listInput.val(listname);
     $iconContainer.empty();
     $iconContainer.append(app.iconTemplate(icon));
-    app.appendIcons();
 
     notes.each(function (note) {
       var view = new RB.NoteItem({ model: note });
