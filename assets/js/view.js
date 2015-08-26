@@ -38,12 +38,12 @@ _.extend(Backbone.View.prototype, {
     app.$listInput.val(listname);
   },
 
-  resetActiveList(listname) {
+  resetActiveList(id) {
     let $listItem = $('.list-item'),
-        $element = $('div').find("[data-id='" + listname + "']");
+        $element = $('div').find("[data-id='" + id + "']");
 
     $listItem.removeClass('active');
-    $element.addClass('active');
+    $element.parent().addClass('active');
 
     return $element;
   },

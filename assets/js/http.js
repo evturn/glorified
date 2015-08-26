@@ -68,6 +68,7 @@ _.extend(Backbone.View.prototype, {
         else {
           // NOTE UPDATED
           app.setNotes(app.activeListId);
+          app.resetActiveList(app.activeListId);
           app.setProgressBars();
         }
       },

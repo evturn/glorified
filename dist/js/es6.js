@@ -99,6 +99,7 @@ _.extend(Backbone.View.prototype, {
         } else {
           // NOTE UPDATED
           app.setNotes(app.activeListId);
+          app.resetActiveList(app.activeListId);
           app.setProgressBars();
         }
       },
@@ -239,12 +240,12 @@ _.extend(Backbone.View.prototype, {
     app.$listInput.val(listname);
   },
 
-  resetActiveList: function resetActiveList(listname) {
+  resetActiveList: function resetActiveList(id) {
     var $listItem = $('.list-item'),
-        $element = $('div').find("[data-id='" + listname + "']");
+        $element = $('div').find("[data-id='" + id + "']");
 
     $listItem.removeClass('active');
-    $element.addClass('active');
+    $element.parent().addClass('active');
 
     return $element;
   },
