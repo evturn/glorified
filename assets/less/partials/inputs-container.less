@@ -1,5 +1,27 @@
 .inputs-container {
   background-color: @white;
+  position: relative;
+
+  .list-icon {
+    display: inline-block;
+
+    .fa {
+      font-size: 1.5em;
+      width: 30px;
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+
+  .icon-select {
+    z-index: 1;
+    height: 20px;
+    top: 7.5px;
+    right: 30px;
+    overflow: scroll;
+    display: inline-block;
+    position: absolute;
+  }
 
   .list-text {
     font-size: 18px;
@@ -20,7 +42,6 @@
 .note-input,
 .list-input {
   .placeholder(@grey);
-  width: 95%;
   border: 0;
   color: @black;
   margin: 5px 0 5px;
@@ -31,10 +52,12 @@
 }
 
 .note-input {
+  width: 95%;
   font-size: 16px;
 }
 
 .list-input {
+  width: 85%;
   font-size: 20px;
 }
 
