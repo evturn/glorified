@@ -4,32 +4,70 @@
   top: 0;
   right: 0;
   left: 0;
-  width: 300px;
-  height: 300px;
-  border-radius: 2%;
-  background-color: @primarylight;
+  height: 100vh;
+  border-radius: 2px;
+  background-color: @white;
+  padding-top: 40px;
+
 
   .header-container {
     text-align: center;
-    color: @white;
+    color: @primarydark;
+  }
+
+  .form-container {
+    text-align: center;
+    width: 80%;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 26px;
+  }
+
+  .btn-container {
+    position: relative;
+
+    .fa {
+      display: inline-block;
+      float: right;
+      color: @grey;
+    }
+    .caption {
+      color: @primarylight;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+      cursor: pointer;
+      font-size: 9px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      top: 0;
+    }
   }
 
   .header-text {
+    text-align: left;
     font-size: 16px;
+    margin-bottom: 15px;
   }
 
   .meta {
-    font-size: 12px;
+    text-align: center;
+    font-size: 10px;
   }
 
-  .caption {
-    cursor: pointer;
-  }
 
   input {
     display: block;
     height: 30px;
     width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid @grey;
+    outline: none;
   }
 
 }

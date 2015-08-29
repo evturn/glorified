@@ -3,15 +3,21 @@
     <div class="inner">
 
       <div class="header-container">
-        <h3 class="header-text">Welcome, <%= firstName %>!</h3>
-        <p class="meta">Register a username and password to keep all your social accounts in one place</p>
-        <p class="caption">Skip</p>
+        <h3 class="header-text"><%= greeting %>, <%= name %></h3>
+        <p class="meta">Register to keep all your social accounts in one place</p>
       </div>
-      <form class="register-form">
-        <input type="text" name="username">
-        <input type="text" name="password">
-        <input type="text" name="confirm-password">
-      </form>
+      <div class="form-container">
+        <form class="register-form">
+          <input type="text" name="username" placeholder="Username">
+          <input type="text" name="password" placeholder="Password">
+          <input type="text" name="confirm-password" placeholder="Confirm password">
+
+        </form>
+      </div>
+      <div class="btn-container">
+        <p class="caption">Skip</p>
+        <i class="fa fa-arrow-right"></i>
+      </div>
     </div>
   </div>
 </script>

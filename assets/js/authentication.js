@@ -5,21 +5,24 @@ _.extend(Backbone.View.prototype, {
   authentication: {
 
     init() {
-      app.authentication.isUserLocal();
-    },
+      app.isUserLocal();
+    }
+  },
 
     isUserLocal(user) {
       let username = app.user.get('username');
 
       if (!username) {
-        app.authentication.promptUser();
+        app.promptUser();
       }
     },
 
     promptUser() {
-      app.$el.prepend(app.registerTemplate(app.user.toJSON()));
+      let greeting = app.greeting(),
+          name = app.user.attributes.firstName;
+
+      $('body').prepend(app.registerTemplate({greeting, name}));
 
       return this;
     }
-  }
 });
