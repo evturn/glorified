@@ -46,7 +46,6 @@ _.extend(Backbone.View.prototype, {
       $('.reg-un').on('keyup', function () {
         var username = $('.reg-un').val();
 
-        console.log(username.length);
         if (username.length >= 2) {
           app.isUsernameAvailable(username);
         } else {
@@ -57,6 +56,10 @@ _.extend(Backbone.View.prototype, {
 
       $('.reg-pw-2').on('keyup', function () {
         app.comparePasswords();
+      });
+
+      $(document).on('click', 'i.ready', function () {
+        app.registerLocalUser();
       });
     }
   },
@@ -89,6 +92,24 @@ _.extend(Backbone.View.prototype, {
       },
       error: function error(err) {
         console.log('No you don\'t got it ', err);
+      }
+    });
+  },
+
+  registerLocalUser: function registerLocalUser() {
+    var user = app.user,
+        _id = user.get('_id'),
+        username = $('.reg-un').val(),
+        password = $('.reg-pw-2').val();
+
+    user.save({ username: username, password: password }, {
+      url: '/users/' + _id,
+      success: function success(data, response) {
+        console.log(data);
+        $('.reg-message').html(data.message);
+      },
+      error: function error(err) {
+        console.log(err);
       }
     });
   },
