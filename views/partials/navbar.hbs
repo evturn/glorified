@@ -1,11 +1,21 @@
 <div class="wrapper app-navbar">
-  <div class="desktop-wrapper">
+  <div class="inner">
     <ul class="nav-left">
       <li><p class="app-header"><a>Ramen Buffet</a></p></li>
     </ul>
     <ul class="nav-right">
       <li><img class="nav-avatar" src="https://graph.facebook.com/{{ user.fbId }}/picture"></li>
-      <li><a href="/logout"><i class="fa fa-sign-out"></i></a></li>
+      <li>
+        <ul class="user-dd-list">
+          {{#if user.username}}
+            <li class="user-dd-item"><p class="dd-text">@{{user.username}}</p></li>
+          {{else}}
+            <li class="user-dd-item"><p class="dd-text">{{user.name}}</p></li>
+          {{/if}}
+            <li class="user-dd-item"><p class="dd-text">Edit Profile</p></li>
+            <li class="user-dd-item"><p class="dd-text"><a href="/logout">Logout</a></p></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </div>

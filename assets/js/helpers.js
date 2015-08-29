@@ -17,6 +17,10 @@ _.extend(Backbone.View.prototype, {
         app.setClient();
       });
 
+      $(document).on('click', '.nav-avatar', function() {
+        app.toggleUserDropdown();
+      });
+
       $(document).on('click', '.lists-container .list-item', function() {
         let $listItem = $('.list-item');
 
@@ -198,6 +202,11 @@ _.extend(Backbone.View.prototype, {
       case 4:
         return "Good Evening";
     }
-  }
+  },
+
+  toggleUserDropdown() {
+    console.log('Sup');
+    $('.user-dd-list').toggleClass('on');
+  },
 
 });

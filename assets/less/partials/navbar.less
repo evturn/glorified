@@ -38,11 +38,11 @@
     }
 
     .nav-avatar {
-      margin-right: 0px;
-      border-radius: 50%;
+      border-radius: 15%;
+      cursor: pointer;
+      width: 45px;
+      margin-top: 2.5px;
     }
-
-
 
     a {
       color: @white;
@@ -61,18 +61,6 @@
       }
     }
   }
-
-}
-.nav-right li p.nav-text a.nav-av {
-  font-size: 0;
-  color: transparent;
-  line-height: 0;
-
-  @media (min-height: @sm) {
-    font-size: 12px;
-    color: @darkgrey;
-    line-height: 1.4em;
-  }
 }
 
 @media (min-width: @sm) {
@@ -86,20 +74,10 @@
       margin-bottom: 0;
       line-height: 1.4em;
     }
+
     .nav-left {
       float: left;
       margin-bottom: 0;
-    }
-    .nav-right {
-
-      .nav-avatar {
-        margin-right: 10px;
-      }
-    }
-    .nav-right,
-    .nav-left {
-      padding-left: 15px;
-      padding-right: 15px;
     }
   }
 }

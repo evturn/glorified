@@ -1,0 +1,32 @@
+.user-dd-list {
+  display: none;
+
+  &.on {
+    display: block;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 150px;
+    height: 200px;
+    color: @white;
+    background-color: @primarylight;
+    z-index: 5;
+    .border-bottom-radius(2px);
+
+    .user-dd-item {
+      display: block;
+      height: 25px;
+      text-align: left;
+      border-bottom: 1px solid @grey;
+      cursor: pointer;
+    }
+
+    .dd-text {
+      font-family: @sans;
+      font-weight: 400;
+      font-size: 12px;
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+  }
+}
