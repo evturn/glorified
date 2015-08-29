@@ -8,7 +8,13 @@
   border-radius: 2px;
   background-color: @white;
   padding-top: 40px;
+  opacity: 0.95;
+  .animation-delay(0.4s);
+  .animation-duration(0.8s);
 
+  .inner {
+    .animation-duration(0.3s);
+  }
 
   .header-container {
     text-align: center;
@@ -26,6 +32,8 @@
 
   .btn-container {
     position: relative;
+    overflow: auto;
+    outline: none;
 
     .fa {
       display: inline-block;
@@ -44,6 +52,17 @@
       right: 0;
       text-align: center;
       top: 0;
+      z-index: 2;
+      outline: none;
+
+      &,
+      &:before,
+      &:after {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
     }
   }
 

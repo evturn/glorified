@@ -6,6 +6,11 @@ _.extend(Backbone.View.prototype, {
 
     init() {
       app.isUserLocal();
+
+      $('.btn-container .caption').on('click', function(e) {
+        $('.user-registration .inner').addClass('animated fadeOut');
+        $('.user-registration').addClass('animated slideOutUp');
+      });
     }
   },
 
