@@ -183,7 +183,6 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendIcons() {
-    console.log('i am running');
     app.icons.forEach(function(icon) {
       app.appendIconSelect(icon);
     });

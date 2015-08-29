@@ -23,6 +23,7 @@ _.extend(Backbone.View.prototype, {
     app.$listsContainer      = $('.lists-container');
     app.listeners.init();
     app.appendIcons();
+    app.authentication.init();
 
     app.user.fetch({
       success(model, response) {

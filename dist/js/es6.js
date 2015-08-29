@@ -27,6 +27,31 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true
 });
+'use strict';
+
+_.extend(Backbone.View.prototype, {
+
+  authentication: {
+
+    init: function init() {
+      app.authentication.isUserLocal();
+    },
+
+    isUserLocal: function isUserLocal(user) {
+      var username = app.user.get('username');
+
+      if (!username) {
+        app.authentication.promptUser();
+      }
+    },
+
+    promptUser: function promptUser() {
+      app.$el.prepend(app.registerTemplate());
+
+      return this;
+    }
+  }
+});
 // ===================
 // HTTP
 // ===================
@@ -54,6 +79,7 @@ _.extend(Backbone.View.prototype, {
     app.$listsContainer = $('.lists-container');
     app.listeners.init();
     app.appendIcons();
+    app.authentication.init();
 
     app.user.fetch({
       success: function success(model, response) {
@@ -385,7 +411,6 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendIcons: function appendIcons() {
-    console.log('i am running');
     app.icons.forEach(function (icon) {
       app.appendIconSelect(icon);
     });
@@ -597,6 +622,7 @@ RB.App = Backbone.View.extend({
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
+  registerTemplate: _.template($('#user-registration-template').html()),
 
   events: {
     'click .create-list-btn': 'createList',

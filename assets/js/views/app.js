@@ -2,12 +2,13 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
-  inputTemplate       : _.template($('#input-template').html()),
-  progressBarTemplate : _.template($('#progress-bar-template').html()),
-  iconSelectTemplate  : _.template($('#icon-select-template').html()),
-  iconPlaceholderTemplate        : _.template($('#icon-placeholder-template').html()),
-  iconListItemTemplate        : _.template($('#icon-list-item-template').html()),
-  iconTemplate        : _.template($('#icon-template').html()),
+  inputTemplate           : _.template($('#input-template').html()),
+  progressBarTemplate     : _.template($('#progress-bar-template').html()),
+  iconSelectTemplate      : _.template($('#icon-select-template').html()),
+  iconPlaceholderTemplate : _.template($('#icon-placeholder-template').html()),
+  iconListItemTemplate    : _.template($('#icon-list-item-template').html()),
+  iconTemplate            : _.template($('#icon-template').html()),
+  registerTemplate        : _.template($('#user-registration-template').html()),
 
   events: {
     'click .create-list-btn' : 'createList',
