@@ -31,7 +31,7 @@ RB.Notes = Backbone.Collection.extend({
 
 _.extend(Backbone.View.prototype, {
 
-  authentication: {
+  auth: {
 
     init: function init() {
       app.isUserLocal();
@@ -75,6 +75,9 @@ _.extend(Backbone.View.prototype, {
     if (pw2 === pw1) {
       $('.reg-notify .error').hide();
       $('.reg-notify .ready').show();
+    } else if (pw2 === '') {
+      $('.reg-notify .ready').hide();
+      $('.reg-notify .error').hide();
     } else {
       $('.reg-notify .ready').hide();
       $('.reg-notify .error').show();
@@ -121,7 +124,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
-        app.authentication.init();
+        app.auth.init();
         return app.listsCollection;
       },
       error: function error(err) {

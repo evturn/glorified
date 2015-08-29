@@ -2,7 +2,7 @@
 
 _.extend(Backbone.View.prototype, {
 
-  authentication: {
+  auth: {
 
     init() {
       app.isUserLocal();
@@ -47,6 +47,10 @@ _.extend(Backbone.View.prototype, {
       if (pw2 === pw1) {
         $('.reg-notify .error').hide();
         $('.reg-notify .ready').show();
+      }
+      else if (pw2 === '') {
+        $('.reg-notify .ready').hide();
+        $('.reg-notify .error').hide();
       }
       else {
         $('.reg-notify .ready').hide();

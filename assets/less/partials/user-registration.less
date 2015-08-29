@@ -13,7 +13,20 @@
   .animation-duration(0.8s);
 
   .inner {
+    max-width: 70%;
     .animation-duration(0.3s);
+
+    @media (min-width: @sm) {
+      max-width: 50%;
+    }
+
+    @media (min-width: @md) {
+      max-width: 30%;
+    }
+
+    @media (min-width: @lg) {
+      max-width: 20%;
+    }
   }
 
   .header-container {
@@ -23,7 +36,6 @@
 
   .form-container {
     text-align: center;
-    width: 70%;
     margin-top: 40px;
     margin-bottom: 20px;
     margin-left: auto;
@@ -91,10 +103,9 @@
   }
 
   .header-text {
-
     text-align: left;
     font-size: 16px;
-    margin-bottom: 0 15px 15px 15px;
+    margin-bottom: 15px;
     .animation-duration(2s);
   }
 
