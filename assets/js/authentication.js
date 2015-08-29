@@ -17,7 +17,7 @@ _.extend(Backbone.View.prototype, {
     },
 
     promptUser() {
-      app.$el.prepend(app.registerTemplate());
+      app.$el.prepend(app.registerTemplate(app.user.toJSON()));
 
       return this;
     }

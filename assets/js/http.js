@@ -23,7 +23,6 @@ _.extend(Backbone.View.prototype, {
     app.$listsContainer      = $('.lists-container');
     app.listeners.init();
     app.appendIcons();
-    app.authentication.init();
 
     app.user.fetch({
       success(model, response) {
@@ -37,6 +36,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
+        app.authentication.init();
         return app.listsCollection;
       },
       error(err) {

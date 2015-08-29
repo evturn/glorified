@@ -46,7 +46,7 @@ _.extend(Backbone.View.prototype, {
     },
 
     promptUser: function promptUser() {
-      app.$el.prepend(app.registerTemplate());
+      app.$el.prepend(app.registerTemplate(app.user.toJSON()));
 
       return this;
     }
@@ -79,7 +79,6 @@ _.extend(Backbone.View.prototype, {
     app.$listsContainer = $('.lists-container');
     app.listeners.init();
     app.appendIcons();
-    app.authentication.init();
 
     app.user.fetch({
       success: function success(model, response) {
@@ -93,6 +92,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
+        app.authentication.init();
         return app.listsCollection;
       },
       error: function error(err) {
