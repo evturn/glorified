@@ -11,6 +11,15 @@ _.extend(Backbone.View.prototype, {
         $('.user-registration .inner').addClass('animated fadeOut');
         $('.user-registration').addClass('animated slideOutUp');
       });
+
+      $('.reg-un').on('keyup', function() {
+        let username = $('.reg-un').val();
+
+      });
+
+      $('.reg-pw-2').on('keyup', function() {
+        app.comparePasswords();
+      });
     }
   },
 
@@ -29,5 +38,19 @@ _.extend(Backbone.View.prototype, {
       $('body').prepend(app.registerTemplate({greeting, name}));
 
       return this;
+    },
+
+    comparePasswords() {
+      let pw2 = $('.reg-pw-2').val(),
+          pw1 = $('.reg-pw-1').val();
+
+      if (pw2 === pw1) {
+        $('.reg-notify .error').hide();
+        $('.reg-notify .ready').show();
+      }
+      else {
+        $('.reg-notify .ready').hide();
+        $('.reg-notify .error').show();
+      }
     }
 });
