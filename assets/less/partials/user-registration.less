@@ -53,11 +53,13 @@
       float: right;
       color: @grey;
       cursor: default;
+      font-size: 2em;
+      .transition(0.3s);
 
       &.ready {
         color: @primarylight;
+        font-size: 2.2em;
         cursor: pointer;
-        .transition(0.3s);
       }
     }
     .caption {
@@ -100,6 +102,20 @@
       display: none;
       color: @red;
     }
+    .taken {
+      display: none;
+      color: @red;
+    }
+    .available {
+      display: none;
+      color: @primarylighthover;
+    }
+  }
+
+  .reg-message {
+    color: @primarydark;
+    font-size: 10px;
+    text-transform: uppercase;
   }
 
   .header-text {
@@ -113,7 +129,6 @@
     text-align: center;
     font-size: 10px;
   }
-
 
   input {
     display: block;
