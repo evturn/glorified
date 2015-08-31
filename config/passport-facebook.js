@@ -1,8 +1,7 @@
 var passport        = require('passport'),
-    FacebookStrategy = require('passport-facebook');
-
-
-var User = require('../models/User');
+    FacebookStrategy = require('passport-facebook'),
+    authKeys = require('./auth'),
+    User = require('../models/User');
 
 passport.serializeUser(function(user, done) {
   done(null, user._id);
@@ -14,22 +13,8 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-var url;
-if (process.env.NODE_ENV === "development") {
-  url = 'http://localhost:3000/auth/facebook/callback';
-}
-else {
-  url = 'http://ramenbuffet.com/auth/facebook/callback';
-}
-
-passport.use(new FacebookStrategy({
-
-  clientID: process.env.FACEBOOK_ID,
-  clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: url
-
-
-}, function(accessToken, refreshToken, profile, done) {
+passport.use(new FacebookStrategy(authKeys.facebook
+, function(accessToken, refreshToken, profile, done) {
     var id = profile.id;
     console.log(profile);
 

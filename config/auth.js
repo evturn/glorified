@@ -2,7 +2,7 @@ var domain = process.env.NODE_ENV === "development" ? 'localhost:3000' : 'ramenb
 
 module.exports = {
 
-  facebook : {
+  'facebook' : {
     clientID         : process.env.FACEBOOK_ID,
     clientSecret     : process.env.FACEBOOK_SECRET,
     callbackURL      : 'http://' + domain + '/auth/facebook/callback'
