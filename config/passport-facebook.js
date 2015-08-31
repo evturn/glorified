@@ -13,8 +13,8 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-passport.use(new FacebookStrategy(authKeys.facebook
-, function(accessToken, refreshToken, profile, done) {
+passport.use(new FacebookStrategy(authKeys.facebook,
+  function(accessToken, refreshToken, profile, done) {
     var id = profile.id;
     console.log(profile);
 
@@ -23,23 +23,25 @@ passport.use(new FacebookStrategy(authKeys.facebook
           console.log('So, ' + err);
           return done({message: 'So, ' + err});
         }
+
         if (user) {
           console.log(user);
           return done(null, user);
-        } else {
+        }
+        else {
           var attr = profile._json;
           var newUser = new User({
-            fbId: id,
-            email: attr.email,
-            name: attr.name,
-            firstName: attr.first_name, // jshint ignore:line
-            lastName: attr.last_name, // jshint ignore:line
-            gender: attr.gender,
-            fbProfile: attr.link
+            fbId       : id,
+            email      : attr.email,
+            name       : attr.name,
+            firstName  : attr.first_name, // jshint ignore:line
+            lastName   : attr.last_name, // jshint ignore:line
+            gender     : attr.gender,
+            fbProfile  : attr.link
           });
 
           newUser.save(function(err) {
-            if (err){
+            if (err) {
               console.log('Error in Saving user: '+ err);
               throw err;
             }
