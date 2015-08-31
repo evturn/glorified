@@ -10,8 +10,7 @@ _.extend(Backbone.View.prototype, {
       app.isUserLocal();
 
       $('.btn-container .caption a').on('click', function(e) {
-        $('.user-registration .inner').addClass('animated fadeOut');
-        $('.user-registration').addClass('animated slideOutUp');
+        app.collapseRegistration();
       });
 
       $('.reg-un').on('keyup', function() {
@@ -78,10 +77,11 @@ _.extend(Backbone.View.prototype, {
         url: '/users/' + _id,
         success(data, response) {
           console.log(data);
-          $('.reg-message').html(data.message);
+          app.collapseRegistration();
         },
         error(err) {
           console.log(err);
+          $('.reg-message').html(err.message);
         }
       });
 
@@ -134,5 +134,10 @@ _.extend(Backbone.View.prototype, {
       else {
         $('.reg-submit .fa').removeClass('ready');
       }
+    },
+
+    collapseRegistration() {
+      $('.user-registration .inner').addClass('animated fadeOut');
+      $('.user-registration').addClass('animated slideOutUp');
     }
 });

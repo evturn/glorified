@@ -10,6 +10,8 @@ gulp.task('default', ['watch', 'nodemon', 'less', 'lint'], function() {
   browserSync.init(options.browserSync);
 });
 
+gulp.task('frontend', ['less:watch', 'babel:watch', 'lint']);
+
 gulp.task('watch', function() {
   gulp.watch(paths.less.watch, ['reloader']);
   gulp.watch(paths.jshint.watch, ['lint']);
@@ -57,6 +59,10 @@ gulp.task('lint', function() {
     .pipe($.plumber(options.plumber))
     .pipe($.jshint())
     .pipe($.notify(options.notify.jshint));
+});
+
+gulp.task('less:watch', function() {
+  gulp.watch(paths.less.watch, ['less']);
 });
 
 gulp.task('babel:watch', function() {
