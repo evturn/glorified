@@ -1,8 +1,5 @@
 var express = require('express');
 var passport = require('passport');
-var FacebookStrategy = require('passport-facebook');
-var fbConfig = require('../config/passport-facebook');
-var localConfig = require('passport-local');
 var bodyParser = require('body-parser');
 var urlencoded = bodyParser.urlencoded({extended: false});
 var usersCtrl = require('../controllers/users');

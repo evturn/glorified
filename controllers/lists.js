@@ -75,43 +75,6 @@ exports.post = function(req, res, next) {
 
 };
 
-exports.put = function(req, res, next) {
-  var user = req.user;
-  var data = req.body;
-  var listId = data.listId;
-  var noteId = data._id;
-  var list = user.lists.id(listId);
-  var note = list.notes.id(noteId);
-  var updated = convertDate(Date.now());
-
-  var updatedNote = note.set({
-    "done"    : req.body.done,
-    "body"    : req.body.body,
-    "updated" : updated
-  });
-
-  var saved = saveUser(user, updatedNote);
-  res.send(data);
-};
-
-exports.delete = function(req, res, next) {
-  var user = req.user;
-  var listId = req.query.listId;
-  var noteId = req.params.id;
-  var list = user.lists.id(listId);
-  var note = list.notes.id(noteId);
-
-  var removedNote = note.remove();
-
-  if (list.notes.length === 0) {
-    list.remove();
-  }
-
-  var saved = saveUser(user, removedNote);
-  res.send(removedNote);
-
-};
-
 exports.putList = function(req, res, next) {
   var user = req.user;
   var listId = req.body._id;
