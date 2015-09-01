@@ -1,15 +1,15 @@
 <div class="container user-prompt off">
   <div class="inner">
     <div class="header-container">
-      <h3 class="header-text animated fadeInUp">{{greeting}},
-        {{#if user.facebook}}
-          <span>{{user.facebook.firstName}}</span>
+      <h3 class="header-text animated fadeInUp">{{greeting}}
+        {{#if user.facebook.id}}
+          <span>, {{user.facebook.firstName}}</span>
         {{/if}}
       </h3>
       {{#if user.username}}
         <p class="meta">Edit Username and Password</p>
       {{else}}
-        <p class="meta">Register to keep all your social accounts in one place</p>
+        <p class="meta">Keep all your social accounts in one place</p>
       {{/if}}
     </div>
     <div class="form-container">
