@@ -5,7 +5,7 @@
     </ul>
     <ul class="nav-right">
       {{#if user.twitter.id}}
-        <li><img class="nav-avatar" src="https://pbs.twimg.com/profile_images/{{user.twitter.id}}/-qpMSUWO_400x400.jpeg"></li>
+        <li><img class="nav-avatar" src="{{user.twitter.avatar}}"></li>
       {{else if user.facebook.id}}
         <li><img class="nav-avatar" src="https://graph.facebook.com/{{user.facebook.id}}/picture"></li>
       {{/if}}
@@ -13,8 +13,10 @@
         <ul class="user-dd-list">
           {{#if user.username}}
             <li class="user-dd-item"><p class="dd-text">@{{user.username}}</p></li>
-          {{else}}
-            <li class="user-dd-item"><p class="dd-text">{{user.name}}</p></li>
+          {{else if user.facebook.name}}
+            <li class="user-dd-item"><p class="dd-text">{{user.facebook.name}}</p></li>
+          {{else if user.twitter.username}}
+            <li class="user-dd-item"><p class="dd-text">@{{user.twitter.username}}</p></li>
           {{/if}}
             <li class="user-dd-item user-settings"><p class="dd-text">Settings</p></li>
             <li class="user-dd-item"><p class="dd-text"><a href="/logout">Logout</a></p></li>

@@ -24,7 +24,9 @@ exports.User = function() {
       id         : {type : String},
       token      : {type : String},
       username   : {type : String, sparse: true},
-      name       : {type : String, sparse: true}
+      name       : {type : String, sparse: true},
+      location   : {type : String, sparse: true},
+      avatar     : {type : String, sparse: true}
     },
 
     lists        : [ListSchema]
