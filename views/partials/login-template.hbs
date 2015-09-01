@@ -1,10 +1,36 @@
-<form class="login-form">
-  <input type="text" class="log-un" name="username" placeholder="Username">
-  <input type="password" class="log-pw-1" name="password" placeholder="Password">
-  <input type="password" class="log-pw-2" name="confirm-password" placeholder="Confirm password">
-  <div class="log-notify">
-    <span class="log-icon ready"><i class="fa fa-check"></i></span>
-    <span class="log-icon error"><i class="fa fa-times"></i></span>
-    <p class="log-message"></p>
-  </div>
-</form>
+<script type="text/template" id="login-form-template">
+  <form class="login-form">
+    <input type="text" class="log-un" name="username" placeholder="Username">
+    <input type="password" class="log-pw-1" name="password" placeholder="Password">
+    <div class="log-notify">
+      <span class="log-icon ready"><i class="fa fa-check"></i></span>
+      <span class="log-icon error"><i class="fa fa-times"></i></span>
+      <p class="log-message"></p>
+    </div>
+  </form>
+</script>
+
+<script type="text/template" id="register-form-template">
+  <form class="register-form">
+    <input type="text" class="reg-un" name="username" placeholder="Username">
+    <input type="password" class="reg-pw-1" name="password" placeholder="Password">
+    <input type="password" class="reg-pw-2" name="confirm-password" placeholder="Retype password">
+    <div class="reg-notify">
+      <span class="reg-icon ready"><i class="fa fa-check"></i></span>
+      <span class="reg-icon error"><i class="fa fa-times"></i></span>
+      <span class="reg-icon taken"><i class="fa fa-lock"></i></span>
+      <span class="reg-icon available"><i class="fa fa-unlock"></i></span>
+      <p class="reg-message"></p>
+    </div>
+  </form>
+</script>
+
+<script type="text/template" id="switch-to-login">
+<p class="caption"><a class="user-login">Have an account? Sign in</a></p>
+<span class="reg-submit"><i class="fa fa-arrow-right"></i></span>
+</script>
+
+<script type="text/template" id="switch-to-register">
+<p class="caption"><a class="user-register">I need to register</a></p>
+<span class="log-submit"><i class="fa fa-arrow-right"></i></span>
+</script>

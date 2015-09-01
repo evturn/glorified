@@ -74,6 +74,14 @@ _.extend(Backbone.View.prototype, {
           app.registerLocalUser();
         }
       });
+
+      $(document).on('click', '.user-login', function () {
+        app.renderLoginForm();
+      });
+
+      $(document).on('click', '.user-register', function () {
+        app.renderRegisterForm();
+      });
     }
   },
 
@@ -126,6 +134,16 @@ _.extend(Backbone.View.prototype, {
 
   promptUser: function promptUser() {
     app.togglePrompt();
+  },
+
+  renderLoginForm: function renderLoginForm() {
+    $('.form-container').html(app.loginTemplate());
+    $('.user-prompt .btn-container').html(app.switchToRegisterTemplate());
+  },
+
+  renderRegisterForm: function renderRegisterForm() {
+    $('.form-container').html(app.registerTemplate());
+    $('.user-prompt .btn-container').html(app.switchToLoginTemplate());
   },
 
   isUsernameAvailable: function isUsernameAvailable(username) {
@@ -862,6 +880,10 @@ RB.App = Backbone.View.extend({
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
+  loginTemplate: _.template($('#login-form-template').html()),
+  registerTemplate: _.template($('#register-form-template').html()),
+  switchToRegisterTemplate: _.template($('#switch-to-register').html()),
+  switchToLoginTemplate: _.template($('#switch-to-login').html()),
 
   events: {
     'click .create-list-btn': 'createList',

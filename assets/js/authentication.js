@@ -46,6 +46,14 @@ _.extend(Backbone.View.prototype, {
           app.registerLocalUser();
         }
       });
+
+      $(document).on('click', '.user-login', function() {
+        app.renderLoginForm();
+      });
+
+      $(document).on('click', '.user-register', function() {
+        app.renderRegisterForm();
+      });
     }
   },
 
@@ -100,8 +108,16 @@ _.extend(Backbone.View.prototype, {
 
     promptUser() {
       app.togglePrompt();
+    },
 
+    renderLoginForm() {
+      $('.form-container').html(app.loginTemplate());
+      $('.user-prompt .btn-container').html(app.switchToRegisterTemplate());
+    },
 
+    renderRegisterForm() {
+      $('.form-container').html(app.registerTemplate());
+      $('.user-prompt .btn-container').html(app.switchToLoginTemplate());
     },
 
     isUsernameAvailable(username) {
