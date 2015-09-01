@@ -171,6 +171,21 @@ _.extend(Backbone.View.prototype, {
 
   _user: {
 
+    post(attributes) {
+      $.ajax({
+        url: '/users/',
+        method: 'POST',
+        data: attributes,
+        success(data, response) {
+          console.log(data);
+          $('.log-message').html('<h3 class="header-text animated fadeInUp">' + data + '</h3>');
+        },
+        error(err) {
+          console.log(err);
+        }
+      });
+    },
+
     put(attributes) {
       let id = app.user.get('_id');
 

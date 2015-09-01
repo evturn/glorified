@@ -3,6 +3,7 @@ var passport        = require('passport'),
     authKeys = require('./auth'),
     User = require('../models/User');
 
+
 passport.use(new TwitterStrategy(authKeys.twitter,
   function(token, tokenSecret, profile, done) {
     console.log(profile);
@@ -18,7 +19,6 @@ passport.use(new TwitterStrategy(authKeys.twitter,
         else {
           var newUser              = new User();
           var json = profile._json;
-          console.log(json);
           newUser.twitter.id       = json.id;
           newUser.twitter.token    = token;
           newUser.twitter.username = json.screen_name;

@@ -9,7 +9,6 @@ var express         = require('express'),
     mongoose        = require('mongoose'),
     db              = require('./config/mongo')(mongoose),
     passport        = require('passport'),
-    FacebookStrategy = require('passport-facebook'),
     hbs             = require('./config/handlebars'),
     authRouter      = require('./routes/app');
     notesRouter     = require('./routes/notes');

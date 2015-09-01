@@ -54,8 +54,20 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.user-register', function() {
         app.renderRegisterForm();
       });
+
+      $(document).on('click', '.log-submit', function() {
+        app.findUserAndLogin();
+      });
     }
   },
+
+    findUserAndLogin() {
+      let username = $('.log-un').val(),
+          password = $('.log-pw').val(),
+          attributes = {username, password};
+
+      app._user.post(attributes);
+    },
 
     isUserLocal() {
       let username = app.user.get('username'),

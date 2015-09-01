@@ -2,7 +2,8 @@ var express = require('express');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook');
 var fbConfig = require('../config/passport-facebook');
-var localConfig = require('passport-local');
+var LocalStrategy = require('passport-local').Strategy;
+var localConfig = require('../config/passport-local');
 var mongoose = require('mongoose');
 var User = require('../models/User');
 var bcrypt = require('bcrypt');
@@ -62,5 +63,23 @@ exports.updateFacebook = function(req, res, next) {
       return err;
     }
     res.send(data);
+  });
+};
+
+exports.post = function(req, res, next) {
+  var username = req.body.username;
+  var data = req.body
+
+  User.findOne({username: username}, function(err, user) {
+    if (err) {
+      res.send(err);
+    }
+    if (!user) {
+      res.json('Unknown user ' + username);
+    }
+    if (user) {
+      var password;
+
+    }
   });
 };

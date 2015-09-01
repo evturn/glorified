@@ -82,7 +82,19 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', '.user-register', function () {
         app.renderRegisterForm();
       });
+
+      $(document).on('click', '.log-submit', function () {
+        app.findUserAndLogin();
+      });
     }
+  },
+
+  findUserAndLogin: function findUserAndLogin() {
+    var username = $('.log-un').val(),
+        password = $('.log-pw').val(),
+        attributes = { username: username, password: password };
+
+    app._user.post(attributes);
   },
 
   isUserLocal: function isUserLocal() {
@@ -417,6 +429,21 @@ _.extend(Backbone.View.prototype, {
   },
 
   _user: {
+
+    post: function post(attributes) {
+      $.ajax({
+        url: '/users/',
+        method: 'POST',
+        data: attributes,
+        success: function success(data, response) {
+          console.log(data);
+          $('.log-message').html('<h3 class="header-text animated fadeInUp">' + data + '</h3>');
+        },
+        error: function error(err) {
+          console.log(err);
+        }
+      });
+    },
 
     put: function put(attributes) {
       var id = app.user.get('_id');

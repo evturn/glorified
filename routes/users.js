@@ -8,7 +8,8 @@ var User = require('../models/User');
 var users = express.Router();
 
 users.route ('/')
-  .get(ensureAuthenticated, usersCtrl.get);
+  .get(ensureAuthenticated, usersCtrl.get)
+  .post(ensureAuthenticated, urlencoded, usersCtrl.post);
 
 users.route('/usernames')
   .post(ensureAuthenticated, urlencoded, usersCtrl.checkUsernameAvailabiliy);
