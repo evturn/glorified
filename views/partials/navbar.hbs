@@ -4,7 +4,11 @@
       <li><p class="app-header"><a>Ramen Buffet</a></p></li>
     </ul>
     <ul class="nav-right">
-      <li><img class="nav-avatar" src="https://graph.facebook.com/{{ user.fbId }}/picture"></li>
+      {{#if user.twitter.id}}
+        <li><img class="nav-avatar" src="https://pbs.twimg.com/profile_images/{{user.twitter.id}}/-qpMSUWO_400x400.jpeg"></li>
+      {{else if user.facebook.id}}
+        <li><img class="nav-avatar" src="https://graph.facebook.com/{{user.facebook.id}}/picture"></li>
+      {{/if}}
       <li>
         <ul class="user-dd-list">
           {{#if user.username}}

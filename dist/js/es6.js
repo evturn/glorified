@@ -68,6 +68,12 @@ _.extend(Backbone.View.prototype, {
       $('.user-settings').on('click', function () {
         app.promptUser();
       });
+
+      $('.register-form').on('keyup', function (e) {
+        if (e.keyCode === 13 && $('.reg-submit .fa').hasClass('ready')) {
+          app.registerLocalUser();
+        }
+      });
     }
   },
 
