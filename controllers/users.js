@@ -66,20 +66,19 @@ exports.updateFacebook = function(req, res, next) {
   });
 };
 
-exports.post = function(req, res, next) {
-  var username = req.body.username;
-  var data = req.body
-
-  User.findOne({username: username}, function(err, user) {
+exports.login = function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
     if (err) {
-      res.send(err);
+      return next(err);
     }
     if (!user) {
-      res.json('Unknown user ' + username);
+      return res.send(info);
     }
-    if (user) {
-      var password;
-
-    }
-  });
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      return res.send(user);
+    });
+  })(req, res, next);
 };

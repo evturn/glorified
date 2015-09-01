@@ -173,7 +173,7 @@ _.extend(Backbone.View.prototype, {
 
     post(attributes) {
       $.ajax({
-        url: '/users/',
+        url: '/users/login',
         method: 'POST',
         data: attributes,
         success(data, response) {

@@ -38,5 +38,6 @@ app.use('/', authRouter);
 app.use('/notes', notesRouter);
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
+app.use('/users', usersRouter);
 
 var http = require('./config/http');
