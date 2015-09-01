@@ -14,6 +14,12 @@ exports.User = function() {
     fbToken    : {type : String},
     fbEmail    : {type : String, sparse: true},
     fbName     : {type : String, sparse: true},
+    twitter: {
+      id       : {type : String},
+      token    : {type : String},
+      username : {type : String, sparse: true},
+      name     : {type : String, sparse: true},
+    },
     lists      : [ListSchema]
   });
 };

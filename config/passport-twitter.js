@@ -6,7 +6,7 @@ var passport        = require('passport'),
 passport.use(new TwitterStrategy(authKeys.twitter,
   function(token, tokenSecret, profile, done) {
     process.nextTick(function() {
-      User.findOne({'twId': profile.id}, function(err, user) {
+      User.findOne({'twitter.id': profile.id}, function(err, user) {
         if (err) {
           return done(err);
         }
@@ -15,11 +15,12 @@ passport.use(new TwitterStrategy(authKeys.twitter,
           return done(null, user);
         }
         else {
-          var newUser           = new User();
-          newUser.twId          = profile.id;
-          newUser.twToken       = token;
-          newUser.twUsername    = profile.username;
-          newUser.twdisplayName = profile.displayName;
+          console.log(profile);
+          var newUser              = new User();
+          newUser.twitter.id       = profile.id;
+          newUser.twitter.token    = token;
+          newUser.twitter.username = profile.username;
+          newUser.twitter.name     = profile.displayName;
 
           newUser.save(function(err) {
             if (err) {
@@ -31,4 +32,3 @@ passport.use(new TwitterStrategy(authKeys.twitter,
       });
     });
   }));
-};
