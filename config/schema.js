@@ -6,21 +6,28 @@ exports.User = function() {
     password   : {type : String, sparse: true},
     email      : {type : String, sparse: true},
     name       : {type : String, sparse: true},
-    lastName   : {type : String, sparse: true},
-    firstName  : {type : String, sparse: true},
-    gender     : {type : String, sparse: true},
     fbProfile  : {type : String, sparse: true},
-    fbId       : {type : String},
-    fbToken    : {type : String},
-    fbEmail    : {type : String, sparse: true},
-    fbName     : {type : String, sparse: true},
-    twitter: {
-      id       : {type : String},
-      token    : {type : String},
-      username : {type : String, sparse: true},
-      name     : {type : String, sparse: true},
+    fbId       : {type : String, sparse: true},
+
+    facebook: {
+      name       : {type : String, sparse: true},
+      lastName   : {type : String, sparse: true},
+      firstName  : {type : String, sparse: true},
+      gender     : {type : String, sparse: true},
+      profile    : {type : String, sparse: true},
+      id         : {type : String},
+      token      : {type : String},
+      email      : {type : String, sparse: true}
     },
-    lists      : [ListSchema]
+
+    twitter: {
+      id         : {type : String},
+      token      : {type : String},
+      username   : {type : String, sparse: true},
+      name       : {type : String, sparse: true}
+    },
+
+    lists        : [ListSchema]
   });
 };
 

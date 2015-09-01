@@ -34,12 +34,16 @@ _.extend(Backbone.View.prototype, {
   auth: {
     usernameValidation: false,
     passwordValidation: false,
+    local: false,
+    twitter: false,
+    facebook: false,
 
     init: function init() {
       app.isUserLocal();
 
-      $('.btn-container .caption a').on('click', function (e) {
-        app.collapseRegistration();
+      $('.btn-container .caption .close').on('click', function (e) {
+        console.log('clicking');
+        app.togglePrompt();
       });
 
       $('.reg-un').on('keyup', function () {
@@ -60,24 +64,62 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', 'i.ready', function () {
         app.registerLocalUser();
       });
+
+      $('.user-settings').on('click', function () {
+        app.promptUser();
+      });
     }
   },
 
-  isUserLocal: function isUserLocal(user) {
-    var username = app.user.get('username');
+  isUserLocal: function isUserLocal() {
+    var username = app.user.get('username'),
+        twitter = app.user.get('twitter'),
+        facebook = app.user.get('fbId');
 
-    if (!username) {
+    if (username) {
+      app.auth.local = true;
+    }
+
+    if (twitter) {
+      app.auth.twitter = true;
+    }
+
+    if (facebook) {
+      app.auth.facebook = true;
+    }
+
+    if (app.user.attributes.fbId) {
+      var attributes = {
+        facebook: {
+          name: app.user.attributes.name,
+          displayName: app.user.attributes.displayName,
+          firstName: app.user.attributes.firstName,
+          lastName: app.user.attributes.lastName,
+          gender: app.user.attributes.gender,
+          profile: app.user.attributes.fbProfile,
+          id: app.user.attributes.fbId,
+          email: app.user.attributes.email
+        }
+      };
+
+      app._user.put(attributes);
+    }
+
+    app.buildUserPrompt();
+  },
+
+  buildUserPrompt: function buildUserPrompt() {
+    var local = app.auth.local;
+
+    if (local) {
+      return false;
+    } else {
       app.promptUser();
     }
   },
 
   promptUser: function promptUser() {
-    var greeting = app.greeting(),
-        name = app.user.attributes.firstName;
-
-    $('body').prepend(app.registerTemplate({ greeting: greeting, name: name }));
-
-    return this;
+    app.togglePrompt();
   },
 
   isUsernameAvailable: function isUsernameAvailable(username) {
@@ -105,7 +147,7 @@ _.extend(Backbone.View.prototype, {
       url: '/users/' + _id,
       success: function success(data, response) {
         console.log(data);
-        app.collapseRegistration();
+        app.togglePrompt();
       },
       error: function error(err) {
         console.log(err);
@@ -160,9 +202,21 @@ _.extend(Backbone.View.prototype, {
     }
   },
 
-  collapseRegistration: function collapseRegistration() {
-    $('.user-registration .inner').addClass('animated fadeOut');
-    $('.user-registration').addClass('animated slideOutUp');
+  togglePrompt: function togglePrompt() {
+    $('.user-prompt').removeClass('off');
+    $('.user-prompt').toggleClass('on');
+
+    if ($('.user-prompt').hasClass('on')) {
+      $('.user-prompt .inner').removeClass('animated fadeOut');
+      $('.user-prompt').removeClass('animated slideOutUp');
+      $('.user-prompt .inner').addClass('animated fadeIn');
+      $('.user-prompt').addClass('animated slideInDown');
+    } else {
+      $('.user-prompt .inner').removeClass('animated fadeIn');
+      $('.user-prompt').removeClass('animated slideInDown');
+      $('.user-prompt .inner').addClass('animated fadeOut');
+      $('.user-prompt').addClass('animated slideOutUp');
+    }
   }
 });
 // ===================
@@ -335,6 +389,24 @@ _.extend(Backbone.View.prototype, {
           }
         });
       }
+    }
+  },
+
+  _user: {
+
+    put: function put(attributes) {
+      var id = app.user.get('_id');
+
+      app.user.save(attributes, {
+        url: '/users/facebook/' + id,
+        success: function success(model, response) {
+          app.notify('Updated');
+          console.log(model);
+        },
+        error: function error(_error3) {
+          console.log('error ', _error3);
+        }
+      });
     }
   }
 });
@@ -573,6 +645,7 @@ _.extend(Backbone.View.prototype, {
       app.readClient();
       app.setClient();
       app.isMobile();
+      app.greeting();
       autosize(document.querySelectorAll('textarea'));
 
       $(window).resize(function () {
@@ -740,13 +813,15 @@ _.extend(Backbone.View.prototype, {
       case 10:
       case 11:
       case 12:
-        return "Good Morning";
+        app.greeting = "Good Morning";
+        break;
       case 13:
       case 14:
       case 15:
       case 16:
       case 17:
-        return "Good Afternoon";
+        app.greeting = "Good Afternoon";
+        break;
       case 18:
       case 19:
       case 20:
@@ -758,7 +833,8 @@ _.extend(Backbone.View.prototype, {
       case 2:
       case 3:
       case 4:
-        return "Good Evening";
+        app.greeting = "Good Evening";
+        break;
     }
   },
 
@@ -780,7 +856,7 @@ RB.App = Backbone.View.extend({
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
-  registerTemplate: _.template($('#user-registration-template').html()),
+  registerTemplate: _.template($('#register-form-template').html()),
 
   events: {
     'click .create-list-btn': 'createList',

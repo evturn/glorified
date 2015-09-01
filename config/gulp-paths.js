@@ -67,7 +67,7 @@ module.exports = {
       'assets/js/http.js',
       'assets/js/view.js',
       'assets/js/mobile.js',
-      'assets/js/helpers.js',
+      'assets/js/listeners.js',
       'assets/js/views/**/*.js',
       'assets/js/main.js'
     ],
@@ -82,6 +82,8 @@ module.exports = {
         'assets/js/vendor/jquery.js',
         'assets/js/vendor/underscore.js',
         'assets/js/vendor/backbone.js',
+        'assets/js/vendor/handlebars.runtime.js',
+        'assets/js/vendor/handlebars.js',
         'assets/js/vendor/bootstrap.js',
         'assets/js/vendor/autosize.js',
       ],

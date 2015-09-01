@@ -5,12 +5,16 @@ _.extend(Backbone.View.prototype, {
   auth: {
     usernameValidation: false,
     passwordValidation: false,
+    local    : false,
+    twitter  : false,
+    facebook : false,
 
     init() {
       app.isUserLocal();
 
-      $('.btn-container .caption a').on('click', function(e) {
-        app.collapseRegistration();
+      $('.btn-container .caption .close').on('click', function(e) {
+        console.log('clicking');
+        app.togglePrompt();
       });
 
       $('.reg-un').on('keyup', function() {
@@ -32,24 +36,66 @@ _.extend(Backbone.View.prototype, {
       $(document).on('click', 'i.ready', function() {
         app.registerLocalUser();
       });
+
+      $('.user-settings').on('click', function() {
+        app.promptUser();
+      });
     }
   },
 
-    isUserLocal(user) {
-      let username = app.user.get('username');
+    isUserLocal() {
+      let username = app.user.get('username'),
+          twitter = app.user.get('twitter'),
+          facebook = app.user.get('fbId');
 
-      if (!username) {
+      if (username) {
+        app.auth.local = true;
+      }
+
+      if (twitter) {
+        app.auth.twitter = true;
+      }
+
+      if (facebook) {
+        app.auth.facebook = true;
+      }
+
+      if (app.user.attributes.fbId) {
+        let attributes = {
+          facebook: {
+            name        : app.user.attributes.name,
+            displayName : app.user.attributes.displayName,
+            firstName   : app.user.attributes.firstName,
+            lastName    : app.user.attributes.lastName,
+            gender      : app.user.attributes.gender,
+            profile     : app.user.attributes.fbProfile,
+            id          : app.user.attributes.fbId,
+            email       : app.user.attributes.email,
+          },
+        };
+
+      app._user.put(attributes);
+      }
+
+      app.buildUserPrompt();
+    },
+
+    buildUserPrompt() {
+      let local = app.auth.local;
+
+      if (local) {
+        return false;
+      }
+      else {
         app.promptUser();
       }
+
     },
 
     promptUser() {
-      let greeting = app.greeting(),
-          name = app.user.attributes.firstName;
+      app.togglePrompt();
 
-      $('body').prepend(app.registerTemplate({greeting, name}));
 
-      return this;
     },
 
     isUsernameAvailable(username) {
@@ -77,7 +123,7 @@ _.extend(Backbone.View.prototype, {
         url: '/users/' + _id,
         success(data, response) {
           console.log(data);
-          app.collapseRegistration();
+          app.togglePrompt();
         },
         error(err) {
           console.log(err);
@@ -136,8 +182,21 @@ _.extend(Backbone.View.prototype, {
       }
     },
 
-    collapseRegistration() {
-      $('.user-registration .inner').addClass('animated fadeOut');
-      $('.user-registration').addClass('animated slideOutUp');
-    }
+    togglePrompt() {
+      $('.user-prompt').removeClass('off');
+      $('.user-prompt').toggleClass('on');
+
+      if ($('.user-prompt').hasClass('on')) {
+        $('.user-prompt .inner').removeClass('animated fadeOut');
+        $('.user-prompt').removeClass('animated slideOutUp');
+        $('.user-prompt .inner').addClass('animated fadeIn');
+        $('.user-prompt').addClass('animated slideInDown');
+      }
+      else {
+        $('.user-prompt .inner').removeClass('animated fadeIn');
+        $('.user-prompt').removeClass('animated slideInDown');
+        $('.user-prompt .inner').addClass('animated fadeOut');
+        $('.user-prompt').addClass('animated slideOutUp');
+      }
+    },
 });

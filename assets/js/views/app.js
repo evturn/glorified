@@ -8,7 +8,7 @@ RB.App = Backbone.View.extend({
   iconPlaceholderTemplate : _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate    : _.template($('#icon-list-item-template').html()),
   iconTemplate            : _.template($('#icon-template').html()),
-  registerTemplate        : _.template($('#user-registration-template').html()),
+  registerTemplate        : _.template($('#register-form-template').html()),
 
   events: {
     'click .create-list-btn' : 'createList',

@@ -25,7 +25,7 @@ exports.checkUsernameAvailabiliy = function(req, res, next) {
   });
 };
 
-exports.put = function(req, res, next) {
+exports.putUsernameAndPassword = function(req, res, next) {
   var user = req.user;
   var data = req.body;
 
@@ -47,5 +47,20 @@ exports.put = function(req, res, next) {
         res.send(data);
       });
     });
+  });
+};
+
+exports.updateFacebook = function(req, res, next) {
+  var user = req.user;
+  var data = req.body;
+
+  user.facebook = req.body.facebook;
+
+  user.save(function(err, data) {
+    if (err) {
+      console.log(err)
+      return err;
+    }
+    res.send(data);
   });
 };

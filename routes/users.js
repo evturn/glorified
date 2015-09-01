@@ -14,7 +14,10 @@ users.route('/usernames')
   .post(ensureAuthenticated, urlencoded, usersCtrl.checkUsernameAvailabiliy);
 
 users.route('/:id')
-  .put(ensureAuthenticated, urlencoded, usersCtrl.put);
+  .put(ensureAuthenticated, urlencoded, usersCtrl.putUsernameAndPassword);
+
+users.route('/facebook/:id')
+  .put(ensureAuthenticated, urlencoded, usersCtrl.updateFacebook);
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

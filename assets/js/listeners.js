@@ -10,6 +10,7 @@ _.extend(Backbone.View.prototype, {
       app.readClient();
       app.setClient();
       app.isMobile();
+      app.greeting();
       autosize(document.querySelectorAll('textarea'));
 
       $(window).resize(function() {
@@ -182,13 +183,15 @@ _.extend(Backbone.View.prototype, {
       case 10:
       case 11:
       case 12:
-        return "Good Morning";
+        app.greeting = "Good Morning";
+        break;
       case 13:
       case 14:
       case 15:
       case 16:
       case 17:
-        return "Good Afternoon";
+        app.greeting = "Good Afternoon";
+        break;
       case 18:
       case 19:
       case 20:
@@ -200,7 +203,8 @@ _.extend(Backbone.View.prototype, {
       case 2:
       case 3:
       case 4:
-        return "Good Evening";
+        app.greeting = "Good Evening";
+        break;
     }
   },
 

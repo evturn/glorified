@@ -167,5 +167,23 @@ _.extend(Backbone.View.prototype, {
         });
       }
     }
+  },
+
+  _user: {
+
+    put(attributes) {
+      let id = app.user.get('_id');
+
+      app.user.save(attributes, {
+        url: '/users/facebook/' + id,
+        success(model, response) {
+          app.notify('Updated');
+          console.log(model);
+        },
+        error(error) {
+          console.log('error ', error);
+        }
+      });
+    },
   }
 });
