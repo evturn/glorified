@@ -26,6 +26,7 @@ _.extend(Backbone.View.prototype, {
 
     app.user.fetch({
       success(model, response) {
+        console.log(model);
         if (app.user === null) {
           app.user = model;
         }

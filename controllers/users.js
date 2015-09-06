@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var User = require('../models/User');
 var bcrypt = require('bcrypt');
 
+
 exports.get = function(req, res, next) {
   res.json(req.user);
 };

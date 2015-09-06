@@ -10,9 +10,10 @@ var app = express.Router();
 
 var tempUser = null;
 var session = null;
+var currentUser = null;
 
 app.get('/', ensureAuthenticated, function(req, res) {
-  res.render('app/index', {layout: 'app', user: req.user});
+  res.render('app/index', {layout: 'app', user: currentUser});
 });
 
 app.get('/signup', function(req, res) {
@@ -49,6 +50,7 @@ app.get('/auth/facebook/callback', urlencoded, function(req, res, next) {
         done(null, user._id);
       });
       session = true;
+      currentUser = user;
       return res.redirect('/');
     }
     else if (user && (user.registered === false)) {
