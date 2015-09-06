@@ -17,7 +17,7 @@ app.get('/', ensureAuthenticated, function(req, res) {
 
 app.get('/signup', function(req, res) {
   console.log(tempUser);
-  res.render('landing/index', {layout: 'landing', data: tempUser});
+  res.render('landing/index', {layout: 'landing', tempUser: tempUser});
 });
 
 app.get('/auth/facebook',

@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     paths = require('./config/gulp-paths'),
     opts = require('./config/gulp-options');
 
-gulp.task('default', ['less:watch', 'js:watch', 'lint:watch', 'sync']);
+gulp.task('default', ['less:watch', 'js:watch', 'js:auth:watch', 'lint:watch', 'sync']);
 
 //////////////////////
 // BROWSERSYNC
@@ -78,19 +78,27 @@ gulp.task('js:vendor', function() {
     .pipe(gulp.dest(paths.dest.js));
 });
 
-gulp.task('js:landing', function() {
-  return gulp.src('assets/js/landing.js')
+gulp.task('js:auth', function() {
+  return gulp.src(paths.js.auth.src)
     .pipe($.plumber(opts.plumber))
     .pipe($.sourcemaps.init())
     .pipe($.babel())
     .on('error', opts.plumber.errorHandler)
-    .pipe($.concat('landing.js'))
+    .pipe($.concat(paths.js.auth.filename))
     .pipe(gulp.dest(paths.dest.js))
     .pipe($.uglify())
-    .pipe($.rename('landing.min.js'))
+    .pipe($.rename(paths.js.auth.min))
     .pipe(gulp.dest(paths.dest.js))
     .pipe($.sourcemaps.write('.'))
     .on('error', gutil.log);
+});
+
+gulp.task('js:auth:watch', function() {
+  gulp.watch(paths.js.watch, ['js:auth:reload']);
+});
+
+gulp.task('js:auth:reload', ['js:auth'], function() {
+    browserSync.reload();
 });
 
 //////////////////////

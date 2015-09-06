@@ -5,21 +5,38 @@
       <div class="header-container">
         <p class="header-text">Ramen Buffet</p>
       </div>
-      <div class="btn-container">
-        <p>{{data.message}}</p>
-        <a href="/auth/facebook">
-          <div class="facebook-container">
-            <p class="lead">Login with facebook</p>
-            <i class="fa fa-facebook"></i>
-          </div>
-        </a>
-        <a href="/auth/twitter">
-          <div class="twitter-container">
-            <p class="lead">Login with twitter</p>
-            <i class="fa fa-twitter"></i>
-          </div>
-        </a>
-      </div>
+      {{#if tempUser}}
+        <div class="form-container">
+          <form class="register-form">
+            <input type="text" class="reg-un" name="username" placeholder="Username">
+            <input type="password" class="reg-pw-1" name="password" placeholder="Password">
+            <input type="password" class="reg-pw-2" name="confirm-password" placeholder="Retype password">
+            <div class="reg-notify">
+              <span class="reg-icon ready"><i class="fa fa-check"></i></span>
+              <span class="reg-icon error"><i class="fa fa-times"></i></span>
+              <span class="reg-icon taken"><i class="fa fa-lock"></i></span>
+              <span class="reg-icon available"><i class="fa fa-unlock"></i></span>
+              <p class="reg-message"></p>
+            </div>
+          </form>
+        </div>
+        <p>{{tempUser.message}}</p>
+      {{else}}
+        <div class="btn-container">
+          <a href="/auth/facebook">
+            <div class="facebook-container">
+              <p class="lead">Login with facebook</p>
+              <i class="fa fa-facebook"></i>
+            </div>
+          </a>
+          <a href="/auth/twitter">
+            <div class="twitter-container">
+              <p class="lead">Login with twitter</p>
+              <i class="fa fa-twitter"></i>
+            </div>
+          </a>
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

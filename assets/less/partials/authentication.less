@@ -1,0 +1,122 @@
+  .form-container {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 26px;
+  }
+
+  .btn-container {
+    position: relative;
+    overflow: auto;
+    outline: none;
+
+    .fa {
+      display: inline-block;
+      float: right;
+      color: @grey;
+      cursor: default;
+      font-size: 2em;
+      .transition(0.3s);
+
+      &.ready {
+        color: @primarylight;
+        font-size: 2.2em;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+      }
+    }
+    .caption {
+      color: @primarylight;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 9px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      top: 0;
+      z-index: 2;
+      outline: none;
+      cursor: default;
+
+      &,
+      &:before,
+      &:after {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      a {
+        cursor: pointer;
+        vertical-align: -webkit-baseline-middle;
+      }
+    }
+  }
+
+  .log-notify,
+  .reg-notify {
+    height: 35px;
+
+    .ready {
+      display: none;
+      color: @primarylighthover;
+    }
+    .error {
+      display: none;
+      color: @red;
+    }
+    .taken {
+      display: none;
+      color: @red;
+    }
+    .available {
+      display: none;
+      color: @primarylighthover;
+    }
+  }
+
+  .log-message,
+  .reg-message {
+    text-align: center;
+    color: @primarydark;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .header-text {
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 15px;
+    .animation-duration(2s);
+
+    @media (min-width: @sm) {
+      font-size: 20px;
+    }
+  }
+
+  .meta {
+    text-align: center;
+    font-size: 10px;
+  }
+
+  input {
+    display: block;
+    height: 30px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid @grey;
+    outline: none;
+    font-size: 18px;
+  }
+
+  .log-submit .fa {
+    color: @primarylight;
+    cursor: pointer;
+  }

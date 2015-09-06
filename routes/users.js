@@ -13,7 +13,7 @@ users.route ('/')
   .get(ensureAuthenticated, usersCtrl.get);
 
 users.route('/usernames')
-  .post(ensureAuthenticated, urlencoded, usersCtrl.checkUsernameAvailabiliy);
+  .post(urlencoded, usersCtrl.checkUsernameAvailabiliy);
 
 users.route('/:id')
   .put(ensureAuthenticated, urlencoded, usersCtrl.putUsernameAndPassword);

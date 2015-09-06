@@ -49,6 +49,14 @@ module.exports = {
       ],
       filename: 'vendor.js',
       min: 'vendor.min.js'
+    },
+    auth: {
+      src: [
+        'assets/js/auth/landing.js'
+      ],
+      watch: 'assets/js/auth/**/*.js',
+      filename: 'auth.js',
+      min: 'auth.min.js'
     }
   },
 
