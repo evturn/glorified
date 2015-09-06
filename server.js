@@ -18,6 +18,9 @@ var express         = require('express'),
 
 var app = module.exports = express();
 
+var id     = process.env.NODE_ENV === "development" ? process.env.FACEBOOK_ID_TEST : process.env.FACEBOOK_ID;
+var secret = process.env.NODE_ENV === "development" ? process.env.FACEBOOK_SECRET_TEST : process.env.FACEBOOK_SECRET;
+
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 app.engine('hbs', hbs.engine);

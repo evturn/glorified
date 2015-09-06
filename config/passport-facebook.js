@@ -26,9 +26,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
       }
 
       if (user) {
-        console.log(user);
         user.registered = true;
-        user.token = accessToken;
         return done(null, user);
       }
       else {
