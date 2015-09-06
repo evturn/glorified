@@ -20,7 +20,11 @@
             </div>
           </form>
         </div>
-        <p>{{tempUser.message}}</p>
+        <div class="auth btn-container">
+          <p class="caption"><a class="user-login">Have an account? Sign in</a></p>
+          <span class="reg-submit"><i class="fa fa-arrow-right"></i></span>
+        </div>
+        <p class="caption">{{tempUser.message}}</p>
       {{else}}
         <div class="btn-container">
           <a href="/auth/facebook">

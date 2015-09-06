@@ -3,6 +3,7 @@ var RB = RB || {};
 RB.AUTH = {
 
   usernameValidation: false,
+  passwordValidation: false,
 
   init() {
 
@@ -16,6 +17,10 @@ RB.AUTH = {
         $('.reg-message').empty();
         $('.reg-icon').hide();
       }
+    });
+
+    $('.reg-pw-2').on('keyup', function() {
+      RB.AUTH.comparePasswords();
     });
 
   },
@@ -60,6 +65,28 @@ RB.AUTH = {
     else {
       $('.reg-submit .fa').removeClass('ready');
     }
+  },
+
+  comparePasswords() {
+    let pw2 = $('.reg-pw-2').val(),
+        pw1 = $('.reg-pw-1').val();
+
+    if (pw2 === pw1) {
+      $('.reg-notify .error').hide();
+      $('.reg-notify .ready').show();
+      RB.AUTH.passwordValidation = true;
+    }
+    else if (pw2 === '') {
+      $('.reg-notify .ready').hide();
+      $('.reg-notify .error').hide();
+      RB.AUTH.passwordValidation = false;
+    }
+    else {
+      $('.reg-notify .ready').hide();
+      $('.reg-notify .error').show();
+      RB.AUTH.passwordValidation = false;
+    }
+    RB.AUTH.isValidated();
   },
 
 };

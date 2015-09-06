@@ -4854,7 +4854,8 @@ li {
   -webkit-box-shadow: 0 0px 13px -3px rgba(0, 0, 0, 0.75);
   box-shadow: 0 0px 13px -3px rgba(0, 0, 0, 0.75);
 }
-.landing-wrapper .fa {
+.landing-wrapper .twitter-container .fa,
+.landing-wrapper .facebook-container .fa {
   -webkit-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -5648,7 +5649,7 @@ li {
   color: #00b2e2;
   cursor: pointer;
 }
-.form-container {
+.landing-wrapper .form-container {
   text-align: center;
   margin-top: 40px;
   margin-bottom: 20px;
@@ -5656,12 +5657,13 @@ li {
   margin-right: auto;
   font-size: 26px;
 }
-.btn-container {
+.landing-wrapper .auth.btn-container {
   position: relative;
   overflow: auto;
   outline: none;
+  margin-top: 0;
 }
-.btn-container .fa {
+.landing-wrapper .auth.btn-container .fa {
   display: inline-block;
   float: right;
   color: #d4e7ea;
@@ -5671,14 +5673,14 @@ li {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-.btn-container .fa.ready {
+.landing-wrapper .auth.btn-container .fa.ready {
   color: #00b2e2;
   font-size: 2.2em;
   cursor: pointer;
   position: relative;
   z-index: 2;
 }
-.btn-container .caption {
+.landing-wrapper .auth.btn-container .caption {
   color: #00b2e2;
   display: inline-block;
   margin-left: auto;
@@ -5693,50 +5695,50 @@ li {
   outline: none;
   cursor: default;
 }
-.btn-container .caption,
-.btn-container .caption:before,
-.btn-container .caption:after {
+.landing-wrapper .auth.btn-container .caption,
+.landing-wrapper .auth.btn-container .caption:before,
+.landing-wrapper .auth.btn-container .caption:after {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.btn-container .caption a {
+.landing-wrapper .auth.btn-container .caption a {
   cursor: pointer;
   vertical-align: -webkit-baseline-middle;
 }
-.log-notify,
-.reg-notify {
+.landing-wrapper .log-notify,
+.landing-wrapper .reg-notify {
   height: 35px;
 }
-.log-notify .ready,
-.reg-notify .ready {
+.landing-wrapper .log-notify .ready,
+.landing-wrapper .reg-notify .ready {
   display: none;
   color: #00cfff;
 }
-.log-notify .error,
-.reg-notify .error {
+.landing-wrapper .log-notify .error,
+.landing-wrapper .reg-notify .error {
   display: none;
   color: #c42f33;
 }
-.log-notify .taken,
-.reg-notify .taken {
+.landing-wrapper .log-notify .taken,
+.landing-wrapper .reg-notify .taken {
   display: none;
   color: #c42f33;
 }
-.log-notify .available,
-.reg-notify .available {
+.landing-wrapper .log-notify .available,
+.landing-wrapper .reg-notify .available {
   display: none;
   color: #00cfff;
 }
-.log-message,
-.reg-message {
+.landing-wrapper .log-message,
+.landing-wrapper .reg-message {
   text-align: center;
   color: #174e7a;
   font-size: 10px;
   text-transform: uppercase;
 }
-.header-text {
+.landing-wrapper .header-text {
   text-align: left;
   font-size: 16px;
   margin-bottom: 15px;
@@ -5744,15 +5746,15 @@ li {
   animation-duration: 2s;
 }
 @media (min-width: 600px) {
-  .header-text {
+  .landing-wrapper .header-text {
     font-size: 20px;
   }
 }
-.meta {
+.landing-wrapper .meta {
   text-align: center;
   font-size: 10px;
 }
-input {
+.landing-wrapper input {
   display: block;
   height: 30px;
   width: 100%;
@@ -5763,7 +5765,7 @@ input {
   outline: none;
   font-size: 18px;
 }
-.log-submit .fa {
+.landing-wrapper .log-submit .fa {
   color: #00b2e2;
   cursor: pointer;
 }
