@@ -30,11 +30,11 @@
           <div class="message-container">
             <p class="flash-message">{{tempUser.message}}</p>
             {{#if tempUser.data.facebook}}
-              <a class="auth-entry" href="/auth/facebook">Success! Continue</a>
               <img class="nav-avatar" src="https://graph.facebook.com/{{tempUser.data.facebook.id}}/picture">
+              <a class="auth-entry" href="/auth/facebook">Welcome</a>
             {{else if tempUser.data.twitter}}
-              <a class="auth-entry" href="/auth/twitter">Success! Continue</a>
               <img class="nav-avatar" src="{{user.twitter.avatar}}">
+              <a class="auth-entry" href="/auth/twitter">Welcome</a>
             {{/if}}
           </div>
         </div>

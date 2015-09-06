@@ -87,6 +87,12 @@ RB.AUTH = {
       success: function success(data, response) {
         console.log(data);
         $('.auth-entry').addClass('on');
+        $('.message-container').addClass('on');
+        $('.auth.btn-container').remove();
+        $('.reg-message').remove();
+        $('.reg-notify').remove();
+        $('.register-form').remove();
+        $('.flash-message').remove();
       },
       error: function error(err) {
         console.log(err);
