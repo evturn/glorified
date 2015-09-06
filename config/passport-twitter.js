@@ -10,27 +10,36 @@ passport.use(new TwitterStrategy(authKeys.twitter,
     process.nextTick(function() {
       User.findOne({'twitter.id': profile.id}, function(err, user) {
         if (err) {
-          return done(err);
+          console.log('So, ' + err);
+          return done({
+            message: 'So, ' + err
+          });
         }
 
         if (user) {
+          user.registered = true;
+          user.token = accessToken;
           return done(null, user);
         }
         else {
-          var newUser              = new User();
-          var json = profile._json;
-          newUser.twitter.id       = json.id;
-          newUser.twitter.token    = token;
-          newUser.twitter.username = json.screen_name;
-          newUser.twitter.name     = json.name;
-          newUser.twitter.avatar   = json.profile_image_url;
-          newUser.twitter.location = json.location;
-
-          newUser.save(function(err) {
-            if (err) {
-              throw err;
+          console.log('Twitter found you, but we didn\'t, register now!');
+          var attr = profile._json;
+          var twitterData = {
+            twitter: {
+              id       : attr.id,
+              token    : token,
+              username : attr.screen_name,
+              name     : attr.name,
+              avatar   : attr.profile_image_url,
+              location : attr.location
             }
-            return done(null, newUser);
+          };
+
+          return done(null, {
+            strategy    : 'twitter',
+            registered  : false,
+            data        : twiterData,
+            message     : 'Hi, ' + attr.name +', please register above.'
           });
         }
       });

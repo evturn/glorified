@@ -31,7 +31,7 @@
             <p class="flash-message">{{tempUser.message}}</p>
             {{#if tempUser.data.facebook}}
               <img class="nav-avatar" src="https://graph.facebook.com/{{tempUser.data.facebook.id}}/picture">
-              <a class="auth-entry" href="/auth/facebook">Welcome</a>
+              <a class="auth-entry animated fadeInUp" href="/auth/facebook">Welcome</a>
             {{else if tempUser.data.twitter}}
               <img class="nav-avatar" src="{{user.twitter.avatar}}">
               <a class="auth-entry" href="/auth/twitter">Welcome</a>
