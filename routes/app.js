@@ -60,11 +60,32 @@ app.get('/auth/facebook/callback', urlencoded, function(req, res, next) {
     })(req, res, next);
 });
 
-app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+app.get('/auth/twitter/callback', urlencoded, function(req, res, next) {
+  passport.authenticate('twitter', { failureRedirect: '/' }, function(err, user, info) {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (!user) {
+      return res.send({
+        success : false,
+        message : 'authentication failed'
+      });
+    }
+    else if (user && (user.registered === true)) {
+      passport.serializeUser(function(user, done) {
+        done(null, user._id);
+      });
+      session = true;
+      currentUser = user;
+      return res.redirect('/');
+    }
+    else if (user && (user.registered === false)) {
+      tempUser = user;
+      return res.redirect('/signup');
+    }
+    })(req, res, next);
+});
 
 app.get('/logout', function(req, res){
   session = false;

@@ -21,7 +21,7 @@ exports.post = function(req, res, next) {
     var fb = JSON.parse(data.facebook);
     user = new User({facebook: fb});
   }
-  else {
+  else if (account === 'twitter') {
     var tw = JSON.parse(data.twitter);
     user = new User({twitter: tw});
   }

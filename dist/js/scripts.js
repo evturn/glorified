@@ -68,7 +68,6 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
-        app.auth.init();
         return app.listsCollection;
       },
       error: function error(err) {

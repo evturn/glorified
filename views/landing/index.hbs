@@ -20,7 +20,11 @@
             </div>
             {{#if tempUser.strategy}}
               <span class="social-strategy" data-id="{{tempUser.strategy}}"></span>
-              {{{invert tempUser.data.facebook}}}
+              {{#if tempUser.data.twitter}}
+                {{{invert tempUser.data.twitter}}}
+              {{else if tempUser.data.facebook}}
+                {{{invert tempUser.data.facebook}}}
+              {{/if}}
             {{/if}}
           </form>
           <div class="auth btn-container">
@@ -33,7 +37,7 @@
               <img class="nav-avatar" src="https://graph.facebook.com/{{tempUser.data.facebook.id}}/picture">
               <a class="auth-entry animated fadeInUp" href="/auth/facebook">Welcome</a>
             {{else if tempUser.data.twitter}}
-              <img class="nav-avatar" src="{{user.twitter.avatar}}">
+              <img class="nav-avatar" src="{{tempUser.data.twitter.avatar}}">
               <a class="auth-entry" href="/auth/twitter">Welcome</a>
             {{/if}}
           </div>

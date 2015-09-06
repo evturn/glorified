@@ -3,6 +3,15 @@ var passport        = require('passport'),
     authKeys = require('./auth'),
     User = require('../models/User');
 
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 passport.use(new TwitterStrategy(authKeys.twitter,
   function(token, tokenSecret, profile, done) {
@@ -18,7 +27,7 @@ passport.use(new TwitterStrategy(authKeys.twitter,
 
         if (user) {
           user.registered = true;
-          user.token = accessToken;
+          user.token = token;
           return done(null, user);
         }
         else {
@@ -38,7 +47,7 @@ passport.use(new TwitterStrategy(authKeys.twitter,
           return done(null, {
             strategy    : 'twitter',
             registered  : false,
-            data        : twiterData,
+            data        : twitterData,
             message     : 'Hi, ' + attr.name +', please register above.'
           });
         }

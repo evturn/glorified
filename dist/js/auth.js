@@ -72,7 +72,7 @@ RB.AUTH = {
       case 'facebook':
         user.facebook = jsonSafe;
         break;
-      case 'facebook':
+      case 'twitter':
         user.twitter = jsonSafe;
         break;
     }
