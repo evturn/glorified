@@ -48,6 +48,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
           };
 
           return done(null, {
+            strategy    : 'facebook',
             registered  : false,
             data        : facebookData,
             message     : 'Hi, ' + attr.name +', please register above.'

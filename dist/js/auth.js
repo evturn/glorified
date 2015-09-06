@@ -23,6 +23,12 @@ RB.AUTH = {
     $('.reg-pw-2').on('keyup', function () {
       RB.AUTH.comparePasswords();
     });
+
+    $('.register-form').on('keyup', function (e) {
+      if (e.keyCode === 13 && $('.reg-submit .fa').hasClass('ready')) {
+        RB.AUTH.registerLocalUser();
+      }
+    });
   },
 
   isUsernameAvailable: function isUsernameAvailable(username) {
@@ -38,6 +44,29 @@ RB.AUTH = {
         console.log('No you don\'t got it ', err);
       }
     });
+  },
+
+  registerLocalUser: function registerLocalUser() {
+    var username = $('.reg-un').val(),
+        password = $('.reg-pw-2').val(),
+        $strategy = $('.social-strategy');
+
+    $strategy.each(function () {
+      var data = $(this).attr('data');
+      console.log(data);
+    });
+    // $.ajax.({
+    //   type: 'POST',
+    //   url: '/users/',
+    //   success(data, response) {
+    //     console.log(data);
+    //     app.togglePrompt();
+    //   },
+    //   error(err) {
+    //     console.log(err);
+    //     $('.reg-message').html(err.message);
+    //   }
+    // });
   },
 
   appendMessage: function appendMessage(data) {

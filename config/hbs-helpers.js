@@ -1,5 +1,17 @@
 module.exports = {
 
+  invert: function(val) {
+    var html = '';
+    for (var key in val) {
+      var k = key;
+      var v = val[key];
+
+    html = html + '<span class="social-strategy" data-key="' + k +'" data-' + k + ' ="' + v + '"></span>';
+    }
+
+    return html;
+  },
+
   debug: function(val) {
     console.log('Current Context');
     console.log('====================');

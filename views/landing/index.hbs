@@ -18,6 +18,9 @@
               <span class="reg-icon available"><i class="fa fa-unlock"></i></span>
               <p class="reg-message"></p>
             </div>
+            {{#if tempUser.strategy}}
+              {{{invert tempUser.data.facebook}}}
+            {{/if}}
           </form>
           <div class="auth btn-container">
             <p class="caption"><a class="user-login">Have an account? Sign in</a></p>
