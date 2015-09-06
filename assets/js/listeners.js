@@ -10,7 +10,6 @@ _.extend(Backbone.View.prototype, {
       app.readClient();
       app.setClient();
       app.isMobile();
-      app.greeting();
       autosize(document.querySelectorAll('textarea'));
 
       $(window).resize(function() {

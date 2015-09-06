@@ -13,7 +13,7 @@ var session = null;
 var currentUser = null;
 
 app.get('/', ensureAuthenticated, function(req, res) {
-  res.render('app/index', {layout: 'app', user: currentUser});
+  res.render('app/index', {layout: 'app', user: req.user});
 });
 
 app.get('/signup', function(req, res) {
