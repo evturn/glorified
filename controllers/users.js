@@ -17,15 +17,13 @@ exports.post = function(req, res, next) {
   var account = data.strategy;
 
   if (account === 'facebook') {
-    var social = JSON.parse(data.facebook);
-    user = new User({facebook: social});
+    var fb = JSON.parse(data.facebook);
+    user = new User({facebook: fb});
   }
   else {
-    var social = JSON.parse(data.twitter);
-    user = new User({twitter: social});
+    var tw = JSON.parse(data.twitter);
+    user = new User({twitter: tw});
   }
-
-  console.log(user);
 
   bcrypt.genSalt(10, function(err, salt) {
     if (err) {
@@ -42,12 +40,10 @@ exports.post = function(req, res, next) {
           console.log(err);
           return err;
         }
-        res.send(data);
+        res.next(data);
       });
     });
   });
-
-  res.send(user);
 };
 
 exports.checkUsernameAvailabiliy = function(req, res, next) {

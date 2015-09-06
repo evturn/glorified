@@ -9,7 +9,7 @@ var twitterConfig = require('../config/passport-twitter');
 var app = express.Router();
 
 var tempUser = null;
-
+var session = null;
 
 app.get('/', ensureAuthenticated, function(req, res) {
   res.render('app/index', {layout: 'app', user: req.user});
@@ -45,10 +45,11 @@ app.get('/auth/facebook/callback', urlencoded, function(req, res, next) {
       });
     }
     else if (user && (user.registered === true)) {
-      return res.render({
-        success : true,
-        message : 'authentication succeeded'
+      passport.serializeUser(function(user, done) {
+        done(null, user._id);
       });
+      session = true;
+      return res.redirect('/');
     }
     else if (user && (user.registered === false)) {
       tempUser = user;
@@ -64,16 +65,19 @@ app.get('/auth/twitter/callback',
   });
 
 app.get('/logout', function(req, res){
+  session = false;
   req.logout();
   res.redirect('/');
 });
 
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (session) {
     return next();
   }
-  res.render('landing/index', {layout: 'landing'});
+  else {
+    res.render('landing/index', {layout: 'landing'});
+  }
 }
 
 module.exports = app;
