@@ -19,12 +19,19 @@
               <p class="reg-message"></p>
             </div>
           </form>
+          <div class="auth btn-container">
+            <p class="caption"><a class="user-login">Have an account? Sign in</a></p>
+            <span class="reg-submit"><i class="fa fa-arrow-right"></i></span>
+          </div>
+          <div class="message-container">
+            <p class="flash-message">{{tempUser.message}}</p>
+            {{#if tempUser.data.facebook}}
+            <img class="nav-avatar" src="https://graph.facebook.com/{{tempUser.data.facebook.id}}/picture">
+            {{else if tempUser.data.twitter}}
+            <img class="nav-avatar" src="{{user.twitter.avatar}}">
+            {{/if}}
+          </div>
         </div>
-        <div class="auth btn-container">
-          <p class="caption"><a class="user-login">Have an account? Sign in</a></p>
-          <span class="reg-submit"><i class="fa fa-arrow-right"></i></span>
-        </div>
-        <p class="caption">{{tempUser.message}}</p>
       {{else}}
         <div class="btn-container">
           <a href="/auth/facebook">

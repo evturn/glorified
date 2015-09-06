@@ -6,7 +6,17 @@
     margin-left: auto;
     margin-right: auto;
     font-size: 26px;
-  }
+
+    .flash-message {
+      font-size: 12px;
+      color: @primarydark;
+    }
+
+    .nav-avatar {
+      margin-top: 20px;
+      border-radius: 50%;
+    }
+
     .auth.btn-container {
       position: relative;
       overflow: auto;
@@ -23,7 +33,6 @@
 
         &.ready {
           color: @primarylight;
-          font-size: 2.2em;
           cursor: pointer;
           position: relative;
           z-index: 2;
@@ -39,7 +48,7 @@
         left: 0;
         right: 0;
         text-align: center;
-        top: 0;
+        top: 20px;
         z-index: 2;
         outline: none;
         cursor: default;
@@ -54,7 +63,7 @@
         }
         a {
           cursor: pointer;
-          vertical-align: -webkit-baseline-middle;
+
         }
       }
     }
@@ -121,4 +130,5 @@
       color: @primarylight;
       cursor: pointer;
     }
+  }
 }
