@@ -10,7 +10,8 @@ var User = require('../models/User');
 var users = express.Router();
 
 users.route ('/')
-  .get(ensureAuthenticated, usersCtrl.get);
+  .get(ensureAuthenticated, usersCtrl.get)
+  .post(urlencoded, usersCtrl.post);
 
 users.route('/usernames')
   .post(urlencoded, usersCtrl.checkUsernameAvailabiliy);

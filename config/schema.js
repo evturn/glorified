@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 exports.User = function() {
   return new mongoose.Schema({
-    email        : {type : String, sparse: true, required: true, unique: true},
+    email        : {type : String, sparse: true, unique: true},
     password     : {type : String, sparse: true, required: true},
     username     : {type : String, sparse: true, required: true, unique: true},
     name         : {type : String, sparse: true},

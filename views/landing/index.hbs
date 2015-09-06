@@ -19,6 +19,7 @@
               <p class="reg-message"></p>
             </div>
             {{#if tempUser.strategy}}
+              <span class="social-strategy" data-id="{{tempUser.strategy}}"></span>
               {{{invert tempUser.data.facebook}}}
             {{/if}}
           </form>

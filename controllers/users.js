@@ -12,6 +12,44 @@ exports.get = function(req, res, next) {
   res.json(req.user);
 };
 
+exports.post = function(req, res, next) {
+  var data = req.body;
+  var account = data.strategy;
+
+  if (account === 'facebook') {
+    var social = JSON.parse(data.facebook);
+    user = new User({facebook: social});
+  }
+  else {
+    var social = JSON.parse(data.twitter);
+    user = new User({twitter: social});
+  }
+
+  console.log(user);
+
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) {
+      return next(err);
+    }
+    bcrypt.hash(data.password, salt, function(err, hash) {
+      if (err) {
+        return next(err);
+      }
+      user.username = data.username;
+      user.password = hash;
+      user.save(function(err, data) {
+        if (err) {
+          console.log(err);
+          return err;
+        }
+        res.send(data);
+      });
+    });
+  });
+
+  res.send(user);
+};
+
 exports.checkUsernameAvailabiliy = function(req, res, next) {
   User.findByUsername(req.body.username, function(err, user) {
     if (err) {

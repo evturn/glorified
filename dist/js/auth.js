@@ -49,24 +49,47 @@ RB.AUTH = {
   registerLocalUser: function registerLocalUser() {
     var username = $('.reg-un').val(),
         password = $('.reg-pw-2').val(),
-        $strategy = $('.social-strategy');
+        strategy = $('.social-strategy').data('id'),
+        $data = $('.social-data'),
+        social = strategy.toString(),
+        user = {},
+        data = {};
 
-    $strategy.each(function () {
-      var data = $(this).attr('data');
-      console.log(data);
+    $data.each(function () {
+      var key = $(this).attr('data-key'),
+          val = $(this).attr('data-' + key),
+          attr = key.toString();
+
+      data[attr] = val;
     });
-    // $.ajax.({
-    //   type: 'POST',
-    //   url: '/users/',
-    //   success(data, response) {
-    //     console.log(data);
-    //     app.togglePrompt();
-    //   },
-    //   error(err) {
-    //     console.log(err);
-    //     $('.reg-message').html(err.message);
-    //   }
-    // });
+
+    var jsonSafe = JSON.stringify(data);
+    user.username = username;
+    user.password = username;
+    user.strategy = social;
+
+    switch (social) {
+      case 'facebook':
+        user.facebook = jsonSafe;
+        break;
+      case 'facebook':
+        user.twitter = jsonSafe;
+        break;
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '/users/',
+      data: user,
+      dataType: 'JSON',
+      success: function success(data, response) {
+        console.log(data);
+      },
+      error: function error(err) {
+        console.log(err);
+        $('.reg-message').html(err.message);
+      }
+    });
   },
 
   appendMessage: function appendMessage(data) {

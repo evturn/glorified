@@ -6,7 +6,7 @@ module.exports = {
       var k = key;
       var v = val[key];
 
-    html = html + '<span class="social-strategy" data-key="' + k +'" data-' + k + ' ="' + v + '"></span>';
+    html = html + '<span class="social-data" data-key="' + k +'" data-' + k + ' ="' + v + '"></span>';
     }
 
     return html;
