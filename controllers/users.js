@@ -41,7 +41,12 @@ exports.post = function(req, res, next) {
           console.log(err);
           return err;
         }
-        res.next(data);
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+          res.send(user);
+        });
       });
     });
   });

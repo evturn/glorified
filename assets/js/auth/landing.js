@@ -77,6 +77,8 @@ RB.AUTH = {
       break;
     }
 
+    console.log(user);
+
     $.ajax({
       type: 'POST',
       url: '/users/',
@@ -84,6 +86,7 @@ RB.AUTH = {
       dataType: 'JSON',
       success(data, response) {
         console.log(data);
+        $('.auth-entry').addClass('on');
       },
       error(err) {
         console.log(err);

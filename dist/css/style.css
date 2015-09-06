@@ -5661,6 +5661,14 @@ li {
   font-size: 12px;
   color: #174e7a;
 }
+.landing-wrapper .form-container .auth-entry {
+  display: none;
+  text-decoration: none;
+  color: #00b2e2;
+}
+.landing-wrapper .form-container .auth-entry.on {
+  display: block;
+}
 .landing-wrapper .form-container .nav-avatar {
   margin-top: 20px;
   border-radius: 50%;

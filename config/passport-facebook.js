@@ -27,6 +27,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
 
       if (user) {
         user.registered = true;
+        user.token = accessToken;
         return done(null, user);
       }
       else {
@@ -40,7 +41,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
             firstName : attr.first_name, // jshint ignore:line
             lastName  : attr.last_name, // jshint ignore:line
             gender    : attr.gender,
-            profile   : attr.link
+            profile   : attr.link,
           }
         };
 
