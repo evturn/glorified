@@ -1,101 +1,102 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     browserSync = require('browser-sync').create(),
-    $ = require('gulp-load-plugins')();
+    $ = require('gulp-load-plugins')(),
+    paths = require('./config/gulp-paths'),
+    opts = require('./config/gulp-options');
 
-var paths = require('./config/gulp-paths');
-var options = require('./config/gulp-options');
+gulp.task('default', ['less:watch', 'js:watch', 'lint:watch', 'sync']);
 
-gulp.task('default', ['watch', 'nodemon', 'less', 'lint'], function() {
-  browserSync.init(options.browserSync);
+//////////////////////
+// BROWSERSYNC
+//////////////////////
+
+gulp.task('sync', function() {
+    browserSync.init(opts.browserSync);
+    gulp.watch(paths.views.src).on('change', browserSync.reload);
 });
 
-gulp.task('frontend', ['less:watch', 'babel:watch', 'lint:watch']);
-
-gulp.task('watch', function() {
-  gulp.watch(paths.less.watch, ['reloader']);
-  gulp.watch(paths.jshint.watch, ['lint']);
-  gulp.watch(paths.js.watch, ['reloader']);
-  gulp.watch(paths.views.src, ['reloader']);
-});
+//////////////////////
+// LESS
+//////////////////////
 
 gulp.task('less', function() {
   return gulp.src(paths.less.src)
-    .pipe($.plumber(options.plumber))
+    .pipe($.plumber(opts.plumber))
     .pipe($.less())
     .pipe($.rename(paths.less.filename))
-    .on('error', options.plumber.errorHandler)
-    .pipe($.autoprefixer(options.autoprefixer))
+    .pipe(gulp.dest(paths.dest.css))
+    .on('error', opts.plumber.errorHandler)
+    .pipe($.autoprefixer(opts.autoprefixer))
     .pipe($.cssmin())
-    .pipe(gulp.dest(paths.less.dest)).on('error', gutil.log);
+    .pipe($.rename(paths.less.min))
+    .pipe(gulp.dest(paths.dest.css)).on('error', gutil.log);
 });
+
+gulp.task('less:watch', function() {
+  gulp.watch(paths.less.watch, ['less:reload']);
+});
+
+gulp.task('less:reload', ['less'], function() {
+    browserSync.reload();
+});
+
+//////////////////////
+// JS
+//////////////////////
 
 gulp.task('js', function() {
   return gulp.src(paths.js.src)
-    .pipe($.plumber(options.plumber))
-    .pipe($.concat('scripts.js'))
-    .pipe(gulp.dest(paths.js.dest))
-    .pipe($.rename(paths.js.filename))
-    .pipe(gulp.dest(paths.js.dest))
+    .pipe($.plumber(opts.plumber))
+    .pipe($.sourcemaps.init())
+    .pipe($.babel())
+    .on('error', opts.plumber.errorHandler)
+    .pipe($.concat(paths.js.filename))
+    .pipe(gulp.dest(paths.dest.js))
+    .pipe($.uglify())
+    .pipe($.rename(paths.js.min))
+    .pipe(gulp.dest(paths.dest.js))
+    .pipe($.sourcemaps.write('.'))
     .on('error', gutil.log);
+});
+
+gulp.task('js:watch', function() {
+  gulp.watch(paths.js.watch, ['js:reload']);
+});
+
+gulp.task('js:reload', ['js'], function() {
+    browserSync.reload();
 });
 
 gulp.task('js:vendor', function() {
   return gulp.src(paths.js.vendor.src)
-    .pipe($.plumber(options.plumber))
+    .pipe($.plumber(opts.plumber))
     .pipe($.concat(paths.js.vendor.filename))
+    .pipe(gulp.dest(paths.dest.js))
     .pipe($.uglify())
-    .pipe($.rename(paths.js.vendor.filename))
-    .pipe(gulp.dest(paths.js.vendor.dest));
+    .pipe($.rename(paths.js.vendor.min))
+    .pipe(gulp.dest(paths.dest.js));
 });
 
-gulp.task('fonts', function() {
-  return gulp.src(paths.font.src)
-    .pipe(gulp.dest(paths.font.dest));
-});
+//////////////////////
+// LINT
+//////////////////////
 
 gulp.task('lint', function() {
-  gulp.src(paths.jshint.src)
-    .pipe($.plumber(options.plumber))
+  return gulp.src(paths.jshint.src)
+    .pipe($.plumber(opts.plumber))
     .pipe($.jshint())
-    .pipe($.notify(options.notify.jshint));
+    .pipe($.notify(opts.notify.jshint));
 });
 
 gulp.task('lint:watch', function() {
   gulp.watch(paths.jshint.watch, ['lint']);
 });
 
-gulp.task('less:watch', function() {
-  gulp.watch(paths.less.watch, ['less']);
-});
-
-gulp.task('babel:watch', function() {
-  gulp.watch(paths.js.watch, ['babel']);
-});
-
-gulp.task('babel', function () {
-  return gulp.src(paths.js.src)
-    .pipe($.plumber(options.plumber))
-    .pipe($.sourcemaps.init())
-    .pipe($.babel())
-    .on('error', options.plumber.errorHandler)
-    .pipe($.concat(paths.babel.filename))
-    .pipe(gulp.dest(paths.js.dest))
-    .pipe($.uglify(paths.js.src))
-    .pipe($.rename(paths.babel.min))
-    .pipe(gulp.dest(paths.js.dest))
-    .pipe($.sourcemaps.write('.'))
-    .on('error', gutil.log);
-});
-
-gulp.task('reloader', ['babel', 'less'], function() {
-  browserSync.reload();
-});
+//////////////////////
+// NODEMON
+//////////////////////
 
 gulp.task('nodemon', function() {
-  $.nodemon(options.nodemon);
-});
-
-gulp.task('browsersync', function() {
-  browserSync.init(null, options.browserSync);
+  $.nodemon(opts.nodemon);
 });

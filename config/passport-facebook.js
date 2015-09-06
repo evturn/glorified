@@ -26,7 +26,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
         else if (user) {
           console.log(user);
           var attr = profile._json;
-          var attr = {
+          var data = {
             facebook: {
               id        : id,
               email     : attr.email,
@@ -39,7 +39,7 @@ passport.use(new FacebookStrategy(authKeys.facebook,
           };
 
 
-          user.facebook = attr;
+          user.facebook = data;
 
           user.save(function(err) {
             if (err) {

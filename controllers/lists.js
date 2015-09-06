@@ -1,3 +1,5 @@
+/* jshint shadow:true */
+
 var express = require('express');
 var mongoose = require('mongoose');
 var User = require('../models/User');
@@ -30,7 +32,7 @@ exports.post = function(req, res, next) {
     var list = listsArray[i];
 
     if (list === undefined) {
-      console.log('First list created: ' + data.list)
+      console.log('First list created: ' + data.list);
       var newList = new List({
         name: data.list,
         icon: data.icon
@@ -102,7 +104,7 @@ exports.deleteList = function(req, res, next) {
 var saveUser = function(user, note) {
   user.save(function(err, data) {
     if (err) {
-      console.log(err)
+      console.log(err);
       return err;
     }
     else {

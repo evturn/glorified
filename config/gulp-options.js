@@ -11,12 +11,14 @@ module.exports = {
 
   nodemon: {
     script: 'server.js',
-    ignore: '*'
+    ignore: [
+      'assets/**/*.js'
+    ],
   },
 
   browserSync: {
     proxy: 'localhost:3000',
-    port: 3001
+    port: 3000
   },
 
   autoprefixer: {

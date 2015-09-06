@@ -1,20 +1,55 @@
-// jslint     - all
-// less
-// fonts
-// css        - vendor only
-// browserify - client and vendor js
-// js         - client only
+//////////////////////
+// GULP PATHS
+//////////////////////
 
 module.exports = {
 
-  babel: {
-    filename: 'es6.js',
-    min: 'es6.min.js',
-    dest: 'dist/js'
+  dest: {
+    js: 'dist/js',
+    css: 'dist/css'
   },
 
   views: {
     src: 'views/**/*.hbs'
+  },
+
+  less: {
+    src: 'assets/less/*.less',
+    watch: 'assets/less/**/*.less',
+    filename: 'style.css',
+    min: 'style.min.css'
+  },
+
+  js: {
+    src: [
+      'assets/js/models.js',
+      'assets/js/authentication.js',
+      'assets/js/http.js',
+      'assets/js/view.js',
+      'assets/js/mobile.js',
+      'assets/js/listeners.js',
+      'assets/js/views/**/*.js',
+      'assets/js/main.js'
+    ],
+    watch: [
+      'assets/js/**/*.js',
+      '!assets/js/vendor/**/*.js'
+    ],
+    filename: 'scripts.js',
+    min: 'scripts.min.js',
+    vendor: {
+      src: [
+        'assets/js/vendor/jquery.js',
+        'assets/js/vendor/underscore.js',
+        'assets/js/vendor/backbone.js',
+        'assets/js/vendor/handlebars.runtime.js',
+        'assets/js/vendor/handlebars.js',
+        'assets/js/vendor/bootstrap.js',
+        'assets/js/vendor/autosize.js',
+      ],
+      filename: 'vendor.js',
+      min: 'vendor.min.js'
+    }
   },
 
   jshint: {
@@ -38,57 +73,5 @@ module.exports = {
       'server.js',
       'gulpfile.js'
     ]
-  },
-
-  less: {
-    src: 'assets/less/*.less',
-    watch: 'assets/less/**/*.less',
-    dest: 'dist/css',
-    filename: 'less.css'
-  },
-
-  font: {
-    src: 'assets/fonts/**.*',
-    dest: 'dist/fonts'
-  },
-
-  css: {
-    src: [
-    'assets/css/**/*.css'
-    ],
-    dest: 'dist/css',
-    filename: 'vendor.css'
-  },
-
-  js: {
-    src: [
-      'assets/js/models.js',
-      'assets/js/authentication.js',
-      'assets/js/http.js',
-      'assets/js/view.js',
-      'assets/js/mobile.js',
-      'assets/js/listeners.js',
-      'assets/js/views/**/*.js',
-      'assets/js/main.js'
-    ],
-    watch: [
-      'assets/js/**/*.js',
-      '!assets/js/vendor/**/*.js'
-    ],
-    dest: 'dist/js',
-    filename: 'scripts.min.js',
-    vendor: {
-      src: [
-        'assets/js/vendor/jquery.js',
-        'assets/js/vendor/underscore.js',
-        'assets/js/vendor/backbone.js',
-        'assets/js/vendor/handlebars.runtime.js',
-        'assets/js/vendor/handlebars.js',
-        'assets/js/vendor/bootstrap.js',
-        'assets/js/vendor/autosize.js',
-      ],
-      dest: 'dist/js',
-      filename: 'vendor.js'
-    }
   }
 };

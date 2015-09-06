@@ -19,6 +19,6 @@ function ensureAuthenticated(req, res, next) {
     return next();
   }
   res.render('landing/index', {layout: 'landing'});
-};
+}
 
 module.exports = notes;

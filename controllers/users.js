@@ -42,7 +42,7 @@ exports.putUsernameAndPassword = function(req, res, next) {
       user.password = hash;
       user.save(function(err, data) {
         if (err) {
-          console.log(err)
+          console.log(err);
           return err;
         }
         res.send(data);
@@ -59,7 +59,7 @@ exports.updateFacebook = function(req, res, next) {
 
   user.save(function(err, data) {
     if (err) {
-      console.log(err)
+      console.log(err);
       return err;
     }
     res.send(data);

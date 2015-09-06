@@ -43,7 +43,7 @@ exports.delete = function(req, res, next) {
 var saveUser = function(user, note) {
   user.save(function(err, data) {
     if (err) {
-      console.log(err)
+      console.log(err);
       return err;
     }
     else {
