@@ -1,8 +1,8 @@
 var express         = require('express'),
     methodOverride  = require('method-override'),
     _method         = require('./config/method-override'),
-    path            = require('path'),
     connect         = require('connect'),
+    flash           = require('connect-flash');
     logger          = require('morgan'),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
@@ -10,11 +10,11 @@ var express         = require('express'),
     db              = require('./config/mongo')(mongoose),
     passport        = require('passport'),
     hbs             = require('./config/handlebars'),
-    authRouter      = require('./routes/app');
-    notesRouter     = require('./routes/notes');
-    listsRouter     = require('./routes/lists');
-    usersRouter     = require('./routes/users');
-    root            = __dirname + '/dist';
+    session         = require('express-session'),
+    authRouter      = require('./routes/app'),
+    notesRouter     = require('./routes/notes'),
+    listsRouter     = require('./routes/lists'),
+    usersRouter     = require('./routes/users'); // jshint ignore:line
 
 var app = module.exports = express();
 
@@ -25,13 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride());
-app.use(express.static(root));
+app.use(express.static(__dirname + '/dist'));
 app.use(logger('dev'));
-app.use(require('express-session')({
+app.use(session({
   secret: 'dudeman jonesz',
   resave: false,
   saveUninitialized: false
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);

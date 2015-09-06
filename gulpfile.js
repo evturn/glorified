@@ -78,6 +78,21 @@ gulp.task('js:vendor', function() {
     .pipe(gulp.dest(paths.dest.js));
 });
 
+gulp.task('js:landing', function() {
+  return gulp.src('assets/js/landing.js')
+    .pipe($.plumber(opts.plumber))
+    .pipe($.sourcemaps.init())
+    .pipe($.babel())
+    .on('error', opts.plumber.errorHandler)
+    .pipe($.concat('landing.js'))
+    .pipe(gulp.dest(paths.dest.js))
+    .pipe($.uglify())
+    .pipe($.rename('landing.min.js'))
+    .pipe(gulp.dest(paths.dest.js))
+    .pipe($.sourcemaps.write('.'))
+    .on('error', gutil.log);
+});
+
 //////////////////////
 // LINT
 //////////////////////
