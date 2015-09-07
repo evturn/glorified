@@ -58,5 +58,4 @@ module.exports = {
       return file.relative + " (" + file.jshint.results.length + " errors)\n" + errors;
     }
   }
-
 };

@@ -181,9 +181,9 @@ _.extend(Backbone.View.prototype, {
       case 9:
       case 10:
       case 11:
-      case 12:
         app.greeting = "Good Morning";
         break;
+      case 12:
       case 13:
       case 14:
       case 15:
