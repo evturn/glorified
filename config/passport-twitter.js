@@ -1,6 +1,6 @@
 var passport        = require('passport'),
     TwitterStrategy = require('passport-twitter'),
-    authKeys = require('./auth'),
+    authKeys = require('./credentials'),
     User = require('../models/User');
 
 passport.serializeUser(function(user, done) {

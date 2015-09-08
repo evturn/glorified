@@ -1,44 +1,37 @@
-var express         = require('express'),
-    methodOverride  = require('method-override'),
-    _method         = require('./config/method-override'),
-    connect         = require('connect'),
-    flash           = require('connect-flash');
-    logger          = require('morgan'),
-    bodyParser      = require('body-parser'),
-    cookieParser    = require('cookie-parser'),
-    mongoose        = require('mongoose'),
-    db              = require('./config/mongo')(mongoose),
-    passport        = require('passport'),
-    hbs             = require('./config/handlebars'),
-    session         = require('express-session'),
-    authRouter      = require('./routes/app'),
-    notesRouter     = require('./routes/notes'),
-    listsRouter     = require('./routes/lists'),
-    usersRouter     = require('./routes/users'); // jshint ignore:line
-
-var app = module.exports = express();
+var express          = require('express'),
+    app              = express(),
+    init             = require('./config/index'),
+    connect          = require('connect'),
+    flash            = require('connect-flash'),
+    bodyParser       = require('body-parser'),
+    urlencoded       = bodyParser.urlencoded({extended: false}),
+    cookieParser     = require('cookie-parser'),
+    session          = require('express-session'),
+    logger           = require('morgan')('dev'),
+    mongoose         = require('mongoose'),
+    passport         = require('passport'),
+    notes            = require('./routes/notes'),
+    lists            = require('./routes/lists'),
+    users            = require('./routes/users');
+    oauth            = require('./routes/users');
+    User             = require('./models/User');
 
 app.set('view engine', 'hbs');
-app.set('views', 'views');
-app.engine('hbs', hbs.engine);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.set(init.views);
+app.engine('hbs', init.engine);
+
+app.use(express.static(init.static));
 app.use(cookieParser());
-app.use(methodOverride());
-app.use(express.static(__dirname + '/public/dist'));
-app.use(logger('dev'));
-app.use(session({
-  secret: 'dudeman jonesz',
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(bodyParser.json());
+app.use(urlencoded);
+app.use(logger);
+app.use(session(init.session));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', authRouter);
-app.use('/notes', notesRouter);
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/users', usersRouter);
+app.use('/', oauth);
+app.use('/notes', notes);
+app.use('/lists', lists);
+app.use('/users', users);
 
-var http = require('./config/http');
+app.listen(3000);
