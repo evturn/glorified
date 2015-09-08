@@ -1,6 +1,8 @@
 var express          = require('express'),
     app              = express(),
-    init             = require('./config/index'),
+    handlebars       = require('express-handlebars'),
+    mongoose         = require('mongoose'),
+    init             = require('./config/index')(app),
     connect          = require('connect'),
     flash            = require('connect-flash'),
     bodyParser       = require('body-parser'),
@@ -8,17 +10,18 @@ var express          = require('express'),
     cookieParser     = require('cookie-parser'),
     session          = require('express-session'),
     logger           = require('morgan')('dev'),
-    mongoose         = require('mongoose'),
     passport         = require('passport'),
     notes            = require('./routes/notes'),
     lists            = require('./routes/lists'),
-    users            = require('./routes/users');
-    oauth            = require('./routes/users');
+    users            = require('./routes/users'),
+    oauth            = require('./routes/oauth'),
     User             = require('./models/User');
 
+
+init.database(mongoose);
 app.set('view engine', 'hbs');
-app.set(init.views);
-app.engine('hbs', init.engine);
+app.set('views', 'views');
+app.engine('hbs', init.engine(handlebars));
 
 app.use(express.static(init.static));
 app.use(cookieParser());

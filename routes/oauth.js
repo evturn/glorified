@@ -1,7 +1,13 @@
-var LocalStrategy    = require('passport-local').Strategy;
-var credentials      = require('../config/credentials'),
+var express          = require('express'),
+    passport         = require('passport'),
+    LocalStrategy    = require('passport-local').Strategy,
+    credentials      = require('../config/credentials'),
     FacebookStrategy = require('passport-facebook'),
-    TwitterStrategy  = require('passport-twitter').Strategy;
+    TwitterStrategy  = require('passport-twitter').Strategy,
+    bodyParser       = require('body-parser'),
+    urlencoded       = bodyParser.urlencoded({extended: false});
+
+var oauth = express.Router();
 
 //////////////////////
 // PASSPORT
@@ -61,7 +67,7 @@ var secure = function(req, res, next) {
 // ROUTES
 //////////////////////
 
-app.get('/',
+oauth.get('/',
   secure,
   function(req, res, next) {
     console.log('===SECURE==');
@@ -74,7 +80,7 @@ app.get('/',
   });
 
 
-app.get('/register',
+oauth.get('/register',
   function(req, res, next) {
     console.log('==REGISTER=');
     console.log(req.user);
@@ -83,7 +89,7 @@ app.get('/register',
       {layout: 'landing'});
   });
 
-app.post('/register',
+oauth.post('/register',
   function(req, res, next) {
     var user = new User();
 
@@ -112,7 +118,7 @@ app.post('/register',
     });
   });
 
-app.get('/login',
+oauth.get('/login',
   function(req, res, next) {
     console.log('====LOGIN==');
     console.log(req.user);
@@ -121,7 +127,7 @@ app.get('/login',
       {layout: 'landing'});
   });
 
-app.post('/login',
+oauth.post('/login',
   passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true,
@@ -130,13 +136,13 @@ app.post('/login',
     res.redirect('/');
   });
 
-app.get('/logout',
+oauth.get('/logout',
   function(req, res, next) {
     req.logout();
     res.redirect('login');
   });
 
-app.get('/connect',
+oauth.get('/connect',
   secure,
   function(req, res, next) {
     res.render('landing/connect', {
@@ -170,10 +176,10 @@ passport.use(new FacebookStrategy(credentials.facebook,
 
   }));
 
-app.get('/auth/facebook',
+oauth.get('/auth/facebook',
   passport.authenticate('facebook'));
 
-app.get('/auth/facebook/callback',
+oauth.get('/auth/facebook/callback',
   urlencoded,
   function(req, res, next) {
     passport.authenticate('facebook', {
@@ -251,10 +257,10 @@ passport.use(new TwitterStrategy(credentials.twitter,
 // TWITTER ROUTES
 //////////////////////
 
-app.get('/auth/twitter',
+oauth.get('/auth/twitter',
   passport.authenticate('twitter'));
 
-app.get('/auth/twitter/callback',
+oauth.get('/auth/twitter/callback',
   urlencoded,
   function(req, res, next) {
     passport.authenticate('twitter', {
@@ -300,3 +306,5 @@ app.get('/auth/twitter/callback',
       }
     })(req, res, next);
 });
+
+module.exports = oauth;
