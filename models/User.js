@@ -1,14 +1,61 @@
-var UserSchema = require('../config/schema').User();
-var ListSchema = require('../config/schema').List();
-var mongoose = require('mongoose');
-var passportLocalMongoose = require('passport-local-mongoose');
-var bcrypt = require('bcrypt');
+var express = require('express');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose'),
+    bcrypt   = require('bcrypt');
 
-UserSchema.pre('save', function(next) {
+var passportLocalMongoose = require('passport-local-mongoose');
+
+var Note = new mongoose.Schema({
+    list         : {type : String},
+    created      : {type : Date,    default: new Date()},
+    body         : {type : String},
+    done         : {type : Boolean, default: false},
+    timestamp    : {type : String},
+    updated      : {type : String}
+});
+
+
+var List = new mongoose.Schema({
+    name         : {type : String},
+    icon         : {type : String,  default: 'fa fa-tasks'},
+    created      : {type : Date,    default: new Date()},
+    notes        : [Note],
+});
+
+var User = new mongoose.Schema({
+    email        : {type : String, sparse: true, unique: true},
+    password     : {type : String, sparse: true, required: true},
+    username     : {type : String, sparse: true, required: true, unique: true},
+    name         : {type : String, sparse: true},
+    facebook     : {
+      name       : {type : String, sparse: true},
+      lastName   : {type : String, sparse: true},
+      firstName  : {type : String, sparse: true},
+      gender     : {type : String, sparse: true},
+      profile    : {type : String, sparse: true},
+      id         : {type : String},
+      token      : {type : String},
+      email      : {type : String, sparse: true}
+    },
+    twitter      : {
+      id         : {type : String},
+      token      : {type : String},
+      username   : {type : String, sparse: true},
+      name       : {type : String, sparse: true},
+      location   : {type : String, sparse: true},
+      avatar     : {type : String, sparse: true}
+    },
+    lists        : [List]
+});
+
+User.pre('save', function(next) {
   var user = this;
+
   if (!user.isModified('password')) {
     return next();
   }
+
   bcrypt.genSalt(10, function(err, salt) {
     if (err) {
       return next(err);
@@ -18,12 +65,12 @@ UserSchema.pre('save', function(next) {
         return next(err);
       }
       user.password = hash;
-      next();
+      next(user);
     });
   });
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+User.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) {
       return cb(err);
@@ -32,6 +79,8 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-UserSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('User', UserSchema);
+User.plugin(passportLocalMongoose);
+
+
+module.exports = mongoose.model('User', User);

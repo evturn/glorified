@@ -5,7 +5,8 @@ var express          = require('express'),
     FacebookStrategy = require('passport-facebook'),
     TwitterStrategy  = require('passport-twitter').Strategy,
     bodyParser       = require('body-parser'),
-    urlencoded       = bodyParser.urlencoded({extended: false});
+    urlencoded       = bodyParser.urlencoded({extended: false}),
+    User             = require('../models/User');
 
 var oauth = express.Router();
 
@@ -73,7 +74,7 @@ oauth.get('/',
     console.log('===SECURE==');
     console.log(req.user);
     console.log('===SECURE==');
-    res.render('index', {
+    res.render('app/index', {
       layout: 'app',
       user: req.user
     });

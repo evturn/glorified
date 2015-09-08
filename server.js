@@ -14,8 +14,7 @@ var express          = require('express'),
     notes            = require('./routes/notes'),
     lists            = require('./routes/lists'),
     users            = require('./routes/users'),
-    oauth            = require('./routes/oauth'),
-    User             = require('./models/User');
+    oauth            = require('./routes/oauth');
 
 
 init.database(mongoose);
@@ -33,8 +32,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', oauth);
-app.use('/notes', notes);
-app.use('/lists', lists);
-app.use('/users', users);
+// app.use('/notes', notes);
+// app.use('/lists', lists);
+// app.use('/users', users);
 
 app.listen(3000);
