@@ -4963,6 +4963,10 @@ a .lead {
   -webkit-box-shadow: 0px 0px 8px -4px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 8px -4px rgba(0, 0, 0, 0.5);
 }
+.login .header-text {
+  -webkit-animation-duration: 2.5s;
+  animation-duration: 2.5s;
+}
 .login .btn-container {
   margin-top: inherit;
 }
