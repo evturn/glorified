@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
-var NoteSchema = require('../config/schema').Note();
+var Note = require('./schema').Note(),
+    mongoose = require('mongoose');
 
-module.exports = mongoose.model('Note', NoteSchema);
+module.exports = mongoose.model('Note', Note);

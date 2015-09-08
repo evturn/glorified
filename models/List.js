@@ -1,13 +1,14 @@
-var mongoose = require('mongoose');
-var ListSchema = require('../config/schema').List();
+var List = require('./schema').List(),
+    mongoose = require('mongoose');
 
-ListSchema.pre('validate', function(doc) {
+List.pre('validate', function(doc) {
   return doc._id;
 });
 
-ListSchema.method('findByName', function (name, callback) {
-  return this.find({ name: name }, callback);
+List.method('findByName', function (name, callback) {
+  return this.find({
+    name: name
+  }, callback);
 });
 
-
-module.exports = mongoose.model('List', ListSchema);
+module.exports = mongoose.model('List', List);
