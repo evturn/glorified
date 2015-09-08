@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="inner">
+    <div class="section-container">
+      <div class="header-container">
+        <p class="header-text">Welcome.</p>
+      </div>
+        <div class="btn-container">
+          {{#if user.facebook.id}}
+            <div class="facebook-container connected">
+              <img class="connect-avatar" src="https://graph.facebook.com/{{user.facebook.id}}/picture">
+              <p class="meta">Connected</p>
+              <i class="fa fa-facebook"></i>
+            </div>
+          {{else}}
+            <a href="/auth/facebook">
+              <div class="facebook-container">
+                <p class="lead">Activate one-click login</p>
+                <i class="fa fa-facebook"></i>
+              </div>
+            </a>
+          {{/if}}
+          {{#if user.twitter.id}}
+            <div class="twitter-container connected">
+              <img class="connect-avatar" src="{{user.twitter.avatar}}">
+              <p class="meta">Connected</p>
+              <i class="fa fa-twitter"></i>
+            </div>
+          {{else}}
+            <a href="/auth/twitter">
+              <div class="twitter-container">
+                <p class="lead">Activate one-click login</p>
+                <i class="fa fa-twitter"></i>
+              </div>
+            </a>
+          {{/if}}
+        </div>
+        <div class="message-container">
+          <p class="connect-message">This does not let the app post to Facebook or Twitter</p>
+          {{#and user.facebook.id user.twitter.id}}
+            <p class="connect-skip"><a href="/">Continue</a></p>
+          {{else}}
+            <p class="connect-skip"><a href="/">Maybe later.</a></p>
+          {{/and}}
+          <p class="reg-message">{{message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

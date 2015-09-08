@@ -1,0 +1,57 @@
+<div class="container login">
+  <div class="inner">
+    <div class="section-container">
+      <div class="header-container">
+        <p class="header-text">Log in.</p>
+      </div>
+      <div class="form-container">
+        <form class="login-form" action="/login" method="POST">
+          <input type="text" class="reg-un" name="username" placeholder="Username">
+          <input type="password" class="reg-pw-1" name="password" placeholder="Password">
+          <input class="btn-form" type="submit" value="Log In">
+          <div class="reg-notify">
+            <span class="reg-icon ready"><i class="fa fa-check"></i></span>
+            <span class="reg-icon error"><i class="fa fa-times"></i></span>
+            <span class="reg-icon taken"><i class="fa fa-lock"></i></span>
+            <span class="reg-icon available"><i class="fa fa-unlock"></i></span>
+            <p class="reg-message">{{user.username}}</p>
+            <p class="reg-message"><a href="/register">Sign up for free</a></p>
+            <p class="reg-message">{{message}}</p>
+            <p class="reg-message">{{messages.error}}</p>
+            <p class="reg-message">{{success}}</p>
+          </div>
+        </form>
+      </div>
+      <div class="btn-container">
+        {{#if user.facebook.id}}
+          <div class="facebook-container connected">
+            <img class="connect-avatar" src="https://graph.facebook.com/{{user.facebook.id}}/picture">
+            <p class="meta">Connected</p>
+            <i class="fa fa-facebook"></i>
+          </div>
+        {{else}}
+          <a href="/auth/facebook">
+            <div class="facebook-container">
+              <p class="lead">Login with Facebook</p>
+              <i class="fa fa-facebook"></i>
+            </div>
+          </a>
+        {{/if}}
+        {{#if user.twitter.id}}
+          <div class="twitter-container connected">
+            <img class="nav-avatar" src="{{user.twitter.avatar}}">
+            <p class="meta">Connected</p>
+            <i class="fa fa-twitter"></i>
+          </div>
+        {{else}}
+          <a href="/auth/twitter">
+            <div class="twitter-container">
+              <p class="lead">Login with Twitter</p>
+              <i class="fa fa-twitter"></i>
+            </div>
+          </a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
