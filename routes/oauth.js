@@ -68,6 +68,10 @@ var secure = function(req, res, next) {
 // ROUTES
 //////////////////////
 
+oauth.get('/users', function(req, res, next) {
+  res.json(req.user);
+});
+
 oauth.get('/',
   secure,
   function(req, res, next) {

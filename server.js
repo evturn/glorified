@@ -13,7 +13,6 @@ var express          = require('express'),
     passport         = require('passport'),
     notes            = require('./routes/notes'),
     lists            = require('./routes/lists'),
-    users            = require('./routes/users'),
     oauth            = require('./routes/oauth');
 
 
@@ -32,8 +31,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', oauth);
-// app.use('/notes', notes);
-// app.use('/lists', lists);
-// app.use('/users', users);
+app.use('/notes', notes);
+app.use('/lists', lists);
 
 app.listen(3000);

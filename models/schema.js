@@ -1,6 +1,5 @@
-var mongoose = require('mongoose');
-
-var schema = this;
+var mongoose = require('mongoose'),
+    schema = this;
 
 exports.Note = function() {
   return new mongoose.Schema({
@@ -12,7 +11,6 @@ exports.Note = function() {
     updated      : {type : String}
   });
 };
-
 
 exports.List = function() {
   return new mongoose.Schema({
