@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride());
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + 'public/dist'));
 app.use(logger('dev'));
 app.use(session({
   secret: 'dudeman jonesz',

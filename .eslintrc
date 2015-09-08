@@ -16,7 +16,7 @@
       "eqeqeq": 1,
       "semi": 2,
       "curly": [2, "all"],
-      "quotes": [2, "single"]
+      "quotes": [0, "single"]
   },
   "env": {
       "browser": true,

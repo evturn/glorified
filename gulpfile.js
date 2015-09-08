@@ -3,9 +3,12 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
     $ = require('gulp-load-plugins')(),
     paths = require('./config/gulp-paths'),
-    opts = require('./config/gulp-options');
+    opts = require('./config/gulp-options'),
+    path = require('path'),
+    through = require('through2'),
+    lodash = require('lodash._createwrapper');
 
-gulp.task('default', ['less:watch', 'js:watch', 'js:auth:watch', 'lint:watch', 'sync']);
+gulp.task('default', ['less:watch', 'js:watch', 'lint:watch', 'sync']);
 
 //////////////////////
 // BROWSERSYNC
@@ -42,7 +45,7 @@ gulp.task('less:reload', ['less'], function() {
 });
 
 //////////////////////
-// JS
+// BABEL
 //////////////////////
 
 gulp.task('js', function() {
@@ -68,6 +71,10 @@ gulp.task('js:reload', ['js'], function() {
     browserSync.reload();
 });
 
+//////////////////////
+// JS:VENDOR
+//////////////////////
+
 gulp.task('js:vendor', function() {
   return gulp.src(paths.js.vendor.src)
     .pipe($.plumber(opts.plumber))
@@ -78,42 +85,21 @@ gulp.task('js:vendor', function() {
     .pipe(gulp.dest(paths.dest.js));
 });
 
-gulp.task('js:auth', function() {
-  return gulp.src(paths.js.auth.src)
-    .pipe($.plumber(opts.plumber))
-    .pipe($.sourcemaps.init())
-    .pipe($.babel())
-    .on('error', opts.plumber.errorHandler)
-    .pipe($.concat(paths.js.auth.filename))
-    .pipe(gulp.dest(paths.dest.js))
-    .pipe($.uglify())
-    .pipe($.rename(paths.js.auth.min))
-    .pipe(gulp.dest(paths.dest.js))
-    .pipe($.sourcemaps.write('.'))
-    .on('error', gutil.log);
-});
-
-gulp.task('js:auth:watch', function() {
-  gulp.watch(paths.js.watch, ['js:auth:reload']);
-});
-
-gulp.task('js:auth:reload', ['js:auth'], function() {
-    browserSync.reload();
-});
-
 //////////////////////
-// LINT
+// ESLINT
 //////////////////////
 
 gulp.task('lint', function() {
-  return gulp.src(paths.jshint.src)
+  return gulp.src(paths.eslint.src)
     .pipe($.plumber(opts.plumber))
-    .pipe($.jshint())
-    .pipe($.notify(opts.notify.jshint));
+    .pipe($.eslint())
+    .on('error', opts.plumber.errorHandler)
+    .pipe($.eslint.format('stylish'))
+    .pipe($.notify(opts.notify.eslint));
 });
 
 gulp.task('lint:watch', function() {
-  gulp.watch(paths.jshint.watch, ['lint']);
+  gulp.watch(paths.eslint.watch, ['lint']);
 });
 
 //////////////////////

@@ -5,8 +5,8 @@
 module.exports = {
 
   dest: {
-    js: 'dist/js',
-    css: 'dist/css'
+    js: 'public/dist/js',
+    css: 'public/dist/css'
   },
 
   views: {
@@ -14,55 +14,53 @@ module.exports = {
   },
 
   less: {
-    src: 'assets/less/*.less',
-    watch: 'assets/less/**/*.less',
+    src: 'public/less/*.less',
+    watch: 'public/less/**/*.less',
     filename: 'style.css',
     min: 'style.min.css'
   },
 
   js: {
     src: [
-      'assets/js/models.js',
-      'assets/js/http.js',
-      'assets/js/view.js',
-      'assets/js/mobile.js',
-      'assets/js/listeners.js',
-      'assets/js/views/**/*.js',
-      'assets/js/main.js'
+      'public/js/models.js',
+      'public/js/http.js',
+      'public/js/view.js',
+      'public/js/mobile.js',
+      'public/js/listeners.js',
+      'public/js/views/**/*.js',
+      'public/js/main.js'
     ],
     watch: [
-      'assets/js/**/*.js',
-      '!assets/js/vendor/**/*.js'
+      'public/js/**/*.js',
+      '!public/js/vendor/**/*.js'
     ],
     filename: 'scripts.js',
     min: 'scripts.min.js',
     vendor: {
       src: [
-        'assets/js/vendor/jquery.js',
-        'assets/js/vendor/underscore.js',
-        'assets/js/vendor/backbone.js',
-        'assets/js/vendor/handlebars.runtime.js',
-        'assets/js/vendor/handlebars.js',
-        'assets/js/vendor/bootstrap.js',
-        'assets/js/vendor/autosize.js',
+        'public/js/vendor/jquery.js',
+        'public/js/vendor/underscore.js',
+        'public/js/vendor/backbone.js',
+        'public/js/vendor/handlebars.js',
+        'public/js/vendor/bootstrap.js',
+        'public/js/vendor/autosize.js',
       ],
       filename: 'vendor.js',
       min: 'vendor.min.js'
     },
     auth: {
       src: [
-        'assets/js/auth/landing.js'
+        'public/js/auth/landing.js'
       ],
-      watch: 'assets/js/auth/**/*.js',
+      watch: 'public/js/auth/**/*.js',
       filename: 'auth.js',
       min: 'auth.min.js'
     }
   },
-
-  jshint: {
+  eslint: {
     src: [
-      'assets/js/**/*.js',
-      '!assets/js/vendor/**/*.js',
+      'public/js/**/*.js',
+      '!public/js/vendor/**/*.js',
       'config/**/*.js',
       'models/**/*.js',
       'controllers/**/*.js',
@@ -71,8 +69,30 @@ module.exports = {
       'gulpfile.js'
     ],
     watch: [
-      'assets/js/**/*.js',
-      '!assets/js/vendor/**/*.js',
+      'public/js/**/*.js',
+      '!public/js/vendor/**/*.js',
+      'config/**/*.js',
+      'models/**/*.js',
+      'controllers/**/*.js',
+      'routes/**/*.js',
+      'server.js',
+      'gulpfile.js'
+    ]
+  },
+  jshint: {
+    src: [
+      'public/js/**/*.js',
+      '!public/js/vendor/**/*.js',
+      'config/**/*.js',
+      'models/**/*.js',
+      'controllers/**/*.js',
+      'routes/**/*.js',
+      'server.js',
+      'gulpfile.js'
+    ],
+    watch: [
+      'public/js/**/*.js',
+      '!public/js/vendor/**/*.js',
       'config/**/*.js',
       'models/**/*.js',
       'controllers/**/*.js',
