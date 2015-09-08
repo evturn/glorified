@@ -1,0 +1,108 @@
+
+  .facebook-container.connected,
+  .twitter-container.connected {
+    background-color: @primarylighthover;
+
+    .connect-avatar {
+      border-radius: 50%;
+      display: inline-block;
+      float: left;
+      height: 40px;
+      width: 40px;
+    }
+
+    .meta {
+      color: @white;
+      text-transform: uppercase;
+      font-size: 16px;
+      text-align: left;
+      margin-top: 10px;
+      display: inline-block;
+      .margin-x(10px);
+    }
+
+    .fa {
+      display: inline-block;
+    }
+  }
+
+  .message-container {
+    margin-top: 15px;
+  }
+
+  .connect-skip {
+    font-size: 11px;
+    color: @primarydark;
+  }
+
+  .connect-message {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: @primarylight;
+    margin-bottom: 10px;
+  }
+
+  .section-container {
+    padding: 15px;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 425px;
+    width: 290px;
+    background-color: @white;
+    text-align: center;
+    border-radius: 2px;
+    .transition(0.3s);
+    .box-shadow(0 0px 13px -3px rgba(0,0,0,0.75););
+  }
+
+  .header-container {
+    text-align: center;
+
+    .header-text {
+      font-family: @sans;
+      color: @primarylight;
+      text-transform: uppercase;
+      letter-spacing: -4px;
+      font-size: 36px;
+    }
+  }
+
+  a .lead {
+    text-transform: uppercase;
+    font-size: 14px;
+    text-align: left;
+    float: left;
+    color: @white;
+    margin-top: 10px;
+  }
+
+  .btn-container {
+    margin-top: 50%;
+  }
+
+  .twitter-container,
+  .facebook-container {
+    background-color: @primarylight;
+    margin-top: 10px;
+    padding: 5px 5px 5px 15px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: auto;
+    .box-shadow(0 0px 13px -3px rgba(0,0,0,0.75););
+
+    .fa {
+      margin-left: auto;
+      margin-right: auto;
+      background-color: @whitesmoke;
+      border-radius: 9%;
+      font-size: 2em;
+      height: 40px;
+      width: 40px;
+      line-height: 40px;
+      float: right;
+      .transition(all 0.3s ease);
+      .box-shadow(0px 0px 8px -4px rgba(0,0,0,0.5););
+    }
+  }

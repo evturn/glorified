@@ -36,11 +36,24 @@ gulp.task('less', function() {
     .pipe(gulp.dest(paths.dest.css)).on('error', gutil.log);
 });
 
+gulp.task('less:landing', function() {
+  return gulp.src(paths.less.landing.src)
+    .pipe($.plumber(opts.plumber))
+    .pipe($.less())
+    .pipe($.rename(paths.less.landing.filename))
+    .pipe(gulp.dest(paths.dest.css))
+    .on('error', opts.plumber.errorHandler)
+    .pipe($.autoprefixer(opts.autoprefixer))
+    .pipe($.cssmin())
+    .pipe($.rename(paths.less.landing.min))
+    .pipe(gulp.dest(paths.dest.css)).on('error', gutil.log);
+});
+
 gulp.task('less:watch', function() {
   gulp.watch(paths.less.watch, ['less:reload']);
 });
 
-gulp.task('less:reload', ['less'], function() {
+gulp.task('less:reload', ['less', 'less:landing'], function() {
     browserSync.reload();
 });
 

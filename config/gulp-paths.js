@@ -17,9 +17,13 @@ module.exports = {
     src: 'public/less/*.less',
     watch: 'public/less/**/*.less',
     filename: 'style.css',
-    min: 'style.min.css'
+    min: 'style.min.css',
+    landing: {
+      src: 'public/less/landing/style.less',
+      filename: 'landing.css',
+      min: 'landing.min.css'
+    }
   },
-
   js: {
     src: [
       'public/js/models.js',
