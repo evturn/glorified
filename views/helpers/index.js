@@ -75,6 +75,53 @@ module.exports = function() {
     }
   };
 
+  _helpers.invert = function(val) {
+    var html = '';
+    for (var key in val) {
+      var k = key;
+      var v = val[key];
+
+    html = html + '<span class="social-data" data-key="' + k +'" data-' + k + ' ="' + v + '"></span>';
+    }
+
+    return html;
+  };
+
+  _helpers.greeting = function() {
+    var date = new Date(),
+        time = date.getHours();
+
+    switch (time) {
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+      case 12:
+        return "Good Morning";
+      case 13:
+      case 14:
+      case 15:
+      case 16:
+      case 17:
+        return "Good Afternoon";
+      case 18:
+      case 19:
+      case 20:
+      case 21:
+      case 22:
+      case 23:
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        return "Good Evening";
+    }
+  };
+
   return _helpers;
 
 };

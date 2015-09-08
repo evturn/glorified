@@ -8,11 +8,9 @@ module.exports = {
     js: 'public/dist/js',
     css: 'public/dist/css'
   },
-
   views: {
     src: 'views/**/*.hbs'
   },
-
   less: {
     src: 'public/less/*.less',
     watch: 'public/less/**/*.less',
