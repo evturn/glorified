@@ -727,19 +727,21 @@ _.extend(Backbone.View.prototype, {
     }
   },
   animateListTotal: function animateListTotal(list) {
-    var $length = $('div').find("[data-length='" + list._id + "']");
+    var parent = document.getElementById(list._id),
+        target = parent.querySelector('.list-text'),
+        isListContainer = target.dataset.length === list._id;
 
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
+    if (isListContainer) {
+      target.classList.remove('fadeInUp');
+      target.innerHTML = list.length;
+      target.classList.add('fadeOutUp');
 
-    setTimeout(function () {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-    }, 300);
+      setTimeout(function () {
+        target.classList.remove('fadeOutUp');
+        target.classList.add('fadeInUp');
+      }, 300);
+    }
   }
-
 });
 'use strict';
 
