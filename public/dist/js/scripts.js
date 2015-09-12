@@ -44,6 +44,7 @@ _.extend(Backbone.View.prototype, {
     app.tabletClient = null;
     app.desktopClient = null;
     app.windowWidth = $(window).width();
+    app.windowX = window.innerWidth;
     app.$lists = $('.lists');
     app.$notes = $('.notes');
     app.$listInput = $('.list-input');
@@ -450,33 +451,15 @@ _.extend(Backbone.View.prototype, {
     init: function init() {
       app.fixPath();
       app.readClient();
-      app.setClient();
+      // app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
 
-      $(window).resize(function () {
-        app.windowWidth = $(window).width();
-        app.setClient();
-      });
-
-      $(document).on('click', '.nav-avatar', function () {
-        app.toggleUserDropdown();
-      });
-
-      $(document).on('click', '.lists-container .list-item', function () {
-        var $listItem = $('.list-item');
-
-        $listItem.removeClass('active');
-        $(this).addClass('active');
-      });
-
-      $(document).on('click', '.toggle-list-btn', function () {
-        app.toggleLists();
-      });
-
-      $(document).on('click', '.active-progress', function () {
-        $('.active-progress').toggleClass('show-details');
-      });
+      app.addEvent(window, 'resize', app.setClient);
+      app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      app.addEvent(document.querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.setListActive();
 
       $(document).on('click', '.icon-container .list-icon', function () {
         $('.icon-dropdown').toggleClass('open');
@@ -491,6 +474,26 @@ _.extend(Backbone.View.prototype, {
         app.updateListIcon(icon);
         $listItemIcon.addClass('bounce');
       });
+    }
+  },
+  createCallback: function createCallback(fn) {
+    var callback = function callback() {
+      fn();
+    };
+
+    return callback;
+  },
+  addEvent: function addEvent(object, type, callback) {
+    if (object === null || typeof object === 'undefined') {
+      return;
+    }
+
+    if (object.addEventListener) {
+      object.addEventListener(type, app.createCallback(callback), false);
+    } else if (object.attachEvent) {
+      object.attachEvent('on' + type, app.createCallback(callback));
+    } else {
+      object['on' + type] = app.createCallback(callback);
     }
   },
   isMobile: function isMobile() {
@@ -520,10 +523,10 @@ _.extend(Backbone.View.prototype, {
     }
   },
   setClient: function setClient() {
-
     var notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists');
 
+    console.log('We triggered');
     if (app.windowWidth > 600) {
       notes.classList.remove('expanded', 'collapsed');
       lists.classList.remove('expanded', 'collapsed');
@@ -548,7 +551,49 @@ _.extend(Backbone.View.prototype, {
       app.stopAnimation();
     }
   },
+  setListActive: function setListActive() {
+    $(document).on('click', '.list-item', function (e) {
+      var nodeList = document.querySelectorAll('.list-item'),
+          list = [].slice.call(nodeList);
 
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var el = _step.value;
+
+          el.classList.remove('active');
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator['return']) {
+            _iterator['return']();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      this.classList.add('active');
+    });
+  },
+  showProgressBarDetails: function showProgressBarDetails() {
+    var bar = document.querySelector('.active-progress'),
+        isShowing = !!bar.classList.contains('show-details');
+
+    if (isShowing) {
+      bar.classList.remove('show-details');
+    } else {
+      bar.classList.add('show-details');
+    }
+  },
   animateContainers: function animateContainers() {
     var lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),

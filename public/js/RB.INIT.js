@@ -94,14 +94,14 @@
 
   E.fixPath = function() {
     if (window.location.hash && window.location.hash === "#_=_") {
-      let scroll = {
-        top  : document.body.scrollTop,
-        left : document.body.scrollLeft
-      };
+        let scroll = {
+          top  : document.body.scrollTop,
+          left : document.body.scrollLeft
+        };
 
-      window.location.hash     = "";
-      document.body.scrollTop  = scroll.top;
-      document.body.scrollLeft = scroll.left;
+        window.location.hash     = "";
+        document.body.scrollTop  = scroll.top;
+        document.body.scrollLeft = scroll.left;
     }
   };
 
@@ -109,16 +109,15 @@
     let notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists');
 
-    console.log(notes);
     if (APP.windowX > 600) {
-      notes.classList.remove('expanded', 'collapsed');
-      lists.classList.remove('expanded', 'collapsed');
-      app.stopAnimation();
+        notes.classList.remove('expanded', 'collapsed');
+        lists.classList.remove('expanded', 'collapsed');
+        app.stopAnimation();
     }
     else {
-      notes.classList.add('expanded');
-      lists.classList.add('collapsed');
-      app.animateContainers();
+        notes.classList.add('expanded');
+        lists.classList.add('collapsed');
+        app.animateContainers();
     }
   };
 
@@ -131,12 +130,12 @@
         isNotesExpanded = notes.classList.contains('expanded');
 
     if (isListsCollapsed && isNotesExpanded) {
-      lists.style.marginLeft = '-39%';
-      notes.style.marginRight = '0%';
+        lists.style.marginLeft = '-39%';
+        notes.style.marginRight = '0%';
     }
     else if (isListsExpanded && isNotesCollapsed) {
-      notes.style.marginRight = '-45%';
-      lists.style.marginLeft = '0%';
+        notes.style.marginRight = '-45%';
+        lists.style.marginLeft = '0%';
     }
   };
 
@@ -146,6 +145,47 @@
 
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
+  };
+
+  E.eventListeners = function() {
+      //     $(window).resize(function() {
+  //       app.windowWidth = $(window).width();
+  //       app.setClient();
+  //     });
+
+  //     $(document).on('click', '.nav-avatar', function() {
+  //       app.toggleUserDropdown();
+  //     });
+
+  //     $(document).on('click', '.lists-container .list-item', function() {
+  //       let $listItem = $('.list-item');
+
+  //       $listItem.removeClass('active');
+  //       $(this).addClass('active');
+  //     });
+
+  //     $(document).on('click', '.toggle-list-btn', function() {
+  //       app.toggleLists();
+  //     });
+
+  //     $(document).on('click', '.active-progress', function() {
+  //       $('.active-progress').toggleClass('show-details');
+  //     });
+
+  //     $(document).on('click', '.icon-container .list-icon', function() {
+  //       $('.icon-dropdown').toggleClass('open');
+  //     });
+
+  //     $(document).on('click', '.icon-select .icon-option', function() {
+  //       let icon = $(this).attr('data-icon'),
+  //           $dropdown = $('.icon-dropdown'),
+  //           $listItemIcon = app.getListItemIconById(app.activeListId);
+
+  //       $dropdown.removeClass('open');
+  //       app.updateListIcon(icon);
+  //       $listItemIcon.addClass('bounce');
+  //     });
+  //   }
   };
 
 

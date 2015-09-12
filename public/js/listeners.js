@@ -4,37 +4,22 @@
 
 _.extend(Backbone.View.prototype, {
 
+
   listeners: {
     init() {
       app.fixPath();
       app.readClient();
-      app.setClient();
+      // app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
 
-      $(window).resize(function() {
-        app.windowWidth = $(window).width();
-        app.setClient();
-      });
+      app.addEvent(window, 'resize', app.setClient);
+      app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      app.addEvent(document.querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.setListActive();
 
-      $(document).on('click', '.nav-avatar', function() {
-        app.toggleUserDropdown();
-      });
 
-      $(document).on('click', '.lists-container .list-item', function() {
-        let $listItem = $('.list-item');
-
-        $listItem.removeClass('active');
-        $(this).addClass('active');
-      });
-
-      $(document).on('click', '.toggle-list-btn', function() {
-        app.toggleLists();
-      });
-
-      $(document).on('click', '.active-progress', function() {
-        $('.active-progress').toggleClass('show-details');
-      });
 
       $(document).on('click', '.icon-container .list-icon', function() {
         $('.icon-dropdown').toggleClass('open');
@@ -50,6 +35,29 @@ _.extend(Backbone.View.prototype, {
         $listItemIcon.addClass('bounce');
       });
     }
+  },
+  createCallback(fn) {
+    let callback = function() {
+        fn();
+    };
+
+    return callback;
+  },
+  addEvent(object, type, callback) {
+    if (object === null || typeof(object) === 'undefined') {
+      return;
+    }
+
+    if (object.addEventListener) {
+        object.addEventListener(type, app.createCallback(callback), false);
+    }
+    else if (object.attachEvent) {
+        object.attachEvent('on' + type, app.createCallback(callback));
+    }
+    else {
+        object['on' + type] = app.createCallback(callback);
+    }
+
   },
   isMobile() {
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -80,10 +88,10 @@ _.extend(Backbone.View.prototype, {
     }
   },
   setClient() {
-
     let notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists');
 
+    console.log('We triggered');
     if (app.windowWidth > 600) {
       notes.classList.remove('expanded', 'collapsed');
       lists.classList.remove('expanded', 'collapsed');
@@ -108,7 +116,28 @@ _.extend(Backbone.View.prototype, {
       app.stopAnimation();
     }
   },
+  setListActive() {
+    $(document).on('click', '.list-item', function(e) {
+      let nodeList = document.querySelectorAll('.list-item'),
+          list = [].slice.call(nodeList);
 
+      for (let el of list) {
+        el.classList.remove('active');
+      }
+      this.classList.add('active');
+    });
+  },
+  showProgressBarDetails() {
+    let bar = document.querySelector('.active-progress'),
+        isShowing = !!(bar.classList.contains('show-details'));
+
+    if (isShowing) {
+        bar.classList.remove('show-details');
+    }
+    else {
+        bar.classList.add('show-details');
+    }
+  },
   animateContainers() {
     let lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),
@@ -118,8 +147,8 @@ _.extend(Backbone.View.prototype, {
         isNotesExpanded = notes.classList.contains('expanded');
 
     if (isListsCollapsed && isNotesExpanded) {
-      lists.style.marginLeft = '-39%';
-      notes.style.marginRight = '0%';
+        lists.style.marginLeft = '-39%';
+        notes.style.marginRight = '0%';
     }
     else if (isListsExpanded && isNotesCollapsed) {
       notes.style.marginRight = '-45%';
@@ -151,12 +180,12 @@ _.extend(Backbone.View.prototype, {
   fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       let scroll = {
-        top: document.body.scrollTop,
-        left: document.body.scrollLeft
+        top  : document.body.scrollTop,
+        left : document.body.scrollLeft
       };
 
-      window.location.hash = "";
-      document.body.scrollTop = scroll.top;
+      window.location.hash     = "";
+      document.body.scrollTop  = scroll.top;
       document.body.scrollLeft = scroll.left;
     }
   },

@@ -10,7 +10,7 @@
         <li><img class="nav-avatar" src="https://graph.facebook.com/{{user.facebook.id}}/picture"></li>
       {{/if}}
       <li>
-        <ul class="user-dd-list">
+        <ul class="user-dd-list" id="nav-avatar">
           {{#if user.username}}
             <li class="user-dd-item"><p class="dd-text">@{{user.username}}</p></li>
           {{else if user.facebook.name}}

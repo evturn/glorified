@@ -15,6 +15,7 @@ _.extend(Backbone.View.prototype, {
     app.tabletClient         = null;
     app.desktopClient        = null;
     app.windowWidth          = $(window).width();
+    app.windowX              = window.innerWidth;
     app.$lists               = $('.lists');
     app.$notes               = $('.notes');
     app.$listInput           = $('.list-input');
