@@ -1,5 +1,3 @@
-var RB = {};
-
 RB.User = Backbone.Model.extend({
   url: '/users',
   idAttribute: '_id',

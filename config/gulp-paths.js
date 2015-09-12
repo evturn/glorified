@@ -46,6 +46,7 @@ module.exports = {
         'public/js/vendor/handlebars.js',
         'public/js/vendor/bootstrap.js',
         'public/js/vendor/autosize.js',
+        'public/js/icons.js'
       ],
       filename: 'vendor.js',
       min: 'vendor.min.js'
