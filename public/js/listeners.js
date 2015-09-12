@@ -12,12 +12,6 @@ _.extend(Backbone.View.prototype, {
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
 
-      let container = document.getElementsByClassName('icon-select'),
-        html = document.getElementById('icon-template').innerHTML,
-        template = _.template(html);
-
-        console.log(template);
-
       $(window).resize(function() {
         app.windowWidth = $(window).width();
         app.setClient();
@@ -90,7 +84,6 @@ _.extend(Backbone.View.prototype, {
     let notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists');
 
-    console.log(notes);
     if (app.windowWidth > 600) {
       notes.classList.remove('expanded', 'collapsed');
       lists.classList.remove('expanded', 'collapsed');
@@ -117,11 +110,18 @@ _.extend(Backbone.View.prototype, {
   },
 
   animateContainers() {
-    if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
+    let lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes'),
+        isListsCollpsed = lists.classList.contains('collapsed'),
+        isNotesCollpsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded');
+
+    if (isListsCollpsed && isNotesExpanded) {
       app.$lists.animate({'marginLeft': '-39%'}, 200);
       app.$notes.animate({'marginRight': '0%'}, 200);
     }
-    else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
+    else if (isListsExpanded && isNotesCollapsed) {
       app.$notes.animate({'marginRight': '-45%'}, 200);
       app.$lists.animate({'marginLeft': '0%'}, 200);
     }

@@ -122,6 +122,18 @@
     }
   };
 
+  // E.animateContainer = function() {
+//   if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
+//     app.$lists.animate({'marginLeft': '-39%'}, 200);
+//     app.$notes.animate({'marginRight': '0%'}, 200);
+//   }
+//   else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
+//     app.$notes.animate({'marginRight': '-45%'}, 200);
+//     app.$lists.animate({'marginLeft': '0%'}, 200);
+//   }
+  // };
+
+
 
   //   app.user.fetch({
   //     success(model, response) {
@@ -188,21 +200,6 @@
   //       app.updateListIcon(icon);
   //       $listItemIcon.addClass('bounce');
   //     });
-  //   }
-  // },
-
-  // setClient() {
-  //   if (app.windowWidth > 600) {
-  //     app.$notes.removeClass('expanded');
-  //     app.$notes.removeClass('collapsed');
-  //     app.$lists.removeClass('expanded');
-  //     app.$lists.removeClass('collapsed');
-  //     app.stopAnimation();
-  //   }
-  //   else {
-  //     app.$notes.addClass('expanded');
-  //     app.$lists.addClass('collapsed');
-  //     app.animateContainers();
   //   }
   // },
   // toggleLists(options={reset:false}) {
