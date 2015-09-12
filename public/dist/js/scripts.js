@@ -492,15 +492,15 @@ _.extend(Backbone.View.prototype, {
     }
   },
   notify: function notify(notification) {
-    var $loader = $('.kurt-loader .message');
+    var notifier = querySelector('.kurt-loader .message');
 
-    $loader.html(notification);
-    $loader.removeClass('animated fadeOut');
-    $loader.addClass('animated fadeIn');
+    notifier.innerHTML = notification;
+    notifier.classList.remove('animated', 'fadeOut');
+    notifier.classList.add('animated', 'fadeIn');
 
     setTimeout(function () {
-      $loader.removeClass('animated fadeIn');
-      $loader.addClass('animated fadeOut');
+      notifier.classList.remove('animated', 'fadeIn');
+      notifier.classList.add('animated', 'fadeOut');
     }, 1000);
   },
   onNewIconSelect: function onNewIconSelect() {
@@ -725,6 +725,19 @@ _.extend(Backbone.View.prototype, {
 
       return true;
     }
+  },
+  animateListTotal: function animateListTotal(list) {
+    var $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function () {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+    }, 300);
   }
 
 });
