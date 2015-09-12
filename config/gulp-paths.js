@@ -26,12 +26,11 @@ module.exports = {
     src: [
       'public/js/utils.js',
       'public/js/models.js',
-      'public/js/events.js',
-      // 'public/js/listeners.js',
       'public/js/http.js',
       'public/js/view.js',
       'public/js/mobile.js',
       'public/js/views/**/*.js',
+      'public/js/events.js',
       'public/js/main.js'
     ],
     watch: [

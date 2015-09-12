@@ -16,6 +16,49 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput'     : 'validate'
   },
 
+  start() {
+    let app = this;
+    EventHandlers(app);
+    app.renderForms();
+    app.user                 = new RB.User();
+    app.listsCollection      = null;
+    app.notesCollection      = null;
+    app.activeListId         = null;
+    app.activeListLength     = null;
+    app.mobileClient         = null;
+    app.tabletClient         = null;
+    app.desktopClient        = null;
+    app.windowWidth          = $(window).width();
+    app.windowX              = window.innerWidth;
+    app.$lists               = $('.lists');
+    app.$notes               = $('.notes');
+    app.$listInput           = $('.list-input');
+    app.$noteInput           = $('.note-input');
+    app.$notesContainer      = $('.notes-container');
+    app.$listsContainer      = $('.lists-container');
+    app.appendIcons();
+
+    app.user.fetch({
+      success(model, response) {
+        console.log(model);
+        if (app.user === null) {
+          app.user = model;
+        }
+
+        if (app.listsCollection === null) {
+          app.listsCollection = new RB.Lists(model.attributes.lists);
+          app.setLists();
+          app.setProgressBars();
+        }
+
+        app.initializeListeners();
+        return app.listsCollection;
+      },
+      error(err) {
+        console.log(err);
+      }
+    });
+  },
   updateListIcon(icon) {
     let _id = app.activeListId,
         $listItemIcon = app.getListItemIconById(_id),

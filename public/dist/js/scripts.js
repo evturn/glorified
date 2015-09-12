@@ -56,298 +56,6 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true
 });
-'use strict';
-
-(function (app) {
-
-  var root = typeof self === 'object' && self.self === self && self || typeof global === 'object' && global.global === global && global;
-
-  var EVENTS = {};
-
-  EVENTS.initializeListeners = function () {
-    app.fixPath();
-    app.readClient();
-    app.setClient();
-    app.isMobile();
-    autosize(document.querySelectorAll('textarea'));
-    addEvent(window, 'resize', app.setClient);
-    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
-    app.setListActive();
-    app.onNewIconSelect();
-  };
-
-  EVENTS.toggleLists = function () {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
-
-    var notes = document.querySelector('.notes'),
-        lists = document.querySelector('.lists'),
-        isListsCollapsed = lists.classList.contains('collapsed'),
-        isNotesCollapsed = notes.classList.contains('collapsed'),
-        isListsExpanded = lists.classList.contains('expanded'),
-        isNotesExpanded = notes.classList.contains('expanded'),
-        windowX = window.innerWidth;
-
-    toggleClass(lists, 'collapsed', isListsCollapsed);
-    toggleClass(lists, 'expanded', isListsExpanded);
-    toggleClass(notes, 'collapsed', isNotesCollapsed);
-    toggleClass(notes, 'expanded', isNotesExpanded);
-
-    if (windowX < 600) {
-      app.animateContainers();
-    } else {
-      app.stopAnimation();
-    }
-  };
-
-  EVENTS.notify = function (notification) {
-    var notifier = querySelector('.kurt-loader .message');
-
-    notifier.innerHTML = notification;
-    notifier.classList.remove('animated', 'fadeOut');
-    notifier.classList.add('animated', 'fadeIn');
-
-    setTimeout(function () {
-      notifier.classList.remove('animated', 'fadeIn');
-      notifier.classList.add('animated', 'fadeOut');
-    }, 1000);
-  };
-
-  EVENTS.onNewIconSelect = function () {
-    var nodeList = querySelectorAll('.icon-select .icon-option'),
-        icons = [].slice.call(nodeList);
-
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var item = _step.value;
-
-        item.addEventListener('click', callback);
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator['return']) {
-          _iterator['return']();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    function callback(e) {
-      var icon = this.dataset.icon,
-          dropdown = document.querySelector('.icon-dropdown'),
-          listId = app.activeListId;
-
-      dropdown.classList.remove('open');
-      app.updateListIcon(icon);
-    };
-  };
-
-  EVENTS.toggleIconsContainer = function (e) {
-    var dropdown = document.querySelector('.icon-dropdown'),
-        isOpen = dropdown.classList.contains('open');
-
-    toggleClass(dropdown, 'open', isOpen);
-  };
-
-  EVENTS.setListActive = function () {
-    var nodeList = querySelectorAll('.list-item'),
-        list = [].slice.call(nodeList);
-
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var item = _step2.value;
-
-        item.addEventListener('click', callback);
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-          _iterator2['return']();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-
-    function callback(e) {
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
-
-      try {
-        for (var _iterator3 = list[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var item = _step3.value;
-
-          item.classList.remove('active');
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3['return']) {
-            _iterator3['return']();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
-      }
-
-      this.classList.add('active');
-    };
-  };
-
-  EVENTS.isMobile = function () {
-    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (device) {
-      var body = document.querySelector('body');
-
-      body.classList.add('mobile');
-    }
-
-    return device;
-  };
-
-  EVENTS.readClient = function () {
-    var windowX = window.innerWidth;
-
-    if (app.isMobile()) {
-      app.mobileClient = true;
-    } else {
-      app.mobileClient = false;
-    }
-
-    if (windowX < 800 && windowX > 600) {
-      app.tabletClient = true;
-      app.desktopClient = false;
-    } else if (windowX >= 800) {
-      app.tabletClient = false;
-      app.desktopClient = true;
-    }
-  };
-
-  EVENTS.setClient = function () {
-    var notes = document.querySelector('.notes'),
-        lists = document.querySelector('.lists'),
-        windowX = window.innerWidth;
-
-    if (windowX > 600) {
-      notes.classList.remove('expanded', 'collapsed');
-      lists.classList.remove('expanded', 'collapsed');
-      app.stopAnimation();
-    } else if (windowX <= 600) {
-      notes.classList.add('expanded');
-      lists.classList.add('collapsed');
-      app.animateContainers();
-    }
-  };
-
-  EVENTS.animateContainers = function () {
-    var lists = document.querySelector('.lists'),
-        notes = document.querySelector('.notes'),
-        isListsCollapsed = lists.classList.contains('collapsed'),
-        isNotesCollapsed = notes.classList.contains('collapsed'),
-        isListsExpanded = lists.classList.contains('expanded'),
-        isNotesExpanded = notes.classList.contains('expanded');
-
-    if (isListsCollapsed && isNotesExpanded) {
-      lists.style.marginLeft = '-39%';
-      notes.style.marginRight = '0%';
-    } else if (isListsExpanded && isNotesCollapsed) {
-      notes.style.marginRight = '-45%';
-      lists.style.marginLeft = '0%';
-    }
-  };
-
-  EVENTS.stopAnimation = function () {
-    var lists = document.querySelector('.lists'),
-        notes = document.querySelector('.notes');
-
-    notes.style.marginRight = '0%';
-    lists.style.marginLeft = '0%';
-  };
-
-  EVENTS.toggleProgressBarDetails = function () {
-    var progressBar = document.querySelector('.active-progress'),
-        isShowing = !!bar.classList.contains('show-details');
-
-    toggleClass(progressbar, 'show-details', isShowing);
-  };
-
-  EVENTS.toggleUserDropdown = function () {
-    var dropdown = document.querySelector('.user-dd-list'),
-        isOpen = !!dropdown.classList.contains('on');
-
-    toggleClass(dropdown, 'on', isOpen);
-  };
-
-  EVENTS.fixPath = function () {
-    if (window.location.hash && window.location.hash === "#_=_") {
-      var _scroll = {
-        top: document.body.scrollTop,
-        left: document.body.scrollLeft
-      };
-
-      window.location.hash = "";
-      document.body.scrollTop = _scroll.top;
-      document.body.scrollLeft = _scroll.left;
-    }
-  };
-
-  EVENTS.hasLengthChanged = function (list) {
-    if (app.activeListLength === list.length) {
-      return false;
-    } else {
-      app.activeListLength = list.length;
-      app.animateListTotal(list);
-
-      return true;
-    }
-  };
-
-  EVENTS.animateListTotal = function (list) {
-    var parent = document.getElementById(list._id),
-        target = parent.querySelector('.list-text'),
-        isListContainer = target.dataset.length === list._id;
-
-    if (isListContainer) {
-      target.classList.remove('fadeInUp');
-      target.innerHTML = list.length;
-      target.classList.add('fadeOutUp');
-
-      setTimeout(function () {
-        target.classList.remove('fadeOutUp');
-        target.classList.add('fadeInUp');
-      }, 300);
-    }
-  };
-
-  return _.extend(app, EVENTS);
-})(Backbone.View.prototype);
 // ===================
 // HTTP
 // ===================
@@ -355,48 +63,6 @@ RB.Notes = Backbone.Collection.extend({
 'use strict';
 
 _.extend(Backbone.View.prototype, {
-
-  start: function start() {
-    app.renderForms();
-    app.user = new RB.User();
-    app.listsCollection = null;
-    app.notesCollection = null;
-    app.activeListId = null;
-    app.activeListLength = null;
-    app.mobileClient = null;
-    app.tabletClient = null;
-    app.desktopClient = null;
-    app.windowWidth = $(window).width();
-    app.windowX = window.innerWidth;
-    app.$lists = $('.lists');
-    app.$notes = $('.notes');
-    app.$listInput = $('.list-input');
-    app.$noteInput = $('.note-input');
-    app.$notesContainer = $('.notes-container');
-    app.$listsContainer = $('.lists-container');
-    app.appendIcons();
-
-    app.user.fetch({
-      success: function success(model, response) {
-        console.log(model);
-        if (app.user === null) {
-          app.user = model;
-        }
-
-        if (app.listsCollection === null) {
-          app.listsCollection = new RB.Lists(model.attributes.lists);
-          app.setLists();
-          app.setProgressBars();
-        }
-
-        app.initializeListeners();
-        return app.listsCollection;
-      },
-      error: function error(err) {
-        console.log(err);
-      }
-    });
-  },
 
   get: function get() {
     var options = arguments.length <= 0 || arguments[0] === undefined ? { listDestroyed: false, _id: false } : arguments[0];
@@ -782,6 +448,49 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput': 'validate'
   },
 
+  start: function start() {
+    var app = this;
+    EventHandlers(app);
+    app.renderForms();
+    app.user = new RB.User();
+    app.listsCollection = null;
+    app.notesCollection = null;
+    app.activeListId = null;
+    app.activeListLength = null;
+    app.mobileClient = null;
+    app.tabletClient = null;
+    app.desktopClient = null;
+    app.windowWidth = $(window).width();
+    app.windowX = window.innerWidth;
+    app.$lists = $('.lists');
+    app.$notes = $('.notes');
+    app.$listInput = $('.list-input');
+    app.$noteInput = $('.note-input');
+    app.$notesContainer = $('.notes-container');
+    app.$listsContainer = $('.lists-container');
+    app.appendIcons();
+
+    app.user.fetch({
+      success: function success(model, response) {
+        console.log(model);
+        if (app.user === null) {
+          app.user = model;
+        }
+
+        if (app.listsCollection === null) {
+          app.listsCollection = new RB.Lists(model.attributes.lists);
+          app.setLists();
+          app.setProgressBars();
+        }
+
+        app.initializeListeners();
+        return app.listsCollection;
+      },
+      error: function error(err) {
+        console.log(err);
+      }
+    });
+  },
   updateListIcon: function updateListIcon(icon) {
     var _id = app.activeListId,
         $listItemIcon = app.getListItemIconById(_id),
@@ -1025,7 +734,298 @@ RB.NoteItem = Backbone.View.extend({
   }
 
 });
+'use strict';
+
+var EventHandlers = function EventHandlers(app) {
+
+  var EVENTS = {};
+
+  EVENTS.initializeListeners = function () {
+    app.fixPath();
+    app.readClient();
+    app.setClient();
+    app.isMobile();
+    autosize(document.querySelectorAll('textarea'));
+    addEvent(window, 'resize', app.setClient);
+    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+    app.setListActive();
+    app.onNewIconSelect();
+  };
+
+  EVENTS.toggleLists = function () {
+    var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
+
+    var notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded'),
+        windowX = window.innerWidth;
+
+    toggleClass(lists, 'collapsed', isListsCollapsed);
+    toggleClass(lists, 'expanded', isListsExpanded);
+    toggleClass(notes, 'collapsed', isNotesCollapsed);
+    toggleClass(notes, 'expanded', isNotesExpanded);
+
+    if (windowX < 600) {
+      app.animateContainers();
+    } else {
+      app.stopAnimation();
+    }
+  };
+
+  EVENTS.notify = function (notification) {
+    var notifier = querySelector('.kurt-loader .message');
+
+    notifier.innerHTML = notification;
+    notifier.classList.remove('animated', 'fadeOut');
+    notifier.classList.add('animated', 'fadeIn');
+
+    setTimeout(function () {
+      notifier.classList.remove('animated', 'fadeIn');
+      notifier.classList.add('animated', 'fadeOut');
+    }, 1000);
+  };
+
+  EVENTS.onNewIconSelect = function () {
+    var nodeList = querySelectorAll('.icon-select .icon-option'),
+        icons = [].slice.call(nodeList);
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+
+        item.addEventListener('click', callback);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    function callback(e) {
+      var icon = this.dataset.icon,
+          dropdown = document.querySelector('.icon-dropdown'),
+          listId = app.activeListId;
+
+      dropdown.classList.remove('open');
+      app.updateListIcon(icon);
+    };
+  };
+
+  EVENTS.toggleIconsContainer = function (e) {
+    var dropdown = document.querySelector('.icon-dropdown'),
+        isOpen = dropdown.classList.contains('open');
+
+    toggleClass(dropdown, 'open', isOpen);
+  };
+
+  EVENTS.setListActive = function () {
+    var nodeList = querySelectorAll('.list-item'),
+        list = [].slice.call(nodeList);
+
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+
+        item.addEventListener('click', callback);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+          _iterator2['return']();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    function callback(e) {
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = list[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var item = _step3.value;
+
+          item.classList.remove('active');
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3['return']) {
+            _iterator3['return']();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      this.classList.add('active');
+    };
+  };
+
+  EVENTS.isMobile = function () {
+    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (device) {
+      var body = document.querySelector('body');
+
+      body.classList.add('mobile');
+    }
+
+    return device;
+  };
+
+  EVENTS.readClient = function () {
+    var windowX = window.innerWidth;
+
+    if (app.isMobile()) {
+      app.mobileClient = true;
+    } else {
+      app.mobileClient = false;
+    }
+
+    if (windowX < 800 && windowX > 600) {
+      app.tabletClient = true;
+      app.desktopClient = false;
+    } else if (windowX >= 800) {
+      app.tabletClient = false;
+      app.desktopClient = true;
+    }
+  };
+
+  EVENTS.setClient = function () {
+    var notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists'),
+        windowX = window.innerWidth;
+
+    if (windowX > 600) {
+      notes.classList.remove('expanded', 'collapsed');
+      lists.classList.remove('expanded', 'collapsed');
+      app.stopAnimation();
+    } else if (windowX <= 600) {
+      notes.classList.add('expanded');
+      lists.classList.add('collapsed');
+      app.animateContainers();
+    }
+  };
+
+  EVENTS.animateContainers = function () {
+    var lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded');
+
+    if (isListsCollapsed && isNotesExpanded) {
+      lists.style.marginLeft = '-39%';
+      notes.style.marginRight = '0%';
+    } else if (isListsExpanded && isNotesCollapsed) {
+      notes.style.marginRight = '-45%';
+      lists.style.marginLeft = '0%';
+    }
+  };
+
+  EVENTS.stopAnimation = function () {
+    var lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes');
+
+    notes.style.marginRight = '0%';
+    lists.style.marginLeft = '0%';
+  };
+
+  EVENTS.toggleProgressBarDetails = function () {
+    var progressBar = document.querySelector('.active-progress'),
+        isShowing = !!bar.classList.contains('show-details');
+
+    toggleClass(progressbar, 'show-details', isShowing);
+  };
+
+  EVENTS.toggleUserDropdown = function () {
+    var dropdown = document.querySelector('.user-dd-list'),
+        isOpen = !!dropdown.classList.contains('on');
+
+    toggleClass(dropdown, 'on', isOpen);
+  };
+
+  EVENTS.fixPath = function () {
+    if (window.location.hash && window.location.hash === "#_=_") {
+      var _scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      };
+
+      window.location.hash = "";
+      document.body.scrollTop = _scroll.top;
+      document.body.scrollLeft = _scroll.left;
+    }
+  };
+
+  EVENTS.hasLengthChanged = function (list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    } else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+
+      return true;
+    }
+  };
+
+  EVENTS.animateListTotal = function (list) {
+    var parent = document.getElementById(list._id),
+        target = parent.querySelector('.list-text'),
+        isListContainer = target.dataset.length === list._id;
+
+    if (isListContainer) {
+      target.classList.remove('fadeInUp');
+      target.innerHTML = list.length;
+      target.classList.add('fadeOutUp');
+
+      setTimeout(function () {
+        target.classList.remove('fadeOutUp');
+        target.classList.add('fadeInUp');
+      }, 300);
+    }
+  };
+
+  return _.extend(app, EVENTS);
+};
 "use strict";
 
 var app = new RB.App();
+
 app.start();

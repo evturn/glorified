@@ -1,7 +1,4 @@
-(function(app) {
-
-  let root = (typeof self === 'object' && self.self === self && self) ||
-             (typeof global === 'object' && global.global === global && global);
+const EventHandlers = function(app) {
 
   let EVENTS = {};
 
@@ -230,4 +227,4 @@
 
   return _.extend(app, EVENTS);
 
-})(Backbone.View.prototype);
+};

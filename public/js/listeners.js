@@ -1,20 +1,18 @@
 _.extend(Backbone.View.prototype, {
 
-  listeners: {
-    init() {
-      app.fixPath();
-      app.readClient();
-      app.setClient();
-      app.isMobile();
-      autosize(document.querySelectorAll('textarea'));
-      addEvent(window, 'resize', app.setClient);
-      addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-      addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
-      app.setListActive();
-      app.onNewIconSelect();
-    }
+  initializeListeners() {
+    app.fixPath();
+    app.readClient();
+    app.setClient();
+    app.isMobile();
+    autosize(document.querySelectorAll('textarea'));
+    addEvent(window, 'resize', app.setClient);
+    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+    app.setListActive();
+    app.onNewIconSelect();
   },
   toggleLists(options={reset:false}) {
     let notes = document.querySelector('.notes'),
