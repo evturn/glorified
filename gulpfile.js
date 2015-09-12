@@ -8,15 +8,39 @@ var gulp = require('gulp'),
     through = require('through2'),
     lodash = require('lodash._createwrapper');
 
-gulp.task('default', ['less:watch', 'js:watch', 'lint:watch', 'sync']);
+gulp.task('default', ['less:watch', 'js:watch', 'eslint:watch', 'browserSync']);
+
+//////////////////////
+// WATCH
+//////////////////////
+
+gulp.task('less:watch', function() {
+  gulp.watch(paths.less.watch, ['less:reload']);
+});
+
+gulp.task('js:watch', function() {
+  gulp.watch(paths.js.watch, ['js:reload']);
+});
+
+gulp.task('eslint:watch', function() {
+  gulp.watch(paths.eslint.watch, ['eslint']);
+});
 
 //////////////////////
 // BROWSERSYNC
 //////////////////////
 
-gulp.task('sync', function() {
+gulp.task('browserSync', function() {
     browserSync.init(opts.browserSync);
     gulp.watch(paths.views.src).on('change', browserSync.reload);
+});
+
+gulp.task('less:reload', ['less'], function() {
+    browserSync.reload();
+});
+
+gulp.task('js:reload', ['js'], function() {
+    browserSync.reload();
 });
 
 //////////////////////
@@ -76,14 +100,6 @@ gulp.task('js', function() {
     .on('error', gutil.log);
 });
 
-gulp.task('js:watch', function() {
-  gulp.watch(paths.js.watch, ['js:reload']);
-});
-
-gulp.task('js:reload', ['js'], function() {
-    browserSync.reload();
-});
-
 //////////////////////
 // JS:VENDOR
 //////////////////////
@@ -95,24 +111,21 @@ gulp.task('js:vendor', function() {
     .pipe(gulp.dest(paths.dest.js))
     .pipe($.uglify())
     .pipe($.rename(paths.js.vendor.min))
-    .pipe(gulp.dest(paths.dest.js));
+    .pipe(gulp.dest(paths.dest.js))
+    .on('error', gutil.log);
 });
 
 //////////////////////
 // ESLINT
 //////////////////////
 
-gulp.task('lint', function() {
+gulp.task('eslint', function() {
   return gulp.src(paths.eslint.src)
     .pipe($.plumber(opts.plumber))
     .pipe($.eslint())
     .on('error', opts.plumber.errorHandler)
     .pipe($.eslint.format('stylish'))
     .pipe($.notify(opts.notify.eslint));
-});
-
-gulp.task('lint:watch', function() {
-  gulp.watch(paths.eslint.watch, ['lint']);
 });
 
 //////////////////////
