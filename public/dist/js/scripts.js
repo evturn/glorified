@@ -244,7 +244,6 @@ _.extend(Backbone.View.prototype, {
 
     return id;
   },
-
   setActiveListId: function setActiveListId(id) {
     // Too small of a utility and possibly redundant
     app.$notesContainer.attr('data-list', id);
@@ -252,27 +251,22 @@ _.extend(Backbone.View.prototype, {
 
     return this;
   },
-
   getListContainerById: function getListContainerById(id) {
     var $listItem = $('.list-item .inner-container');
 
     return $listItem.find("[data-id='" + id + "']");
   },
-
   getListItemIconById: function getListItemIconById(id) {
     return $('div').find("[data-list-item-icon='" + id + "']");
   },
-
   removeListItemById: function removeListItemById(id) {
     var $container = app.getListContainerById(id);
 
     $container.parent().remove();
   },
-
   setListValue: function setListValue(listname) {
     app.$listInput.val(listname);
   },
-
   resetActiveList: function resetActiveList(id) {
     var $listItem = $('.list-item'),
         $element = $('div').find("[data-id='" + id + "']");
@@ -282,7 +276,7 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-
+  /////////////////
   renderForms: function renderForms() {
     var $inputs = $('.inputs-container');
 
@@ -291,7 +285,7 @@ _.extend(Backbone.View.prototype, {
 
     return this;
   },
-
+  /////////////////
   renderActiveProgressBar: function renderActiveProgressBar(id) {
     var collection = app.notesCollection,
         $barContainer = $('.active-progress'),
@@ -333,7 +327,6 @@ _.extend(Backbone.View.prototype, {
       app.hasLengthChanged(data);
     }
   },
-
   setProgressBars: function setProgressBars() {
     var listData = [],
         i = 0;
@@ -374,7 +367,6 @@ _.extend(Backbone.View.prototype, {
       }
     });
   },
-
   tojquery: function tojquery(element) {
     switch (typeof element) {
       case "object":
@@ -391,7 +383,6 @@ _.extend(Backbone.View.prototype, {
         break;
     }
   },
-
   convertDate: function convertDate(date) {
     var d = new Date(date),
         days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -410,13 +401,11 @@ _.extend(Backbone.View.prototype, {
     return timestamp;
   },
 
-  appendIconSelect: function appendIconSelect(icon) {
-    $('.icon-select').append(app.iconSelectTemplate(icon));
-
-    return this;
-  },
-
+  ////////////////////
   appendIcons: function appendIcons() {
+    var container = document.querySelectorAll('.icon-select')[0],
+        icons = '';
+
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -425,7 +414,10 @@ _.extend(Backbone.View.prototype, {
       for (var _iterator = RB.icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var icon = _step.value;
 
-        this.appendIconSelect(icon);
+        var i = icon.icon,
+            _name = icon.name;
+
+        icons = icons + ('<div class="icon-option" data-icon="fa ' + i + '">\n                        <i class="animated fadeIn fa ' + i + '"></i>\n                        <p class="caption">' + _name + '</p>\n                       </div>');
       }
     } catch (err) {
       _didIteratorError = true;
@@ -441,35 +433,10 @@ _.extend(Backbone.View.prototype, {
         }
       }
     }
+
+    container.innerHTML = icons;
   }
-});
-// ===================
-// Mobile
-// ===================
-
-'use strict';
-
-_.extend(Backbone.View.prototype, {
-
-  mobile: {
-
-    init: function init() {
-      app.setMobile();
-    }
-  },
-
-  isMobile: function isMobile() {
-    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    return device;
-  },
-
-  setMobile: function setMobile() {
-    var $body = $('body');
-
-    $body.addClass('mobile');
-  }
-
+  /////////////////
 });
 // ===================
 // Helpers
@@ -486,6 +453,12 @@ _.extend(Backbone.View.prototype, {
       app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
+
+      var container = document.getElementsByClassName('icon-select'),
+          html = document.getElementById('icon-template').innerHTML,
+          template = _.template(html);
+
+      console.log(template);
 
       $(window).resize(function () {
         app.windowWidth = $(window).width();
@@ -526,10 +499,20 @@ _.extend(Backbone.View.prototype, {
       });
     }
   },
+  isMobile: function isMobile() {
+    var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (device) {
+      var body = document.getElementsByTagName('body')[0];
+
+      body.setAttribute('class', 'mobile');
+    }
+
+    return device;
+  },
   readClient: function readClient() {
     if (app.isMobile()) {
       app.mobileClient = true;
-      app.mobile.init();
     } else {
       app.mobileClient = false;
     }
@@ -651,10 +634,6 @@ RB.App = Backbone.View.extend({
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
-  // loginTemplate            : _.template($('#login-form-template').html()),
-  // registerTemplate         : _.template($('#register-form-template').html()),
-  // switchToRegisterTemplate : _.template($('#switch-to-register').html()),
-  // switchToLoginTemplate    : _.template($('#switch-to-login').html()),
 
   events: {
     'click .create-list-btn': 'createList',

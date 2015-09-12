@@ -9,7 +9,6 @@ _.extend(Backbone.View.prototype, {
 
     return id;
   },
-
   setActiveListId(id) {
     // Too small of a utility and possibly redundant
     app.$notesContainer.attr('data-list', id);
@@ -17,27 +16,22 @@ _.extend(Backbone.View.prototype, {
 
     return this;
   },
-
   getListContainerById(id) {
     let $listItem = $('.list-item .inner-container');
 
     return $listItem.find("[data-id='" + id + "']");
   },
-
   getListItemIconById(id) {
     return $('div').find("[data-list-item-icon='" + id + "']");
   },
-
   removeListItemById(id) {
     let $container = app.getListContainerById(id);
 
     $container.parent().remove();
   },
-
   setListValue(listname) {
     app.$listInput.val(listname);
   },
-
   resetActiveList(id) {
     let $listItem = $('.list-item'),
         $element = $('div').find("[data-id='" + id + "']");
@@ -47,7 +41,7 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-
+  /////////////////
   renderForms() {
     let $inputs = $('.inputs-container');
 
@@ -56,7 +50,7 @@ _.extend(Backbone.View.prototype, {
 
     return this;
   },
-
+  /////////////////
   renderActiveProgressBar(id) {
     let collection = app.notesCollection,
         $barContainer = $('.active-progress'),
@@ -98,7 +92,6 @@ _.extend(Backbone.View.prototype, {
       app.hasLengthChanged(data);
     }
   },
-
   setProgressBars() {
     let listData = [],
         i = 0;
@@ -139,7 +132,6 @@ _.extend(Backbone.View.prototype, {
       }
     });
   },
-
   tojquery(element) {
     switch (typeof element) {
       case "object":
@@ -157,7 +149,6 @@ _.extend(Backbone.View.prototype, {
         break;
     }
   },
-
   convertDate(date) {
     let d = new Date(date),
         days      = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -176,15 +167,22 @@ _.extend(Backbone.View.prototype, {
     return timestamp;
   },
 
-  appendIconSelect(icon) {
-    $('.icon-select').append(app.iconSelectTemplate(icon));
-
-    return this;
-  },
-
+  ////////////////////
   appendIcons() {
-    for (var icon of RB.icons) {
-      this.appendIconSelect(icon);
+    let container = document.querySelectorAll('.icon-select')[0],
+        icons = '';
+
+    for (let icon of RB.icons) {
+      let i    = icon.icon,
+          name = icon.name;
+
+      icons = icons + `<div class="icon-option" data-icon="fa ${i}">
+                        <i class="animated fadeIn fa ${i}"></i>
+                        <p class="caption">${name}</p>
+                       </div>`;
     }
+
+    container.innerHTML = icons;
   }
+  /////////////////
 });

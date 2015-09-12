@@ -12,6 +12,12 @@ _.extend(Backbone.View.prototype, {
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
 
+      let container = document.getElementsByClassName('icon-select'),
+        html = document.getElementById('icon-template').innerHTML,
+        template = _.template(html);
+
+        console.log(template);
+
       $(window).resize(function() {
         app.windowWidth = $(window).width();
         app.setClient();
@@ -51,10 +57,20 @@ _.extend(Backbone.View.prototype, {
       });
     }
   },
+  isMobile() {
+    let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (device) {
+      let body = document.getElementsByTagName('body')[0];
+
+      body.setAttribute('class', 'mobile');
+    }
+
+    return device;
+  },
   readClient() {
     if (app.isMobile()) {
       app.mobileClient = true;
-      app.mobile.init();
     }
     else {
       app.mobileClient = false;
