@@ -169,7 +169,7 @@ _.extend(Backbone.View.prototype, {
 
   ////////////////////
   appendIcons() {
-    let container = document.querySelectorAll('.icon-select')[0],
+    let container = document.querySelector('.icon-select'),
         icons = '';
 
     for (let icon of RB.icons) {

@@ -7,9 +7,7 @@
   APP.notesCollection  = null;
   APP.activeListId     = null;
   APP.activeListLength = null;
-  APP.isMobile     = null;
-  APP.tabletClient     = null;
-  APP.desktopClient    = null;
+  APP.mobile           = null;
   APP.user             = null;
   APP.windowX          = window.innerWidth;
 
@@ -30,12 +28,12 @@
   };
 
   APP.getDOMReferences = function() {
-    APP.lists          = document.getElementsByClassName('lists');
-    APP.notes          = document.getElementsByClassName('notes');
-    APP.listInput      = document.getElementsByClassName('list-input');
-    APP.noteInput      = document.getElementsByClassName('note-input');
-    APP.notesContainer = document.getElementsByClassName('notes-container');
-    APP.listsContainer = document.getElementsByClassName('lists-container');
+    APP.lists          = document.querySelector('.lists');
+    APP.notes          = document.querySelector('.notes');
+    APP.listInput      = document.querySelector('.list-input');
+    APP.noteInput      = document.querySelector('.note-input');
+    APP.notesContainer = document.querySelector('.notes-container');
+    APP.listsContainer = document.querySelector('.lists-container');
   },
 
   APP.setUser = function() {
@@ -50,7 +48,7 @@
   };
 
   APP.renderIcons = function() {
-    let container = document.querySelectorAll('.icon-select')[0],
+    let container = document.querySelector('.icon-select'),
         icons = '';
 
     for (let icon of RB.icons) {
@@ -70,7 +68,6 @@
 
   E.init = function() {
     E.fixPath();
-    E.readClient();
     E.setClient();
     E.isMobile();
     E.autosizeTextarea();
@@ -86,9 +83,10 @@
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (device) {
-      let body = document.getElementsByTagName('body')[0];
+      let body = document.querySelector('body');
 
-      body.setAttribute('class', 'mobile');
+      body.classList.add('mobile');
+      APP.mobile = true;
     }
 
     return device;
@@ -107,24 +105,23 @@
     }
   };
 
-  E.readClient = function() {
-    if (app.isMobile()) {
-      app.isMobile = true;
-      app.mobile.init();
+  E.setClient = function() {
+    let notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists');
+
+    console.log(notes);
+    if (APP.windowX > 600) {
+      notes.classList.remove('expanded', 'collapsed');
+      lists.classList.remove('expanded', 'collapsed');
+      app.stopAnimation();
     }
     else {
-      app.isMobile = false;
-    }
-
-    if (app.windowWidth < 800 && app.windowWidth > 600) {
-      app.tabletClient = true;
-      app.desktopClient = false;
-    }
-     else if (app.windoWidth >= 800) {
-      app.tabletClient = false;
-      app.desktopClient = true;
+      notes.classList.add('expanded');
+      lists.classList.add('collapsed');
+      app.animateContainers();
     }
   };
+
 
   //   app.user.fetch({
   //     success(model, response) {

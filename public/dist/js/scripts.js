@@ -403,7 +403,7 @@ _.extend(Backbone.View.prototype, {
 
   ////////////////////
   appendIcons: function appendIcons() {
-    var container = document.querySelectorAll('.icon-select')[0],
+    var container = document.querySelector('.icon-select'),
         icons = '';
 
     var _iteratorNormalCompletion = true;
@@ -503,9 +503,9 @@ _.extend(Backbone.View.prototype, {
     var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (device) {
-      var body = document.getElementsByTagName('body')[0];
+      var body = document.querySelector('body');
 
-      body.setAttribute('class', 'mobile');
+      body.classList.add('mobile');
     }
 
     return device;
@@ -526,15 +526,18 @@ _.extend(Backbone.View.prototype, {
     }
   },
   setClient: function setClient() {
+
+    var notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists');
+
+    console.log(notes);
     if (app.windowWidth > 600) {
-      app.$notes.removeClass('expanded');
-      app.$notes.removeClass('collapsed');
-      app.$lists.removeClass('expanded');
-      app.$lists.removeClass('collapsed');
+      notes.classList.remove('expanded', 'collapsed');
+      lists.classList.remove('expanded', 'collapsed');
       app.stopAnimation();
     } else {
-      app.$notes.addClass('expanded');
-      app.$lists.addClass('collapsed');
+      notes.classList.add('expanded');
+      lists.classList.add('collapsed');
       app.animateContainers();
     }
   },
