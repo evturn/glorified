@@ -18,8 +18,8 @@
           {{else if user.twitter.username}}
             <li class="user-dd-item"><p class="dd-text">@{{user.twitter.username}}</p></li>
           {{/if}}
-            <li class="user-dd-item user-settings"><p class="dd-text">Settings</p></li>
-            <li class="user-dd-item"><p class="dd-text"><a href="/logout">Logout</a></p></li>
+            <li class="user-dd-item user-settings"><a href="/connect"><p class="dd-text">Connected Apps</p></a></li>
+            <li class="user-dd-item"><a href="/logout"><p class="dd-text">Logout</p></a></li>
         </ul>
       </li>
     </ul>
