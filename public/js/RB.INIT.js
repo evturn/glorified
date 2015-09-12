@@ -1,7 +1,46 @@
+(function(factory) {
 
-(function() {
+  let root = (typeof self === 'object' && self.self === self && self) ||
+             (typeof global === 'object' && global.global === global && global);
+
+  if (typeof define === 'function' && define.amd) {
+      define(['underscore', 'jquery', 'exports'], function(_, $, exports) {
+        root.APP = factory(root, exports, _, $);
+      });
+  }
+  else if (typeof exports !== 'undefined') {
+    let _ = require('underscore'), $;
+
+    try {
+      $ = require('jquery');
+    }
+    catch(e) {}
+
+    factory(root, exports, _, $);
+  }
+  else {
+    root.APP = factory(root, {}, root._, (root.jQuery|| root.$));
+  }
+
+}(function(root, APP, _, $) {
+  let previousAPP = root.APP,
+      slice = Array.prototype.slice;
+
+  root = this;
+  if (root != null) {
+    previousAPP = root.APP;
+  }
+
+  APP.noConflict = function () {
+      root.APP = previousAPP;
+      return APP;
+  };
+
 
   let APP = {};
+
+  let root, previousAPP;
+
 
   APP.listsCollection  = null;
   APP.notesCollection  = null;
@@ -148,144 +187,17 @@
   };
 
   E.eventListeners = function() {
-    app.fixPath();
-    app.readClient();
-    app.setClient();
-    app.isMobile();
-    autosize(document.querySelectorAll('textarea'));
-    addEvent(window, 'resize', app.setClient);
-    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
-    app.setListActive();
-    app.onNewIconSelect();
+      app.fixPath();
+      app.readClient();
+      app.setClient();
+      app.isMobile();
+      autosize(document.querySelectorAll('textarea'));
+      addEvent(window, 'resize', app.setClient);
+      addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+      addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+      app.setListActive();
+      app.onNewIconSelect();
   };
-
-
-  //   app.user.fetch({
-  //     success(model, response) {
-  //       console.log(model);
-  //       if (app.user === null) {
-  //         app.user = model;
-  //       }
-
-  //       if (app.listsCollection === null) {
-  //         app.listsCollection = new RB.Lists(model.attributes.lists);
-  //         app.setLists();
-  //         app.setProgressBars();
-  //       }
-
-  //       return app.listsCollection;
-  //     },
-  //     error(err) {
-  //       console.log(err);
-  //     }
-  //   });
-  // },
-
-
-
-
-
-  //   init() {
-
-
-  //     $(window).resize(function() {
-  //       app.windowWidth = $(window).width();
-  //       app.setClient();
-  //     });
-
-  //     $(document).on('click', '.nav-avatar', function() {
-  //       app.toggleUserDropdown();
-  //     });
-
-  //     $(document).on('click', '.lists-container .list-item', function() {
-  //       let $listItem = $('.list-item');
-
-  //       $listItem.removeClass('active');
-  //       $(this).addClass('active');
-  //     });
-
-  //     $(document).on('click', '.toggle-list-btn', function() {
-  //       app.toggleLists();
-  //     });
-
-  //     $(document).on('click', '.active-progress', function() {
-  //       $('.active-progress').toggleClass('show-details');
-  //     });
-
-  //     $(document).on('click', '.icon-container .list-icon', function() {
-  //       $('.icon-dropdown').toggleClass('open');
-  //     });
-
-  //     $(document).on('click', '.icon-select .icon-option', function() {
-  //       let icon = $(this).attr('data-icon'),
-  //           $dropdown = $('.icon-dropdown'),
-  //           $listItemIcon = app.getListItemIconById(app.activeListId);
-
-  //       $dropdown.removeClass('open');
-  //       app.updateListIcon(icon);
-  //       $listItemIcon.addClass('bounce');
-  //     });
-  //   }
-  // },
-  // toggleLists(options={reset:false}) {
-  //   app.$lists.toggleClass('collapsed');
-  //   app.$lists.toggleClass('expanded');
-  //   app.$notes.toggleClass('expanded');
-  //   app.$notes.toggleClass('collapsed');
-
-  //   if (app.windowWidth < 600) {
-  //     app.animateContainers();
-  //   }
-  //   else {
-  //     app.stopAnimation();
-  //   }
-  // },
-
-  // notify(notification) {
-  //   let $loader = $('.kurt-loader .message');
-
-  //   $loader.html(notification);
-  //   $loader.removeClass('animated fadeOut');
-  //   $loader.addClass('animated fadeIn');
-
-  //   setTimeout(function() {
-  //     $loader.removeClass('animated fadeIn');
-  //     $loader.addClass('animated fadeOut');
-  //   }, 1000);
-  // },
-
-  // animateListTotal(list) {
-  //   let $length = $('div').find("[data-length='" + list._id + "']");
-
-  //   $length.removeClass('fadeInUp');
-  //   $length.text(list.length);
-  //   $length.addClass('fadeOutUp');
-
-  //   setTimeout(function() {
-  //     $length.removeClass('fadeOutUp');
-  //     $length.addClass('fadeInUp');
-  //     $length.show();
-
-  //   }, 300);
-  // },
-
-  // hasLengthChanged(list) {
-  //   if (app.activeListLength === list.length) {
-  //     return false;
-  //   }
-  //   else {
-  //     app.activeListLength = list.length;
-  //     app.animateListTotal(list);
-
-  //     return true;
-  //   }
-  // },
-  // toggleUserDropdown() {
-  //   $('.user-dd-list').toggleClass('on');
-  // }
-
-
-})();
+}));

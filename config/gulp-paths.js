@@ -25,10 +25,10 @@ module.exports = {
   js: {
     src: [
       'public/js/models.js',
+      'public/js/listeners.js',
       'public/js/http.js',
       'public/js/view.js',
       'public/js/mobile.js',
-      'public/js/listeners.js',
       'public/js/views/**/*.js',
       'public/js/main.js'
     ],
@@ -43,8 +43,6 @@ module.exports = {
         'public/js/vendor/jquery.js',
         'public/js/vendor/underscore.js',
         'public/js/vendor/backbone.js',
-        'public/js/vendor/handlebars.js',
-        'public/js/vendor/bootstrap.js',
         'public/js/vendor/autosize.js',
         'public/js/icons.js'
       ],
