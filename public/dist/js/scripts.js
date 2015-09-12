@@ -51,7 +51,6 @@ _.extend(Backbone.View.prototype, {
     app.$noteInput = $('.note-input');
     app.$notesContainer = $('.notes-container');
     app.$listsContainer = $('.lists-container');
-    app.listeners.init();
     app.appendIcons();
 
     app.user.fetch({
@@ -67,6 +66,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
+        app.listeners.init();
         return app.listsCollection;
       },
       error: function error(err) {
@@ -442,19 +442,20 @@ _.extend(Backbone.View.prototype, {
 // ===================
 // Helpers
 // ===================
-
 'use strict';
+
+var queryAll = document.querySelectorAll.bind(document);
 
 _.extend(Backbone.View.prototype, {
 
   listeners: {
     init: function init() {
+
       app.fixPath();
       app.readClient();
       // app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
-
       app.addEvent(window, 'resize', app.setClient);
       app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
       app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
@@ -475,6 +476,67 @@ _.extend(Backbone.View.prototype, {
         $listItemIcon.addClass('bounce');
       });
     }
+  },
+  setListActive: function setListActive() {
+    var nodeList = queryAll('.list-item'),
+        list = [].slice.call(nodeList);
+
+    console.log('LISTEEN', list);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+
+        item.addEventListener('click', cb);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    function cb(e) {
+      console.log('QUALCABK', e);
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var item = _step2.value;
+
+          item.classList.remove('active');
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+            _iterator2['return']();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      console.log('UDJSKLF', e);
+      this.classList.add('active');
+    };
   },
   createCallback: function createCallback(fn) {
     var callback = function callback() {
@@ -537,16 +599,6 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     }
   },
-  showProgressBarDetails: function showProgressBarDetails() {
-    var bar = document.querySelector('.active-progress'),
-        isShowing = !!bar.classList.contains('show-details');
-
-    if (isShowing) {
-      bar.classList.remove('show-details');
-    } else {
-      bar.classList.add('show-details');
-    }
-  },
   animateContainers: function animateContainers() {
     var lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),
@@ -569,6 +621,38 @@ _.extend(Backbone.View.prototype, {
 
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
+  },
+  showProgressBarDetails: function showProgressBarDetails() {
+    var bar = document.querySelector('.active-progress'),
+        isShowing = !!bar.classList.contains('show-details');
+
+    if (isShowing) {
+      bar.classList.remove('show-details');
+    } else {
+      bar.classList.add('show-details');
+    }
+  },
+  toggleUserDropdown: function toggleUserDropdown() {
+    var dropdown = document.querySelector('.user-dd-list'),
+        isOpen = !!dropdown.classList.contains('on');
+
+    if (isOpen) {
+      dropdown.classList.remove('on');
+    } else {
+      dropdown.classList.add('on');
+    }
+  },
+  fixPath: function fixPath() {
+    if (window.location.hash && window.location.hash === "#_=_") {
+      var _scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      };
+
+      window.location.hash = "";
+      document.body.scrollTop = _scroll.top;
+      document.body.scrollLeft = _scroll.left;
+    }
   },
   toggleLists: function toggleLists() {
     var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
@@ -596,18 +680,6 @@ _.extend(Backbone.View.prototype, {
       $loader.addClass('animated fadeOut');
     }, 1000);
   },
-  fixPath: function fixPath() {
-    if (window.location.hash && window.location.hash === "#_=_") {
-      var _scroll = {
-        top: document.body.scrollTop,
-        left: document.body.scrollLeft
-      };
-
-      window.location.hash = "";
-      document.body.scrollTop = _scroll.top;
-      document.body.scrollLeft = _scroll.left;
-    }
-  },
   animateListTotal: function animateListTotal(list) {
     var $length = $('div').find("[data-length='" + list._id + "']");
 
@@ -630,50 +702,8 @@ _.extend(Backbone.View.prototype, {
 
       return true;
     }
-  },
-  toggleUserDropdown: function toggleUserDropdown() {
-    var dropdown = document.querySelector('.user-dd-list'),
-        isOpen = !!dropdown.classList.contains('on');
-
-    if (isOpen) {
-      dropdown.classList.remove('on');
-    } else {
-      dropdown.classList.add('on');
-    }
-  },
-  setListActive: function setListActive() {
-    $(document).on('click', '.list-item', function (e) {
-      var nodeList = document.querySelectorAll('.list-item'),
-          list = [].slice.call(nodeList);
-
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var el = _step.value;
-
-          el.classList.remove('active');
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator['return']) {
-            _iterator['return']();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      this.classList.add('active');
-    });
   }
+
 });
 'use strict';
 

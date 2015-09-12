@@ -22,7 +22,6 @@ _.extend(Backbone.View.prototype, {
     app.$noteInput           = $('.note-input');
     app.$notesContainer      = $('.notes-container');
     app.$listsContainer      = $('.lists-container');
-    app.listeners.init();
     app.appendIcons();
 
     app.user.fetch({
@@ -38,6 +37,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
+        app.listeners.init();
         return app.listsCollection;
       },
       error(err) {

@@ -1,24 +1,23 @@
 // ===================
 // Helpers
 // ===================
+const queryAll = document.querySelectorAll.bind(document);
 
 _.extend(Backbone.View.prototype, {
 
-
   listeners: {
     init() {
+
       app.fixPath();
       app.readClient();
       // app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
-
       app.addEvent(window, 'resize', app.setClient);
       app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
       app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
       app.addEvent(document.querySelector('.active-progress'), 'click', app.showProgressBarDetails);
       app.setListActive();
-
 
 
       $(document).on('click', '.icon-container .list-icon', function() {
@@ -36,6 +35,25 @@ _.extend(Backbone.View.prototype, {
       });
     }
   },
+  setListActive() {
+    let nodeList = queryAll('.list-item'),
+          list = [].slice.call(nodeList);
+
+    console.log('LISTEEN', list);
+    for (let item of list) {
+      item.addEventListener('click', cb);
+    }
+
+    function cb(e) {
+      console.log('QUALCABK', e);
+      for (let item of list) {
+        item.classList.remove('active');
+      }
+
+      console.log('UDJSKLF', e);
+      this.classList.add('active');
+    };
+  },
   createCallback(fn) {
     let callback = function() {
         fn();
@@ -45,7 +63,7 @@ _.extend(Backbone.View.prototype, {
   },
   addEvent(object, type, callback) {
     if (object === null || typeof(object) === 'undefined') {
-      return;
+        return;
     }
 
     if (object.addEventListener) {
@@ -63,28 +81,28 @@ _.extend(Backbone.View.prototype, {
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (device) {
-      let body = document.querySelector('body');
+        let body = document.querySelector('body');
 
-      body.classList.add('mobile');
+        body.classList.add('mobile');
     }
 
     return device;
   },
   readClient() {
     if (app.isMobile()) {
-      app.mobileClient = true;
+        app.mobileClient = true;
     }
     else {
-      app.mobileClient = false;
+        app.mobileClient = false;
     }
 
     if (app.windowWidth < 800 && app.windowWidth > 600) {
-      app.tabletClient = true;
-      app.desktopClient = false;
+        app.tabletClient = true;
+        app.desktopClient = false;
     }
      else if (app.windoWidth >= 800) {
-      app.tabletClient = false;
-      app.desktopClient = true;
+        app.tabletClient = false;
+        app.desktopClient = true;
     }
   },
   setClient() {
@@ -93,25 +111,14 @@ _.extend(Backbone.View.prototype, {
 
     console.log('We triggered');
     if (app.windowWidth > 600) {
-      notes.classList.remove('expanded', 'collapsed');
-      lists.classList.remove('expanded', 'collapsed');
-      app.stopAnimation();
+        notes.classList.remove('expanded', 'collapsed');
+        lists.classList.remove('expanded', 'collapsed');
+        app.stopAnimation();
     }
     else {
-      notes.classList.add('expanded');
-      lists.classList.add('collapsed');
-      app.animateContainers();
-    }
-  },
-  showProgressBarDetails() {
-    let bar = document.querySelector('.active-progress'),
-        isShowing = !!(bar.classList.contains('show-details'));
-
-    if (isShowing) {
-        bar.classList.remove('show-details');
-    }
-    else {
-        bar.classList.add('show-details');
+        notes.classList.add('expanded');
+        lists.classList.add('collapsed');
+        app.animateContainers();
     }
   },
   animateContainers() {
@@ -138,6 +145,40 @@ _.extend(Backbone.View.prototype, {
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
   },
+  showProgressBarDetails() {
+    let bar = document.querySelector('.active-progress'),
+        isShowing = !!(bar.classList.contains('show-details'));
+
+    if (isShowing) {
+        bar.classList.remove('show-details');
+    }
+    else {
+        bar.classList.add('show-details');
+    }
+  },
+  toggleUserDropdown() {
+    let dropdown = document.querySelector('.user-dd-list'),
+        isOpen = !!(dropdown.classList.contains('on'));
+
+    if (isOpen) {
+        dropdown.classList.remove('on');
+    }
+    else {
+        dropdown.classList.add('on');
+    }
+  },
+  fixPath() {
+    if (window.location.hash && window.location.hash === "#_=_") {
+        let scroll = {
+          top  : document.body.scrollTop,
+          left : document.body.scrollLeft
+        };
+
+        window.location.hash     = "";
+        document.body.scrollTop  = scroll.top;
+        document.body.scrollLeft = scroll.left;
+    }
+  },
   toggleLists(options={reset:false}) {
     app.$lists.toggleClass('collapsed');
     app.$lists.toggleClass('expanded');
@@ -162,18 +203,6 @@ _.extend(Backbone.View.prototype, {
       $loader.removeClass('animated fadeIn');
       $loader.addClass('animated fadeOut');
     }, 1000);
-  },
-  fixPath() {
-    if (window.location.hash && window.location.hash === "#_=_") {
-      let scroll = {
-        top  : document.body.scrollTop,
-        left : document.body.scrollLeft
-      };
-
-      window.location.hash     = "";
-      document.body.scrollTop  = scroll.top;
-      document.body.scrollLeft = scroll.left;
-    }
   },
   animateListTotal(list) {
     let $length = $('div').find("[data-length='" + list._id + "']");
@@ -200,27 +229,5 @@ _.extend(Backbone.View.prototype, {
       return true;
     }
   },
-  toggleUserDropdown() {
-    let dropdown = document.querySelector('.user-dd-list'),
-        isOpen = !!(dropdown.classList.contains('on'));
 
-    if (isOpen) {
-        dropdown.classList.remove('on');
-    }
-    else {
-        dropdown.classList.add('on');
-    }
-
-  },
-  setListActive() {
-    $(document).on('click', '.list-item', function(e) {
-      let nodeList = document.querySelectorAll('.list-item'),
-          list = [].slice.call(nodeList);
-
-      for (let el of list) {
-        el.classList.remove('active');
-      }
-      this.classList.add('active');
-    });
-  }
 });
