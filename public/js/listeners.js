@@ -112,24 +112,27 @@ _.extend(Backbone.View.prototype, {
   animateContainers() {
     let lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),
-        isListsCollpsed = lists.classList.contains('collapsed'),
-        isNotesCollpsed = notes.classList.contains('collapsed'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
         isListsExpanded = lists.classList.contains('expanded'),
         isNotesExpanded = notes.classList.contains('expanded');
 
-    if (isListsCollpsed && isNotesExpanded) {
-      app.$lists.animate({'marginLeft': '-39%'}, 200);
-      app.$notes.animate({'marginRight': '0%'}, 200);
+    if (isListsCollapsed && isNotesExpanded) {
+      lists.style.marginLeft = '-39%';
+      notes.style.marginRight = '0%';
     }
     else if (isListsExpanded && isNotesCollapsed) {
-      app.$notes.animate({'marginRight': '-45%'}, 200);
-      app.$lists.animate({'marginLeft': '0%'}, 200);
+      notes.style.marginRight = '-45%';
+      lists.style.marginLeft = '0%';
     }
   },
 
   stopAnimation() {
-    app.$notes.animate({'marginRight': '0%'}, 30);
-    app.$lists.animate({'marginLeft': '0%'}, 30);
+    let lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes');
+
+    notes.style.marginRight = '0%';
+    lists.style.marginLeft = '0%';
   },
 
   notify(notification) {

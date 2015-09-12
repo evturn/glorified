@@ -122,17 +122,31 @@
     }
   };
 
-  // E.animateContainer = function() {
-//   if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
-//     app.$lists.animate({'marginLeft': '-39%'}, 200);
-//     app.$notes.animate({'marginRight': '0%'}, 200);
-//   }
-//   else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
-//     app.$notes.animate({'marginRight': '-45%'}, 200);
-//     app.$lists.animate({'marginLeft': '0%'}, 200);
-//   }
-  // };
+  E.animateContainer = function() {
+    let lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded');
 
+    if (isListsCollapsed && isNotesExpanded) {
+      lists.style.marginLeft = '-39%';
+      notes.style.marginRight = '0%';
+    }
+    else if (isListsExpanded && isNotesCollapsed) {
+      notes.style.marginRight = '-45%';
+      lists.style.marginLeft = '0%';
+    }
+  };
+
+  E.stopAnimation = function() {
+    let lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes');
+
+    notes.style.marginRight = '0%';
+    lists.style.marginLeft = '0%';
+  };
 
 
   //   app.user.fetch({
@@ -214,22 +228,6 @@
   //   else {
   //     app.stopAnimation();
   //   }
-  // },
-
-  // animateContainers() {
-  //   if (app.$lists.hasClass('collapsed') && app.$notes.hasClass('expanded')) {
-  //     app.$lists.animate({'marginLeft': '-39%'}, 200);
-  //     app.$notes.animate({'marginRight': '0%'}, 200);
-  //   }
-  //   else if (app.$lists.hasClass('expanded') && app.$notes.hasClass('collapsed')) {
-  //     app.$notes.animate({'marginRight': '-45%'}, 200);
-  //     app.$lists.animate({'marginLeft': '0%'}, 200);
-  //   }
-  // },
-
-  // stopAnimation() {
-  //   app.$notes.animate({'marginRight': '0%'}, 30);
-  //   app.$lists.animate({'marginLeft': '0%'}, 30);
   // },
 
   // notify(notification) {
