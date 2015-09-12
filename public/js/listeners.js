@@ -103,30 +103,6 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     }
   },
-  toggleLists(options={reset:false}) {
-    app.$lists.toggleClass('collapsed');
-    app.$lists.toggleClass('expanded');
-    app.$notes.toggleClass('expanded');
-    app.$notes.toggleClass('collapsed');
-
-    if (app.windowWidth < 600) {
-      app.animateContainers();
-    }
-    else {
-      app.stopAnimation();
-    }
-  },
-  setListActive() {
-    $(document).on('click', '.list-item', function(e) {
-      let nodeList = document.querySelectorAll('.list-item'),
-          list = [].slice.call(nodeList);
-
-      for (let el of list) {
-        el.classList.remove('active');
-      }
-      this.classList.add('active');
-    });
-  },
   showProgressBarDetails() {
     let bar = document.querySelector('.active-progress'),
         isShowing = !!(bar.classList.contains('show-details'));
@@ -151,11 +127,10 @@ _.extend(Backbone.View.prototype, {
         notes.style.marginRight = '0%';
     }
     else if (isListsExpanded && isNotesCollapsed) {
-      notes.style.marginRight = '-45%';
-      lists.style.marginLeft = '0%';
+        notes.style.marginRight = '-45%';
+        lists.style.marginLeft = '0%';
     }
   },
-
   stopAnimation() {
     let lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes');
@@ -163,7 +138,19 @@ _.extend(Backbone.View.prototype, {
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
   },
+  toggleLists(options={reset:false}) {
+    app.$lists.toggleClass('collapsed');
+    app.$lists.toggleClass('expanded');
+    app.$notes.toggleClass('expanded');
+    app.$notes.toggleClass('collapsed');
 
+    if (app.windowWidth < 600) {
+      app.animateContainers();
+    }
+    else {
+      app.stopAnimation();
+    }
+  },
   notify(notification) {
     let $loader = $('.kurt-loader .message');
 
@@ -176,7 +163,6 @@ _.extend(Backbone.View.prototype, {
       $loader.addClass('animated fadeOut');
     }, 1000);
   },
-
   fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
       let scroll = {
@@ -189,7 +175,6 @@ _.extend(Backbone.View.prototype, {
       document.body.scrollLeft = scroll.left;
     }
   },
-
   animateListTotal(list) {
     let $length = $('div').find("[data-length='" + list._id + "']");
 
@@ -204,7 +189,6 @@ _.extend(Backbone.View.prototype, {
 
     }, 300);
   },
-
   hasLengthChanged(list) {
     if (app.activeListLength === list.length) {
       return false;
@@ -217,6 +201,26 @@ _.extend(Backbone.View.prototype, {
     }
   },
   toggleUserDropdown() {
-    $('.user-dd-list').toggleClass('on');
+    let dropdown = document.querySelector('.user-dd-list'),
+        isOpen = !!(dropdown.classList.contains('on'));
+
+    if (isOpen) {
+        dropdown.classList.remove('on');
+    }
+    else {
+        dropdown.classList.add('on');
+    }
+
+  },
+  setListActive() {
+    $(document).on('click', '.list-item', function(e) {
+      let nodeList = document.querySelectorAll('.list-item'),
+          list = [].slice.call(nodeList);
+
+      for (let el of list) {
+        el.classList.remove('active');
+      }
+      this.classList.add('active');
+    });
   }
 });

@@ -537,6 +537,39 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     }
   },
+  showProgressBarDetails: function showProgressBarDetails() {
+    var bar = document.querySelector('.active-progress'),
+        isShowing = !!bar.classList.contains('show-details');
+
+    if (isShowing) {
+      bar.classList.remove('show-details');
+    } else {
+      bar.classList.add('show-details');
+    }
+  },
+  animateContainers: function animateContainers() {
+    var lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded');
+
+    if (isListsCollapsed && isNotesExpanded) {
+      lists.style.marginLeft = '-39%';
+      notes.style.marginRight = '0%';
+    } else if (isListsExpanded && isNotesCollapsed) {
+      notes.style.marginRight = '-45%';
+      lists.style.marginLeft = '0%';
+    }
+  },
+  stopAnimation: function stopAnimation() {
+    var lists = document.querySelector('.lists'),
+        notes = document.querySelector('.notes');
+
+    notes.style.marginRight = '0%';
+    lists.style.marginLeft = '0%';
+  },
   toggleLists: function toggleLists() {
     var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
 
@@ -549,6 +582,63 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     } else {
       app.stopAnimation();
+    }
+  },
+  notify: function notify(notification) {
+    var $loader = $('.kurt-loader .message');
+
+    $loader.html(notification);
+    $loader.removeClass('animated fadeOut');
+    $loader.addClass('animated fadeIn');
+
+    setTimeout(function () {
+      $loader.removeClass('animated fadeIn');
+      $loader.addClass('animated fadeOut');
+    }, 1000);
+  },
+  fixPath: function fixPath() {
+    if (window.location.hash && window.location.hash === "#_=_") {
+      var _scroll = {
+        top: document.body.scrollTop,
+        left: document.body.scrollLeft
+      };
+
+      window.location.hash = "";
+      document.body.scrollTop = _scroll.top;
+      document.body.scrollLeft = _scroll.left;
+    }
+  },
+  animateListTotal: function animateListTotal(list) {
+    var $length = $('div').find("[data-length='" + list._id + "']");
+
+    $length.removeClass('fadeInUp');
+    $length.text(list.length);
+    $length.addClass('fadeOutUp');
+
+    setTimeout(function () {
+      $length.removeClass('fadeOutUp');
+      $length.addClass('fadeInUp');
+      $length.show();
+    }, 300);
+  },
+  hasLengthChanged: function hasLengthChanged(list) {
+    if (app.activeListLength === list.length) {
+      return false;
+    } else {
+      app.activeListLength = list.length;
+      app.animateListTotal(list);
+
+      return true;
+    }
+  },
+  toggleUserDropdown: function toggleUserDropdown() {
+    var dropdown = document.querySelector('.user-dd-list'),
+        isOpen = !!dropdown.classList.contains('on');
+
+    if (isOpen) {
+      dropdown.classList.remove('on');
+    } else {
+      dropdown.classList.add('on');
     }
   },
   setListActive: function setListActive() {
@@ -583,94 +673,6 @@ _.extend(Backbone.View.prototype, {
 
       this.classList.add('active');
     });
-  },
-  showProgressBarDetails: function showProgressBarDetails() {
-    var bar = document.querySelector('.active-progress'),
-        isShowing = !!bar.classList.contains('show-details');
-
-    if (isShowing) {
-      bar.classList.remove('show-details');
-    } else {
-      bar.classList.add('show-details');
-    }
-  },
-  animateContainers: function animateContainers() {
-    var lists = document.querySelector('.lists'),
-        notes = document.querySelector('.notes'),
-        isListsCollapsed = lists.classList.contains('collapsed'),
-        isNotesCollapsed = notes.classList.contains('collapsed'),
-        isListsExpanded = lists.classList.contains('expanded'),
-        isNotesExpanded = notes.classList.contains('expanded');
-
-    if (isListsCollapsed && isNotesExpanded) {
-      lists.style.marginLeft = '-39%';
-      notes.style.marginRight = '0%';
-    } else if (isListsExpanded && isNotesCollapsed) {
-      notes.style.marginRight = '-45%';
-      lists.style.marginLeft = '0%';
-    }
-  },
-
-  stopAnimation: function stopAnimation() {
-    var lists = document.querySelector('.lists'),
-        notes = document.querySelector('.notes');
-
-    notes.style.marginRight = '0%';
-    lists.style.marginLeft = '0%';
-  },
-
-  notify: function notify(notification) {
-    var $loader = $('.kurt-loader .message');
-
-    $loader.html(notification);
-    $loader.removeClass('animated fadeOut');
-    $loader.addClass('animated fadeIn');
-
-    setTimeout(function () {
-      $loader.removeClass('animated fadeIn');
-      $loader.addClass('animated fadeOut');
-    }, 1000);
-  },
-
-  fixPath: function fixPath() {
-    if (window.location.hash && window.location.hash === "#_=_") {
-      var _scroll = {
-        top: document.body.scrollTop,
-        left: document.body.scrollLeft
-      };
-
-      window.location.hash = "";
-      document.body.scrollTop = _scroll.top;
-      document.body.scrollLeft = _scroll.left;
-    }
-  },
-
-  animateListTotal: function animateListTotal(list) {
-    var $length = $('div').find("[data-length='" + list._id + "']");
-
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
-
-    setTimeout(function () {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-    }, 300);
-  },
-
-  hasLengthChanged: function hasLengthChanged(list) {
-    if (app.activeListLength === list.length) {
-      return false;
-    } else {
-      app.activeListLength = list.length;
-      app.animateListTotal(list);
-
-      return true;
-    }
-  },
-  toggleUserDropdown: function toggleUserDropdown() {
-    $('.user-dd-list').toggleClass('on');
   }
 });
 'use strict';
