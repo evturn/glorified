@@ -417,9 +417,30 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendIcons: function appendIcons() {
-    RB.icons.forEach(function (icon) {
-      app.appendIconSelect(icon);
-    });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = RB.icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var icon = _step.value;
+
+        this.appendIconSelect(icon);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
   }
 });
 // ===================
@@ -505,7 +526,6 @@ _.extend(Backbone.View.prototype, {
       });
     }
   },
-
   readClient: function readClient() {
     if (app.isMobile()) {
       app.mobileClient = true;
@@ -522,7 +542,6 @@ _.extend(Backbone.View.prototype, {
       app.desktopClient = true;
     }
   },
-
   setClient: function setClient() {
     if (app.windowWidth > 600) {
       app.$notes.removeClass('expanded');
@@ -536,7 +555,6 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     }
   },
-
   toggleLists: function toggleLists() {
     var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
 
@@ -617,50 +635,9 @@ _.extend(Backbone.View.prototype, {
       return true;
     }
   },
-
-  greeting: function greeting() {
-    var date = new Date(),
-        time = date.getHours();
-
-    switch (time) {
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        app.greeting = "Good Morning";
-        break;
-      case 12:
-      case 13:
-      case 14:
-      case 15:
-      case 16:
-      case 17:
-        app.greeting = "Good Afternoon";
-        break;
-      case 18:
-      case 19:
-      case 20:
-      case 21:
-      case 22:
-      case 23:
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-        app.greeting = "Good Evening";
-        break;
-    }
-  },
-
   toggleUserDropdown: function toggleUserDropdown() {
-    console.log('Sup');
     $('.user-dd-list').toggleClass('on');
   }
-
 });
 'use strict';
 

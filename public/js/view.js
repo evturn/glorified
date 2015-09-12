@@ -183,8 +183,8 @@ _.extend(Backbone.View.prototype, {
   },
 
   appendIcons() {
-    RB.icons.forEach(function(icon) {
-      app.appendIconSelect(icon);
-    });
+    for (var icon of RB.icons) {
+      this.appendIconSelect(icon);
+    }
   }
 });

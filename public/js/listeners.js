@@ -51,7 +51,6 @@ _.extend(Backbone.View.prototype, {
       });
     }
   },
-
   readClient() {
     if (app.isMobile()) {
       app.mobileClient = true;
@@ -70,7 +69,6 @@ _.extend(Backbone.View.prototype, {
       app.desktopClient = true;
     }
   },
-
   setClient() {
     if (app.windowWidth > 600) {
       app.$notes.removeClass('expanded');
@@ -85,7 +83,6 @@ _.extend(Backbone.View.prototype, {
       app.animateContainers();
     }
   },
-
   toggleLists(options={reset:false}) {
     app.$lists.toggleClass('collapsed');
     app.$lists.toggleClass('expanded');
@@ -168,48 +165,7 @@ _.extend(Backbone.View.prototype, {
       return true;
     }
   },
-
-  greeting() {
-    let date = new Date(),
-        time = date.getHours();
-
-    switch (time) {
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        app.greeting = "Good Morning";
-        break;
-      case 12:
-      case 13:
-      case 14:
-      case 15:
-      case 16:
-      case 17:
-        app.greeting = "Good Afternoon";
-        break;
-      case 18:
-      case 19:
-      case 20:
-      case 21:
-      case 22:
-      case 23:
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-        app.greeting = "Good Evening";
-        break;
-    }
-  },
-
   toggleUserDropdown() {
-    console.log('Sup');
     $('.user-dd-list').toggleClass('on');
-  },
-
+  }
 });
