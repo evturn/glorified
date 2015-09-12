@@ -1,7 +1,8 @@
 // ===================
 // Helpers
 // ===================
-const queryAll = document.querySelectorAll.bind(document);
+const querySelectorAll = document.querySelectorAll.bind(document);
+const querySelector = document.querySelector.bind(document);
 
 _.extend(Backbone.View.prototype, {
 
@@ -10,13 +11,13 @@ _.extend(Backbone.View.prototype, {
 
       app.fixPath();
       app.readClient();
-      // app.setClient();
+      app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
       app.addEvent(window, 'resize', app.setClient);
-      app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      app.addEvent(document.querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      app.addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
       app.setListActive();
 
 
@@ -36,44 +37,42 @@ _.extend(Backbone.View.prototype, {
     }
   },
   setListActive() {
-    let nodeList = queryAll('.list-item'),
-          list = [].slice.call(nodeList);
+    let nodeList = querySelectorAll('.list-item'),
+        list = [].slice.call(nodeList);
 
-    console.log('LISTEEN', list);
     for (let item of list) {
-      item.addEventListener('click', cb);
+      item.addEventListener('click', callback);
     }
 
-    function cb(e) {
-      console.log('QUALCABK', e);
+    function callback(e) {
       for (let item of list) {
         item.classList.remove('active');
       }
 
-      console.log('UDJSKLF', e);
       this.classList.add('active');
     };
   },
-  createCallback(fn) {
-    let callback = function() {
-        fn();
+  addEvent(object, type, callback) {
+   function createCallback(fn) {
+      let callback = function() {
+          fn();
+      };
+
+      return callback;
     };
 
-    return callback;
-  },
-  addEvent(object, type, callback) {
     if (object === null || typeof(object) === 'undefined') {
         return;
     }
 
     if (object.addEventListener) {
-        object.addEventListener(type, app.createCallback(callback), false);
+        object.addEventListener(type, createCallback(callback), false);
     }
     else if (object.attachEvent) {
-        object.attachEvent('on' + type, app.createCallback(callback));
+        object.attachEvent('on' + type, createCallback(callback));
     }
     else {
-        object['on' + type] = app.createCallback(callback);
+        object['on' + type] = createCallback(callback);
     }
 
   },
@@ -107,15 +106,15 @@ _.extend(Backbone.View.prototype, {
   },
   setClient() {
     let notes = document.querySelector('.notes'),
-        lists = document.querySelector('.lists');
+        lists = document.querySelector('.lists'),
+        windowX = window.innerWidth;
 
-    console.log('We triggered');
-    if (app.windowWidth > 600) {
+    if (windowX > 600) {
         notes.classList.remove('expanded', 'collapsed');
         lists.classList.remove('expanded', 'collapsed');
         app.stopAnimation();
     }
-    else {
+    else if (windowX <= 600) {
         notes.classList.add('expanded');
         lists.classList.add('collapsed');
         app.animateContainers();

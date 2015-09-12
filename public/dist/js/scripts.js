@@ -444,7 +444,8 @@ _.extend(Backbone.View.prototype, {
 // ===================
 'use strict';
 
-var queryAll = document.querySelectorAll.bind(document);
+var querySelectorAll = document.querySelectorAll.bind(document);
+var querySelector = document.querySelector.bind(document);
 
 _.extend(Backbone.View.prototype, {
 
@@ -453,13 +454,13 @@ _.extend(Backbone.View.prototype, {
 
       app.fixPath();
       app.readClient();
-      // app.setClient();
+      app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
       app.addEvent(window, 'resize', app.setClient);
-      app.addEvent(document.querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      app.addEvent(document.querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      app.addEvent(document.querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      app.addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
       app.setListActive();
 
       $(document).on('click', '.icon-container .list-icon', function () {
@@ -478,10 +479,9 @@ _.extend(Backbone.View.prototype, {
     }
   },
   setListActive: function setListActive() {
-    var nodeList = queryAll('.list-item'),
+    var nodeList = querySelectorAll('.list-item'),
         list = [].slice.call(nodeList);
 
-    console.log('LISTEEN', list);
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -490,7 +490,7 @@ _.extend(Backbone.View.prototype, {
       for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var item = _step.value;
 
-        item.addEventListener('click', cb);
+        item.addEventListener('click', callback);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -507,8 +507,7 @@ _.extend(Backbone.View.prototype, {
       }
     }
 
-    function cb(e) {
-      console.log('QUALCABK', e);
+    function callback(e) {
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
@@ -534,28 +533,28 @@ _.extend(Backbone.View.prototype, {
         }
       }
 
-      console.log('UDJSKLF', e);
       this.classList.add('active');
     };
   },
-  createCallback: function createCallback(fn) {
-    var callback = function callback() {
-      fn();
+  addEvent: function addEvent(object, type, callback) {
+    function createCallback(fn) {
+      var callback = function callback() {
+        fn();
+      };
+
+      return callback;
     };
 
-    return callback;
-  },
-  addEvent: function addEvent(object, type, callback) {
     if (object === null || typeof object === 'undefined') {
       return;
     }
 
     if (object.addEventListener) {
-      object.addEventListener(type, app.createCallback(callback), false);
+      object.addEventListener(type, createCallback(callback), false);
     } else if (object.attachEvent) {
-      object.attachEvent('on' + type, app.createCallback(callback));
+      object.attachEvent('on' + type, createCallback(callback));
     } else {
-      object['on' + type] = app.createCallback(callback);
+      object['on' + type] = createCallback(callback);
     }
   },
   isMobile: function isMobile() {
@@ -586,14 +585,14 @@ _.extend(Backbone.View.prototype, {
   },
   setClient: function setClient() {
     var notes = document.querySelector('.notes'),
-        lists = document.querySelector('.lists');
+        lists = document.querySelector('.lists'),
+        windowX = window.innerWidth;
 
-    console.log('We triggered');
-    if (app.windowWidth > 600) {
+    if (windowX > 600) {
       notes.classList.remove('expanded', 'collapsed');
       lists.classList.remove('expanded', 'collapsed');
       app.stopAnimation();
-    } else {
+    } else if (windowX <= 600) {
       notes.classList.add('expanded');
       lists.classList.add('collapsed');
       app.animateContainers();
