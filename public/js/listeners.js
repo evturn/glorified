@@ -3,6 +3,9 @@
 // ===================
 const querySelectorAll = document.querySelectorAll.bind(document);
 const querySelector = document.querySelector.bind(document);
+const toggleClass = function toggleClass(selector, className, condition) {
+      condition ? selector.classList.remove(className) : selector.classList.add(className);
+    };
 
 _.extend(Backbone.View.prototype, {
 
@@ -32,39 +35,16 @@ _.extend(Backbone.View.prototype, {
         isNotesExpanded = notes.classList.contains('expanded'),
         windowX = window.innerWidth;
 
-    if (isListsCollapsed) {
-      lists.classList.remove('collapsed');
-    }
-    else {
-     lists.classList.add('collapsed');
-    }
-
-    if (isListsExpanded) {
-      lists.classList.remove('expanded');
-    }
-    else {
-     lists.classList.add('expanded');
-    }
-
-    if (isNotesCollapsed) {
-      notes.classList.remove('collapsed');
-    }
-    else {
-     notes.classList.add('collapsed');
-    }
-
-    if (isNotesExpanded) {
-      notes.classList.remove('expanded');
-    }
-    else {
-     notes.classList.add('expanded');
-    }
+     toggleClass(lists,  'collapsed', isListsCollapsed);
+     toggleClass(lists,  'expanded',  isListsExpanded);
+     toggleClass(notes,  'collapsed', isNotesCollapsed);
+     toggleClass(notes,  'expanded',  isNotesExpanded);
 
     if (windowX < 600) {
-      app.animateContainers();
+        app.animateContainers();
     }
     else {
-      app.stopAnimation();
+        app.stopAnimation();
     }
   },
   notify(notification) {
@@ -100,13 +80,7 @@ _.extend(Backbone.View.prototype, {
     let dropdown = document.querySelector('.icon-dropdown'),
         isOpen = dropdown.classList.contains('open');
 
-      if (isOpen) {
-          dropdown.classList.remove('open');
-      }
-      else {
-          dropdown.classList.add('open');
-
-      }
+    toggleClass(dropdown, 'open', isOpen);
   },
   setListActive() {
     let nodeList = querySelectorAll('.list-item'),
