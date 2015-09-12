@@ -1,22 +1,26 @@
-_.extend(Backbone.View.prototype, {
+(function(app) {
 
-  listeners: {
-    init() {
-      app.fixPath();
-      app.readClient();
-      app.setClient();
-      app.isMobile();
-      autosize(document.querySelectorAll('textarea'));
-      addEvent(window, 'resize', app.setClient);
-      addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-      addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
-      app.setListActive();
-      app.onNewIconSelect();
-    }
-  },
-  toggleLists(options={reset:false}) {
+  let root = (typeof self === 'object' && self.self === self && self) ||
+             (typeof global === 'object' && global.global === global && global);
+
+  let EVENTS = {};
+
+  EVENTS.initializeListeners = function() {
+    app.fixPath();
+    app.readClient();
+    app.setClient();
+    app.isMobile();
+    autosize(document.querySelectorAll('textarea'));
+    addEvent(window, 'resize', app.setClient);
+    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+    app.setListActive();
+    app.onNewIconSelect();
+  };
+
+  EVENTS.toggleLists = function(options={reset:false}) {
     let notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists'),
         isListsCollapsed = lists.classList.contains('collapsed'),
@@ -36,8 +40,9 @@ _.extend(Backbone.View.prototype, {
     else {
         app.stopAnimation();
     }
-  },
-  notify(notification) {
+  };
+
+  EVENTS.notify = function(notification) {
     let notifier = querySelector('.kurt-loader .message');
 
     notifier.innerHTML = notification;
@@ -48,8 +53,9 @@ _.extend(Backbone.View.prototype, {
       notifier.classList.remove('animated', 'fadeIn');
       notifier.classList.add('animated', 'fadeOut');
     }, 1000);
-  },
-  onNewIconSelect() {
+  };
+
+  EVENTS.onNewIconSelect = function() {
     let nodeList = querySelectorAll('.icon-select .icon-option'),
         icons = [].slice.call(nodeList);
 
@@ -65,14 +71,16 @@ _.extend(Backbone.View.prototype, {
       dropdown.classList.remove('open');
       app.updateListIcon(icon);
     };
-  },
-  toggleIconsContainer(e) {
+  };
+
+  EVENTS.toggleIconsContainer = function(e) {
     let dropdown = document.querySelector('.icon-dropdown'),
         isOpen = dropdown.classList.contains('open');
 
     toggleClass(dropdown, 'open', isOpen);
-  },
-  setListActive() {
+  };
+
+  EVENTS.setListActive = function() {
     let nodeList = querySelectorAll('.list-item'),
         list = [].slice.call(nodeList);
 
@@ -87,8 +95,9 @@ _.extend(Backbone.View.prototype, {
 
       this.classList.add('active');
     };
-  },
-  isMobile() {
+  };
+
+  EVENTS.isMobile = function() {
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (device) {
@@ -98,8 +107,9 @@ _.extend(Backbone.View.prototype, {
     }
 
     return device;
-  },
-  readClient() {
+  };
+
+  EVENTS.readClient = function() {
     let windowX = window.innerWidth;
 
     if (app.isMobile()) {
@@ -117,8 +127,9 @@ _.extend(Backbone.View.prototype, {
         app.tabletClient = false;
         app.desktopClient = true;
     }
-  },
-  setClient() {
+  };
+
+  EVENTS.setClient = function() {
     let notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists'),
         windowX = window.innerWidth;
@@ -133,8 +144,9 @@ _.extend(Backbone.View.prototype, {
         lists.classList.add('collapsed');
         app.animateContainers();
     }
-  },
-  animateContainers() {
+  };
+
+  EVENTS.animateContainers = function() {
     let lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),
         isListsCollapsed = lists.classList.contains('collapsed'),
@@ -150,27 +162,31 @@ _.extend(Backbone.View.prototype, {
         notes.style.marginRight = '-45%';
         lists.style.marginLeft = '0%';
     }
-  },
-  stopAnimation() {
+  };
+
+  EVENTS.stopAnimation = function() {
     let lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes');
 
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
-  },
-  toggleProgressBarDetails() {
+  };
+
+  EVENTS.toggleProgressBarDetails = function() {
     let progressBar = document.querySelector('.active-progress'),
         isShowing = !!(bar.classList.contains('show-details'));
 
     toggleClass(progressbar, 'show-details', isShowing);
-  },
-  toggleUserDropdown() {
+  };
+
+  EVENTS.toggleUserDropdown = function() {
     let dropdown = document.querySelector('.user-dd-list'),
         isOpen = !!(dropdown.classList.contains('on'));
 
     toggleClass(dropdown, 'on', isOpen);
-  },
-  fixPath() {
+  };
+
+  EVENTS.fixPath = function() {
     if (window.location.hash && window.location.hash === "#_=_") {
         let scroll = {
           top  : document.body.scrollTop,
@@ -181,8 +197,9 @@ _.extend(Backbone.View.prototype, {
         document.body.scrollTop  = scroll.top;
         document.body.scrollLeft = scroll.left;
     }
-  },
-  hasLengthChanged(list) {
+  };
+
+  EVENTS.hasLengthChanged = function(list) {
     if (app.activeListLength === list.length) {
         return false;
     }
@@ -192,8 +209,9 @@ _.extend(Backbone.View.prototype, {
 
         return true;
     }
-  },
-  animateListTotal(list) {
+  };
+
+  EVENTS.animateListTotal = function(list) {
     let parent = document.getElementById(list._id),
         target = parent.querySelector('.list-text'),
         isListContainer = target.dataset.length === list._id;
@@ -208,5 +226,8 @@ _.extend(Backbone.View.prototype, {
           target.classList.add('fadeInUp');
         }, 300);
     }
-  }
-});
+  };
+
+  return _.extend(app, EVENTS);
+
+})(Backbone.View.prototype);

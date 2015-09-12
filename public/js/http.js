@@ -37,7 +37,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
-        app.listeners.init();
+        app.initializeListeners();
         return app.listsCollection;
       },
       error(err) {

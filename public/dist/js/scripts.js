@@ -1,5 +1,36 @@
 'use strict';
 
+var querySelectorAll = document.querySelectorAll.bind(document);
+
+var querySelector = document.querySelector.bind(document);
+
+var toggleClass = function toggleClass(selector, className, condition) {
+    condition ? selector.classList.remove(className) : selector.classList.add(className);
+};
+
+var addEvent = function addEvent(object, type, callback) {
+    if (object === null || typeof object === 'undefined') {
+        return false;
+    }
+
+    if (object.addEventListener) {
+        object.addEventListener(type, createCallback(callback), false);
+    } else if (object.attachEvent) {
+        object.attachEvent('on' + type, createCallback(callback));
+    } else {
+        object['on' + type] = createCallback(callback);
+    }
+
+    function createCallback(fn) {
+        var callback = function callback() {
+            fn();
+        };
+
+        return callback;
+    };
+};
+'use strict';
+
 RB.User = Backbone.Model.extend({
   url: '/users',
   idAttribute: '_id'
@@ -25,57 +56,30 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true
 });
-// ===================
-// Helpers
-// ===================
 'use strict';
 
-var querySelectorAll = document.querySelectorAll.bind(document);
-var querySelector = document.querySelector.bind(document);
-var toggleClass = function toggleClass(selector, className, condition) {
-  condition ? selector.classList.remove(className) : selector.classList.add(className);
-};
-var addEvent = function addEvent(object, type, callback) {
-  if (object === null || typeof object === 'undefined') {
-    return false;
-  }
+(function (app) {
 
-  if (object.addEventListener) {
-    object.addEventListener(type, createCallback(callback), false);
-  } else if (object.attachEvent) {
-    object.attachEvent('on' + type, createCallback(callback));
-  } else {
-    object['on' + type] = createCallback(callback);
-  }
+  var root = typeof self === 'object' && self.self === self && self || typeof global === 'object' && global.global === global && global;
 
-  function createCallback(fn) {
-    var callback = function callback() {
-      fn();
-    };
+  var EVENTS = {};
 
-    return callback;
+  EVENTS.initializeListeners = function () {
+    app.fixPath();
+    app.readClient();
+    app.setClient();
+    app.isMobile();
+    autosize(document.querySelectorAll('textarea'));
+    addEvent(window, 'resize', app.setClient);
+    addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+    addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+    addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+    addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+    app.setListActive();
+    app.onNewIconSelect();
   };
-};
 
-_.extend(Backbone.View.prototype, {
-
-  listeners: {
-    init: function init() {
-      app.fixPath();
-      app.readClient();
-      app.setClient();
-      app.isMobile();
-      autosize(document.querySelectorAll('textarea'));
-      addEvent(window, 'resize', app.setClient);
-      addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-      addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
-      app.setListActive();
-      app.onNewIconSelect();
-    }
-  },
-  toggleLists: function toggleLists() {
+  EVENTS.toggleLists = function () {
     var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
 
     var notes = document.querySelector('.notes'),
@@ -96,8 +100,9 @@ _.extend(Backbone.View.prototype, {
     } else {
       app.stopAnimation();
     }
-  },
-  notify: function notify(notification) {
+  };
+
+  EVENTS.notify = function (notification) {
     var notifier = querySelector('.kurt-loader .message');
 
     notifier.innerHTML = notification;
@@ -108,8 +113,9 @@ _.extend(Backbone.View.prototype, {
       notifier.classList.remove('animated', 'fadeIn');
       notifier.classList.add('animated', 'fadeOut');
     }, 1000);
-  },
-  onNewIconSelect: function onNewIconSelect() {
+  };
+
+  EVENTS.onNewIconSelect = function () {
     var nodeList = querySelectorAll('.icon-select .icon-option'),
         icons = [].slice.call(nodeList);
 
@@ -146,14 +152,16 @@ _.extend(Backbone.View.prototype, {
       dropdown.classList.remove('open');
       app.updateListIcon(icon);
     };
-  },
-  toggleIconsContainer: function toggleIconsContainer(e) {
+  };
+
+  EVENTS.toggleIconsContainer = function (e) {
     var dropdown = document.querySelector('.icon-dropdown'),
         isOpen = dropdown.classList.contains('open');
 
     toggleClass(dropdown, 'open', isOpen);
-  },
-  setListActive: function setListActive() {
+  };
+
+  EVENTS.setListActive = function () {
     var nodeList = querySelectorAll('.list-item'),
         list = [].slice.call(nodeList);
 
@@ -210,8 +218,9 @@ _.extend(Backbone.View.prototype, {
 
       this.classList.add('active');
     };
-  },
-  isMobile: function isMobile() {
+  };
+
+  EVENTS.isMobile = function () {
     var device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (device) {
@@ -221,8 +230,9 @@ _.extend(Backbone.View.prototype, {
     }
 
     return device;
-  },
-  readClient: function readClient() {
+  };
+
+  EVENTS.readClient = function () {
     var windowX = window.innerWidth;
 
     if (app.isMobile()) {
@@ -238,8 +248,9 @@ _.extend(Backbone.View.prototype, {
       app.tabletClient = false;
       app.desktopClient = true;
     }
-  },
-  setClient: function setClient() {
+  };
+
+  EVENTS.setClient = function () {
     var notes = document.querySelector('.notes'),
         lists = document.querySelector('.lists'),
         windowX = window.innerWidth;
@@ -253,8 +264,9 @@ _.extend(Backbone.View.prototype, {
       lists.classList.add('collapsed');
       app.animateContainers();
     }
-  },
-  animateContainers: function animateContainers() {
+  };
+
+  EVENTS.animateContainers = function () {
     var lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes'),
         isListsCollapsed = lists.classList.contains('collapsed'),
@@ -269,27 +281,31 @@ _.extend(Backbone.View.prototype, {
       notes.style.marginRight = '-45%';
       lists.style.marginLeft = '0%';
     }
-  },
-  stopAnimation: function stopAnimation() {
+  };
+
+  EVENTS.stopAnimation = function () {
     var lists = document.querySelector('.lists'),
         notes = document.querySelector('.notes');
 
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
-  },
-  toggleProgressBarDetails: function toggleProgressBarDetails() {
+  };
+
+  EVENTS.toggleProgressBarDetails = function () {
     var progressBar = document.querySelector('.active-progress'),
         isShowing = !!bar.classList.contains('show-details');
 
     toggleClass(progressbar, 'show-details', isShowing);
-  },
-  toggleUserDropdown: function toggleUserDropdown() {
+  };
+
+  EVENTS.toggleUserDropdown = function () {
     var dropdown = document.querySelector('.user-dd-list'),
         isOpen = !!dropdown.classList.contains('on');
 
     toggleClass(dropdown, 'on', isOpen);
-  },
-  fixPath: function fixPath() {
+  };
+
+  EVENTS.fixPath = function () {
     if (window.location.hash && window.location.hash === "#_=_") {
       var _scroll = {
         top: document.body.scrollTop,
@@ -300,8 +316,9 @@ _.extend(Backbone.View.prototype, {
       document.body.scrollTop = _scroll.top;
       document.body.scrollLeft = _scroll.left;
     }
-  },
-  hasLengthChanged: function hasLengthChanged(list) {
+  };
+
+  EVENTS.hasLengthChanged = function (list) {
     if (app.activeListLength === list.length) {
       return false;
     } else {
@@ -310,8 +327,9 @@ _.extend(Backbone.View.prototype, {
 
       return true;
     }
-  },
-  animateListTotal: function animateListTotal(list) {
+  };
+
+  EVENTS.animateListTotal = function (list) {
     var parent = document.getElementById(list._id),
         target = parent.querySelector('.list-text'),
         isListContainer = target.dataset.length === list._id;
@@ -326,8 +344,10 @@ _.extend(Backbone.View.prototype, {
         target.classList.add('fadeInUp');
       }, 300);
     }
-  }
-});
+  };
+
+  return _.extend(app, EVENTS);
+})(Backbone.View.prototype);
 // ===================
 // HTTP
 // ===================
@@ -369,7 +389,7 @@ _.extend(Backbone.View.prototype, {
           app.setProgressBars();
         }
 
-        app.listeners.init();
+        app.initializeListeners();
         return app.listsCollection;
       },
       error: function error(err) {
