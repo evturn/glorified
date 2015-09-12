@@ -461,11 +461,12 @@ _.extend(Backbone.View.prototype, {
       app.addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
       app.addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
       app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
       app.setListActive();
 
-      $(document).on('click', '.icon-container .list-icon', function () {
-        $('.icon-dropdown').toggleClass('open');
-      });
+      // $(document).on('click', '.icon-container .list-icon', function() {
+      //   $('.icon-dropdown').toggleClass('open');
+      // });
 
       $(document).on('click', '.icon-select .icon-option', function () {
         var icon = $(this).attr('data-icon'),
@@ -477,6 +478,22 @@ _.extend(Backbone.View.prototype, {
         $listItemIcon.addClass('bounce');
       });
     }
+  },
+  toggleIconsContainer: function toggleIconsContainer(e) {
+    var dropdown = document.querySelector('.icon-dropdown'),
+        isOpen = dropdown.classList.contains('open');
+
+    console.log('hellllloooo>?');
+
+    if (isOpen) {
+      dropdown.classList.remove('open');
+    } else {
+      dropdown.classList.add('open');
+    }
+  },
+  selectNewIcon: function selectNewIcon() {
+    var nodeList = querySelectorAll('.icon-container, .list-icon');
+    icons = [].slice.call(nodeList);
   },
   setListActive: function setListActive() {
     var nodeList = querySelectorAll('.list-item'),
