@@ -20,7 +20,7 @@ _.extend(Backbone.View.prototype, {
       app.addEvent(window, 'resize', app.setClient);
       app.addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
       app.addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
+      app.addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
       app.addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
       app.setListActive();
       app.onNewIconSelect();
@@ -192,27 +192,17 @@ _.extend(Backbone.View.prototype, {
     notes.style.marginRight = '0%';
     lists.style.marginLeft = '0%';
   },
-  showProgressBarDetails() {
-    let bar = document.querySelector('.active-progress'),
+  toggleProgressBarDetails() {
+    let progressBar = document.querySelector('.active-progress'),
         isShowing = !!(bar.classList.contains('show-details'));
 
-    if (isShowing) {
-        bar.classList.remove('show-details');
-    }
-    else {
-        bar.classList.add('show-details');
-    }
+    toggleClass(progressbar, 'show-details', isShowing);
   },
   toggleUserDropdown() {
     let dropdown = document.querySelector('.user-dd-list'),
         isOpen = !!(dropdown.classList.contains('on'));
 
-    if (isOpen) {
-        dropdown.classList.remove('on');
-    }
-    else {
-        dropdown.classList.add('on');
-    }
+    toggleClass(dropdown, 'on', isOpen);
   },
   fixPath() {
     if (window.location.hash && window.location.hash === "#_=_") {
