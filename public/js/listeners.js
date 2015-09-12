@@ -4,24 +4,46 @@
 const querySelectorAll = document.querySelectorAll.bind(document);
 const querySelector = document.querySelector.bind(document);
 const toggleClass = function toggleClass(selector, className, condition) {
-      condition ? selector.classList.remove(className) : selector.classList.add(className);
+  condition ? selector.classList.remove(className) : selector.classList.add(className);
+};
+const addEvent = function(object, type, callback) {
+  if (object === null || typeof(object) === 'undefined') {
+      return false;
+  }
+
+  if (object.addEventListener) {
+      object.addEventListener(type, createCallback(callback), false);
+  }
+  else if (object.attachEvent) {
+      object.attachEvent('on' + type, createCallback(callback));
+  }
+  else {
+      object['on' + type] = createCallback(callback);
+  }
+
+  function createCallback(fn) {
+    let callback = function() {
+        fn();
     };
+
+    return callback;
+  };
+};
 
 _.extend(Backbone.View.prototype, {
 
   listeners: {
     init() {
-
       app.fixPath();
       app.readClient();
       app.setClient();
       app.isMobile();
       autosize(document.querySelectorAll('textarea'));
-      app.addEvent(window, 'resize', app.setClient);
-      app.addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
-      app.addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
-      app.addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
-      app.addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
+      addEvent(window, 'resize', app.setClient);
+      addEvent(querySelector('.nav-avatar'), 'click', app.toggleUserDropdown);
+      addEvent(querySelector('.toggle-list-btn'), 'click', app.toggleLists);
+      addEvent(querySelector('.active-progress'), 'click', app.toggleProgressBarDetails);
+      addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
       app.setListActive();
       app.onNewIconSelect();
     }
@@ -97,30 +119,6 @@ _.extend(Backbone.View.prototype, {
 
       this.classList.add('active');
     };
-  },
-  addEvent(object, type, callback) {
-   function createCallback(fn) {
-      let callback = function() {
-          fn();
-      };
-
-      return callback;
-    };
-
-    if (object === null || typeof(object) === 'undefined') {
-        return;
-    }
-
-    if (object.addEventListener) {
-        object.addEventListener(type, createCallback(callback), false);
-    }
-    else if (object.attachEvent) {
-        object.attachEvent('on' + type, createCallback(callback));
-    }
-    else {
-        object['on' + type] = createCallback(callback);
-    }
-
   },
   isMobile() {
     let device = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -218,13 +216,13 @@ _.extend(Backbone.View.prototype, {
   },
   hasLengthChanged(list) {
     if (app.activeListLength === list.length) {
-      return false;
+        return false;
     }
     else {
-      app.activeListLength = list.length;
-      app.animateListTotal(list);
+        app.activeListLength = list.length;
+        app.animateListTotal(list);
 
-      return true;
+        return true;
     }
   },
   animateListTotal(list) {
@@ -233,14 +231,14 @@ _.extend(Backbone.View.prototype, {
         isListContainer = target.dataset.length === list._id;
 
     if (isListContainer) {
-      target.classList.remove('fadeInUp');
-      target.innerHTML = list.length;
-      target.classList.add('fadeOutUp');
+        target.classList.remove('fadeInUp');
+        target.innerHTML = list.length;
+        target.classList.add('fadeOutUp');
 
-      setTimeout(function() {
-        target.classList.remove('fadeOutUp');
-        target.classList.add('fadeInUp');
-      }, 300);
+        setTimeout(function() {
+          target.classList.remove('fadeOutUp');
+          target.classList.add('fadeInUp');
+        }, 300);
     }
   }
 });
