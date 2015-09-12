@@ -20,28 +20,85 @@ _.extend(Backbone.View.prototype, {
       app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
       app.addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
       app.setListActive();
-
-
-      // $(document).on('click', '.icon-container .list-icon', function() {
-      //   $('.icon-dropdown').toggleClass('open');
-      // });
-
-      $(document).on('click', '.icon-select .icon-option', function() {
-        let icon = $(this).attr('data-icon'),
-            $dropdown = $('.icon-dropdown'),
-            $listItemIcon = app.getListItemIconById(app.activeListId);
-
-        $dropdown.removeClass('open');
-        app.updateListIcon(icon);
-        $listItemIcon.addClass('bounce');
-      });
+      app.onNewIconSelect();
     }
+  },
+  toggleLists(options={reset:false}) {
+    let notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded'),
+        windowX = window.innerWidth;
+
+    if (isListsCollapsed) {
+      lists.classList.remove('collapsed');
+    }
+    else {
+     lists.classList.add('collapsed');
+    }
+
+    if (isListsExpanded) {
+      lists.classList.remove('expanded');
+    }
+    else {
+     lists.classList.add('expanded');
+    }
+
+    if (isNotesCollapsed) {
+      notes.classList.remove('collapsed');
+    }
+    else {
+     notes.classList.add('collapsed');
+    }
+
+    if (isNotesExpanded) {
+      notes.classList.remove('expanded');
+    }
+    else {
+     notes.classList.add('expanded');
+    }
+
+    if (windowX < 600) {
+      app.animateContainers();
+    }
+    else {
+      app.stopAnimation();
+    }
+  },
+  notify(notification) {
+    let $loader = $('.kurt-loader .message');
+
+    $loader.html(notification);
+    $loader.removeClass('animated fadeOut');
+    $loader.addClass('animated fadeIn');
+
+    setTimeout(function() {
+      $loader.removeClass('animated fadeIn');
+      $loader.addClass('animated fadeOut');
+    }, 1000);
+  },
+  onNewIconSelect() {
+    let nodeList = querySelectorAll('.icon-select .icon-option'),
+        icons = [].slice.call(nodeList);
+
+      for (let item of icons) {
+        item.addEventListener('click', callback);
+      }
+
+    function callback(e) {
+      let icon = this.dataset.icon,
+          dropdown = document.querySelector('.icon-dropdown'),
+          listId = app.activeListId;
+
+      dropdown.classList.remove('open');
+      app.updateListIcon(icon);
+    };
   },
   toggleIconsContainer(e) {
     let dropdown = document.querySelector('.icon-dropdown'),
         isOpen = dropdown.classList.contains('open');
-
-      console.log('hellllloooo>?');
 
       if (isOpen) {
           dropdown.classList.remove('open');
@@ -50,10 +107,6 @@ _.extend(Backbone.View.prototype, {
           dropdown.classList.add('open');
 
       }
-  },
-  selectNewIcon() {
-    let nodeList = querySelectorAll('.icon-container, .list-icon');
-        icons = [].slice.call(nodeList);
   },
   setListActive() {
     let nodeList = querySelectorAll('.list-item'),
@@ -107,6 +160,8 @@ _.extend(Backbone.View.prototype, {
     return device;
   },
   readClient() {
+    let windowX = window.innerWidth;
+
     if (app.isMobile()) {
         app.mobileClient = true;
     }
@@ -114,11 +169,11 @@ _.extend(Backbone.View.prototype, {
         app.mobileClient = false;
     }
 
-    if (app.windowWidth < 800 && app.windowWidth > 600) {
+    if (windowX < 800 && windowX > 600) {
         app.tabletClient = true;
         app.desktopClient = false;
     }
-     else if (app.windoWidth >= 800) {
+     else if (windowX >= 800) {
         app.tabletClient = false;
         app.desktopClient = true;
     }
@@ -196,45 +251,6 @@ _.extend(Backbone.View.prototype, {
         document.body.scrollTop  = scroll.top;
         document.body.scrollLeft = scroll.left;
     }
-  },
-  toggleLists(options={reset:false}) {
-    app.$lists.toggleClass('collapsed');
-    app.$lists.toggleClass('expanded');
-    app.$notes.toggleClass('expanded');
-    app.$notes.toggleClass('collapsed');
-
-    if (app.windowWidth < 600) {
-      app.animateContainers();
-    }
-    else {
-      app.stopAnimation();
-    }
-  },
-  notify(notification) {
-    let $loader = $('.kurt-loader .message');
-
-    $loader.html(notification);
-    $loader.removeClass('animated fadeOut');
-    $loader.addClass('animated fadeIn');
-
-    setTimeout(function() {
-      $loader.removeClass('animated fadeIn');
-      $loader.addClass('animated fadeOut');
-    }, 1000);
-  },
-  animateListTotal(list) {
-    let $length = $('div').find("[data-length='" + list._id + "']");
-
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
-
-    setTimeout(function() {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-
-    }, 300);
   },
   hasLengthChanged(list) {
     if (app.activeListLength === list.length) {

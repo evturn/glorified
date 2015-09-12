@@ -463,48 +463,72 @@ _.extend(Backbone.View.prototype, {
       app.addEvent(querySelector('.active-progress'), 'click', app.showProgressBarDetails);
       app.addEvent(querySelector('.input-container .icon-container'), 'click', app.toggleIconsContainer);
       app.setListActive();
-
-      // $(document).on('click', '.icon-container .list-icon', function() {
-      //   $('.icon-dropdown').toggleClass('open');
-      // });
-
-      $(document).on('click', '.icon-select .icon-option', function () {
-        var icon = $(this).attr('data-icon'),
-            $dropdown = $('.icon-dropdown'),
-            $listItemIcon = app.getListItemIconById(app.activeListId);
-
-        $dropdown.removeClass('open');
-        app.updateListIcon(icon);
-        $listItemIcon.addClass('bounce');
-      });
+      app.onNewIconSelect();
     }
   },
-  toggleIconsContainer: function toggleIconsContainer(e) {
-    var dropdown = document.querySelector('.icon-dropdown'),
-        isOpen = dropdown.classList.contains('open');
+  toggleLists: function toggleLists() {
+    var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
 
-    console.log('hellllloooo>?');
+    var notes = document.querySelector('.notes'),
+        lists = document.querySelector('.lists'),
+        isListsCollapsed = lists.classList.contains('collapsed'),
+        isNotesCollapsed = notes.classList.contains('collapsed'),
+        isListsExpanded = lists.classList.contains('expanded'),
+        isNotesExpanded = notes.classList.contains('expanded'),
+        windowX = window.innerWidth;
 
-    if (isOpen) {
-      dropdown.classList.remove('open');
+    if (isListsCollapsed) {
+      lists.classList.remove('collapsed');
     } else {
-      dropdown.classList.add('open');
+      lists.classList.add('collapsed');
+    }
+
+    if (isListsExpanded) {
+      lists.classList.remove('expanded');
+    } else {
+      lists.classList.add('expanded');
+    }
+
+    if (isNotesCollapsed) {
+      notes.classList.remove('collapsed');
+    } else {
+      notes.classList.add('collapsed');
+    }
+
+    if (isNotesExpanded) {
+      notes.classList.remove('expanded');
+    } else {
+      notes.classList.add('expanded');
+    }
+
+    if (windowX < 600) {
+      app.animateContainers();
+    } else {
+      app.stopAnimation();
     }
   },
-  selectNewIcon: function selectNewIcon() {
-    var nodeList = querySelectorAll('.icon-container, .list-icon');
-    icons = [].slice.call(nodeList);
+  notify: function notify(notification) {
+    var $loader = $('.kurt-loader .message');
+
+    $loader.html(notification);
+    $loader.removeClass('animated fadeOut');
+    $loader.addClass('animated fadeIn');
+
+    setTimeout(function () {
+      $loader.removeClass('animated fadeIn');
+      $loader.addClass('animated fadeOut');
+    }, 1000);
   },
-  setListActive: function setListActive() {
-    var nodeList = querySelectorAll('.list-item'),
-        list = [].slice.call(nodeList);
+  onNewIconSelect: function onNewIconSelect() {
+    var nodeList = querySelectorAll('.icon-select .icon-option'),
+        icons = [].slice.call(nodeList);
 
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var item = _step.value;
 
         item.addEventListener('click', callback);
@@ -525,27 +549,75 @@ _.extend(Backbone.View.prototype, {
     }
 
     function callback(e) {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var icon = this.dataset.icon,
+          dropdown = document.querySelector('.icon-dropdown'),
+          listId = app.activeListId;
+
+      dropdown.classList.remove('open');
+      app.updateListIcon(icon);
+    };
+  },
+  toggleIconsContainer: function toggleIconsContainer(e) {
+    var dropdown = document.querySelector('.icon-dropdown'),
+        isOpen = dropdown.classList.contains('open');
+
+    if (isOpen) {
+      dropdown.classList.remove('open');
+    } else {
+      dropdown.classList.add('open');
+    }
+  },
+  setListActive: function setListActive() {
+    var nodeList = querySelectorAll('.list-item'),
+        list = [].slice.call(nodeList);
+
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+
+        item.addEventListener('click', callback);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+          _iterator2['return']();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    function callback(e) {
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var item = _step2.value;
+        for (var _iterator3 = list[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var item = _step3.value;
 
           item.classList.remove('active');
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-            _iterator2['return']();
+          if (!_iteratorNormalCompletion3 && _iterator3['return']) {
+            _iterator3['return']();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
@@ -586,16 +658,18 @@ _.extend(Backbone.View.prototype, {
     return device;
   },
   readClient: function readClient() {
+    var windowX = window.innerWidth;
+
     if (app.isMobile()) {
       app.mobileClient = true;
     } else {
       app.mobileClient = false;
     }
 
-    if (app.windowWidth < 800 && app.windowWidth > 600) {
+    if (windowX < 800 && windowX > 600) {
       app.tabletClient = true;
       app.desktopClient = false;
-    } else if (app.windoWidth >= 800) {
+    } else if (windowX >= 800) {
       app.tabletClient = false;
       app.desktopClient = true;
     }
@@ -669,45 +743,6 @@ _.extend(Backbone.View.prototype, {
       document.body.scrollTop = _scroll.top;
       document.body.scrollLeft = _scroll.left;
     }
-  },
-  toggleLists: function toggleLists() {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? { reset: false } : arguments[0];
-
-    app.$lists.toggleClass('collapsed');
-    app.$lists.toggleClass('expanded');
-    app.$notes.toggleClass('expanded');
-    app.$notes.toggleClass('collapsed');
-
-    if (app.windowWidth < 600) {
-      app.animateContainers();
-    } else {
-      app.stopAnimation();
-    }
-  },
-  notify: function notify(notification) {
-    var $loader = $('.kurt-loader .message');
-
-    $loader.html(notification);
-    $loader.removeClass('animated fadeOut');
-    $loader.addClass('animated fadeIn');
-
-    setTimeout(function () {
-      $loader.removeClass('animated fadeIn');
-      $loader.addClass('animated fadeOut');
-    }, 1000);
-  },
-  animateListTotal: function animateListTotal(list) {
-    var $length = $('div').find("[data-length='" + list._id + "']");
-
-    $length.removeClass('fadeInUp');
-    $length.text(list.length);
-    $length.addClass('fadeOutUp');
-
-    setTimeout(function () {
-      $length.removeClass('fadeOutUp');
-      $length.addClass('fadeInUp');
-      $length.show();
-    }, 300);
   },
   hasLengthChanged: function hasLengthChanged(list) {
     if (app.activeListLength === list.length) {
