@@ -1,9 +1,14 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
+    path = require('path'),
     $ = require('gulp-load-plugins')();
 
-module.exports = {
+var paths = require('./gulp-paths');
 
+module.exports = {
+  babel: {
+    sourceRoot: path.join(__dirname, 'public/js')
+  },
   eslint: {
     useEslintrc: true,
     sound: 'Submarine',

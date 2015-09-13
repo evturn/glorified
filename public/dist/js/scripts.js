@@ -396,32 +396,24 @@ _.extend(Backbone.View.prototype, {
     var container = document.querySelector('.icon-select'),
         icons = '';
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    for (var _iterator = RB.icons, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+      var _ref;
 
-    try {
-      for (var _iterator = RB.icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var icon = _step.value;
-
-        var i = icon.icon,
-            _name = icon.name;
-
-        icons = icons + ('<div class="icon-option" data-icon="fa ' + i + '">\n                        <i class="animated fadeIn fa ' + i + '"></i>\n                        <p class="caption">' + _name + '</p>\n                       </div>');
+      if (_isArray) {
+        if (_i >= _iterator.length) break;
+        _ref = _iterator[_i++];
+      } else {
+        _i = _iterator.next();
+        if (_i.done) break;
+        _ref = _i.value;
       }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator['return']) {
-          _iterator['return']();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
+
+      var icon = _ref;
+
+      var i = icon.icon,
+          _name = icon.name;
+
+      icons = icons + ('<div class="icon-option" data-icon="fa ' + i + '">\n                        <i class="animated fadeIn fa ' + i + '"></i>\n                        <p class="caption">' + _name + '</p>\n                       </div>');
     }
 
     container.innerHTML = icons;
@@ -472,7 +464,6 @@ RB.App = Backbone.View.extend({
 
     app.user.fetch({
       success: function success(model, response) {
-        console.log(model);
         if (app.user === null) {
           app.user = model;
         }
@@ -795,29 +786,21 @@ var EventHandlers = function EventHandlers(app) {
     var nodeList = querySelectorAll('.icon-select .icon-option'),
         icons = [].slice.call(nodeList);
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    for (var _iterator = icons, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+      var _ref;
 
-    try {
-      for (var _iterator = icons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var item = _step.value;
+      if (_isArray) {
+        if (_i >= _iterator.length) break;
+        _ref = _iterator[_i++];
+      } else {
+        _i = _iterator.next();
+        if (_i.done) break;
+        _ref = _i.value;
+      }
 
-        item.addEventListener('click', callback);
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator['return']) {
-          _iterator['return']();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
+      var item = _ref;
+
+      item.addEventListener('click', callback);
     }
 
     function callback(e) {
@@ -841,55 +824,39 @@ var EventHandlers = function EventHandlers(app) {
     var nodeList = querySelectorAll('.list-item'),
         list = [].slice.call(nodeList);
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+    for (var _iterator2 = list, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+      var _ref2;
 
-    try {
-      for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var item = _step2.value;
+      if (_isArray2) {
+        if (_i2 >= _iterator2.length) break;
+        _ref2 = _iterator2[_i2++];
+      } else {
+        _i2 = _iterator2.next();
+        if (_i2.done) break;
+        _ref2 = _i2.value;
+      }
 
-        item.addEventListener('click', callback);
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-          _iterator2['return']();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
+      var item = _ref2;
+
+      item.addEventListener('click', callback);
     }
 
     function callback(e) {
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
+      for (var _iterator3 = list, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+        var _ref3;
 
-      try {
-        for (var _iterator3 = list[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var item = _step3.value;
+        if (_isArray3) {
+          if (_i3 >= _iterator3.length) break;
+          _ref3 = _iterator3[_i3++];
+        } else {
+          _i3 = _iterator3.next();
+          if (_i3.done) break;
+          _ref3 = _i3.value;
+        }
 
-          item.classList.remove('active');
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3['return']) {
-            _iterator3['return']();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
+        var item = _ref3;
+
+        item.classList.remove('active');
       }
 
       this.classList.add('active');
@@ -969,9 +936,9 @@ var EventHandlers = function EventHandlers(app) {
 
   EVENTS.toggleProgressBarDetails = function () {
     var progressBar = document.querySelector('.active-progress'),
-        isShowing = !!bar.classList.contains('show-details');
+        isShowing = !!progressBar.classList.contains('show-details');
 
-    toggleClass(progressbar, 'show-details', isShowing);
+    toggleClass(progressBar, 'show-details', isShowing);
   };
 
   EVENTS.toggleUserDropdown = function () {

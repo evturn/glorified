@@ -171,9 +171,9 @@ const EventHandlers = function(app) {
 
   EVENTS.toggleProgressBarDetails = function() {
     let progressBar = document.querySelector('.active-progress'),
-        isShowing = !!(bar.classList.contains('show-details'));
+        isShowing = !!(progressBar.classList.contains('show-details'));
 
-    toggleClass(progressbar, 'show-details', isShowing);
+    toggleClass(progressBar, 'show-details', isShowing);
   };
 
   EVENTS.toggleUserDropdown = function() {
@@ -226,5 +226,4 @@ const EventHandlers = function(app) {
   };
 
   return _.extend(app, EVENTS);
-
 };
