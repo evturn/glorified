@@ -10,7 +10,7 @@ RB.App = Backbone.View.extend({
   events: {
     'click .create-list-btn' : 'createList',
     'click .create-note-btn' : 'createNote',
-    'keyup .note-input'      : 'createOnEnter',
+    'keypress .note-input'      : 'createOnEnter',
     'keyup .activeInput'     : 'validate'
   },
 

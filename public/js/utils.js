@@ -1,12 +1,12 @@
 const querySelectorAll = document.querySelectorAll.bind(document);
 
-const querySelector    = document.querySelector.bind(document);
+const querySelector = document.querySelector.bind(document);
 
-const toggleClass      = function toggleClass(selector, className, condition) {
+const toggleClass = function toggleClass(selector, className, condition) {
   condition ? selector.classList.remove(className) : selector.classList.add(className);
 };
 
-const addEvent         = function(object, type, callback) {
+const addEvent = function(object, type, callback) {
   if (object === null || typeof(object) === 'undefined') {
       return false;
   }
