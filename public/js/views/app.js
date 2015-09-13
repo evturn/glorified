@@ -2,8 +2,6 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
-  inputTemplate            : _.template($('#input-template').html()),
-  progressBarTemplate      : _.template($('#progress-bar-template').html()),
   iconSelectTemplate       : _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate  : _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate     : _.template($('#icon-list-item-template').html()),
@@ -16,10 +14,14 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput'     : 'validate'
   },
 
-  start() {
+  initialize() {
     let app = this;
     EventHandlers(app);
+  },
+
+  start() {
     app.renderForms();
+    app.appendIcons();
     app.user                 = new RB.User();
     app.listsCollection      = null;
     app.notesCollection      = null;
@@ -36,7 +38,7 @@ RB.App = Backbone.View.extend({
     app.$noteInput           = $('.note-input');
     app.$notesContainer      = $('.notes-container');
     app.$listsContainer      = $('.lists-container');
-    app.appendIcons();
+    app.initializeListeners();
 
     app.user.fetch({
       success(model, response) {
@@ -50,7 +52,6 @@ RB.App = Backbone.View.extend({
           app.setProgressBars();
         }
 
-        app.initializeListeners();
         return app.listsCollection;
       },
       error(err) {

@@ -25,6 +25,7 @@ module.exports = {
   js: {
     src: [
       'public/js/utils.js',
+      'public/js/templates/index.js',
       'public/js/models.js',
       'public/js/http.js',
       'public/js/view.js',

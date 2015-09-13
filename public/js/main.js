@@ -1,5 +1,3 @@
-
-
-let app = new RB.App();
+const app = new RB.App();
 
 app.start();

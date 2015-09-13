@@ -45,7 +45,7 @@ _.extend(Backbone.View.prototype, {
   renderForms() {
     let $inputs = $('.inputs-container');
 
-    $inputs.html(this.inputTemplate());
+    $inputs.html(RB.inputsTemplate());
     autosize($('textarea'));
 
     return this;
@@ -75,7 +75,7 @@ _.extend(Backbone.View.prototype, {
         };
 
     if ($barContainer.children().length === 0) {
-      $barContainer.html(app.progressBarTemplate(data));
+      $barContainer.html(RB.progressBarTemplate(data));
     }
 
     let $done = $('#list-progress').find("[data-done='" + data._id + "']"),
@@ -166,23 +166,4 @@ _.extend(Backbone.View.prototype, {
 
     return timestamp;
   },
-
-  ////////////////////
-  appendIcons() {
-    let container = document.querySelector('.icon-select'),
-        icons = '';
-
-    for (let icon of RB.icons) {
-      let i    = icon.icon,
-          name = icon.name;
-
-      icons = icons + `<div class="icon-option" data-icon="fa ${i}">
-                        <i class="animated fadeIn fa ${i}"></i>
-                        <p class="caption">${name}</p>
-                       </div>`;
-    }
-
-    container.innerHTML = icons;
-  }
-  /////////////////
 });

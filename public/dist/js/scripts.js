@@ -56,6 +56,42 @@ RB.Notes = Backbone.Collection.extend({
   url: '/notes',
   merge: true
 });
+"use strict";
+
+var Templates = function Templates() {
+
+  RB.iconItemTemplate;
+  RB.inputsTemplate;
+  RB.progressBarTemplate;
+
+  RB.compileTemplates = function () {
+    RB.iconItemCompiler();
+    RB.inputsCompiler();
+    RB.progressBarCompiler();
+  };
+
+  RB.progressBarCompiler = function () {
+    var html = "\n      <div class=\"progress-bar-container\" id=\"list-progress\">\n        <div class=\"not-done\" data-notDone=\"<%= _id %>\">\n          <p class=\"not-done-text\"><%= notDoneText %></p>\n        </div>\n        <div class=\"done\" data-done=\"<%= _id %>\">\n          <p class=\"done-text\"><%= doneText %></p>\n        </div>\n      </div>";
+
+    return RB.progressBarTemplate = _.template(html);
+  };
+
+  RB.iconItemCompiler = function () {
+    var html = "\n        <div class=\"icon-option\" data-icon=\"fa <%= icon %>\">\n          <i class=\"animated fadeIn fa <%= icon %>\"></i>\n          <p class=\"caption\"><%= name %></p>\n        </div>";
+
+    return RB.iconItemTemplate = _.template(html);
+  };
+
+  RB.inputsCompiler = function () {
+    var html = "\n        <form class=\"active-form\">\n          <div class=\"input-container\">\n            <div class=\"icon-container\">\n              <span class=\"icon-placeholder\"><i class=\"fa fa-minus-square\"></i></span>\n            </div>\n            <input type=\"text\" class=\"activeInput list-input\" name=\"list\" placeholder=\"List\">\n            <div class=\"validation-container\">\n              <span class=\"kurt-loader\">\n                <p class=\"message\"></p>\n              </span>\n              <span class=\"create-note-btn\">\n                <i class=\"fa fa-check-circle\"></i>\n              </span>\n            </div>\n            <div class=\"icon-dropdown\">\n              <div class=\"icon-arrow\"></div>\n              <div class=\"icon-select\"></div>\n            </div>\n          </div>\n          <div class=\"input-container\">\n            <textarea type=\"text\" class=\"activeInput note-input\" name=\"body\" placeholder=\"New note...\"></textarea>\n          </div>\n        </form>\n        <div class=\"active-progress\"></div>";
+
+    return RB.inputsTemplate = _.template(html);
+  };
+
+  return RB.compileTemplates();
+};
+
+Templates();
 // ===================
 // HTTP
 // ===================
@@ -270,7 +306,7 @@ _.extend(Backbone.View.prototype, {
   renderForms: function renderForms() {
     var $inputs = $('.inputs-container');
 
-    $inputs.html(this.inputTemplate());
+    $inputs.html(RB.inputsTemplate());
     autosize($('textarea'));
 
     return this;
@@ -300,7 +336,7 @@ _.extend(Backbone.View.prototype, {
     };
 
     if ($barContainer.children().length === 0) {
-      $barContainer.html(app.progressBarTemplate(data));
+      $barContainer.html(RB.progressBarTemplate(data));
     }
 
     var $done = $('#list-progress').find("[data-done='" + data._id + "']"),
@@ -389,36 +425,7 @@ _.extend(Backbone.View.prototype, {
         timestamp = month + '/' + day + ' ' + hour + ':' + minutes + meridiem + ' ' + days[d.getDay()];
 
     return timestamp;
-  },
-
-  ////////////////////
-  appendIcons: function appendIcons() {
-    var container = document.querySelector('.icon-select'),
-        icons = '';
-
-    for (var _iterator = RB.icons, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-      var _ref;
-
-      if (_isArray) {
-        if (_i >= _iterator.length) break;
-        _ref = _iterator[_i++];
-      } else {
-        _i = _iterator.next();
-        if (_i.done) break;
-        _ref = _i.value;
-      }
-
-      var icon = _ref;
-
-      var i = icon.icon,
-          _name = icon.name;
-
-      icons = icons + ('<div class="icon-option" data-icon="fa ' + i + '">\n                        <i class="animated fadeIn fa ' + i + '"></i>\n                        <p class="caption">' + _name + '</p>\n                       </div>');
-    }
-
-    container.innerHTML = icons;
   }
-  /////////////////
 });
 'use strict';
 
@@ -426,8 +433,6 @@ RB.App = Backbone.View.extend({
 
   el: '.dmc',
 
-  inputTemplate: _.template($('#input-template').html()),
-  progressBarTemplate: _.template($('#progress-bar-template').html()),
   iconSelectTemplate: _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
   iconListItemTemplate: _.template($('#icon-list-item-template').html()),
@@ -440,10 +445,14 @@ RB.App = Backbone.View.extend({
     'keyup .activeInput': 'validate'
   },
 
-  start: function start() {
+  initialize: function initialize() {
     var app = this;
     EventHandlers(app);
+  },
+
+  start: function start() {
     app.renderForms();
+    app.appendIcons();
     app.user = new RB.User();
     app.listsCollection = null;
     app.notesCollection = null;
@@ -460,7 +469,7 @@ RB.App = Backbone.View.extend({
     app.$noteInput = $('.note-input');
     app.$notesContainer = $('.notes-container');
     app.$listsContainer = $('.lists-container');
-    app.appendIcons();
+    app.initializeListeners();
 
     app.user.fetch({
       success: function success(model, response) {
@@ -474,7 +483,6 @@ RB.App = Backbone.View.extend({
           app.setProgressBars();
         }
 
-        app.initializeListeners();
         return app.listsCollection;
       },
       error: function error(err) {
@@ -813,18 +821,11 @@ var EventHandlers = function EventHandlers(app) {
     };
   };
 
-  EVENTS.toggleIconsContainer = function (e) {
-    var dropdown = document.querySelector('.icon-dropdown'),
-        isOpen = dropdown.classList.contains('open');
+  EVENTS.appendIcons = function () {
+    var container = document.querySelector('.icon-select'),
+        html = '';
 
-    toggleClass(dropdown, 'open', isOpen);
-  };
-
-  EVENTS.setListActive = function () {
-    var nodeList = querySelectorAll('.list-item'),
-        list = [].slice.call(nodeList);
-
-    for (var _iterator2 = list, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+    for (var _iterator2 = RB.icons, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
       var _ref2;
 
       if (_isArray2) {
@@ -836,25 +837,56 @@ var EventHandlers = function EventHandlers(app) {
         _ref2 = _i2.value;
       }
 
-      var item = _ref2;
+      var icon = _ref2;
+
+      html = html + RB.iconItemTemplate(icon);
+    }
+
+    container.innerHTML = html;
+  };
+
+  EVENTS.toggleIconsContainer = function (e) {
+    var dropdown = document.querySelector('.icon-dropdown'),
+        isOpen = dropdown.classList.contains('open');
+
+    toggleClass(dropdown, 'open', isOpen);
+  };
+
+  EVENTS.setListActive = function () {
+    var nodeList = querySelectorAll('.list-item'),
+        list = [].slice.call(nodeList);
+
+    for (var _iterator3 = list, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+      var _ref3;
+
+      if (_isArray3) {
+        if (_i3 >= _iterator3.length) break;
+        _ref3 = _iterator3[_i3++];
+      } else {
+        _i3 = _iterator3.next();
+        if (_i3.done) break;
+        _ref3 = _i3.value;
+      }
+
+      var item = _ref3;
 
       item.addEventListener('click', callback);
     }
 
     function callback(e) {
-      for (var _iterator3 = list, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-        var _ref3;
+      for (var _iterator4 = list, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+        var _ref4;
 
-        if (_isArray3) {
-          if (_i3 >= _iterator3.length) break;
-          _ref3 = _iterator3[_i3++];
+        if (_isArray4) {
+          if (_i4 >= _iterator4.length) break;
+          _ref4 = _iterator4[_i4++];
         } else {
-          _i3 = _iterator3.next();
-          if (_i3.done) break;
-          _ref3 = _i3.value;
+          _i4 = _iterator4.next();
+          if (_i4.done) break;
+          _ref4 = _i4.value;
         }
 
-        var item = _ref3;
+        var item = _ref4;
 
         item.classList.remove('active');
       }

@@ -70,6 +70,17 @@ const EventHandlers = function(app) {
     };
   };
 
+  EVENTS.appendIcons = function() {
+    let container = document.querySelector('.icon-select'),
+        html = '';
+
+    for (let icon of RB.icons) {
+      html = html + RB.iconItemTemplate(icon);
+    }
+
+    container.innerHTML = html;
+  };
+
   EVENTS.toggleIconsContainer = function(e) {
     let dropdown = document.querySelector('.icon-dropdown'),
         isOpen = dropdown.classList.contains('open');
