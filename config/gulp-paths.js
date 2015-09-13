@@ -52,7 +52,8 @@ module.exports = {
     },
     auth: {
       src: [
-        'public/js/auth/landing.js'
+        'public/js/vendor/jquery.js',
+        'public/js/auth/auth.js'
       ],
       watch: 'public/js/auth/**/*.js',
       filename: 'auth.js',
