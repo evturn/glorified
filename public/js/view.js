@@ -41,15 +41,9 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  renderForms() {
-    let container = document.querySelector('.inputs-container');
-
-    container.innerHTML = RB.inputsTemplate();
-    autosize(document.querySelectorAll('textarea'));
-  },
   renderActiveProgressBar(id) {
     let collection = app.notesCollection,
-        $barContainer = $('.active-progress'),
+        container = querySelector('.active-progress'),
         _id = id,
         length = collection.length,
         notDone = collection.where({done: false}).length,
@@ -70,8 +64,8 @@ _.extend(Backbone.View.prototype, {
           doneText
         };
 
-    if ($barContainer.children().length === 0) {
-      $barContainer.html(RB.progressBarTemplate(data));
+    if (container.children.length === 0) {
+      container.innerHTML = RB.progressBarTemplate(data);
     }
 
     let $done = $('#list-progress').find("[data-done='" + data._id + "']"),

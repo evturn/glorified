@@ -302,15 +302,9 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  renderForms: function renderForms() {
-    var container = document.querySelector('.inputs-container');
-
-    container.innerHTML = RB.inputsTemplate();
-    autosize(document.querySelectorAll('textarea'));
-  },
   renderActiveProgressBar: function renderActiveProgressBar(id) {
     var collection = app.notesCollection,
-        $barContainer = $('.active-progress'),
+        container = querySelector('.active-progress'),
         _id = id,
         length = collection.length,
         notDone = collection.where({ done: false }).length,
@@ -331,8 +325,8 @@ _.extend(Backbone.View.prototype, {
       doneText: doneText
     };
 
-    if ($barContainer.children().length === 0) {
-      $barContainer.html(RB.progressBarTemplate(data));
+    if (container.children.length === 0) {
+      container.innerHTML = RB.progressBarTemplate(data);
     }
 
     var $done = $('#list-progress').find("[data-done='" + data._id + "']"),
@@ -666,8 +660,8 @@ RB.NoteItem = Backbone.View.extend({
     }
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
+
     autosize($('textarea'));
-    $('textarea').css({ 'resize': 'none' });
 
     return this;
   },
@@ -785,6 +779,13 @@ var EventHandlers = function EventHandlers(app) {
       notifier.classList.remove('animated', 'fadeIn');
       notifier.classList.add('animated', 'fadeOut');
     }, 1000);
+  };
+
+  EVENTS.renderForms = function () {
+    var container = document.querySelector('.inputs-container');
+
+    container.innerHTML = RB.inputsTemplate();
+    autosize(document.querySelectorAll('textarea'));
   };
 
   EVENTS.onNewIconSelect = function () {

@@ -4766,7 +4766,7 @@ li {
 }
 @media (min-width: 600px) {
   .notes {
-    width: 69%;
+    width: 30%;
   }
 }
 .landing-wrapper {
@@ -4970,7 +4970,7 @@ li {
   color: #00cfff;
 }
 .inputs-container .list-text {
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 0;
 }
 .input-container {
@@ -5026,7 +5026,7 @@ li {
 }
 .note-input {
   width: 95%;
-  font-size: 16px;
+  font-size: 12px;
   margin: 5px 0 5px;
 }
 .list-input {
@@ -5255,8 +5255,8 @@ li {
   background-color: #ffffff;
   color: #174e7a;
   text-align: left;
-  padding: 0;
-  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
   position: relative;
   border-bottom: 1px solid #d4e7ea;
   -webkit-transition: all 0.6s ease;
@@ -5264,16 +5264,22 @@ li {
   transition: all 0.6s ease;
 }
 .note-item .timestamp {
-  margin-left: 10px;
-  display: block;
   color: #c8c5c7;
-  text-align: left;
+  text-align: right;
+}
+.note-item .edit {
+  text-align: right;
+}
+.note-item .control-container {
+  width: 40%;
+  float: right;
+  margin-top: 3px;
+  display: inline-block;
 }
 .note-item .body {
   width: 60%;
-  margin-left: 10px;
-  display: inline-block;
   overflow: auto;
+  display: inline-block;
   -webkit-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -5285,7 +5291,7 @@ li {
 }
 .note-item .body .note-text {
   width: 100%;
-  font-size: 14px;
+  font-size: 12px;
   outline: none;
   border: none;
   color: #000000;
@@ -5293,17 +5299,10 @@ li {
   resize: vertical;
 }
 .note-item .body .note-text:focus {
-  font-size: 16px;
   color: #00b2e2;
 }
 .note-item .body.true .note-text {
   color: #d4e7ea;
-}
-.note-item .edit {
-  display: inline-block;
-  position: absolute;
-  right: 10px;
-  top: 10px;
 }
 .note-item .fa {
   color: #00cfff;

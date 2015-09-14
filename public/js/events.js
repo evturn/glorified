@@ -52,6 +52,13 @@ const EventHandlers = function(app) {
     }, 1000);
   };
 
+  EVENTS.renderForms = function() {
+    let container = document.querySelector('.inputs-container');
+
+    container.innerHTML = RB.inputsTemplate();
+    autosize(document.querySelectorAll('textarea'));
+  };
+
   EVENTS.onNewIconSelect = function() {
     let nodeList = querySelectorAll('.icon-select .icon-option'),
         icons = [].slice.call(nodeList);

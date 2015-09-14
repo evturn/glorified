@@ -2,24 +2,31 @@
   background-color: @white;
   color: @primarydark;
   text-align: left;
-  padding: 0;
-  padding-top: 5px;
+  .padding-x(5px);
   position: relative;
   border-bottom: 1px solid @grey;
  .transition(all 0.6s ease);
 
   .timestamp {
-    margin-left: 10px;
-    display: block;
     color: @darkgrey;
-    text-align: left;
+    text-align: right;
+  }
+
+  .edit {
+    text-align: right;
+  }
+
+  .control-container {
+    width: 40%;
+    float: right;
+    margin-top: 3px;
+    display: inline-block;
   }
 
   .body {
     width: 60%;
-    margin-left: 10px;
-    display: inline-block;
     overflow: auto;
+    display: inline-block;
     .transition(all 0.3s ease);
 
     @media (min-width: @sm) {
@@ -28,7 +35,7 @@
 
     .note-text {
       width: 100%;
-      font-size: 14px;
+      font-size: 12px;
       outline: none;
       border: none;
       color: @black;
@@ -36,7 +43,6 @@
       resize: vertical;
 
       &:focus {
-        font-size: 16px;
         color: @primarylight;
       }
     }
@@ -44,13 +50,6 @@
     &.true .note-text {
       color: @grey;
     }
-  }
-
-  .edit {
-    display: inline-block;
-    position: absolute;
-    right: 10px;
-    top: 10px;
   }
 
   .fa {
