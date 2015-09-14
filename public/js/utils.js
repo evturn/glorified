@@ -1,6 +1,12 @@
+const slice = function () {
+  return Function.prototype.call.apply(Array.prototype. slice, arguments);
+};
+
 const querySelectorAll = document.querySelectorAll.bind(document);
 
 const querySelector = document.querySelector.bind(document);
+
+const getElementById = document.getElementById.bind(document);
 
 const toggleClass = function toggleClass(selector, className, condition) {
   condition ? selector.classList.remove(className) : selector.classList.add(className);

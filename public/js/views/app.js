@@ -168,7 +168,8 @@ RB.App = Backbone.View.extend({
 
     app.notesCollection = notes;
     app.resetActiveList(listname);
-    app.renderActiveProgressBar(id);
+    let listData = app.getListData(id);
+    app.renderActiveProgressBar(listData);
   },
 
   sortNotes(list) {

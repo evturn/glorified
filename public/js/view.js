@@ -41,9 +41,8 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  renderActiveProgressBar(id) {
+  getListData(id) {
     let collection = app.notesCollection,
-        container = querySelector('.active-progress'),
         _id = id,
         length = collection.length,
         notDone = collection.where({done: false}).length,
@@ -51,36 +50,39 @@ _.extend(Backbone.View.prototype, {
         notDonePct = ((notDone / length) * 100) + '%',
         notDoneText = (parseInt(notDonePct).toFixed(0)) + '%',
         donePct = ((done / length) * 100) + '%',
-        doneText = (parseInt(donePct).toFixed(0)) + '%',
-        data = {
-          name,
-          _id,
-          length,
-          notDone,
-          notDonePct,
-          notDoneText,
-          done,
-          donePct,
-          doneText
-        };
+        doneText = (parseInt(donePct).toFixed(0)) + '%';
 
-    if (container.children.length === 0) {
-      container.innerHTML = RB.progressBarTemplate(data);
+    return {name, _id, length, notDone, notDonePct, notDoneText, done, donePct, doneText};
+  },
+  renderActiveProgressBar(listData) {
+    let container = querySelector('.active-progress')
+    ,
+        isBarEmpty = !!(container.children.length === 0),
+        isMatch = !!(app.activeListId && app.activeListId === listData._id),
+        elDone,
+        elNotDone;
+
+    isBarEmpty ?
+      container.innerHTML = RB.progressBarTemplate(listData) :
+      false;
+
+    let parent = document.getElementById('list-progress'),
+        children = slice(parent.children);
+
+    for (let element of children) {
+      element.dataset.done ?
+        elDone = element :
+        elNotDone = element;
     }
 
-    let $done = $('#list-progress').find("[data-done='" + data._id + "']"),
-        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']"),
-        $notDoneText = $('.not-done-text'),
-        $doneText = $('.done-text');
+    elDone.children.innerText = listData.doneText;
+    elDone.style.width = listData.donePct;
+    elNotDone.children.innerText = listData.noteDoneText;
+    elNotDone.style.width = listData.notDonePct;
 
-    $done.css({'width': data.donePct});
-    $notDone.css({'width': data.notDonePct});
-    $doneText.html(data.doneText);
-    $notDoneText.html(data.notDoneText);
-
-    if (app.activeListId && app.activeListId === data._id) {
-      app.hasLengthChanged(data);
-    }
+    isMatch ?
+      app.hasLengthChanged(listData) :
+      false;
   },
   setProgressBars() {
     let listData = [],

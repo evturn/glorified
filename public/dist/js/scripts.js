@@ -1,8 +1,14 @@
 'use strict';
 
+var slice = function slice() {
+    return Function.prototype.call.apply(Array.prototype.slice, arguments);
+};
+
 var querySelectorAll = document.querySelectorAll.bind(document);
 
 var querySelector = document.querySelector.bind(document);
+
+var getElementById = document.getElementById.bind(document);
 
 var toggleClass = function toggleClass(selector, className, condition) {
     condition ? selector.classList.remove(className) : selector.classList.add(className);
@@ -302,9 +308,8 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  renderActiveProgressBar: function renderActiveProgressBar(id) {
+  getListData: function getListData(id) {
     var collection = app.notesCollection,
-        container = querySelector('.active-progress'),
         _id = id,
         length = collection.length,
         notDone = collection.where({ done: false }).length,
@@ -312,36 +317,45 @@ _.extend(Backbone.View.prototype, {
         notDonePct = notDone / length * 100 + '%',
         notDoneText = parseInt(notDonePct).toFixed(0) + '%',
         donePct = done / length * 100 + '%',
-        doneText = parseInt(donePct).toFixed(0) + '%',
-        data = {
-      name: name,
-      _id: _id,
-      length: length,
-      notDone: notDone,
-      notDonePct: notDonePct,
-      notDoneText: notDoneText,
-      done: done,
-      donePct: donePct,
-      doneText: doneText
-    };
+        doneText = parseInt(donePct).toFixed(0) + '%';
 
-    if (container.children.length === 0) {
-      container.innerHTML = RB.progressBarTemplate(data);
+    return { name: name, _id: _id, length: length, notDone: notDone, notDonePct: notDonePct, notDoneText: notDoneText, done: done, donePct: donePct, doneText: doneText };
+  },
+  renderActiveProgressBar: function renderActiveProgressBar(listData) {
+    var container = querySelector('.active-progress'),
+        isBarEmpty = !!(container.children.length === 0),
+        isMatch = !!(app.activeListId && app.activeListId === listData._id),
+        elDone = undefined,
+        elNotDone = undefined;
+
+    isBarEmpty ? container.innerHTML = RB.progressBarTemplate(listData) : false;
+
+    var parent = document.getElementById('list-progress'),
+        children = slice(parent.children);
+
+    for (var _iterator = children, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+      var _ref;
+
+      if (_isArray) {
+        if (_i >= _iterator.length) break;
+        _ref = _iterator[_i++];
+      } else {
+        _i = _iterator.next();
+        if (_i.done) break;
+        _ref = _i.value;
+      }
+
+      var element = _ref;
+
+      element.dataset.done ? elDone = element : elNotDone = element;
     }
 
-    var $done = $('#list-progress').find("[data-done='" + data._id + "']"),
-        $notDone = $('#list-progress').find("[data-notDone='" + data._id + "']"),
-        $notDoneText = $('.not-done-text'),
-        $doneText = $('.done-text');
+    elDone.children.innerText = listData.doneText;
+    elDone.style.width = listData.donePct;
+    elNotDone.children.innerText = listData.noteDoneText;
+    elNotDone.style.width = listData.notDonePct;
 
-    $done.css({ 'width': data.donePct });
-    $notDone.css({ 'width': data.notDonePct });
-    $doneText.html(data.doneText);
-    $notDoneText.html(data.notDoneText);
-
-    if (app.activeListId && app.activeListId === data._id) {
-      app.hasLengthChanged(data);
-    }
+    isMatch ? app.hasLengthChanged(listData) : false;
   },
   setProgressBars: function setProgressBars() {
     var listData = [],
@@ -587,7 +601,8 @@ RB.App = Backbone.View.extend({
 
     app.notesCollection = notes;
     app.resetActiveList(listname);
-    app.renderActiveProgressBar(id);
+    var listData = app.getListData(id);
+    app.renderActiveProgressBar(listData);
   },
 
   sortNotes: function sortNotes(list) {
@@ -661,6 +676,7 @@ RB.NoteItem = Backbone.View.extend({
 
     this.$el.html(this.itemTemplate(this.model.toJSON()));
 
+    this.el.dataset.note = this.model.get('_id');
     autosize($('textarea'));
 
     return this;
