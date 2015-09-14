@@ -41,16 +41,12 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  /////////////////
   renderForms() {
-    let $inputs = $('.inputs-container');
+    let container = document.querySelector('.inputs-container');
 
-    $inputs.html(RB.inputsTemplate());
-    autosize($('textarea'));
-
-    return this;
+    container.innerHTML = RB.inputsTemplate();
+    autosize(document.querySelectorAll('textarea'));
   },
-  /////////////////
   renderActiveProgressBar(id) {
     let collection = app.notesCollection,
         $barContainer = $('.active-progress'),

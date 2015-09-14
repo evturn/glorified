@@ -29,33 +29,6 @@ var addEvent = function addEvent(object, type, callback) {
         return callback;
     };
 };
-'use strict';
-
-RB.User = Backbone.Model.extend({
-  url: '/users',
-  idAttribute: '_id'
-});
-
-RB.Note = Backbone.Model.extend({
-  idAttribute: '_id'
-});
-
-RB.List = Backbone.Model.extend({
-  idAttribute: '_id',
-  url: '/lists'
-});
-
-RB.Lists = Backbone.Collection.extend({
-  model: RB.List,
-  url: '/notes'
-});
-
-// Should be converted to User?
-RB.Notes = Backbone.Collection.extend({
-  model: RB.Note,
-  url: '/notes',
-  merge: true
-});
 "use strict";
 
 var Templates = function Templates() {
@@ -92,6 +65,33 @@ var Templates = function Templates() {
 };
 
 Templates();
+'use strict';
+
+RB.User = Backbone.Model.extend({
+  url: '/users',
+  idAttribute: '_id'
+});
+
+RB.Note = Backbone.Model.extend({
+  idAttribute: '_id'
+});
+
+RB.List = Backbone.Model.extend({
+  idAttribute: '_id',
+  url: '/lists'
+});
+
+RB.Lists = Backbone.Collection.extend({
+  model: RB.List,
+  url: '/notes'
+});
+
+// Should be converted to User?
+RB.Notes = Backbone.Collection.extend({
+  model: RB.Note,
+  url: '/notes',
+  merge: true
+});
 // ===================
 // HTTP
 // ===================
@@ -302,16 +302,12 @@ _.extend(Backbone.View.prototype, {
 
     return $element;
   },
-  /////////////////
   renderForms: function renderForms() {
-    var $inputs = $('.inputs-container');
+    var container = document.querySelector('.inputs-container');
 
-    $inputs.html(RB.inputsTemplate());
-    autosize($('textarea'));
-
-    return this;
+    container.innerHTML = RB.inputsTemplate();
+    autosize(document.querySelectorAll('textarea'));
   },
-  /////////////////
   renderActiveProgressBar: function renderActiveProgressBar(id) {
     var collection = app.notesCollection,
         $barContainer = $('.active-progress'),
@@ -569,6 +565,7 @@ RB.App = Backbone.View.extend({
     var view = new RB.NoteItem({ model: model });
 
     app.$notesContainer.append(view.render().el);
+    autosize(document.querySelectorAll('textarea'));
   },
 
   setNotes: function setNotes(id) {

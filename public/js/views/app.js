@@ -10,7 +10,7 @@ RB.App = Backbone.View.extend({
   events: {
     'click .create-list-btn' : 'createList',
     'click .create-note-btn' : 'createNote',
-    'keypress .note-input'      : 'createOnEnter',
+    'keypress .note-input'   : 'createOnEnter',
     'keyup .activeInput'     : 'validate'
   },
 
@@ -139,6 +139,7 @@ RB.App = Backbone.View.extend({
     let view = new RB.NoteItem({model: model});
 
     app.$notesContainer.append(view.render().el);
+    autosize(document.querySelectorAll('textarea'));
   },
 
   setNotes(id) {
