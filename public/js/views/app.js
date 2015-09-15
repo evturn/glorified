@@ -4,7 +4,6 @@ RB.App = Backbone.View.extend({
 
   iconSelectTemplate       : _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate  : _.template($('#icon-placeholder-template').html()),
-  iconListItemTemplate     : _.template($('#icon-list-item-template').html()),
   iconTemplate             : _.template($('#icon-template').html()),
 
   events: {
@@ -42,14 +41,10 @@ RB.App = Backbone.View.extend({
 
     app.user.fetch({
       success(model, response) {
-        if (app.user === null) {
-          app.user = model;
-        }
-
         if (app.listsCollection === null) {
-          app.listsCollection = new RB.Lists(model.attributes.lists);
-          app.setLists();
-          app.setProgressBars();
+            app.listsCollection = new RB.Lists(model.attributes.lists);
+            app.setLists();
+            app.setProgressBars();
         }
 
         return app.listsCollection;
@@ -69,30 +64,28 @@ RB.App = Backbone.View.extend({
 
     app.list.put(listModel, attributes);
     attributes.length = length;
-    $listItemIcon.html(this.iconListItemTemplate(attributes));
+    $listItemIcon.html(RB.listItemIconTemplate(attributes));
   },
-
   createNote() {
     let body = app.$noteInput.val(),
         list = app.$listInput.val(),
         done = false;
 
     if (body.trim() && list.trim() !== '') {
-      let data = {body, list, done};
+        let data = {body, list, done};
 
       if (app.listsCollection.length > 0) {
-        for (let i = 0; i < app.listsCollection.length; i++) {
-          let inMemory = app.listsCollection.models[i].body;
+          for (let i = 0; i < app.listsCollection.length; i++) {
+              let inMemory = app.listsCollection.models[i].body;
 
-          if (data.body === inMemory) {
-            return false;
+              if (data.body === inMemory) {
+                return false;
+              }
           }
-        }
       }
       app.post(data);
     }
   },
-
   createList() {
     let $barContainer = $('.active-progress'),
         $iconContainer = $('.input-container .icon-container');
@@ -105,26 +98,23 @@ RB.App = Backbone.View.extend({
     $barContainer.empty();
     app.$notesContainer.attr('data-list', '');
   },
-
   createOnEnter(e) {
     if (e.keyCode === 13) {
       app.createNote();
     }
   },
-
   validate() {
     let body = app.$noteInput.val(),
         list = app.$listInput.val(),
         $check = $('.create-note-btn .fa');
 
     if (body.trim() && list.trim() !== '') {
-      $check.addClass('ready');
+        $check.addClass('ready');
     }
     else {
-      $check.removeClass('ready');
+        $check.removeClass('ready');
     }
   },
-
   setLists() {
     app.$listsContainer.empty();
 
@@ -134,14 +124,12 @@ RB.App = Backbone.View.extend({
       app.$listsContainer.append(view.render().el);
     });
   },
-
   setNote(model) {
     let view = new RB.NoteItem({model: model});
 
     app.$notesContainer.append(view.render().el);
     autosize(document.querySelectorAll('textarea'));
   },
-
   setNotes(id) {
     let list = app.listsCollection.get(id),
         sorted = app.sortNotes(list.attributes.notes),
@@ -163,7 +151,7 @@ RB.App = Backbone.View.extend({
     });
 
     if (app.activeListLength === null) {
-      app.activeListLength = notes.length;
+       app.activeListLength = notes.length;
     }
 
     app.notesCollection = notes;
@@ -171,11 +159,9 @@ RB.App = Backbone.View.extend({
     let listData = app.getListData(id);
     app.renderActiveProgressBar(listData);
   },
-
   sortNotes(list) {
     let sorted = _.sortBy(list, 'done');
 
    return sorted;
   },
-
 });

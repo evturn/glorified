@@ -64,7 +64,7 @@ _.extend(Backbone.View.prototype, {
 
     isBarEmpty ?
       container.innerHTML = RB.progressBarTemplate(listData) :
-      false;
+        false;
 
     let parent = document.getElementById('list-progress'),
         children = slice(parent.children);
@@ -72,7 +72,7 @@ _.extend(Backbone.View.prototype, {
     for (let element of children) {
       element.dataset.done ?
         elDone = element :
-        elNotDone = element;
+          elNotDone = element;
     }
 
     elDone.children.innerText = listData.doneText;
@@ -97,15 +97,7 @@ _.extend(Backbone.View.prototype, {
           done = length - notDone,
           notDonePct = ((notDone / length) * 100) + '%',
           donePct = ((done / length) * 100) + '%',
-          data = {
-            name,
-            _id,
-            length,
-            notDone,
-            notDonePct,
-            done,
-            donePct
-          };
+          data = {name, _id, length, notDone, notDonePct, done, donePct};
 
       listData.push(data);
       collection.stopListening();

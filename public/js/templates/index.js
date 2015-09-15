@@ -3,11 +3,19 @@ const Templates = function() {
   RB.iconItemTemplate;
   RB.inputsTemplate;
   RB.progressBarTemplate;
+  RB.listItemIconTemplate;
 
   RB.compileTemplates = function () {
     RB.iconItemCompiler();
     RB.inputsCompiler();
     RB.progressBarCompiler();
+    RB.listItemIconCompiler();
+  };
+
+  RB.listItemIconCompiler = function() {
+    let html = `<i class="animated zoomIn <%= icon %>"></i>`;
+
+    return RB.listItemIconTemplate = _.template(html);
   };
 
   RB.progressBarCompiler = function() {

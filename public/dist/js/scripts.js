@@ -42,11 +42,19 @@ var Templates = function Templates() {
   RB.iconItemTemplate;
   RB.inputsTemplate;
   RB.progressBarTemplate;
+  RB.listItemIconTemplate;
 
   RB.compileTemplates = function () {
     RB.iconItemCompiler();
     RB.inputsCompiler();
     RB.progressBarCompiler();
+    RB.listItemIconCompiler();
+  };
+
+  RB.listItemIconCompiler = function () {
+    var html = "<i class=\"animated zoomIn <%= icon %>\"></i>";
+
+    return RB.listItemIconTemplate = _.template(html);
   };
 
   RB.progressBarCompiler = function () {
@@ -370,15 +378,7 @@ _.extend(Backbone.View.prototype, {
           done = length - notDone,
           notDonePct = notDone / length * 100 + '%',
           donePct = done / length * 100 + '%',
-          data = {
-        name: name,
-        _id: _id,
-        length: length,
-        notDone: notDone,
-        notDonePct: notDonePct,
-        done: done,
-        donePct: donePct
-      };
+          data = { name: name, _id: _id, length: length, notDone: notDone, notDonePct: notDonePct, done: done, donePct: donePct };
 
       listData.push(data);
       collection.stopListening();
@@ -439,7 +439,6 @@ RB.App = Backbone.View.extend({
 
   iconSelectTemplate: _.template($('#icon-select-template').html()),
   iconPlaceholderTemplate: _.template($('#icon-placeholder-template').html()),
-  iconListItemTemplate: _.template($('#icon-list-item-template').html()),
   iconTemplate: _.template($('#icon-template').html()),
 
   events: {
@@ -477,10 +476,6 @@ RB.App = Backbone.View.extend({
 
     app.user.fetch({
       success: function success(model, response) {
-        if (app.user === null) {
-          app.user = model;
-        }
-
         if (app.listsCollection === null) {
           app.listsCollection = new RB.Lists(model.attributes.lists);
           app.setLists();
@@ -504,9 +499,8 @@ RB.App = Backbone.View.extend({
 
     app.list.put(listModel, attributes);
     attributes.length = length;
-    $listItemIcon.html(this.iconListItemTemplate(attributes));
+    $listItemIcon.html(RB.listItemIconTemplate(attributes));
   },
-
   createNote: function createNote() {
     var body = app.$noteInput.val(),
         list = app.$listInput.val(),
@@ -527,7 +521,6 @@ RB.App = Backbone.View.extend({
       app.post(data);
     }
   },
-
   createList: function createList() {
     var $barContainer = $('.active-progress'),
         $iconContainer = $('.input-container .icon-container');
@@ -540,13 +533,11 @@ RB.App = Backbone.View.extend({
     $barContainer.empty();
     app.$notesContainer.attr('data-list', '');
   },
-
   createOnEnter: function createOnEnter(e) {
     if (e.keyCode === 13) {
       app.createNote();
     }
   },
-
   validate: function validate() {
     var body = app.$noteInput.val(),
         list = app.$listInput.val(),
@@ -558,7 +549,6 @@ RB.App = Backbone.View.extend({
       $check.removeClass('ready');
     }
   },
-
   setLists: function setLists() {
     app.$listsContainer.empty();
 
@@ -568,14 +558,12 @@ RB.App = Backbone.View.extend({
       app.$listsContainer.append(view.render().el);
     });
   },
-
   setNote: function setNote(model) {
     var view = new RB.NoteItem({ model: model });
 
     app.$notesContainer.append(view.render().el);
     autosize(document.querySelectorAll('textarea'));
   },
-
   setNotes: function setNotes(id) {
     var list = app.listsCollection.get(id),
         sorted = app.sortNotes(list.attributes.notes),
@@ -604,13 +592,11 @@ RB.App = Backbone.View.extend({
     var listData = app.getListData(id);
     app.renderActiveProgressBar(listData);
   },
-
   sortNotes: function sortNotes(list) {
     var sorted = _.sortBy(list, 'done');
 
     return sorted;
   }
-
 });
 'use strict';
 
